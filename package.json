@@ -58,7 +58,7 @@
     "@stylistic/eslint-plugin": "^5.1.0",
     "@swc/core": "1.12.11",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/luxon": "^3.6.2",
+    "@types/luxon": "^3.7.1",
     "@types/node": "^24.0.13",
     "eslint": "^9.31.0",
     "hot-hook": "^0.4.0",
