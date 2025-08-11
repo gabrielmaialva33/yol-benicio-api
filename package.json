@@ -1,0 +1,123 @@
+{
+  "name": "base-acl-api",
+  "description": "This is a base API project with ACL (Access Control List) using AdonisJS.",
+  "version": "0.0.1",
+  "author": {
+    "name": "Gabriel M.",
+    "email": "gabrielmaialva33@gmail.com",
+    "url": "https://github.com/gabrielmaialva33"
+  },
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.16.0"
+  },
+  "scripts": {
+    "start": "node bin/server.js",
+    "build": "node ace build",
+    "dev": "node ace serve --hmr",
+    "test": "node ace test unit",
+    "test:e2e": "node ace test",
+    "lint": "eslint .",
+    "lint:fix": "eslint \"{app,providers,config,tests,start}/**/*.ts\" --fix --ignore-pattern pnpm-lock.yaml",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "docker": "node ace migration:run && node ace db:seed && node bin/server.js"
+  },
+  "imports": {
+    "#exceptions/*": "./app/exceptions/*.js",
+    "#mails/*": "./app/mails/*.js",
+    "#services/*": "./app/services/*.js",
+    "#listeners/*": "./app/listeners/*.js",
+    "#events/*": "./app/events/*.js",
+    "#middleware/*": "./app/middleware/*.js",
+    "#validators/*": "./app/validators/*.js",
+    "#providers/*": "./providers/*.js",
+    "#policies/*": "./app/policies/*.js",
+    "#abilities/*": "./app/abilities/*.js",
+    "#modules/*": "./app/modules/*.js",
+    "#shared/*": "./app/shared/*.js",
+    "#auth/*": "./app/auth/*.js",
+    "#extensions/*": "./app/extensions/*.js",
+    "#database/*": "./database/*.js",
+    "#start/*": "./start/*.js",
+    "#tests/*": "./tests/*.js",
+    "#config/*": "./config/*.js"
+  },
+  "devDependencies": {
+    "@adonisjs/assembler": "^7.8.2",
+    "@adonisjs/eslint-config": "2.1.0",
+    "@adonisjs/prettier-config": "^1.4.5",
+    "@adonisjs/tsconfig": "^1.4.1",
+    "@japa/api-client": "^3.1.0",
+    "@japa/assert": "^4.0.1",
+    "@japa/openapi-assertions": "^0.1.1",
+    "@japa/plugin-adonisjs": "^4.0.0",
+    "@japa/runner": "^4.2.0",
+    "@stylistic/eslint-plugin": "^5.1.0",
+    "@swc/core": "1.12.11",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/luxon": "^3.6.2",
+    "@types/node": "^24.0.13",
+    "eslint": "^9.31.0",
+    "hot-hook": "^0.4.0",
+    "pino-pretty": "^13.0.0",
+    "prettier": "^3.6.2",
+    "prettier-edgejs": "^0.2.36",
+    "ts-mockito": "^2.6.1",
+    "ts-node-maintained": "^10.9.5",
+    "typescript": "~5.8.3"
+  },
+  "dependencies": {
+    "@adonisjs/ally": "^5.1.0",
+    "@adonisjs/auth": "^9.4.0",
+    "@adonisjs/cache": "^1.2.0",
+    "@adonisjs/core": "^6.19.0",
+    "@adonisjs/cors": "^2.2.1",
+    "@adonisjs/drive": "^3.4.1",
+    "@adonisjs/i18n": "^2.2.1",
+    "@adonisjs/limiter": "^2.4.0",
+    "@adonisjs/lucid": "^21.7.0",
+    "@adonisjs/mail": "^9.2.2",
+    "@adonisjs/redis": "^9.2.0",
+    "@adonisjs/session": "^7.5.1",
+    "@adonisjs/shield": "^8.2.0",
+    "@aws-sdk/client-s3": "^3.844.0",
+    "@aws-sdk/s3-request-presigner": "^3.844.0",
+    "@google-cloud/storage": "^7.16.0",
+    "@rlanz/bull-queue": "^3.1.0",
+    "@vinejs/vine": "^3.0.1",
+    "argon2": "^0.43.0",
+    "bcrypt": "^6.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "luxon": "^3.7.1",
+    "pg": "^8.16.3",
+    "reflect-metadata": "^0.2.2"
+  },
+  "hotHook": {
+    "boundaries": [
+      "./app/controllers/**/*.ts",
+      "./app/middleware/*.ts"
+    ]
+  },
+  "overrides": {
+    "strtok3": "8.0.1"
+  },
+  "resolutions": {
+    "strtok3": "8.0.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "strtok3": "8.0.1"
+    },
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "argon2",
+      "bcrypt",
+      "msgpackr-extract",
+      "prettier-edgejs"
+    ]
+  },
+  "prettier": "@adonisjs/prettier-config"
+}
