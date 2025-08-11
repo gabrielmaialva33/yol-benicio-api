@@ -11,7 +11,7 @@
   "type": "module",
   "license": "MIT",
   "engines": {
-    "node": ">=22.16.0"
+    "node": ">=22.18.0"
   },
   "scripts": {
     "start": "node bin/server.js",
