@@ -1,6 +1,6 @@
 {
   "name": "yol-benicio-api",
-  "description": "Sistema de gerenciamento jurídico Yol Benício - API desenvolvida com AdonisJS.",
+  "description": "Yol Benício Legal Management System - API built with AdonisJS.",
   "version": "0.0.1",
   "author": {
     "name": "Gabriel M.",
