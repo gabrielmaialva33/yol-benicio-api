@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: base-acl-api
+    container_name: yol-benicio-api
     restart: always
     ports:
       - '3334:3333'

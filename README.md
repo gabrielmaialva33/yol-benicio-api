@@ -3,13 +3,13 @@
 </h1>
 
 <p align="center">
-  <img src="https://img.shields.io/github/license/gabrielmaialva33/base-acl-api?color=00b8d3?style=flat&logo=appveyor" alt="License" />
-  <img src="https://img.shields.io/github/languages/top/gabrielmaialva33/base-acl-api?style=flat&logo=appveyor" alt="GitHub top language" >
-  <img src="https://img.shields.io/github/languages/count/gabrielmaialva33/base-acl-api?style=flat&logo=appveyor" alt="GitHub language count" >
-  <img src="https://img.shields.io/github/repo-size/gabrielmaialva33/base-acl-api?style=flat&logo=appveyor" alt="Repository size" >
+  <img src="https://img.shields.io/github/license/gabrielmaialva33/yol-benicio-api?color=00b8d3?style=flat&logo=appveyor" alt="License" />
+  <img src="https://img.shields.io/github/languages/top/gabrielmaialva33/yol-benicio-api?style=flat&logo=appveyor" alt="GitHub top language" >
+  <img src="https://img.shields.io/github/languages/count/gabrielmaialva33/yol-benicio-api?style=flat&logo=appveyor" alt="GitHub language count" >
+  <img src="https://img.shields.io/github/repo-size/gabrielmaialva33/yol-benicio-api?style=flat&logo=appveyor" alt="Repository size" >
   <img src="https://wakatime.com/badge/user/e61842d0-c588-4586-96a3-f0448a434be4/project/b0347a5f-cacf-486d-bd2d-b91d3e6cb570.svg?style=flat&logo=appveyor" alt="Wakatime" >
-  <a href="https://github.com/gabrielmaialva33/base-acl-api/commits/master">
-    <img src="https://img.shields.io/github/last-commit/gabrielmaialva33/base-acl-api?style=flat&logo=appveyor" alt="GitHub last commit" >
+  <a href="https://github.com/gabrielmaialva33/yol-benicio-api/commits/master">
+    <img src="https://img.shields.io/github/last-commit/gabrielmaialva33/yol-benicio-api?style=flat&logo=appveyor" alt="GitHub last commit" >
     <img src="https://img.shields.io/badge/made%20by-Maia-15c3d6?style=flat&logo=appveyor" alt="Maia" >  
   </a>
 </p>
@@ -34,9 +34,9 @@
 
 ## :bookmark: About
 
-**Base ACL** is a modular access control list API built with AdonisJS v6 that provides a robust foundation for
-authentication and role-based access control. The API follows clean architecture principles with clear separation of
-concerns and is designed to serve as a base for multiple projects.
+**Yol Benício API** is a comprehensive legal management system API built with AdonisJS v6 that provides robust functionality for
+managing legal processes, clients, schedules, and billing. The API follows clean architecture principles with clear separation of
+concerns and is designed to streamline legal office operations.
 
 ### 🏗️ Architecture Overview
 

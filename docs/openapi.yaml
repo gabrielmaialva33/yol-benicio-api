@@ -1,11 +1,11 @@
 openapi: 3.1.0
 info:
-  title: Base ACL API
+  title: Yol Benício API
   version: 1.0.0
   description: |
-    ## Welcome to Base ACL API
+    ## Welcome to Yol Benício API
 
-    A robust authentication and access control API built with AdonisJS v6. This API provides comprehensive user management, role-based access control, and file management capabilities.
+    A comprehensive legal management system API built with AdonisJS v6. This API provides robust functionality for managing legal processes, clients, schedules, billing and user access control.
 
     ### Key Features
 

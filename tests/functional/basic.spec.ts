@@ -6,7 +6,7 @@ test.group('Basic API', () => {
 
     response.assertStatus(200)
     response.assertBodyContains({
-      name: 'base-acl-api',
+      name: 'yol-benicio-api',
       version: '0.0.1',
     })
   })
