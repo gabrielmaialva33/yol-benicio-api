@@ -20,7 +20,7 @@ import '#modules/file/routes/index'
 import '#modules/permission/routes/index'
 
 router
-  .get('/', async () => {
+  .get('/api', async () => {
     const packageJsonPath = join(process.cwd(), 'package.json')
     const packageJson = JSON.parse(await readFile(packageJsonPath, 'utf-8'))
     return {
