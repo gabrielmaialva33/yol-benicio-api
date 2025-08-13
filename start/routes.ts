@@ -32,4 +32,7 @@ router
     }
   })
   .use(throttle)
-router.on('/').renderInertia('home')
+// Inertia route for home page
+router.get('/', async ({ inertia }) => {
+  return inertia.render('home')
+})
