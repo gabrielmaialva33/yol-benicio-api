@@ -50,7 +50,8 @@ export default defineConfig({
     () => import('#providers/auth_events_provider'),
     () => import('@adonisjs/mail/mail_provider'),
     () => import('@rlanz/bull-queue/queue_provider'),
-    () => import('@adonisjs/vite/vite_provider')
+    () => import('@adonisjs/vite/vite_provider'),
+    () => import('@adonisjs/inertia/inertia_provider'),
   ],
 
   /*
@@ -95,10 +96,10 @@ export default defineConfig({
     {
       pattern: 'public/**',
       reloadServer: false,
-    }
+    },
   ],
   hooks: {
-    onBuildStarting: [() => import('@adonisjs/vite/build_hook')]
+    onBuildStarting: [() => import('@adonisjs/vite/build_hook')],
   },
-    assetsBundler: false
+  assetsBundler: false,
 })
