@@ -1,10 +1,174 @@
-* {
-  margin: 0;
-  padding: 0;
+/* Import Tailwind CSS v4 */
+@import "tailwindcss";
+
+/* Tell Tailwind where to look for class usage */
+@source "../pages";
+@source "../app";
+@source "../../resources/views";
+
+/* Import font */
+@font-face {
+  font-family: 'Inter';
+  src: url('/Inter.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
 }
 
-html,
-body {
-  height: 100%;
-  width: 100%;
+/* Basic CSS reset for Tailwind v4 */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
+    height: 100%;
+    width: 100%;
+  }
+
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+}
+
+/* Theme configuration using Tailwind v4's @theme */
+@theme {
+  /* Font families */
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family-mono: 'Menlo', 'Monaco', 'Courier New', monospace;
+
+  /* Brand colors */
+  --color-primary: #5468FF;
+  --color-brand-orange: #f97316;
+  --color-brand-cyan: #1cd6f4;
+  --color-brand-teal: #06b6d4;
+  --color-brand-green: #10b981;
+  
+  /* Surface colors */
+  --color-surface: #ffffff;
+  --color-surface-alt: #e6f8f3;
+  --color-bg-sidebar: #373737;
+  
+  /* Border colors */
+  --color-border: #e1e3ea;
+  
+  /* Text colors */
+  --color-text-primary: #1f2a37;
+  --color-text-secondary: #5e6278;
+  --color-text-muted: #6b7280;
+  --color-text-invert: #ffffff;
+  
+  /* Neutral palette */
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  
+  /* Semantic colors */
+  --color-success: #059669;
+  --color-danger: #dc2626;
+  --color-warning: #f59e0b;
+  --color-info: #0ea5e9;
+
+  /* Sand color palette (from original project) */
+  --color-sand-1: #fdfdfc;
+  --color-sand-2: #f9f9f8;
+  --color-sand-3: #f3f3f2;
+  --color-sand-4: #ededed;
+  --color-sand-5: #e8e8e7;
+  --color-sand-6: #e2e2e0;
+  --color-sand-7: #dad9d6;
+  --color-sand-8: #cfceca;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0px 4px 4px 0px rgba(0, 0, 0, 0.03);
+
+  /* Font sizes */
+  --text-display: 48px;
+  --text-h1: 32px;
+  --text-h2: 28px;
+  --text-h3: 20px;
+  --text-h4: 18px;
+  --text-base: 16px;
+  --text-sm: 14px;
+  --text-xs: 12px;
+}
+
+/* Custom utility classes */
+@layer utilities {
+  .border-default {
+    border-color: #e1e3ea;
+  }
+  
+  .card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+  }
+  
+  .card-tinted {
+    color: #004b50;
+    background: var(--color-surface-alt);
+  }
+  
+  .card-title {
+    font-size: var(--text-h3);
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+  
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .progress-track {
+    background: var(--color-neutral-200);
+    border-radius: var(--radius-pill);
+  }
+  
+  .progress-bar {
+    height: 0.5rem;
+    background: var(--color-brand-teal);
+    border-radius: var(--radius-pill);
+  }
+}
+
+/* Filter utilities for icon colors */
+.filter-orange {
+  filter: invert(55%) sepia(98%) saturate(1268%) hue-rotate(359deg) brightness(98%) contrast(96%);
+}
+
+.filter-cyan {
+  filter: invert(72%) sepia(61%) saturate(1866%) hue-rotate(163deg) brightness(102%) contrast(95%);
+}
+
+.filter-teal {
+  filter: invert(56%) sepia(88%) saturate(476%) hue-rotate(141deg) brightness(98%) contrast(95%);
+}
+
+.filter-danger {
+  filter: invert(20%) sepia(89%) saturate(2565%) hue-rotate(346deg) brightness(95%) contrast(89%);
 }
