@@ -95,7 +95,7 @@ export function Header() {
           </div>
 
           {/* Right side - Actions and User */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-6">
             {/* Quick Settings */}
             <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200">
               <Cog6ToothIcon className="h-5 w-5" />
@@ -167,7 +167,6 @@ export function Header() {
             </button>
           </div>
         </div>
-      </div>
     </header>
   )
 }
