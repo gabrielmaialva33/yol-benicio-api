@@ -11,7 +11,7 @@ import File from '#modules/file/models/file'
 export default class UploadFileService {
   async run(file: MultipartFile) {
     const { auth } = HttpContext.getOrFail()
-    const user = auth.use('jwt').user
+    const user = auth.user
     
     if (!user) {
       throw new Error('User not authenticated')
