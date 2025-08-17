@@ -34,8 +34,10 @@
 
 ## :bookmark: Sobre
 
-**Yol Benício API** é um sistema abrangente de gerenciamento jurídico construído com AdonisJS v6 que fornece funcionalidades robustas para
-gerenciar processos jurídicos, clientes, agendas e faturamento. A API segue princípios de arquitetura limpa com clara separação de
+**Yol Benício API** é um sistema abrangente de gerenciamento jurídico construído com AdonisJS v6 que fornece
+funcionalidades robustas para
+gerenciar processos jurídicos, clientes, agendas e faturamento. A API segue princípios de arquitetura limpa com clara
+separação de
 responsabilidades e foi projetada para otimizar as operações de escritórios jurídicos.
 
 ### 🏗️ Visão Geral da Arquitetura
@@ -338,35 +340,44 @@ erDiagram
 
 Os seguintes softwares devem estar instalados:
 
-- **[Node.js](https://nodejs.org/en/)**
+- **[Node.js](https://nodejs.org/en/) 22+**
 - **[Git](https://git-scm.com/)**
-- **[NPM](https://www.npmjs.com/)** or **[Yarn](https://yarnpkg.com/)**
-- **[PostgreSQL](https://www.postgresql.org/download/)** or **[Docker](https://www.docker.com/get-started/)**
+- **[PNPM](https://pnpm.io/) (recomendado)**, ou **[NPM](https://www.npmjs.com/)** / **[Yarn](https://yarnpkg.com/)**
+- **[PostgreSQL](https://www.postgresql.org/download/)** ou **[Docker](https://www.docker.com/get-started/)**
 
 <br>
 
 ### :arrow_down: **Clonando o repositório**
 
 ```sh
-  $ git clone https://github.com/gabrielmaialva33/base-acl-api.git
+    $ git clone https://github.com/gabrielmaialva33/yol-benicio-api.git
 ```
 
 <br>
 
 ### :arrow_forward: **Rodando o backend**
 
-- :package: API
+```sh
+ :package: API
 
 ```sh
-  $ cd base-acl-api
-  # Instalação de dependências.
-  $ yarn # ou npm install
-  # Configuração ambiente de sistema
-  $ cp .env.example .env
-  # Criação de banco de dados.
-  $ node ace migration:run # ou docker-compose up --build
-  # Iniciar API
-  $ node ace serve --hmr # ou pnpm dev
+    $ cd yol-benicio-api
+    # Instalação de dependências
+    $ pnpm install  # ou npm install / yarn
+    # Configuração ambiente de sistema
+    $ cp .env.example .env
+    # Criar estrutura do banco (garanta Postgres/Redis ativos)
+    $ node ace migration:run  # ou docker compose -f docker-compose.dev.yml up --build
+    # Iniciar API
+    $ pnpm dev  # ou node ace serve --hmr
+```
+
+> Opcional: Usar Docker para tudo
+
+> ```sh
+> docker compose -f docker-compose.dev.yml up --build
+> ```
+
 ```
 
 <br>
@@ -416,32 +427,32 @@ graph LR
 ### 📋 Detalhes das Rotas
 
 | Método     | Endpoint                                    | Descrição                           | Auth Obrigatória | Permissão/Papel    |
-| ---------- | ------------------------------------------- | ----------------------------------- | ---------------- | ------------------ |
-| **GET**    | `/`                                         | Informações da API                  | ❌               | -                  |
-| **GET**    | `/api/v1/health`                            | Verificação de saúde                | ❌               | -                  |
-| **POST**   | `/api/v1/sessions/sign-in`                  | Login de usuário                    | ❌               | -                  |
-| **POST**   | `/api/v1/sessions/sign-up`                  | Registro de usuário                 | ❌               | -                  |
-| **GET**    | `/api/v1/verify-email`                      | Verificar email do usuário          | ❌               | -                  |
-| **POST**   | `/api/v1/resend-verification-email`         | Reenviar email de verificação       | ✅               | -                  |
-| **GET**    | `/api/v1/me`                                | Obter perfil do usuário atual       | ✅               | -                  |
-| **GET**    | `/api/v1/me/permissions`                    | Obter permissões do usuário atual   | ✅               | -                  |
-| **GET**    | `/api/v1/me/roles`                          | Obter papéis do usuário atual       | ✅               | -                  |
-| **GET**    | `/api/v1/users`                             | Listar usuários (paginado)          | ✅               | users.list         |
-| **GET**    | `/api/v1/users/:id`                         | Obter usuário por ID                | ✅               | users.read         |
-| **POST**   | `/api/v1/users`                             | Criar usuário                       | ✅               | users.create       |
-| **PUT**    | `/api/v1/users/:id`                         | Atualizar usuário                   | ✅               | users.update       |
-| **DELETE** | `/api/v1/users/:id`                         | Deletar usuário                     | ✅               | users.delete       |
-| **GET**    | `/api/v1/admin/roles`                       | Listar papéis                       | ✅               | ROOT, ADMIN        |
-| **PUT**    | `/api/v1/admin/roles/attach`                | Atribuir papel ao usuário           | ✅               | ROOT, ADMIN        |
-| **GET**    | `/api/v1/admin/permissions`                 | Listar permissões                   | ✅               | permissions.list   |
-| **POST**   | `/api/v1/admin/permissions`                 | Criar permissão                     | ✅               | permissions.create |
-| **PUT**    | `/api/v1/admin/roles/permissions/sync`      | Sincronizar permissões do papel     | ✅               | permissions.update |
-| **PUT**    | `/api/v1/admin/roles/permissions/attach`    | Anexar permissões ao papel          | ✅               | permissions.update |
-| **PUT**    | `/api/v1/admin/roles/permissions/detach`    | Desanexar permissões do papel       | ✅               | permissions.update |
-| **PUT**    | `/api/v1/admin/users/permissions/sync`      | Sincronizar permissões do usuário   | ✅               | permissions.update |
-| **GET**    | `/api/v1/admin/users/:id/permissions`       | Obter permissões diretas do usuário | ✅               | permissions.list   |
-| **POST**   | `/api/v1/admin/users/:id/permissions/check` | Verificar permissões do usuário     | ✅               | permissions.list   |
-| **POST**   | `/api/v1/files/upload`                      | Upload de arquivo                   | ✅               | files.create       |
+|------------|---------------------------------------------|-------------------------------------|------------------|--------------------|
+| **GET**    | `/`                                         | Informações da API                  | ❌                | -                  |
+| **GET**    | `/api/v1/health`                            | Verificação de saúde                | ❌                | -                  |
+| **POST**   | `/api/v1/sessions/sign-in`                  | Login de usuário                    | ❌                | -                  |
+| **POST**   | `/api/v1/sessions/sign-up`                  | Registro de usuário                 | ❌                | -                  |
+| **GET**    | `/api/v1/verify-email`                      | Verificar email do usuário          | ❌                | -                  |
+| **POST**   | `/api/v1/resend-verification-email`         | Reenviar email de verificação       | ✅                | -                  |
+| **GET**    | `/api/v1/me`                                | Obter perfil do usuário atual       | ✅                | -                  |
+| **GET**    | `/api/v1/me/permissions`                    | Obter permissões do usuário atual   | ✅                | -                  |
+| **GET**    | `/api/v1/me/roles`                          | Obter papéis do usuário atual       | ✅                | -                  |
+| **GET**    | `/api/v1/users`                             | Listar usuários (paginado)          | ✅                | users.list         |
+| **GET**    | `/api/v1/users/:id`                         | Obter usuário por ID                | ✅                | users.read         |
+| **POST**   | `/api/v1/users`                             | Criar usuário                       | ✅                | users.create       |
+| **PUT**    | `/api/v1/users/:id`                         | Atualizar usuário                   | ✅                | users.update       |
+| **DELETE** | `/api/v1/users/:id`                         | Deletar usuário                     | ✅                | users.delete       |
+| **GET**    | `/api/v1/admin/roles`                       | Listar papéis                       | ✅                | ROOT, ADMIN        |
+| **PUT**    | `/api/v1/admin/roles/attach`                | Atribuir papel ao usuário           | ✅                | ROOT, ADMIN        |
+| **GET**    | `/api/v1/admin/permissions`                 | Listar permissões                   | ✅                | permissions.list   |
+| **POST**   | `/api/v1/admin/permissions`                 | Criar permissão                     | ✅                | permissions.create |
+| **PUT**    | `/api/v1/admin/roles/permissions/sync`      | Sincronizar permissões do papel     | ✅                | permissions.update |
+| **PUT**    | `/api/v1/admin/roles/permissions/attach`    | Anexar permissões ao papel          | ✅                | permissions.update |
+| **PUT**    | `/api/v1/admin/roles/permissions/detach`    | Desanexar permissões do papel       | ✅                | permissions.update |
+| **PUT**    | `/api/v1/admin/users/permissions/sync`      | Sincronizar permissões do usuário   | ✅                | permissions.update |
+| **GET**    | `/api/v1/admin/users/:id/permissions`       | Obter permissões diretas do usuário | ✅                | permissions.list   |
+| **POST**   | `/api/v1/admin/users/:id/permissions/check` | Verificar permissões do usuário     | ✅                | permissions.list   |
+| **POST**   | `/api/v1/files/upload`                      | Upload de arquivo                   | ✅                | files.create       |
 
 ### 🔄 Fluxo de Requisição/Resposta
 
@@ -520,10 +531,11 @@ ROOT
 - `files.delete.team` - Pode deletar arquivos de membros da equipe
 - `reports.read.department` - Pode ler relatórios do próprio departamento
 
-### 📥 Coleção Insomnia
+### 📥 Coleções & Documentação da API
 
-Obtenha a coleção completa da API para o
-Insomnia: [Download](https://raw.githubusercontent.com/gabrielmaialva33/base-acl-api/master/.github/assets/insomnia/Insomnia.json.zip)
+- Arquivo de requisições HTTP: `docs/api.http` (importe no VS Code REST Client ou Insomnia)
+- Especificação OpenAPI: `docs/openapi.yaml`
+- Redoc (HTML estático): `docs/redoc.html`
 
 ## :memo: Licença
 
