@@ -198,8 +198,8 @@ test.group('Task Model', (group) => {
     })
 
     assert.exists(task.due_date)
-    assert.instanceOf(task.due_date, DateTime)
-    assert.equal(task.due_date.toSQLDate(), dueDate.toSQLDate())
+    assert.isTrue(task.due_date instanceof DateTime)
+    assert.equal(task.due_date!.toSQLDate(), dueDate.toSQLDate())
   })
 
   test('should auto-populate timestamps', async ({ assert }) => {
