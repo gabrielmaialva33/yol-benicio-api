@@ -8,13 +8,15 @@ export default class TaskService {
    */
   async getTasksStats() {
     const total = await Task.query().count('* as total')
-    const pending = await Task.query().where('status', 'pending').count('* as total')
+    const pending = await Task.query()
+      .whereIn('status', ['pending', 'in_progress'])
+      .count('* as total')
     const completedToday = await Task.query()
       .where('status', 'completed')
       .where('updated_at', '>=', DateTime.now().startOf('day').toSQL())
       .count('* as total')
     const overdue = await Task.query()
-      .where('status', 'pending')
+      .whereIn('status', ['pending', 'in_progress'])
       .where('due_date', '<', DateTime.now().toSQL())
       .count('* as total')
 
@@ -89,6 +91,24 @@ export default class TaskService {
     creator_id: number
   }) {
     return Task.create(data)
+  }
+
+  /**
+   * Update task
+   */
+  async updateTask(id: number, data: {
+    title?: string
+    description?: string
+    priority?: 'low' | 'medium' | 'high' | 'urgent'
+    due_date?: DateTime
+    assignee_id?: number
+    folder_id?: number
+    metadata?: Record<string, any>
+  }) {
+    const task = await Task.findOrFail(id)
+    task.merge(data)
+    await task.save()
+    return task
   }
 
   /**

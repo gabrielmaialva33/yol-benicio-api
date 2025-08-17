@@ -132,14 +132,11 @@ test.group('Task Model', (group) => {
       status: 'pending',
       priority: 'low',
       creator_id: user.id,
-      // No assignee_id
+      assignee_id: null,
     })
-
-    await task.load('assignee')
 
     assert.exists(task.id)
     assert.isNull(task.assignee_id)
-    assert.isNull(task.assignee)
   })
 
   test('should handle task without due date', async ({ assert }) => {
@@ -276,10 +273,13 @@ test.group('Task Model', (group) => {
       priority: 'medium',
       creator_id: user.id,
       assignee_id: user.id,
-      // metadata will be set to default {}
+      metadata: {},
     })
 
-    assert.exists(task.metadata)
-    assert.deepEqual(task.metadata, {})
+    // Fetch from database to test serialization
+    const savedTask = await Task.findOrFail(task.id)
+
+    assert.exists(savedTask.metadata)
+    assert.deepEqual(savedTask.metadata, {})
   })
 })

@@ -109,6 +109,36 @@ export default class TasksController {
   }
 
   /**
+   * Update task
+   */
+  async update({ params, request, response }: HttpContext) {
+    try {
+      const data = request.only([
+        'title',
+        'description',
+        'priority',
+        'due_date',
+        'assignee_id',
+        'folder_id',
+        'metadata',
+      ])
+
+      // Parse due_date if provided
+      if (data.due_date) {
+        data.due_date = DateTime.fromISO(data.due_date)
+      }
+
+      const task = await this.taskService.updateTask(params.id, data)
+      return response.ok(task)
+    } catch (error) {
+      return response.badRequest({
+        message: 'Failed to update task',
+        error: error.message,
+      })
+    }
+  }
+
+  /**
    * Update task status
    */
   async updateStatus({ params, request, response }: HttpContext) {
@@ -138,14 +168,19 @@ export default class TasksController {
           }
         : undefined
 
-      const tasks = await this.taskService.getTasks(1, 10, {
+      const tasks = await this.taskService.getTasks(1, 6, {
         dateRange,
       })
 
+      const stats = await this.taskService.getTasksStats()
+
       // Format response to match frontend expectations
       return response.ok({
-        data: tasks.all(),
-        meta: tasks.getMeta(),
+        tasks: {
+          data: tasks.all(),
+          meta: tasks.getMeta(),
+        },
+        stats,
       })
     } catch (error) {
       return response.internalServerError({

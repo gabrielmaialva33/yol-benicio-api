@@ -39,15 +39,8 @@ export default class Task extends BaseModel {
   declare creator_id: number | null
 
   @column({
-    prepare: (value: any) => value ? JSON.stringify(value) : '{}',
-    consume: (value: string | null) => {
-      if (!value) return {}
-      try {
-        return JSON.parse(value)
-      } catch {
-        return {}
-      }
-    },
+    prepare: (value: any) => value || {},
+    consume: (value: any) => value || {},
   })
   declare metadata: Record<string, any>
 
@@ -70,7 +63,7 @@ export default class Task extends BaseModel {
   @belongsTo(() => User, {
     foreignKey: 'assignee_id',
   })
-  declare assignee: BelongsTo<typeof User>
+  declare assignee: BelongsTo<typeof User> | null
 
   @belongsTo(() => User, {
     foreignKey: 'creator_id',
