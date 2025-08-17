@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'react'
-import { cn } from '../utils/cn'
+import { cn } from '../../utils/cn'
 
 interface ProgressBarProps extends HTMLAttributes<HTMLDivElement> {
   value: number // 0-100

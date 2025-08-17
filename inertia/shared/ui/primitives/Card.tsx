@@ -1,5 +1,5 @@
 import type { HTMLAttributes, PropsWithChildren } from 'react'
-import { cn } from '../utils/cn'
+import { cn } from '../../utils/cn'
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   tinted?: boolean
