@@ -1,6 +1,20 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
+  /**
+   * Check if a table exists in the database
+   */
+  private async tableExists(tableName: string): Promise<boolean> {
+    const result = await this.schema.raw(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = '${tableName}'
+      )
+    `)
+    return result.rows[0].exists
+  }
+
   async up() {
     // Limpar views/materialized views existentes
     await this.schema.raw(`
@@ -11,6 +25,28 @@ export default class extends BaseSchema {
       DROP MATERIALIZED VIEW IF EXISTS mv_dashboard_monthly_evolution CASCADE;
     `)
 
+    // Check if legacy tables exist (production) or not (test environment)
+    const hasLegacyTables = await this.tableExists('tabela_open_processos')
+
+    if (hasLegacyTables) {
+      // PRODUCTION: Create views with real legacy table data
+      await this.createProductionViews()
+    } else {
+      // TEST: Create views with mock data
+      await this.createTestViews()
+    }
+
+    // Criar índices
+    await this.schema.raw(`
+      CREATE INDEX IF NOT EXISTS idx_mv_monthly_evolution_month ON mv_dashboard_monthly_evolution(month_date);
+      CREATE INDEX IF NOT EXISTS idx_mv_billing_total ON mv_dashboard_billing(total_value);
+    `)
+  }
+
+  /**
+   * Create views for production environment (with real legacy tables)
+   */
+  private async createProductionViews() {
     // VIEW 1: Estatísticas de Processos Ativos
     await this.schema.raw(`
       CREATE OR REPLACE VIEW vw_dashboard_active_folders AS
