@@ -25,30 +25,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { props } = usePage()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  
+
   // Get user from Inertia shared data
   const user = (props.auth?.user as User) || null
 
   const login = useCallback(async (email: string, password: string) => {
     setError(null)
     setLoading(true)
-    
+
     try {
       // Use Inertia router to submit login form
-      router.post('/login', {
-        email,
-        password,
-      }, {
-        onSuccess: () => {
-          setError(null)
+      router.post(
+        '/login',
+        {
+          email,
+          password,
         },
-        onError: (errors) => {
-          setError(errors.email || errors.password || 'Login failed')
-        },
-        onFinish: () => {
-          setLoading(false)
-        },
-      })
+        {
+          onSuccess: () => {
+            setError(null)
+          },
+          onError: (errors) => {
+            setError(errors.email || errors.password || 'Login failed')
+          },
+          onFinish: () => {
+            setLoading(false)
+          },
+        }
+      )
     } catch (e) {
       setError((e as Error).message)
       setLoading(false)
@@ -57,12 +61,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(async () => {
     setLoading(true)
-    
-    router.post('/logout', {}, {
-      onFinish: () => {
-        setLoading(false)
-      },
-    })
+
+    router.post(
+      '/logout',
+      {},
+      {
+        onFinish: () => {
+          setLoading(false)
+        },
+      }
+    )
   }, [])
 
   const isAuthenticated = useMemo(() => !!user, [user])

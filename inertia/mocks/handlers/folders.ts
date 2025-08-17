@@ -10,7 +10,10 @@ const generateFolders = (count = 20) => {
     client_name: faker.person.fullName(),
     client_id: faker.number.int({ min: 1, max: 100 }),
     area: faker.helpers.arrayElement(['Civil', 'Criminal', 'Trabalhista', 'Tributário', 'Família']),
-    status: faker.helpers.arrayElement(['active', 'archived', 'pending']) as 'active' | 'archived' | 'pending',
+    status: faker.helpers.arrayElement(['active', 'archived', 'pending']) as
+      | 'active'
+      | 'archived'
+      | 'pending',
     responsible_lawyer: faker.person.fullName(),
     created_at: faker.date.past().toISOString(),
     updated_at: faker.date.recent().toISOString(),
@@ -33,7 +36,7 @@ export const foldersHandlers = [
     // Apply filters
     if (search) {
       filteredFolders = filteredFolders.filter(
-        folder => 
+        (folder) =>
           folder.title.toLowerCase().includes(search.toLowerCase()) ||
           folder.code.toLowerCase().includes(search.toLowerCase()) ||
           folder.client_name.toLowerCase().includes(search.toLowerCase())
@@ -41,7 +44,7 @@ export const foldersHandlers = [
     }
 
     if (status) {
-      filteredFolders = filteredFolders.filter(folder => folder.status === status)
+      filteredFolders = filteredFolders.filter((folder) => folder.status === status)
     }
 
     // Pagination
@@ -59,7 +62,10 @@ export const foldersHandlers = [
         first_page: 1,
         first_page_url: `/api/folders?page=1`,
         last_page_url: `/api/folders?page=${Math.ceil(filteredFolders.length / perPage)}`,
-        next_page_url: page < Math.ceil(filteredFolders.length / perPage) ? `/api/folders?page=${page + 1}` : null,
+        next_page_url:
+          page < Math.ceil(filteredFolders.length / perPage)
+            ? `/api/folders?page=${page + 1}`
+            : null,
         previous_page_url: page > 1 ? `/api/folders?page=${page - 1}` : null,
       },
     })
@@ -67,13 +73,10 @@ export const foldersHandlers = [
 
   // Get folder by ID
   http.get('/api/folders/:id', ({ params }) => {
-    const folder = folders.find(f => f.id === Number(params.id))
-    
+    const folder = folders.find((f) => f.id === Number(params.id))
+
     if (!folder) {
-      return HttpResponse.json(
-        { message: 'Folder not found' },
-        { status: 404 }
-      )
+      return HttpResponse.json({ message: 'Folder not found' }, { status: 404 })
     }
 
     return HttpResponse.json(folder)
@@ -81,8 +84,8 @@ export const foldersHandlers = [
 
   // Create folder
   http.post('/api/folders', async ({ request }) => {
-    const body = await request.json() as any
-    
+    const body = (await request.json()) as any
+
     const newFolder = {
       id: folders.length + 1,
       code: `PROC-${faker.number.int({ min: 1000, max: 9999 })}-${new Date().getFullYear()}`,
@@ -90,46 +93,40 @@ export const foldersHandlers = [
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     }
-    
+
     folders.push(newFolder)
-    
+
     return HttpResponse.json(newFolder, { status: 201 })
   }),
 
   // Update folder
   http.put('/api/folders/:id', async ({ params, request }) => {
-    const body = await request.json() as any
-    const index = folders.findIndex(f => f.id === Number(params.id))
-    
+    const body = (await request.json()) as any
+    const index = folders.findIndex((f) => f.id === Number(params.id))
+
     if (index === -1) {
-      return HttpResponse.json(
-        { message: 'Folder not found' },
-        { status: 404 }
-      )
+      return HttpResponse.json({ message: 'Folder not found' }, { status: 404 })
     }
-    
+
     folders[index] = {
       ...folders[index],
       ...body,
       updated_at: new Date().toISOString(),
     }
-    
+
     return HttpResponse.json(folders[index])
   }),
 
   // Delete folder
   http.delete('/api/folders/:id', ({ params }) => {
-    const index = folders.findIndex(f => f.id === Number(params.id))
-    
+    const index = folders.findIndex((f) => f.id === Number(params.id))
+
     if (index === -1) {
-      return HttpResponse.json(
-        { message: 'Folder not found' },
-        { status: 404 }
-      )
+      return HttpResponse.json({ message: 'Folder not found' }, { status: 404 })
     }
-    
+
     folders.splice(index, 1)
-    
+
     return HttpResponse.json({ message: 'Folder deleted successfully' })
   }),
 ]

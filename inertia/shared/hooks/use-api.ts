@@ -1,4 +1,9 @@
-import { useQuery, useMutation, type UseQueryOptions, type UseMutationOptions } from '@tanstack/react-query'
+import {
+  useQuery,
+  useMutation,
+  type UseQueryOptions,
+  type UseMutationOptions,
+} from '@tanstack/react-query'
 import { router } from '@inertiajs/react'
 import type { ApiError } from '../types'
 
@@ -8,7 +13,7 @@ const API_BASE_URL = '/api'
 // Helper to build API URLs
 export function buildApiUrl(endpoint: string, params?: Record<string, any>) {
   const url = endpoint.startsWith('/') ? endpoint : `${API_BASE_URL}/${endpoint}`
-  
+
   if (params) {
     const searchParams = new URLSearchParams()
     Object.entries(params).forEach(([key, value]) => {
@@ -18,7 +23,7 @@ export function buildApiUrl(endpoint: string, params?: Record<string, any>) {
     })
     return `${url}?${searchParams.toString()}`
   }
-  
+
   return url
 }
 
@@ -29,7 +34,7 @@ async function apiFetch<T>(
 ): Promise<T> {
   const { params, ...fetchOptions } = options || {}
   const url = buildApiUrl(endpoint, params)
-  
+
   const response = await fetch(url, {
     ...fetchOptions,
     headers: {
@@ -38,13 +43,13 @@ async function apiFetch<T>(
       ...fetchOptions?.headers,
     },
   })
-  
+
   if (!response.ok) {
     const error: ApiError = {
       message: 'Request failed',
       status: response.status,
     }
-    
+
     try {
       const data = await response.json()
       error.message = data.message || error.message
@@ -52,10 +57,10 @@ async function apiFetch<T>(
     } catch {
       // Failed to parse error response
     }
-    
+
     throw error
   }
-  
+
   return response.json()
 }
 
@@ -67,7 +72,7 @@ export function useApiQuery<T>(
   options?: Omit<UseQueryOptions<T, ApiError>, 'queryKey' | 'queryFn'>
 ) {
   const queryKey = Array.isArray(key) ? key : [key]
-  
+
   return useQuery<T, ApiError>({
     queryKey: [...queryKey, params],
     queryFn: () => apiFetch<T>(endpoint, { params }),
@@ -84,7 +89,7 @@ export function useApiMutation<TData = any, TVariables = any>(
   return useMutation<TData, ApiError, TVariables>({
     mutationFn: async (variables) => {
       const url = typeof endpoint === 'function' ? endpoint(variables) : endpoint
-      
+
       return apiFetch<TData>(url, {
         method,
         body: variables ? JSON.stringify(variables) : undefined,

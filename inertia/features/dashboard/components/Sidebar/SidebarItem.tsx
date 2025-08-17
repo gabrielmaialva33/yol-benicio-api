@@ -25,12 +25,7 @@ const getIconClasses = (isCollapsed: boolean, active = false) => {
 const renderIcon = (props: SidebarItemProps) => {
   // Only render color dot if there's text to go with it
   if (props.color && props.text) {
-    return (
-      <span
-        className="w-2.5 h-2.5 rounded-full"
-        style={{ backgroundColor: props.color }}
-      />
-    )
+    return <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: props.color }} />
   }
 
   // Only render icon if there's one provided

@@ -7,16 +7,16 @@ import { NotificationsDropdown } from './NotificationsDropdown'
 const pageTitles: Record<string, { title: string; description: string }> = {
   '/dashboard': {
     title: 'Visão Geral',
-    description: 'Suas tarefas principais estão nessa seção.'
+    description: 'Suas tarefas principais estão nessa seção.',
   },
   '/dashboard/folders/consultation': {
     title: 'Consulta de pastas',
-    description: ''
+    description: '',
   },
   '/dashboard/folders/register': {
     title: 'Cadastro de Pasta',
-    description: 'Preencha os dados do novo processo'
-  }
+    description: 'Preencha os dados do novo processo',
+  },
 }
 
 export function Header() {
@@ -24,12 +24,12 @@ export function Header() {
   const {
     isActive: showNotifications,
     nodeRef: notificationsRef,
-    triggerRef: notificationsTriggerRef
+    triggerRef: notificationsTriggerRef,
   } = useDetectOutsideClick(false)
   const {
     isActive: showMessages,
     nodeRef: messagesRef,
-    triggerRef: messagesTriggerRef
+    triggerRef: messagesTriggerRef,
   } = useDetectOutsideClick(false)
 
   const handleLogout = () => {
@@ -47,12 +47,12 @@ export function Header() {
       case '/dashboard/folders/consultation':
         return [
           { label: 'Pastas', href: '/dashboard/folders' },
-          { label: 'Consulta', isActive: true }
+          { label: 'Consulta', isActive: true },
         ]
       case '/dashboard/folders/register':
         return [
           { label: 'Pastas', href: '/dashboard/folders' },
-          { label: 'Cadastrar', isActive: true }
+          { label: 'Cadastrar', isActive: true },
         ]
       default:
         return []

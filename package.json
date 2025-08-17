@@ -140,6 +140,7 @@
       "@tailwindcss/oxide",
       "argon2",
       "bcrypt",
+      "esbuild",
       "msgpackr-extract",
       "msw",
       "prettier-edgejs"

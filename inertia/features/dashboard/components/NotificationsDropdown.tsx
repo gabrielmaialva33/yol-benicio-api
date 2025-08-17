@@ -15,9 +15,7 @@ export function NotificationsDropdown({ notifications = [] }: { notifications?: 
       </div>
       <div className="max-h-80 overflow-y-auto">
         {notifications.length === 0 ? (
-          <div className="p-4 text-center text-gray-500 text-sm">
-            Nenhuma notificação nova
-          </div>
+          <div className="p-4 text-center text-gray-500 text-sm">Nenhuma notificação nova</div>
         ) : (
           notifications.slice(0, 5).map((notification) => (
             <div
@@ -32,10 +30,10 @@ export function NotificationsDropdown({ notifications = [] }: { notifications?: 
                     notification.type === 'error'
                       ? 'bg-red-500'
                       : notification.type === 'warning'
-                      ? 'bg-yellow-500'
-                      : notification.type === 'success'
-                      ? 'bg-green-500'
-                      : 'bg-blue-500'
+                        ? 'bg-yellow-500'
+                        : notification.type === 'success'
+                          ? 'bg-green-500'
+                          : 'bg-blue-500'
                   }`}
                 />
                 <div className="flex-1 min-w-0">

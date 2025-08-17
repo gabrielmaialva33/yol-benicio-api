@@ -15,9 +15,7 @@ export function MessagesDropdown({ messages = [] }: { messages?: Message[] }) {
       </div>
       <div className="max-h-80 overflow-y-auto">
         {messages.length === 0 ? (
-          <div className="p-4 text-center text-gray-500 text-sm">
-            Nenhuma mensagem nova
-          </div>
+          <div className="p-4 text-center text-gray-500 text-sm">Nenhuma mensagem nova</div>
         ) : (
           messages.slice(0, 5).map((message) => (
             <div
@@ -29,9 +27,7 @@ export function MessagesDropdown({ messages = [] }: { messages?: Message[] }) {
                   {message.from[0].toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-gray-900 truncate">
-                    {message.from}
-                  </p>
+                  <p className="text-sm font-semibold text-gray-900 truncate">{message.from}</p>
                   <p className="text-xs text-gray-600 truncate">{message.subject}</p>
                   <p className="text-xs text-gray-500 mt-1">{message.time}</p>
                 </div>

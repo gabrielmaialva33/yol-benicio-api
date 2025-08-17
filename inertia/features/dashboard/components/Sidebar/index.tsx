@@ -29,7 +29,7 @@ const pages: MenuItem[] = [
   {
     icon: '/icons/overview.svg',
     text: 'Visão Geral',
-    path: '/dashboard'
+    path: '/dashboard',
   },
   {
     icon: '/icons/folders.svg',
@@ -37,9 +37,9 @@ const pages: MenuItem[] = [
     path: '/dashboard/folders',
     subItems: [
       { text: 'Cadastrar', path: '/dashboard/folders/register' },
-      { text: 'Consulta', path: '/dashboard/folders/consultation' }
-    ]
-  }
+      { text: 'Consulta', path: '/dashboard/folders/consultation' },
+    ],
+  },
 ]
 
 const DROPDOWN_VISIBLE_ITEMS_LIMIT = 3
@@ -95,8 +95,7 @@ const MenuItemComponent = (props: {
 }) => {
   const isActive = props.currentPath === props.item.path
   const isDropdownOpen =
-    props.openDropdown === props.item.text ||
-    props.currentPath.startsWith(props.item.path || '---')
+    props.openDropdown === props.item.text || props.currentPath.startsWith(props.item.path || '---')
 
   const content = (
     <SidebarItem
@@ -128,7 +127,7 @@ const MenuItemComponent = (props: {
       )}
       {props.item.subItems && isDropdownOpen && !props.isCollapsed && (
         <ul className="pl-8 mt-2 space-y-2">
-          {props.item.subItems.map(subItem => {
+          {props.item.subItems.map((subItem) => {
             const isSubItemActive = props.currentPath === subItem.path
             return (
               <li key={subItem.text}>
@@ -160,7 +159,7 @@ const MenuList = (props: {
   currentPath: string
 }) => {
   const [openDropdown, setOpenDropdown] = useState(
-    props.items.find(item => props.currentPath.startsWith(item.path || '---'))?.text || ''
+    props.items.find((item) => props.currentPath.startsWith(item.path || '---'))?.text || ''
   )
   const [showAll, setShowAll] = useState(false)
 
@@ -180,7 +179,7 @@ const MenuList = (props: {
       >
         {props.title}
       </p>
-      {visibleItems.map(item => (
+      {visibleItems.map((item) => (
         <MenuItemComponent
           handleDropdown={handleDropdown}
           isCollapsed={props.isCollapsed}
@@ -217,7 +216,7 @@ const MenuList = (props: {
 export function Sidebar() {
   const { url, props } = usePage()
   const favoriteFolders = (props.favoriteFolders || []) as FavoriteFolder[]
-  
+
   // On mobile (screen width < 768px), default to collapsed
   const [isCollapsed, setIsCollapsed] = useState(
     typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT
@@ -227,13 +226,13 @@ export function Sidebar() {
 
   // Convert favorite folders to MenuItem format
   const favorites: MenuItem[] = favoriteFolders
-    .filter(folder => folder?.code && folder.title)
-    .map(folder => ({
+    .filter((folder) => folder?.code && folder.title)
+    .map((folder) => ({
       icon: '',
       color: folder.color,
       text: `${folder.code} - ${folder.title}`,
       badge: undefined,
-      path: `/dashboard/folders/consultation/${folder.id}`
+      path: `/dashboard/folders/consultation/${folder.id}`,
     }))
 
   return (

@@ -7,7 +7,7 @@
 ### Detected Technology Stack
 
 - **Backend Framework**: AdonisJS v6 with TypeScript
-- **Database**: PostgreSQL with Lucid ORM 
+- **Database**: PostgreSQL with Lucid ORM
 - **Cache & Queue**: Redis with Bull Queue (@rlanz/bull-queue)
 - **Frontend Framework**: React v19 with TypeScript
 - **UI Integration**: Inertia.js v2 (SSR-ready, currently disabled)
@@ -20,7 +20,7 @@
 ### AI Team Assignments
 
 | Task Category                    | Agent                       | Notes                                                                               |
-|----------------------------------|-----------------------------|-------------------------------------------------------------------------------------|
+| -------------------------------- | --------------------------- | ----------------------------------------------------------------------------------- |
 | **AdonisJS Backend Development** | `backend-developer`         | Universal backend expert for AdonisJS features, API endpoints, services, middleware |
 | **React Component Architecture** | `react-component-architect` | Specialized React expert for UI components, hooks, and Inertia.js integration       |
 | **API Design & Documentation**   | `api-architect`             | REST API design, OpenAPI specs, authentication flows                                |

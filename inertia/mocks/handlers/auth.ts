@@ -3,8 +3,8 @@ import { http, HttpResponse } from 'msw'
 export const authHandlers = [
   // Login endpoint
   http.post('/login', async ({ request }) => {
-    const body = await request.json() as { email: string; password: string }
-    
+    const body = (await request.json()) as { email: string; password: string }
+
     // Mock validation
     if (body.email === 'admin@yolbenicio.com' && body.password === 'password') {
       return HttpResponse.json({
@@ -20,9 +20,9 @@ export const authHandlers = [
         refreshToken: 'mock-refresh-token',
       })
     }
-    
+
     return HttpResponse.json(
-      { 
+      {
         message: 'Invalid credentials',
         errors: {
           email: ['Invalid email or password'],

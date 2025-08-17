@@ -1,5 +1,5 @@
 /* Import Tailwind CSS v4 */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Tell Tailwind where to look for class usage */
 @source "../pages";
@@ -34,7 +34,7 @@
   }
 
   button,
-  [role="button"] {
+  [role='button'] {
     cursor: pointer;
   }
 }
@@ -46,26 +46,26 @@
   --font-family-mono: 'Menlo', 'Monaco', 'Courier New', monospace;
 
   /* Brand colors */
-  --color-primary: #5468FF;
+  --color-primary: #5468ff;
   --color-brand-orange: #f97316;
   --color-brand-cyan: #1cd6f4;
   --color-brand-teal: #06b6d4;
   --color-brand-green: #10b981;
-  
+
   /* Surface colors */
   --color-surface: #ffffff;
   --color-surface-alt: #e6f8f3;
   --color-bg-sidebar: #373737;
-  
+
   /* Border colors */
   --color-border: #e1e3ea;
-  
+
   /* Text colors */
   --color-text-primary: #1f2a37;
   --color-text-secondary: #5e6278;
   --color-text-muted: #6b7280;
   --color-text-invert: #ffffff;
-  
+
   /* Neutral palette */
   --color-neutral-100: #f1f5f9;
   --color-neutral-200: #e2e8f0;
@@ -76,7 +76,7 @@
   --color-neutral-700: #334155;
   --color-neutral-800: #1e293b;
   --color-neutral-900: #0f172a;
-  
+
   /* Semantic colors */
   --color-success: #059669;
   --color-danger: #dc2626;
@@ -119,7 +119,7 @@
   .border-default {
     border-color: #e1e3ea;
   }
-  
+
   .card {
     display: flex;
     flex-direction: column;
@@ -128,27 +128,27 @@
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-card);
   }
-  
+
   .card-tinted {
     color: #004b50;
     background: var(--color-surface-alt);
   }
-  
+
   .card-title {
     font-size: var(--text-h3);
     font-weight: 600;
     color: var(--color-text-primary);
   }
-  
+
   .shadow-card {
     box-shadow: var(--shadow-card);
   }
-  
+
   .progress-track {
     background: var(--color-neutral-200);
     border-radius: var(--radius-pill);
   }
-  
+
   .progress-bar {
     height: 0.5rem;
     background: var(--color-brand-teal);

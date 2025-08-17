@@ -25,22 +25,22 @@ export const usersHandlers = [
     const page = Number(url.searchParams.get('page') || 1)
     const perPage = Number(url.searchParams.get('per_page') || 10)
     const search = url.searchParams.get('search') || ''
-    
+
     let filteredUsers = [...users]
-    
+
     if (search) {
       filteredUsers = filteredUsers.filter(
-        user => 
+        (user) =>
           user.name.toLowerCase().includes(search.toLowerCase()) ||
           user.email.toLowerCase().includes(search.toLowerCase())
       )
     }
-    
+
     // Pagination
     const start = (page - 1) * perPage
     const end = start + perPage
     const paginatedUsers = filteredUsers.slice(start, end)
-    
+
     return HttpResponse.json({
       data: paginatedUsers,
       meta: {
@@ -51,7 +51,8 @@ export const usersHandlers = [
         first_page: 1,
         first_page_url: `/api/users?page=1`,
         last_page_url: `/api/users?page=${Math.ceil(filteredUsers.length / perPage)}`,
-        next_page_url: page < Math.ceil(filteredUsers.length / perPage) ? `/api/users?page=${page + 1}` : null,
+        next_page_url:
+          page < Math.ceil(filteredUsers.length / perPage) ? `/api/users?page=${page + 1}` : null,
         previous_page_url: page > 1 ? `/api/users?page=${page - 1}` : null,
       },
     })
@@ -59,22 +60,19 @@ export const usersHandlers = [
 
   // Get user by ID
   http.get('/api/users/:id', ({ params }) => {
-    const user = users.find(u => u.id === Number(params.id))
-    
+    const user = users.find((u) => u.id === Number(params.id))
+
     if (!user) {
-      return HttpResponse.json(
-        { message: 'User not found' },
-        { status: 404 }
-      )
+      return HttpResponse.json({ message: 'User not found' }, { status: 404 })
     }
-    
+
     return HttpResponse.json(user)
   }),
 
   // Create user
   http.post('/api/users', async ({ request }) => {
-    const body = await request.json() as any
-    
+    const body = (await request.json()) as any
+
     const newUser = {
       id: users.length + 1,
       ...body,
@@ -82,46 +80,40 @@ export const usersHandlers = [
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     }
-    
+
     users.push(newUser)
-    
+
     return HttpResponse.json(newUser, { status: 201 })
   }),
 
   // Update user
   http.put('/api/users/:id', async ({ params, request }) => {
-    const body = await request.json() as any
-    const index = users.findIndex(u => u.id === Number(params.id))
-    
+    const body = (await request.json()) as any
+    const index = users.findIndex((u) => u.id === Number(params.id))
+
     if (index === -1) {
-      return HttpResponse.json(
-        { message: 'User not found' },
-        { status: 404 }
-      )
+      return HttpResponse.json({ message: 'User not found' }, { status: 404 })
     }
-    
+
     users[index] = {
       ...users[index],
       ...body,
       updated_at: new Date().toISOString(),
     }
-    
+
     return HttpResponse.json(users[index])
   }),
 
   // Delete user
   http.delete('/api/users/:id', ({ params }) => {
-    const index = users.findIndex(u => u.id === Number(params.id))
-    
+    const index = users.findIndex((u) => u.id === Number(params.id))
+
     if (index === -1) {
-      return HttpResponse.json(
-        { message: 'User not found' },
-        { status: 404 }
-      )
+      return HttpResponse.json({ message: 'User not found' }, { status: 404 })
     }
-    
+
     users.splice(index, 1)
-    
+
     return HttpResponse.json({ message: 'User deleted successfully' })
   }),
 ]
