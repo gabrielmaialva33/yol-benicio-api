@@ -1,6 +1,6 @@
-import { createContext, useContext, useCallback, useMemo, useState } from 'react'
-import { router, usePage } from '@inertiajs/react'
 import type { ReactNode } from 'react'
+import { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import { router, usePage } from '@inertiajs/react'
 
 interface User {
   id: number

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Head, router } from '@inertiajs/react'
 import type { PageProps } from '@adonisjs/inertia/types'
-import type { Folder, FolderStatus, FolderArea } from '~/shared/types'
+import type { Folder, FolderArea, FolderStatus } from '~/shared/types'
 import DashboardLayout from '../dashboard/layout'
 import { AppliedFilters } from '~/features/folders/components/AppliedFilters'
 import { FolderFilters } from '~/features/folders/components/FolderFilters'

@@ -193,4 +193,5 @@ Slow Request → performance-optimizer (identify bottleneck) → backend-develop
 
 ---
 
-_This configuration leverages comprehensive codebase analysis and industry best practices to maximize AI agent effectiveness while maintaining code quality and project architectural integrity._
+_This configuration leverages comprehensive codebase analysis and industry best practices to maximize AI agent
+effectiveness while maintaining code quality and project architectural integrity._

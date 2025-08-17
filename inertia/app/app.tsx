@@ -4,7 +4,7 @@
 // Import Tailwind CSS styles
 import '../css/app.css'
 import { StrictMode } from 'react'
-import { hydrateRoot, createRoot } from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
