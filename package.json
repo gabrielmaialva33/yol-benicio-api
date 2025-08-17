@@ -26,6 +26,7 @@
     "docker": "node ace migration:run && node ace db:seed && node bin/server.js"
   },
   "imports": {
+    "#controllers/*": "./app/controllers/*.js",
     "#exceptions/*": "./app/exceptions/*.js",
     "#mails/*": "./app/mails/*.js",
     "#services/*": "./app/services/*.js",
