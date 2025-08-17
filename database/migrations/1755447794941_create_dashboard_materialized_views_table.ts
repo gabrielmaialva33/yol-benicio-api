@@ -4,6 +4,7 @@ export default class extends BaseSchema {
   async up() {
     // MATERIALIZED VIEW 1: Evolução Mensal de Processos (últimos 6 meses)
     await this.schema.raw(`
+      DROP MATERIALIZED VIEW IF EXISTS mv_dashboard_monthly_evolution;
       CREATE MATERIALIZED VIEW mv_dashboard_monthly_evolution AS
       SELECT 
         TO_CHAR(DATE_TRUNC('month', pro_dta_inc::timestamp), 'Mon') as month,
