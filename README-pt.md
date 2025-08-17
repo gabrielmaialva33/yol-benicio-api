@@ -829,7 +829,7 @@ graph LR
     style SIGNUP fill:#90EE90
     style ROLE_LIST fill:#FFB6C1
     style ROLE_ATTACH fill:#FFB6C1
-````
+```
 
 ### 📋 Detalhes das Rotas
 
