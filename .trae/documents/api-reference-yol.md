@@ -6,35 +6,30 @@ Esta documentação fornece informações completas sobre a API REST do Sistema 
 
 ### 1.1 Informações Gerais
 
-* **Base URL**: `https://api.yolbenicio.com` (produção) / `http://localhost:3333` (desenvolvimento)
-
-* **Versão**: v1
-
-* **Formato**: JSON
-
-* **Autenticação**: JWT Bearer Token
-
-* **Rate Limiting**: 100 requests/minuto por IP
+- **Base URL**: `https://api.yolbenicio.com` (produção) / `http://localhost:3333` (desenvolvimento)
+- **Versão**: v1
+- **Formato**: JSON
+- **Autenticação**: JWT Bearer Token
+- **Rate Limiting**: 100 requests/minuto por IP
 
 ### 1.2 Códigos de Status HTTP
 
-| Código  | Significado           | Descrição                            |
-| ------- | --------------------- | ------------------------------------ |
-| **200** | OK                    | Requisição bem-sucedida              |
-| **201** | Created               | Recurso criado com sucesso           |
-| **204** | No Content            | Operação bem-sucedida sem conteúdo   |
-| **400** | Bad Request           | Dados inválidos na requisição        |
-| **401** | Unauthorized          | Token de autenticação inválido       |
-| **403** | Forbidden             | Sem permissão para acessar o recurso |
-| **404** | Not Found             | Recurso não encontrado               |
-| **422** | Unprocessable Entity  | Erro de validação                    |
-| **429** | Too Many Requests     | Rate limit excedido                  |
-| **500** | Internal Server Error | Erro interno do servidor             |
+| Código | Significado | Descrição |
+|--------|-------------|----------|
+| **200** | OK | Requisição bem-sucedida |
+| **201** | Created | Recurso criado com sucesso |
+| **204** | No Content | Operação bem-sucedida sem conteúdo |
+| **400** | Bad Request | Dados inválidos na requisição |
+| **401** | Unauthorized | Token de autenticação inválido |
+| **403** | Forbidden | Sem permissão para acessar o recurso |
+| **404** | Not Found | Recurso não encontrado |
+| **422** | Unprocessable Entity | Erro de validação |
+| **429** | Too Many Requests | Rate limit excedido |
+| **500** | Internal Server Error | Erro interno do servidor |
 
 ### 1.3 Estrutura de Resposta
 
 **Resposta de Sucesso:**
-
 ```json
 {
   "data": {
@@ -50,7 +45,6 @@ Esta documentação fornece informações completas sobre a API REST do Sistema 
 ```
 
 **Resposta de Erro:**
-
 ```json
 {
   "errors": [
@@ -73,7 +67,6 @@ Esta documentação fornece informações completas sobre a API REST do Sistema 
 **Descrição:** Autentica um usuário e retorna um token JWT.
 
 **Request Body:**
-
 ```json
 {
   "email": "usuario@exemplo.com",
@@ -82,7 +75,6 @@ Esta documentação fornece informações completas sobre a API REST do Sistema 
 ```
 
 **Response (200):**
-
 ```json
 {
   "type": "bearer",
@@ -104,19 +96,15 @@ Esta documentação fornece informações completas sobre a API REST do Sistema 
 ```
 
 **Possíveis Erros:**
-
-* `400`: Credenciais inválidas
-
-* `422`: Dados de validação inválidos
-
-* `429`: Muitas tentativas de login
+- `400`: Credenciais inválidas
+- `422`: Dados de validação inválidos
+- `429`: Muitas tentativas de login
 
 ### 2.2 Logout
 
 **Endpoint:** `POST /logout`
 
 **Headers:**
-
 ```
 Authorization: Bearer {token}
 ```
@@ -128,13 +116,11 @@ Authorization: Bearer {token}
 **Endpoint:** `POST /auth/refresh`
 
 **Headers:**
-
 ```
 Authorization: Bearer {token}
 ```
 
 **Response (200):**
-
 ```json
 {
   "type": "bearer",
@@ -152,17 +138,15 @@ Authorization: Bearer {token}
 **Permissões:** `users.read`
 
 **Query Parameters:**
-
-| Parâmetro | Tipo    | Descrição                            | Padrão |
-| --------- | ------- | ------------------------------------ | ------ |
-| `page`    | integer | Página atual                         | 1      |
-| `limit`   | integer | Itens por página (max: 100)          | 20     |
-| `search`  | string  | Busca por nome ou email              | -      |
-| `role`    | string  | Filtrar por papel                    | -      |
-| `status`  | string  | Filtrar por status (active/inactive) | -      |
+| Parâmetro | Tipo | Descrição | Padrão |
+|-----------|------|-----------|--------|
+| `page` | integer | Página atual | 1 |
+| `limit` | integer | Itens por página (max: 100) | 20 |
+| `search` | string | Busca por nome ou email | - |
+| `role` | string | Filtrar por papel | - |
+| `status` | string | Filtrar por status (active/inactive) | - |
 
 **Response (200):**
-
 ```json
 {
   "data": [
@@ -199,7 +183,6 @@ Authorization: Bearer {token}
 **Permissões:** `users.create`
 
 **Request Body:**
-
 ```json
 {
   "fullName": "Maria Santos",
@@ -211,7 +194,6 @@ Authorization: Bearer {token}
 ```
 
 **Response (201):**
-
 ```json
 {
   "id": 2,
@@ -231,7 +213,6 @@ Authorization: Bearer {token}
 **Permissões:** `users.read` ou ser o próprio usuário
 
 **Response (200):**
-
 ```json
 {
   "id": 1,
@@ -274,7 +255,6 @@ Authorization: Bearer {token}
 **Permissões:** `users.update` ou ser o próprio usuário
 
 **Request Body:**
-
 ```json
 {
   "fullName": "João Silva Santos",
@@ -301,7 +281,6 @@ Authorization: Bearer {token}
 **Permissões:** `roles.read`
 
 **Response (200):**
-
 ```json
 {
   "data": [
@@ -331,7 +310,6 @@ Authorization: Bearer {token}
 **Permissões:** `permissions.read`
 
 **Response (200):**
-
 ```json
 {
   "data": [
@@ -360,7 +338,6 @@ Authorization: Bearer {token}
 **Permissões:** `users.manage_roles`
 
 **Request Body:**
-
 ```json
 {
   "roleIds": [1, 2]
@@ -368,7 +345,6 @@ Authorization: Bearer {token}
 ```
 
 **Response (200):**
-
 ```json
 {
   "message": "Papéis atribuídos com sucesso",
@@ -391,18 +367,16 @@ Authorization: Bearer {token}
 **Permissões:** `folders.read`
 
 **Query Parameters:**
-
-| Parâmetro | Tipo    | Descrição                  |
-| --------- | ------- | -------------------------- |
-| `page`    | integer | Página atual               |
-| `limit`   | integer | Itens por página           |
-| `search`  | string  | Busca por código ou título |
-| `status`  | string  | Filtrar por status         |
-| `area`    | string  | Filtrar por área jurídica  |
-| `userId`  | integer | Filtrar por responsável    |
+| Parâmetro | Tipo | Descrição |
+|-----------|------|-----------|
+| `page` | integer | Página atual |
+| `limit` | integer | Itens por página |
+| `search` | string | Busca por código ou título |
+| `status` | string | Filtrar por status |
+| `area` | string | Filtrar por área jurídica |
+| `userId` | integer | Filtrar por responsável |
 
 **Response (200):**
-
 ```json
 {
   "data": [
@@ -447,7 +421,6 @@ Authorization: Bearer {token}
 **Permissões:** `folders.create`
 
 **Request Body:**
-
 ```json
 {
   "code": "PROC-2024-002",
@@ -464,7 +437,6 @@ Authorization: Bearer {token}
 ```
 
 **Response (201):**
-
 ```json
 {
   "id": 2,
@@ -492,7 +464,6 @@ Authorization: Bearer {token}
 **Permissões:** `folders.read` ou ser o proprietário
 
 **Response (200):**
-
 ```json
 {
   "id": 1,
@@ -546,7 +517,6 @@ Authorization: Bearer {token}
 **Permissões:** `folders.update` ou ser o proprietário
 
 **Request Body:**
-
 ```json
 {
   "title": "Ação Trabalhista - João vs Empresa X (Atualizado)",
@@ -577,15 +547,11 @@ Authorization: Bearer {token}
 **Content-Type:** `multipart/form-data`
 
 **Form Data:**
-
-* `file`: Arquivo a ser enviado
-
-* `description`: Descrição do arquivo (opcional)
-
-* `category`: Categoria do arquivo (opcional)
+- `file`: Arquivo a ser enviado
+- `description`: Descrição do arquivo (opcional)
+- `category`: Categoria do arquivo (opcional)
 
 **Response (201):**
-
 ```json
 {
   "id": 2,
@@ -609,7 +575,6 @@ Authorization: Bearer {token}
 **Permissões:** `files.read` ou ser o proprietário da pasta
 
 **Response (200):**
-
 ```json
 {
   "data": [
@@ -641,7 +606,6 @@ Authorization: Bearer {token}
 **Response (200):** Stream do arquivo
 
 **Headers:**
-
 ```
 Content-Type: application/pdf
 Content-Disposition: attachment; filename="documento.pdf"
@@ -665,7 +629,6 @@ Content-Length: 1024000
 **Permissões:** `movements.create` ou ser o proprietário da pasta
 
 **Request Body:**
-
 ```json
 {
   "description": "Audiência realizada com sucesso",
@@ -677,7 +640,6 @@ Content-Length: 1024000
 ```
 
 **Response (201):**
-
 ```json
 {
   "id": 2,
@@ -699,16 +661,14 @@ Content-Length: 1024000
 **Permissões:** `movements.read` ou ser o proprietário da pasta
 
 **Query Parameters:**
-
-| Parâmetro     | Tipo   | Descrição                        |
-| ------------- | ------ | -------------------------------- |
-| `type`        | string | Filtrar por tipo de movimentação |
-| `startDate`   | date   | Data inicial                     |
-| `endDate`     | date   | Data final                       |
-| `responsible` | string | Filtrar por responsável          |
+| Parâmetro | Tipo | Descrição |
+|-----------|------|-----------|
+| `type` | string | Filtrar por tipo de movimentação |
+| `startDate` | date | Data inicial |
+| `endDate` | date | Data final |
+| `responsible` | string | Filtrar por responsável |
 
 **Response (200):**
-
 ```json
 {
   "data": [
@@ -750,7 +710,6 @@ Content-Length: 1024000
 **Permissões:** Usuário autenticado
 
 **Response (200):**
-
 ```json
 {
   "summary": {
@@ -798,15 +757,13 @@ Content-Length: 1024000
 **Permissões:** `admin.statistics`
 
 **Query Parameters:**
-
-| Parâmetro   | Tipo   | Descrição                         |
-| ----------- | ------ | --------------------------------- |
-| `period`    | string | Período (week/month/quarter/year) |
-| `startDate` | date   | Data inicial personalizada        |
-| `endDate`   | date   | Data final personalizada          |
+| Parâmetro | Tipo | Descrição |
+|-----------|------|-----------|
+| `period` | string | Período (week/month/quarter/year) |
+| `startDate` | date | Data inicial personalizada |
+| `endDate` | date | Data final personalizada |
 
 **Response (200):**
-
 ```json
 {
   "overview": {
@@ -851,18 +808,16 @@ Content-Length: 1024000
 **Permissões:** `audit.read`
 
 **Query Parameters:**
-
-| Parâmetro   | Tipo    | Descrição           |
-| ----------- | ------- | ------------------- |
-| `userId`    | integer | Filtrar por usuário |
-| `resource`  | string  | Filtrar por recurso |
-| `action`    | string  | Filtrar por ação    |
-| `startDate` | date    | Data inicial        |
-| `endDate`   | date    | Data final          |
-| `ip`        | string  | Filtrar por IP      |
+| Parâmetro | Tipo | Descrição |
+|-----------|------|-----------|
+| `userId` | integer | Filtrar por usuário |
+| `resource` | string | Filtrar por recurso |
+| `action` | string | Filtrar por ação |
+| `startDate` | date | Data inicial |
+| `endDate` | date | Data final |
+| `ip` | string | Filtrar por IP |
 
 **Response (200):**
-
 ```json
 {
   "data": [
@@ -889,6 +844,89 @@ Content-Length: 1024000
     }
   ],
   "meta": {
-    "total": 1000
+    "total": 1000,
+    "perPage": 50,
+    "currentPage": 1,
+    "lastPage": 20
+  }
+}
 ```
 
+## 10. Health Check
+
+### 10.1 Status da Aplicação
+
+**Endpoint:** `GET /health`
+
+**Permissões:** Público
+
+**Response (200):**
+```json
+{
+  "status": "ok",
+  "timestamp": "2024-01-22T18:00:00.000Z",
+  "uptime": 86400,
+  "version": "1.0.0",
+  "environment": "production",
+  "checks": {
+    "database": {
+      "status": "ok",
+      "responseTime": "5ms"
+    },
+    "redis": {
+      "status": "ok",
+      "responseTime": "2ms"
+    },
+    "storage": {
+      "status": "ok",
+      "freeSpace": "50GB"
+    }
+  }
+}
+```
+
+### 10.2 Informações da API
+
+**Endpoint:** `GET /api/info`
+
+**Permissões:** Público
+
+**Response (200):**
+```json
+{
+  "name": "YOL Benício API",
+  "version": "1.0.0",
+  "description": "API para gestão jurídica",
+  "documentation": "https://api.yolbenicio.com/docs",
+  "support": "suporte@yolbenicio.com",
+  "rateLimit": {
+    "requests": 100,
+    "window": "1 minute"
+  }
+}
+```
+
+## 11. Webhooks
+
+### 11.1 Configurar Webhook
+
+**Endpoint:** `POST /webhooks`
+
+**Permissões:** `webhooks.create`
+
+**Request Body:**
+```json
+{
+  "url": "https://exemplo.com/webhook",
+  "events": ["folder.created", "folder.updated", "movement.created"],
+  "secret": "webhook-secret-key",
+  "active": true
+}
+```
+
+**Response (201):**
+```json
+{
+  "id": 1,
+  "url": "https://exemplo.com/webhook",
+  "events": [
