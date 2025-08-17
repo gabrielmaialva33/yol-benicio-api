@@ -64,13 +64,36 @@ export default class extends BaseSchema {
     await this.schema.raw(`
       CREATE MATERIALIZED VIEW mv_dashboard_requests AS
       SELECT
-        TO_CHAR(DATE_TRUNC('month', age_dta_inc::timestamp), 'Mon') as month,
-        DATE_TRUNC('month', age_dta_inc::timestamp) as month_date,
+        TO_CHAR(DATE_TRUNC('month', 
+          CASE 
+            WHEN age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' 
+            THEN age_dta_inc::timestamp 
+            ELSE CURRENT_DATE::timestamp 
+          END
+        ), 'Mon') as month,
+        DATE_TRUNC('month', 
+          CASE 
+            WHEN age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' 
+            THEN age_dta_inc::timestamp 
+            ELSE CURRENT_DATE::timestamp 
+          END
+        ) as month_date,
         COUNT(*) as total_requests,
-        COUNT(*) FILTER (WHERE DATE(age_dta_inc::timestamp) >= DATE_TRUNC('month', CURRENT_DATE)) as new_requests,
-        ROUND((COUNT(*) FILTER (WHERE DATE(age_dta_inc::timestamp) >= DATE_TRUNC('month', CURRENT_DATE)) * 100.0 / NULLIF(COUNT(*), 0)), 2) as percentage
+        COUNT(*) FILTER (
+          WHERE age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+          AND DATE(age_dta_inc::timestamp) >= DATE_TRUNC('month', CURRENT_DATE)
+        ) as new_requests,
+        ROUND((
+          COUNT(*) FILTER (
+            WHERE age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+            AND DATE(age_dta_inc::timestamp) >= DATE_TRUNC('month', CURRENT_DATE)
+          ) * 100.0 / NULLIF(COUNT(*), 0)
+        ), 2) as percentage
       FROM open_agendas
-      WHERE age_dta_inc::timestamp >= CURRENT_DATE - INTERVAL '12 months'
+      WHERE age_dta_inc IS NOT NULL 
+        AND age_dta_inc != ''
+        AND age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+        AND age_dta_inc::timestamp >= CURRENT_DATE - INTERVAL '12 months'
       GROUP BY DATE_TRUNC('month', age_dta_inc::timestamp)
       ORDER BY month_date;
     `)
