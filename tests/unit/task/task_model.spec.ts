@@ -146,7 +146,7 @@ test.group('Task Model', (group) => {
       priority: 'medium',
       creator_id: user.id,
       assignee_id: user.id,
-      // No due_date
+      due_date: null,
     })
 
     assert.exists(task.id)

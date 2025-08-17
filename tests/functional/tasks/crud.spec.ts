@@ -81,7 +81,7 @@ test.group('Tasks CRUD', (group) => {
     response.assertBodyContains({
       meta: {
         total: 2,
-        per_page: 15,
+        per_page: 10,
         current_page: 1,
       },
     })

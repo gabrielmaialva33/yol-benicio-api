@@ -117,8 +117,8 @@ test.group('TaskService', (group) => {
 
     assert.equal(result.all().length, 2)
     assert.equal(result.getMeta().total, 3)
-    assert.equal(result.getMeta().perPage, 2)
-    assert.equal(result.getMeta().currentPage, 1)
+    assert.equal(result.getMeta().per_page, 2)
+    assert.equal(result.getMeta().current_page, 1)
   })
 
   test('should filter tasks by status', async ({ assert }) => {

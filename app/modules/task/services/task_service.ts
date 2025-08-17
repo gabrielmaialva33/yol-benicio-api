@@ -79,8 +79,15 @@ export default class TaskService {
     assignee_id?: number
     folder_id?: number
     creator_id: number
+    metadata?: Record<string, any>
   }) {
-    return Task.create(data)
+    const taskData = {
+      ...data,
+      status: 'pending' as const,
+      priority: data.priority || ('medium' as const),
+      metadata: data.metadata || {},
+    }
+    return Task.create(taskData)
   }
 
   /**
