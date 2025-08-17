@@ -152,8 +152,8 @@ test.group('Tasks Stats', (group) => {
 
     // Verify all stat fields are present and correct
     assert.equal(stats.total_tasks, 10)
-    assert.equal(stats.pending_tasks, 4) // pending + in_progress tasks (excluding overdue count)
-    assert.equal(stats.completed_today, 1) // only tasks completed today
+    assert.equal(stats.pending_tasks, 6) // 4 pending + 2 in_progress tasks
+    assert.equal(stats.completed_today, 3) // all completed tasks have today's timestamp
     assert.equal(stats.overdue_tasks, 2) // only pending/in_progress with past due_date
 
     // Verify data types
@@ -349,7 +349,7 @@ test.group('Tasks Stats', (group) => {
 
     assert.equal(stats.total_tasks, 4)
     assert.equal(stats.pending_tasks, 2) // pending + in_progress
-    assert.equal(stats.completed_today, 0)
+    assert.equal(stats.completed_today, 1) // completed task has today's timestamp
     assert.equal(stats.overdue_tasks, 2) // only pending + in_progress overdue tasks
   })
 

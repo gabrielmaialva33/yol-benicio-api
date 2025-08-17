@@ -84,14 +84,16 @@ export default class TasksController {
       const data = await request.validateUsing(storeTaskValidator)
 
       // Parse due_date if provided
-      if (data.due_date) {
-        data.due_date = DateTime.fromISO(data.due_date.toString())
-      }
-
-      const task = await this.taskService.createTask({
+      const taskData: any = {
         ...data,
         creator_id: user.id,
-      })
+      }
+
+      if (data.due_date) {
+        taskData.due_date = DateTime.fromISO(data.due_date)
+      }
+
+      const task = await this.taskService.createTask(taskData)
 
       return response.created(task)
     } catch (error) {

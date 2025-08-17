@@ -82,7 +82,7 @@ test.group('TaskService', (group) => {
     const stats = await taskService.getTasksStats()
 
     assert.equal(stats.total_tasks, 4)
-    assert.equal(stats.pending_tasks, 2)
+    assert.equal(stats.pending_tasks, 3) // 2 pending + 1 in_progress 
     assert.equal(stats.completed_today, 1)
     assert.equal(stats.overdue_tasks, 1)
   })

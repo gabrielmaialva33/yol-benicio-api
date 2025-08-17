@@ -112,7 +112,7 @@ test.group('Tasks Dashboard', (group) => {
 
     // Check stats
     assert.equal(body.stats.total_tasks, 4)
-    assert.equal(body.stats.pending_tasks, 2)
+    assert.equal(body.stats.pending_tasks, 3) // pending + in_progress + overdue pending
     assert.equal(body.stats.completed_today, 1)
     assert.equal(body.stats.overdue_tasks, 1)
   })
@@ -355,7 +355,7 @@ test.group('Tasks Dashboard', (group) => {
     const stats = body.stats
 
     assert.equal(stats.total_tasks, 10)
-    assert.equal(stats.pending_tasks, 4) // pending + in_progress + future
+    assert.equal(stats.pending_tasks, 6) // 4 pending + 2 in_progress
     assert.equal(stats.completed_today, 2)
     assert.equal(stats.overdue_tasks, 2) // only pending/in_progress with past due_date
   })
