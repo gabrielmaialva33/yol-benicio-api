@@ -9,14 +9,7 @@ interface PaginationProps {
   setLimit: (limit: number) => void
 }
 
-export function Pagination({
-  page,
-  limit,
-  total,
-  totalPages,
-  setPage,
-  setLimit
-}: PaginationProps) {
+export function Pagination({ page, limit, total, totalPages, setPage, setLimit }: PaginationProps) {
   const startItem = total === 0 ? 0 : (page - 1) * limit + 1
   const endItem = Math.min(page * limit, total)
 
@@ -80,7 +73,7 @@ export function Pagination({
           Mostrando {startItem.toLocaleString('pt-BR')} a {endItem.toLocaleString('pt-BR')} de{' '}
           {total.toLocaleString('pt-BR')} resultados
         </div>
-        
+
         <div className="flex items-center gap-2">
           <label htmlFor="limit" className="text-sm text-gray-700">
             Por página:
@@ -110,7 +103,11 @@ export function Pagination({
           >
             <span className="sr-only">Anterior</span>
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                clipRule="evenodd"
+              />
             </svg>
           </button>
 
@@ -128,7 +125,7 @@ export function Pagination({
             }
 
             const isCurrentPage = pageNumber === page
-            
+
             return (
               <button
                 key={pageNumber}
@@ -152,7 +149,11 @@ export function Pagination({
           >
             <span className="sr-only">Próximo</span>
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clipRule="evenodd"
+              />
             </svg>
           </button>
         </nav>

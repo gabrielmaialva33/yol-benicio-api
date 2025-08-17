@@ -22,7 +22,7 @@
 ### Enhanced AI Team Assignments
 
 | Task Category                    | Primary Agent               | Secondary Agent             | When to Use                                   | Notes                                                 |
-|----------------------------------|-----------------------------|-----------------------------|-----------------------------------------------|-------------------------------------------------------|
+| -------------------------------- | --------------------------- | --------------------------- | --------------------------------------------- | ----------------------------------------------------- |
 | **AdonisJS Backend Development** | `backend-developer`         | `performance-optimizer`     | Server-side features, API endpoints, services | Expert in AdonisJS v6 patterns, modular architecture  |
 | **React Component Architecture** | `react-component-architect` | `tailwind-frontend-expert`  | UI components, React 19 features              | Specialized in React 19, component composition        |
 | **React State Management**       | `react-state-manager`       | `react-component-architect` | React Query, client state, MSW                | **NEW**: Data fetching, caching, optimistic updates   |

@@ -30,7 +30,7 @@ const areas = [
   { value: 'environmental', label: 'Ambiental' },
   { value: 'intellectual_property', label: 'Propriedade Intelectual' },
   { value: 'real_estate', label: 'Imobiliário' },
-  { value: 'international', label: 'Internacional' }
+  { value: 'international', label: 'Internacional' },
 ]
 
 const statuses = [
@@ -38,7 +38,7 @@ const statuses = [
   { value: 'pending', label: 'Pendente' },
   { value: 'completed', label: 'Concluído' },
   { value: 'cancelled', label: 'Cancelado' },
-  { value: 'archived', label: 'Arquivado' }
+  { value: 'archived', label: 'Arquivado' },
 ]
 
 export default function FolderRegister({ clients = [], lawyers = [] }: FolderRegisterProps) {
@@ -63,7 +63,7 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
   return (
     <DashboardLayout title="Cadastro de Pasta">
       <Head title="Cadastro de Pasta" />
-      
+
       <div className="p-4 sm:p-6 lg:p-8 bg-[#F1F1F2] min-h-full">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
@@ -81,7 +81,7 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
             {/* Basic Information */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-6">Informações Básicas</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-2">
@@ -110,7 +110,7 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     required
                   >
-                    {statuses.map(status => (
+                    {statuses.map((status) => (
                       <option key={status.value} value={status.value}>
                         {status.label}
                       </option>
@@ -136,7 +136,10 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
                 </div>
 
                 <div className="md:col-span-2">
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="description"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Descrição
                   </label>
                   <textarea
@@ -147,7 +150,9 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Descrição detalhada da pasta..."
                   />
-                  {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
+                  {errors.description && (
+                    <p className="mt-1 text-sm text-red-600">{errors.description}</p>
+                  )}
                 </div>
 
                 <div>
@@ -161,7 +166,7 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     required
                   >
-                    {areas.map(area => (
+                    {areas.map((area) => (
                       <option key={area.value} value={area.value}>
                         {area.label}
                       </option>
@@ -175,7 +180,7 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
             {/* Process Information */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-6">Informações do Processo</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="court" className="block text-sm font-medium text-gray-700 mb-2">
@@ -193,7 +198,10 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
                 </div>
 
                 <div>
-                  <label htmlFor="case_number" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="case_number"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Número do Processo
                   </label>
                   <input
@@ -204,11 +212,16 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="0000000-00.0000.0.00.0000"
                   />
-                  {errors.case_number && <p className="mt-1 text-sm text-red-600">{errors.case_number}</p>}
+                  {errors.case_number && (
+                    <p className="mt-1 text-sm text-red-600">{errors.case_number}</p>
+                  )}
                 </div>
 
                 <div className="md:col-span-2">
-                  <label htmlFor="opposing_party" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="opposing_party"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Parte Contrária
                   </label>
                   <input
@@ -219,7 +232,9 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Nome da parte contrária"
                   />
-                  {errors.opposing_party && <p className="mt-1 text-sm text-red-600">{errors.opposing_party}</p>}
+                  {errors.opposing_party && (
+                    <p className="mt-1 text-sm text-red-600">{errors.opposing_party}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -227,10 +242,13 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
             {/* Responsible Parties */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-6">Responsáveis</h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="client_id" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="client_id"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Cliente
                   </label>
                   <select
@@ -240,17 +258,22 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="">Selecione um cliente</option>
-                    {clients.map(client => (
+                    {clients.map((client) => (
                       <option key={client.id} value={client.id.toString()}>
                         {client.full_name} {client.code && `(${client.code})`}
                       </option>
                     ))}
                   </select>
-                  {errors.client_id && <p className="mt-1 text-sm text-red-600">{errors.client_id}</p>}
+                  {errors.client_id && (
+                    <p className="mt-1 text-sm text-red-600">{errors.client_id}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="responsible_lawyer_id" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="responsible_lawyer_id"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Advogado Responsável
                   </label>
                   <select
@@ -260,13 +283,15 @@ export default function FolderRegister({ clients = [], lawyers = [] }: FolderReg
                     className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="">Selecione um advogado</option>
-                    {lawyers.map(lawyer => (
+                    {lawyers.map((lawyer) => (
                       <option key={lawyer.id} value={lawyer.id.toString()}>
                         {lawyer.full_name}
                       </option>
                     ))}
                   </select>
-                  {errors.responsible_lawyer_id && <p className="mt-1 text-sm text-red-600">{errors.responsible_lawyer_id}</p>}
+                  {errors.responsible_lawyer_id && (
+                    <p className="mt-1 text-sm text-red-600">{errors.responsible_lawyer_id}</p>
+                  )}
                 </div>
               </div>
             </div>

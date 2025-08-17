@@ -9,36 +9,38 @@ interface AppliedFiltersProps {
     search: string
   }
   resultCount: number
-  setFilters: (filters: Partial<{
-    clientNumber: string
-    dateRange: string
-    area: string
-    status: string
-    search: string
-  }>) => void
+  setFilters: (
+    filters: Partial<{
+      clientNumber: string
+      dateRange: string
+      area: string
+      status: string
+      search: string
+    }>
+  ) => void
 }
 
 const areaNames: Record<string, string> = {
-  'civil_litigation': 'Cível Contencioso',
-  'labor': 'Trabalhista',
-  'tax': 'Tributário',
-  'criminal': 'Criminal',
-  'administrative': 'Administrativo',
-  'consumer': 'Consumidor',
-  'family': 'Família',
-  'corporate': 'Empresarial',
-  'environmental': 'Ambiental',
-  'intellectual_property': 'Propriedade Intelectual',
-  'real_estate': 'Imobiliário',
-  'international': 'Internacional'
+  civil_litigation: 'Cível Contencioso',
+  labor: 'Trabalhista',
+  tax: 'Tributário',
+  criminal: 'Criminal',
+  administrative: 'Administrativo',
+  consumer: 'Consumidor',
+  family: 'Família',
+  corporate: 'Empresarial',
+  environmental: 'Ambiental',
+  intellectual_property: 'Propriedade Intelectual',
+  real_estate: 'Imobiliário',
+  international: 'Internacional',
 }
 
 const statusNames: Record<string, string> = {
-  'active': 'Ativas',
-  'completed': 'Concluídas',
-  'pending': 'Pendentes',
-  'cancelled': 'Canceladas',
-  'archived': 'Arquivadas'
+  active: 'Ativas',
+  completed: 'Concluídas',
+  pending: 'Pendentes',
+  cancelled: 'Canceladas',
+  archived: 'Arquivadas',
 }
 
 export function AppliedFilters({ filters, resultCount, setFilters }: AppliedFiltersProps) {
@@ -48,7 +50,7 @@ export function AppliedFilters({ filters, resultCount, setFilters }: AppliedFilt
     activeFilters.push({
       key: 'search',
       label: `Busca: "${filters.search}"`,
-      value: filters.search
+      value: filters.search,
     })
   }
 
@@ -56,7 +58,7 @@ export function AppliedFilters({ filters, resultCount, setFilters }: AppliedFilt
     activeFilters.push({
       key: 'clientNumber',
       label: `Cliente: ${filters.clientNumber}`,
-      value: filters.clientNumber
+      value: filters.clientNumber,
     })
   }
 
@@ -64,7 +66,7 @@ export function AppliedFilters({ filters, resultCount, setFilters }: AppliedFilt
     activeFilters.push({
       key: 'dateRange',
       label: `Período: ${filters.dateRange}`,
-      value: filters.dateRange
+      value: filters.dateRange,
     })
   }
 
@@ -72,7 +74,7 @@ export function AppliedFilters({ filters, resultCount, setFilters }: AppliedFilt
     activeFilters.push({
       key: 'area',
       label: `Área: ${areaNames[filters.area] || filters.area}`,
-      value: filters.area
+      value: filters.area,
     })
   }
 
@@ -80,19 +82,19 @@ export function AppliedFilters({ filters, resultCount, setFilters }: AppliedFilt
     activeFilters.push({
       key: 'status',
       label: `Status: ${statusNames[filters.status] || filters.status}`,
-      value: filters.status
+      value: filters.status,
     })
   }
 
   const removeFilter = (filterKey: string) => {
     const updates: any = {}
-    
+
     if (filterKey === 'area' || filterKey === 'status') {
       updates[filterKey] = 'Total'
     } else {
       updates[filterKey] = ''
     }
-    
+
     setFilters(updates)
   }
 
@@ -102,16 +104,14 @@ export function AppliedFilters({ filters, resultCount, setFilters }: AppliedFilt
       clientNumber: '',
       dateRange: '',
       area: 'Total',
-      status: 'Total'
+      status: 'Total',
     })
   }
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div className="flex items-center text-sm text-gray-700">
-        <span className="font-medium">
-          {resultCount.toLocaleString('pt-BR')} 
-        </span>
+        <span className="font-medium">{resultCount.toLocaleString('pt-BR')}</span>
         <span className="ml-1">
           {resultCount === 1 ? 'pasta encontrada' : 'pastas encontradas'}
         </span>
@@ -120,7 +120,7 @@ export function AppliedFilters({ filters, resultCount, setFilters }: AppliedFilt
       {activeFilters.length > 0 && (
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-sm text-gray-500">Filtros aplicados:</span>
-          
+
           {activeFilters.map((filter) => (
             <span
               key={filter.key}

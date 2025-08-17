@@ -9,13 +9,15 @@ interface FolderFiltersProps {
     search: string
   }
   isLoading?: boolean
-  setFilters: (filters: Partial<{
-    clientNumber: string
-    dateRange: string
-    area: string
-    status: string
-    search: string
-  }>) => void
+  setFilters: (
+    filters: Partial<{
+      clientNumber: string
+      dateRange: string
+      area: string
+      status: string
+      search: string
+    }>
+  ) => void
 }
 
 const areas = [
@@ -31,20 +33,14 @@ const areas = [
   { value: 'environmental', label: 'Ambiental' },
   { value: 'intellectual_property', label: 'Propriedade Intelectual' },
   { value: 'real_estate', label: 'Imobiliário' },
-  { value: 'international', label: 'Internacional' }
+  { value: 'international', label: 'Internacional' },
 ]
 
-export function FolderFilters({
-  filters,
-  setFilters,
-  isLoading
-}: FolderFiltersProps) {
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+export function FolderFilters({ filters, setFilters, isLoading }: FolderFiltersProps) {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFilters({
-      [name]: value
+      [name]: value,
     })
   }
 
@@ -53,8 +49,18 @@ export function FolderFilters({
       {/* Search */}
       <div className="flex-1 relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <svg
+            className="h-5 w-5 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
         </div>
         <input
@@ -94,8 +100,18 @@ export function FolderFilters({
             disabled={isLoading}
           />
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <svg
+              className="h-5 w-5 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
             </svg>
           </div>
         </div>
@@ -110,7 +126,7 @@ export function FolderFilters({
           className="block w-full px-3 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           disabled={isLoading}
         >
-          {areas.map(area => (
+          {areas.map((area) => (
             <option key={area.value} value={area.value}>
               {area.label}
             </option>
@@ -119,16 +135,21 @@ export function FolderFilters({
       </div>
 
       {/* Clear Filters Button */}
-      {(filters.search || filters.clientNumber || filters.dateRange || (filters.area && filters.area !== 'Total')) && (
+      {(filters.search ||
+        filters.clientNumber ||
+        filters.dateRange ||
+        (filters.area && filters.area !== 'Total')) && (
         <div className="w-full lg:w-auto">
           <button
             type="button"
-            onClick={() => setFilters({
-              search: '',
-              clientNumber: '',
-              dateRange: '',
-              area: 'Total'
-            })}
+            onClick={() =>
+              setFilters({
+                search: '',
+                clientNumber: '',
+                dateRange: '',
+                area: 'Total',
+              })
+            }
             className="w-full lg:w-auto px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
             disabled={isLoading}
           >

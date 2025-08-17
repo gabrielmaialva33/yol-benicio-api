@@ -427,32 +427,32 @@ graph LR
 ### 📋 Detalhes das Rotas
 
 | Método     | Endpoint                                    | Descrição                           | Auth Obrigatória | Permissão/Papel    |
-|------------|---------------------------------------------|-------------------------------------|------------------|--------------------|
-| **GET**    | `/`                                         | Informações da API                  | ❌                | -                  |
-| **GET**    | `/api/v1/health`                            | Verificação de saúde                | ❌                | -                  |
-| **POST**   | `/api/v1/sessions/sign-in`                  | Login de usuário                    | ❌                | -                  |
-| **POST**   | `/api/v1/sessions/sign-up`                  | Registro de usuário                 | ❌                | -                  |
-| **GET**    | `/api/v1/verify-email`                      | Verificar email do usuário          | ❌                | -                  |
-| **POST**   | `/api/v1/resend-verification-email`         | Reenviar email de verificação       | ✅                | -                  |
-| **GET**    | `/api/v1/me`                                | Obter perfil do usuário atual       | ✅                | -                  |
-| **GET**    | `/api/v1/me/permissions`                    | Obter permissões do usuário atual   | ✅                | -                  |
-| **GET**    | `/api/v1/me/roles`                          | Obter papéis do usuário atual       | ✅                | -                  |
-| **GET**    | `/api/v1/users`                             | Listar usuários (paginado)          | ✅                | users.list         |
-| **GET**    | `/api/v1/users/:id`                         | Obter usuário por ID                | ✅                | users.read         |
-| **POST**   | `/api/v1/users`                             | Criar usuário                       | ✅                | users.create       |
-| **PUT**    | `/api/v1/users/:id`                         | Atualizar usuário                   | ✅                | users.update       |
-| **DELETE** | `/api/v1/users/:id`                         | Deletar usuário                     | ✅                | users.delete       |
-| **GET**    | `/api/v1/admin/roles`                       | Listar papéis                       | ✅                | ROOT, ADMIN        |
-| **PUT**    | `/api/v1/admin/roles/attach`                | Atribuir papel ao usuário           | ✅                | ROOT, ADMIN        |
-| **GET**    | `/api/v1/admin/permissions`                 | Listar permissões                   | ✅                | permissions.list   |
-| **POST**   | `/api/v1/admin/permissions`                 | Criar permissão                     | ✅                | permissions.create |
-| **PUT**    | `/api/v1/admin/roles/permissions/sync`      | Sincronizar permissões do papel     | ✅                | permissions.update |
-| **PUT**    | `/api/v1/admin/roles/permissions/attach`    | Anexar permissões ao papel          | ✅                | permissions.update |
-| **PUT**    | `/api/v1/admin/roles/permissions/detach`    | Desanexar permissões do papel       | ✅                | permissions.update |
-| **PUT**    | `/api/v1/admin/users/permissions/sync`      | Sincronizar permissões do usuário   | ✅                | permissions.update |
-| **GET**    | `/api/v1/admin/users/:id/permissions`       | Obter permissões diretas do usuário | ✅                | permissions.list   |
-| **POST**   | `/api/v1/admin/users/:id/permissions/check` | Verificar permissões do usuário     | ✅                | permissions.list   |
-| **POST**   | `/api/v1/files/upload`                      | Upload de arquivo                   | ✅                | files.create       |
+| ---------- | ------------------------------------------- | ----------------------------------- | ---------------- | ------------------ |
+| **GET**    | `/`                                         | Informações da API                  | ❌               | -                  |
+| **GET**    | `/api/v1/health`                            | Verificação de saúde                | ❌               | -                  |
+| **POST**   | `/api/v1/sessions/sign-in`                  | Login de usuário                    | ❌               | -                  |
+| **POST**   | `/api/v1/sessions/sign-up`                  | Registro de usuário                 | ❌               | -                  |
+| **GET**    | `/api/v1/verify-email`                      | Verificar email do usuário          | ❌               | -                  |
+| **POST**   | `/api/v1/resend-verification-email`         | Reenviar email de verificação       | ✅               | -                  |
+| **GET**    | `/api/v1/me`                                | Obter perfil do usuário atual       | ✅               | -                  |
+| **GET**    | `/api/v1/me/permissions`                    | Obter permissões do usuário atual   | ✅               | -                  |
+| **GET**    | `/api/v1/me/roles`                          | Obter papéis do usuário atual       | ✅               | -                  |
+| **GET**    | `/api/v1/users`                             | Listar usuários (paginado)          | ✅               | users.list         |
+| **GET**    | `/api/v1/users/:id`                         | Obter usuário por ID                | ✅               | users.read         |
+| **POST**   | `/api/v1/users`                             | Criar usuário                       | ✅               | users.create       |
+| **PUT**    | `/api/v1/users/:id`                         | Atualizar usuário                   | ✅               | users.update       |
+| **DELETE** | `/api/v1/users/:id`                         | Deletar usuário                     | ✅               | users.delete       |
+| **GET**    | `/api/v1/admin/roles`                       | Listar papéis                       | ✅               | ROOT, ADMIN        |
+| **PUT**    | `/api/v1/admin/roles/attach`                | Atribuir papel ao usuário           | ✅               | ROOT, ADMIN        |
+| **GET**    | `/api/v1/admin/permissions`                 | Listar permissões                   | ✅               | permissions.list   |
+| **POST**   | `/api/v1/admin/permissions`                 | Criar permissão                     | ✅               | permissions.create |
+| **PUT**    | `/api/v1/admin/roles/permissions/sync`      | Sincronizar permissões do papel     | ✅               | permissions.update |
+| **PUT**    | `/api/v1/admin/roles/permissions/attach`    | Anexar permissões ao papel          | ✅               | permissions.update |
+| **PUT**    | `/api/v1/admin/roles/permissions/detach`    | Desanexar permissões do papel       | ✅               | permissions.update |
+| **PUT**    | `/api/v1/admin/users/permissions/sync`      | Sincronizar permissões do usuário   | ✅               | permissions.update |
+| **GET**    | `/api/v1/admin/users/:id/permissions`       | Obter permissões diretas do usuário | ✅               | permissions.list   |
+| **POST**   | `/api/v1/admin/users/:id/permissions/check` | Verificar permissões do usuário     | ✅               | permissions.list   |
+| **POST**   | `/api/v1/files/upload`                      | Upload de arquivo                   | ✅               | files.create       |
 
 ### 🔄 Fluxo de Requisição/Resposta
 

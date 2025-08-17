@@ -34,7 +34,7 @@ router
         })
       )
       .as('folders.show')
-    
+
     // Folder actions
     router
       .post('/folders', [FoldersController, 'store'])

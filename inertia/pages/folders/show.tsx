@@ -67,10 +67,8 @@ export default function FolderShow({ folder }: FolderShowProps) {
       case 'processo':
         return (
           <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-            <h3 className="text-lg font-semibold text-[#161C24] mb-6">
-              Informações do Processo
-            </h3>
-            
+            <h3 className="text-lg font-semibold text-[#161C24] mb-6">Informações do Processo</h3>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -78,46 +76,36 @@ export default function FolderShow({ folder }: FolderShowProps) {
                 </label>
                 <p className="text-sm text-gray-900">{folder.code}</p>
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Título
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Título</label>
                 <p className="text-sm text-gray-900">{folder.title}</p>
               </div>
-              
+
               {folder.description && (
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Descrição
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Descrição</label>
                   <p className="text-sm text-gray-900">{folder.description}</p>
                 </div>
               )}
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Status
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
                 <p className="text-sm text-gray-900 capitalize">{folder.status}</p>
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Área
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Área</label>
                 <p className="text-sm text-gray-900">{folder.area}</p>
               </div>
-              
+
               {folder.court && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Tribunal
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Tribunal</label>
                   <p className="text-sm text-gray-900">{folder.court}</p>
                 </div>
               )}
-              
+
               {folder.case_number && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -126,7 +114,7 @@ export default function FolderShow({ folder }: FolderShowProps) {
                   <p className="text-sm text-gray-900">{folder.case_number}</p>
                 </div>
               )}
-              
+
               {folder.opposing_party && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -135,16 +123,14 @@ export default function FolderShow({ folder }: FolderShowProps) {
                   <p className="text-sm text-gray-900">{folder.opposing_party}</p>
                 </div>
               )}
-              
+
               {folder.client && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cliente
-                  </label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Cliente</label>
                   <p className="text-sm text-gray-900">{folder.client.full_name}</p>
                 </div>
               )}
-              
+
               {folder.responsible_lawyer && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -156,17 +142,17 @@ export default function FolderShow({ folder }: FolderShowProps) {
             </div>
           </div>
         )
-      
+
       case 'andamento':
-        return <ProcessTimeline folderId={folder.id.toString()} movements={folder.movements || []} />
-      
+        return (
+          <ProcessTimeline folderId={folder.id.toString()} movements={folder.movements || []} />
+        )
+
       case 'informacoes':
         return (
           <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-            <h3 className="text-lg font-semibold text-[#161C24] mb-6">
-              Informações Gerais
-            </h3>
-            
+            <h3 className="text-lg font-semibold text-[#161C24] mb-6">Informações Gerais</h3>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {folder.case_value && (
                 <div>
@@ -174,28 +160,28 @@ export default function FolderShow({ folder }: FolderShowProps) {
                     Valor da Causa
                   </label>
                   <p className="text-sm text-gray-900">
-                    {new Intl.NumberFormat('pt-BR', { 
-                      style: 'currency', 
-                      currency: 'BRL' 
+                    {new Intl.NumberFormat('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
                     }).format(folder.case_value)}
                   </p>
                 </div>
               )}
-              
+
               {folder.conviction_value && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Valor da Condenação
                   </label>
                   <p className="text-sm text-gray-900">
-                    {new Intl.NumberFormat('pt-BR', { 
-                      style: 'currency', 
-                      currency: 'BRL' 
+                    {new Intl.NumberFormat('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
                     }).format(folder.conviction_value)}
                   </p>
                 </div>
               )}
-              
+
               {folder.distribution_date && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -206,7 +192,7 @@ export default function FolderShow({ folder }: FolderShowProps) {
                   </p>
                 </div>
               )}
-              
+
               {folder.citation_date && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -217,7 +203,7 @@ export default function FolderShow({ folder }: FolderShowProps) {
                   </p>
                 </div>
               )}
-              
+
               {folder.next_hearing && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -228,7 +214,7 @@ export default function FolderShow({ folder }: FolderShowProps) {
                   </p>
                 </div>
               )}
-              
+
               {folder.observation && (
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -240,22 +226,33 @@ export default function FolderShow({ folder }: FolderShowProps) {
             </div>
           </div>
         )
-      
+
       case 'documentos':
         return (
           <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-            <h3 className="text-lg font-semibold text-[#161C24] mb-6">
-              Documentos
-            </h3>
-            
+            <h3 className="text-lg font-semibold text-[#161C24] mb-6">Documentos</h3>
+
             {folder.documents && folder.documents.length > 0 ? (
               <div className="space-y-4">
                 {folder.documents.map((document) => (
-                  <div key={document.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                  <div
+                    key={document.id}
+                    className="flex items-center justify-between p-4 border border-gray-200 rounded-lg"
+                  >
                     <div className="flex items-center space-x-3">
                       <div className="flex-shrink-0">
-                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        <svg
+                          className="w-8 h-8 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                          />
                         </svg>
                       </div>
                       <div>
@@ -281,12 +278,12 @@ export default function FolderShow({ folder }: FolderShowProps) {
             )}
           </div>
         )
-      
+
       default:
         return (
           <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
             <h3 className="text-lg font-semibold text-[#161C24] mb-6">
-              {tabs.find(tab => tab.key === activeTab)?.label}
+              {tabs.find((tab) => tab.key === activeTab)?.label}
             </h3>
             <p className="text-[#919EAB]">Conteúdo em desenvolvimento...</p>
           </div>
@@ -297,18 +294,18 @@ export default function FolderShow({ folder }: FolderShowProps) {
   return (
     <DashboardLayout title={`Pasta ${folder.code}`}>
       <Head title={`Pasta ${folder.code} - ${folder.title}`} />
-      
+
       <div className="p-4 sm:p-6 lg:p-8 bg-[#F1F1F2] min-h-full">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <FolderDetailHeader folder={folder} />
-          
+
           <div className="mt-6 flex flex-col lg:flex-row gap-6">
             {/* Sidebar */}
             <div className="lg:w-80">
               <FolderDetailSidebar folder={folder} />
             </div>
-            
+
             {/* Main Content */}
             <div className="flex-1">
               {/* Tabs */}
@@ -321,9 +318,10 @@ export default function FolderShow({ folder }: FolderShowProps) {
                         onClick={() => setActiveTab(tab.key)}
                         className={`
                           whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm focus:outline-none
-                          ${activeTab === tab.key
-                            ? 'border-blue-500 text-blue-600'
-                            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                          ${
+                            activeTab === tab.key
+                              ? 'border-blue-500 text-blue-600'
+                              : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                           }
                         `}
                       >
@@ -333,11 +331,9 @@ export default function FolderShow({ folder }: FolderShowProps) {
                   </nav>
                 </div>
               </div>
-              
+
               {/* Tab Content */}
-              <div className="rounded-b-2xl">
-                {renderContent()}
-              </div>
+              <div className="rounded-b-2xl">{renderContent()}</div>
             </div>
           </div>
         </div>
