@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Link } from '@inertiajs/react'
 
 interface BreadcrumbItem {
   label: string
@@ -18,7 +18,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
           {item.href && !item.isActive ? (
             <Link
               className="text-sm font-normal text-[#212B36] hover:text-[#161C24] transition-colors"
-              to={item.href}
+              href={item.href}
             >
               {item.label}
             </Link>
