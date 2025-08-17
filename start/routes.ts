@@ -101,4 +101,4 @@ router.get('/', async ({ response, request }) => {
     name: 'yol-benicio-api',
     version: '0.0.1',
   })
-})
+}).use(throttle)
