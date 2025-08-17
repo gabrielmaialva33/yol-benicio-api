@@ -217,8 +217,8 @@ test.group('Task Model', (group) => {
 
     assert.exists(task.created_at)
     assert.exists(task.updated_at)
-    assert.instanceOf(task.created_at, DateTime)
-    assert.instanceOf(task.updated_at, DateTime)
+    assert.isTrue(task.created_at instanceof DateTime)
+    assert.isTrue(task.updated_at instanceof DateTime)
 
     // Verify timestamps are reasonable
     assert.isTrue(task.created_at >= beforeCreation)
