@@ -6,13 +6,13 @@ export const TaskFactory = factory
   .define(Task, async ({ faker }) => {
     const status = faker.helpers.arrayElement(['pending', 'in_progress', 'completed', 'cancelled'])
     const priority = faker.helpers.arrayElement(['low', 'medium', 'high', 'urgent'])
-    
+
     // 30% chance of having a due date
     const hasDueDate = faker.datatype.boolean({ probability: 0.3 })
-    const due_date = hasDueDate 
-      ? faker.date.between({ 
+    const due_date = hasDueDate
+      ? faker.date.between({
           from: DateTime.now().minus({ days: 7 }).toJSDate(),
-          to: DateTime.now().plus({ days: 30 }).toJSDate()
+          to: DateTime.now().plus({ days: 30 }).toJSDate(),
         })
       : null
 
@@ -37,16 +37,28 @@ export const TaskFactory = factory
       'Expert witness coordination',
       'Trial preparation meeting',
       'Evidence gathering and analysis',
-      'Legal research on statute of limitations'
+      'Legal research on statute of limitations',
     ]
 
     const metadata = {
       estimated_hours: faker.number.int({ min: 1, max: 40 }),
-      tags: faker.helpers.arrayElements([
-        'litigation', 'contracts', 'corporate', 'real-estate', 
-        'family-law', 'criminal', 'intellectual-property', 'tax',
-        'employment', 'immigration', 'bankruptcy', 'personal-injury'
-      ], { min: 1, max: 3 }),
+      tags: faker.helpers.arrayElements(
+        [
+          'litigation',
+          'contracts',
+          'corporate',
+          'real-estate',
+          'family-law',
+          'criminal',
+          'intellectual-property',
+          'tax',
+          'employment',
+          'immigration',
+          'bankruptcy',
+          'personal-injury',
+        ],
+        { min: 1, max: 3 }
+      ),
       billing_rate: faker.number.int({ min: 150, max: 800 }),
       client_matter: faker.helpers.arrayElement([
         'Corporate Merger - TechCorp',
@@ -56,8 +68,8 @@ export const TaskFactory = factory
         'Contract Dispute - Software License',
         'IP Protection - Patent Filing',
         'Employment - Wrongful Termination',
-        'Tax Planning - Estate Matters'
-      ])
+        'Tax Planning - Estate Matters',
+      ]),
     }
 
     return {
@@ -66,7 +78,7 @@ export const TaskFactory = factory
       status,
       priority,
       due_date: due_date ? DateTime.fromJSDate(due_date) : null,
-      metadata
+      metadata,
     }
   })
   .state('urgent', (task) => {
@@ -80,9 +92,9 @@ export const TaskFactory = factory
   })
   .state('completed', (task, { faker }) => {
     task.status = 'completed'
-    task.updated_at = DateTime.now().minus({ 
+    task.updated_at = DateTime.now().minus({
       days: faker.number.int({ min: 0, max: 7 }),
-      hours: faker.number.int({ min: 0, max: 23 })
+      hours: faker.number.int({ min: 0, max: 23 }),
     })
   })
   .state('inProgress', (task, { faker }) => {
