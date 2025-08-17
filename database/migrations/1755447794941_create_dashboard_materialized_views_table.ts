@@ -60,7 +60,7 @@ export default class extends BaseSchema {
       ORDER BY year DESC, month DESC;
     `)
 
-    -- MATERIALIZED VIEW 3: Estatísticas de Solicitações (Requests) - Simplificada
+    // MATERIALIZED VIEW 3: Estatísticas de Solicitações (Requests) - Simplificada
     await this.schema.raw(`
       CREATE MATERIALIZED VIEW mv_dashboard_requests AS
       SELECT
