@@ -37,26 +37,31 @@
 ### Workflow Patterns & Agent Collaboration
 
 #### 1. New Feature Development Flow
+
 ```
 User Request → code-archaeologist (if complex) → Primary Agent → code-reviewer → performance-optimizer (if needed)
 ```
 
 #### 2. Frontend Feature Development
+
 ```
 UI Requirements → react-component-architect (components) → react-state-manager (data) → tailwind-frontend-expert (styling) → code-reviewer
 ```
 
 #### 3. Backend Feature Development
+
 ```
 API Requirements → api-architect (design) → backend-developer (implementation) → performance-optimizer (optimization) → code-reviewer
 ```
 
 #### 4. Full-Stack Feature Development
+
 ```
 Requirements → api-architect (API) → backend-developer (backend) → react-component-architect (UI) → react-state-manager (state) → code-reviewer
 ```
 
 #### 5. Performance Issues
+
 ```
 Performance Problem → performance-optimizer (analysis) → Specialist Agent (fix) → code-reviewer (validation)
 ```
@@ -64,23 +69,27 @@ Performance Problem → performance-optimizer (analysis) → Specialist Agent (f
 ### Project-Specific Architectural Guidelines
 
 #### **Modular Architecture Patterns**
+
 - **Module Structure**: Each `/app/modules/` contains controllers, services, models, routes, validators
 - **Inter-Module Communication**: Use service layer, avoid direct model coupling
 - **Agent Guidance**: Always work within module boundaries, use existing service patterns
 
 #### **RBAC System Complexity**
+
 - **Permission Inheritance**: Roles inherit permissions with Redis caching
 - **Optimization Service**: Use `OptimizedPermissionService` for complex checks
 - **Performance**: Permission checks are expensive, batch when possible
 - **Agent Guidance**: Consult `code-archaeologist` for permission system changes
 
 #### **Inertia.js Integration Patterns**
+
 - **SPA Navigation**: Use Inertia router for page navigation
 - **API Calls**: Use React Query for data fetching within pages
 - **Form Handling**: Prefer Inertia forms for navigation, React Query for API mutations
 - **Agent Guidance**: `react-state-manager` handles React Query, `react-component-architect` handles Inertia components
 
 #### **File Upload Architecture**
+
 - **Multi-Provider**: Supports AWS S3, Google Cloud, Digital Ocean
 - **Presigned URLs**: Frontend uploads directly to cloud storage
 - **Security**: 5MB limit, type validation, audit logging
@@ -89,24 +98,28 @@ Performance Problem → performance-optimizer (analysis) → Specialist Agent (f
 ### Technology-Specific Best Practices
 
 #### **AdonisJS v6 Specifics**
+
 - **ESM**: Use modern import/export, Node.js subpath imports
 - **IoC Container**: Leverage dependency injection for services
 - **Middleware Pipeline**: Use existing auth, permission, and rate limiting middleware
 - **Validation**: Use VineJS for request validation with async rules
 
 #### **React 19 Modern Features**
+
 - **New Hooks**: Implement `useOptimistic()`, `useActionState()`, `use()` where appropriate
 - **Concurrent Features**: Leverage React 19's improved concurrent rendering
 - **Performance**: Use React.memo(), useMemo(), useCallback() strategically
 - **SSR**: Consider enabling SSR for production (currently disabled)
 
 #### **React Query Patterns**
+
 - **Caching Strategy**: 5min staleTime, 1 retry by default
 - **Optimistic Updates**: Use for immediate UI feedback
 - **Error Handling**: Structured error handling with `ApiError` types
 - **Background Sync**: Leverage React Query's background refetching
 
 #### **Tailwind CSS v4 Features**
+
 - **Modern CSS**: Use CSS custom properties, modern syntax
 - **Design Tokens**: Maintain consistency with `@theme` configuration
 - **Performance**: Leverage Tailwind v4's improved performance
@@ -115,21 +128,25 @@ Performance Problem → performance-optimizer (analysis) → Specialist Agent (f
 ### Usage Examples & Common Patterns
 
 #### **Dashboard Widget Development**
+
 ```
 Requirements → react-component-architect (create widget component) → react-state-manager (add data fetching) → tailwind-frontend-expert (style with design tokens) → code-reviewer
 ```
 
 #### **New API Endpoint**
+
 ```
 Requirements → api-architect (design endpoint) → backend-developer (implement with validation) → documentation-specialist (update OpenAPI) → code-reviewer
 ```
 
 #### **Permission System Changes**
+
 ```
 Requirements → code-archaeologist (analyze current system) → backend-developer (implement with RBAC patterns) → performance-optimizer (test caching) → code-reviewer
 ```
 
 #### **Performance Issues**
+
 ```
 Slow Request → performance-optimizer (identify bottleneck) → backend-developer (optimize queries) → code-reviewer (verify improvement)
 ```
@@ -137,18 +154,21 @@ Slow Request → performance-optimizer (identify bottleneck) → backend-develop
 ### Critical Development Guidelines
 
 #### **MANDATORY Agent Usage**
+
 - **ALL features** → `code-reviewer` (no exceptions)
 - **Performance issues** → `performance-optimizer` (before optimization)
 - **Security changes** → `code-reviewer` (with security focus)
 - **Complex RBAC** → `code-archaeologist` (for understanding) + `backend-developer` (for implementation)
 
 #### **Technology Boundaries**
+
 - **Backend Logic** → Only `backend-developer`, `api-architect`, `performance-optimizer`
 - **React Components** → Only `react-component-architect`, `react-state-manager`
 - **Styling** → Only `tailwind-frontend-expert`, `react-component-architect`
 - **State Management** → Only `react-state-manager`, `react-component-architect`
 
 #### **Quality Standards**
+
 - **Type Safety**: Maintain strict TypeScript throughout
 - **Testing**: Add tests for new features (Japa for backend, React Testing Library for frontend)
 - **Documentation**: Update OpenAPI specs for API changes
@@ -173,4 +193,4 @@ Slow Request → performance-optimizer (identify bottleneck) → backend-develop
 
 ---
 
-*This configuration leverages comprehensive codebase analysis and industry best practices to maximize AI agent effectiveness while maintaining code quality and project architectural integrity.*
+_This configuration leverages comprehensive codebase analysis and industry best practices to maximize AI agent effectiveness while maintaining code quality and project architectural integrity._
