@@ -12,6 +12,7 @@ export default function Dashboard() {
         <Sidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
           <Header />
+          <div className="h-[0.5px] bg-[rgba(51,65,85,0.2)] mx-[30px]"></div>
           <main className="flex-1 overflow-y-auto">
             <DashboardContent />
           </main>

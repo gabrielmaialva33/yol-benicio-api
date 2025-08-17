@@ -34,7 +34,7 @@ const MOBILE_BREAKPOINT = 768
 function SidebarHeader({ isCollapsed, toggle }: { isCollapsed: boolean; toggle: () => void }) {
   return (
     <div
-      className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between px-10 pr-[17px]'} gap-[78px]`}
+      className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between px-[40px] pr-[17px]'} gap-[78px]`}
     >
       <img
         alt="Logo"

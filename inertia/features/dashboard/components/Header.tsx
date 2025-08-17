@@ -8,7 +8,7 @@ import { NotificationsDropdown } from './NotificationsDropdown'
 const pageTitles: Record<string, { title: string; description: string }> = {
   '/dashboard': {
     title: 'Visão Geral',
-    description: 'Suas tarefas principais estão nessa seção.',
+    description: 'Suas tarefas principais estão nessa sessão.',
   },
   '/dashboard/folders/consultation': {
     title: 'Consulta de pastas',
@@ -65,13 +65,13 @@ export function Header() {
   const messages = props.messages || { unread: 0, items: [] }
 
   return (
-    <header className="bg-[#F8FAFC] border-b border-gray-200 px-[30px] h-[73px]">
+    <header className="bg-[#F8FAFC] border-b border-gray-200 px-[30px] py-[16px] h-[73px]">
       <div className="flex items-center justify-between h-full">
           {/* Page Title and Search */}
           <div className="flex items-center space-x-6">
             <div>
               <h1 className="text-[30px] font-semibold text-[#161C24] font-['Inter']">{title}</h1>
-              {description && <p className="text-[#A1A5B7] mt-1">{description}</p>}
+              {description && <p className="text-[#A1A5B7] mt-1 text-[18px] font-medium">{description}</p>}
               {breadcrumbs.length > 0 && (
                 <div className="mt-2">
                   <Breadcrumb items={breadcrumbs} />
@@ -147,8 +147,13 @@ export function Header() {
             <div className="h-6 w-px bg-gray-200"></div>
 
             {/* User Menu */}
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-700">Usuário</span>
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-xs font-medium text-gray-600">U</span>
+                </div>
+                <span className="text-sm text-gray-700 font-medium">Usuário</span>
+              </div>
             </div>
 
             <button

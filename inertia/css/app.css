@@ -117,7 +117,7 @@
   --radius-pill: 9999px;
 
   /* Shadows */
-  --shadow-card: 0px 2px 8px 0px rgba(99, 99, 99, 0.2);
+  --shadow-card: 0px 4px 4px 0px rgba(0, 0, 0, 0.03);
 
   /* Font sizes */
   --text-display: 48px;
@@ -141,7 +141,7 @@
     flex-direction: column;
     padding: 1.5rem;
     background: var(--color-surface);
-    border-radius: var(--radius-xl);
+    border-radius: 12px;
     box-shadow: var(--shadow-card);
   }
 

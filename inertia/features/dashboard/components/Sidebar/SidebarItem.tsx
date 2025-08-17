@@ -54,7 +54,7 @@ export function SidebarItem(props: SidebarItemProps) {
 
   let activeClasses = 'text-white hover:bg-gray-700'
   if (props.active && !props.isCollapsed) {
-    activeClasses = 'bg-orange-500 text-white'
+    activeClasses = 'bg-[#f97316] text-white'
   }
 
   const className = `
