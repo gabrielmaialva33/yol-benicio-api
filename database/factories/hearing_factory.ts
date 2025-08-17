@@ -77,15 +77,15 @@ export const HearingFactory = factory
       notes: faker.datatype.boolean({ probability: 0.6 }) ? faker.lorem.paragraph() : null,
     }
   })
-  .state('upcoming', ({ faker }: { faker: any }) => ({
+  .state('upcoming', (row, { faker }) => ({
     scheduled_date: DateTime.fromJSDate(faker.date.future({ days: 30 })),
     status: 'pending' as const,
   }))
-  .state('overdue', ({ faker }: { faker: any }) => ({
+  .state('overdue', (row, { faker }) => ({
     scheduled_date: DateTime.fromJSDate(faker.date.past({ days: 30 })),
     status: 'pending' as const,
   }))
-  .state('completed', ({ faker }: { faker: any }) => ({
+  .state('completed', (row, { faker }) => ({
     status: 'completed' as const,
     completed_at: DateTime.fromJSDate(faker.date.recent({ days: 30 })),
   }))
