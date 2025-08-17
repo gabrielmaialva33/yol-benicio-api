@@ -34,16 +34,18 @@
 
 ## :bookmark: About
 
-**Yol Benício API** is a comprehensive legal management system API built with AdonisJS v6 that provides robust
-functionality for
-managing legal processes, clients, schedules, and billing. The API follows clean architecture principles with clear
-separation of
-concerns and is designed to streamline legal office operations.
+**Yol Benício API** is a comprehensive legal management system built with AdonisJS v6 backend and React 19 + Inertia.js frontend that provides robust functionality for managing legal processes, clients, schedules, and billing. The system follows clean architecture principles with clear separation of concerns and features a role-based navigation system designed to streamline legal office operations for different user types (Managers, Clients, and Collaborators).
 
 ### 🏗️ Architecture Overview
 
 ```mermaid
 graph TB
+    subgraph "Frontend Layer"
+        REACT[React 19 + TypeScript]
+        INERTIA[Inertia.js]
+        TAILWIND[TailwindCSS v4]
+    end
+
     subgraph "Client Layer"
         WEB[Web Apps]
         MOB[Mobile Apps]
@@ -78,6 +80,8 @@ graph TB
         PGREST[PostgREST<br/>Auto-generated REST API]
     end
 
+    REACT --> INERTIA
+    INERTIA --> ROUTES
     WEB --> ROUTES
     MOB --> ROUTES
     API --> ROUTES
@@ -185,6 +189,46 @@ graph TD
     MODULES --> OWNER_M
 ```
 
+### 🔄 Role-Based Navigation Flow
+
+The system implements a unified navigation flow optimized for different user types:
+
+```mermaid
+graph TD
+    A[Login] --> B{User Role?}
+    B -->|Manager| C[Manager Dashboard]
+    B -->|Client| D[Client Dashboard]
+    B -->|Collaborator| E[Collaborator Dashboard]
+    
+    E --> F[Process Consultation]
+    F --> G[Process Details - Main Tab]
+    G --> H[Timeline]
+    H --> G
+    G --> F
+    E --> F
+    
+    C --> I[Complete Management View]
+    D --> J[Limited Client View]
+```
+
+#### Main Navigation Flow (Collaborator Focus):
+1. **Login** → Credential validation with role-based redirect
+2. **Collaborator Dashboard** → Personalized overview with:
+   - Active folders
+   - Upcoming hearings
+   - Pending tasks
+   - Quick access to process consultation
+3. **Process Consultation** → Search and filtering interface
+4. **Process Details** → Main information tab
+5. **Timeline** → Movement history and updates
+
+#### User Role Definitions:
+| Role | Access Level | Primary Functions |
+|------|-------------|-------------------|
+| **Manager** | Full access | Team management, reporting, complete system access |
+| **Client** | Limited | View personal processes, limited consultations |
+| **Collaborator** | Operational | Daily operations, process consultation, timeline management |
+
 ## 🌟 Key Features
 
 ### Core Features
@@ -198,6 +242,23 @@ graph TD
 - **🏥 Health Monitoring**: Built-in health check endpoints
 - **🔒 Security First**: Password hashing, CORS, rate limiting ready
 - **📝 Request Validation**: DTOs with runtime validation
+
+### Frontend Features
+
+- **⚛️ React 19**: Modern React with latest features and performance improvements
+- **🔄 Inertia.js**: SPA experience without API complexity
+- **📘 TypeScript**: Full type safety across frontend and backend
+- **🎨 TailwindCSS v4**: Modern utility-first CSS framework
+- **🧪 MSW Testing**: Mock Service Worker for comprehensive frontend testing
+- **📱 Responsive Design**: Mobile-first approach with desktop optimization
+
+### Role-Based Navigation System
+
+- **👨‍💼 Manager Dashboard**: Complete access with team management and reporting
+- **👤 Client Dashboard**: Limited view focused on personal processes
+- **👨‍💻 Collaborator Dashboard**: Daily operations with process consultation and timeline
+- **🔄 Smart Redirects**: Automatic role-based routing after authentication
+- **🛡️ Permission Guards**: Route-level access control based on user roles
 - **🌐 i18n Ready**: Internationalization support built-in
 - **🔗 PostgREST Integration**: Auto-generated REST API for direct database access
 

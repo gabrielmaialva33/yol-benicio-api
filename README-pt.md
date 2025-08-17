@@ -34,16 +34,18 @@
 
 ## :bookmark: Sobre
 
-**Yol Benício API** é um sistema abrangente de gerenciamento jurídico construído com AdonisJS v6 que fornece
-funcionalidades robustas para
-gerenciar processos jurídicos, clientes, agendas e faturamento. A API segue princípios de arquitetura limpa com clara
-separação de
-responsabilidades e foi projetada para otimizar as operações de escritórios jurídicos.
+**Yol Benício API** é um sistema abrangente de gerenciamento jurídico construído com backend AdonisJS v6 e frontend React 19 + Inertia.js que fornece funcionalidades robustas para gerenciar processos jurídicos, clientes, agendas e faturamento. O sistema segue princípios de arquitetura limpa com clara separação de responsabilidades e possui um sistema de navegação baseado em papéis projetado para otimizar as operações de escritórios jurídicos para diferentes tipos de usuários (Gestores, Clientes e Colaboradores).
 
 ### 🏗️ Visão Geral da Arquitetura
 
 ```mermaid
 graph TB
+    subgraph "Camada Frontend"
+        REACT[React 19 + TypeScript]
+        INERTIA[Inertia.js]
+        TAILWIND[TailwindCSS v4]
+    end
+
     subgraph "Camada Cliente"
         WEB[Aplicações Web]
         MOB[Aplicações Mobile]
@@ -78,6 +80,8 @@ graph TB
         PGREST[PostgREST<br/>API REST Auto-gerada]
     end
 
+    REACT --> INERTIA
+    INERTIA --> ROUTES
     WEB --> ROUTES
     MOB --> ROUTES
     API --> ROUTES
@@ -198,6 +202,23 @@ graph TD
 - **🏥 Monitoramento de Saúde**: Endpoints integrados para verificação de saúde
 - **🔒 Segurança em Primeiro Lugar**: Hash de senhas, CORS, rate limiting pronto
 - **📝 Validação de Requisições**: DTOs com validação em tempo de execução
+
+### Funcionalidades Frontend
+
+- **⚛️ React 19**: React moderno com recursos e melhorias de performance mais recentes
+- **🔄 Inertia.js**: Experiência SPA sem complexidade de API
+- **📘 TypeScript**: Segurança de tipos completa entre frontend e backend
+- **🎨 TailwindCSS v4**: Framework CSS moderno utility-first
+- **🧪 Testes MSW**: Mock Service Worker para testes abrangentes do frontend
+- **📱 Design Responsivo**: Abordagem mobile-first com otimização para desktop
+
+### Sistema de Navegação Baseado em Papéis
+
+- **👨‍💼 Dashboard do Gestor**: Acesso completo com gerenciamento de equipe e relatórios
+- **👤 Dashboard do Cliente**: Visão limitada focada em processos pessoais
+- **👨‍💻 Dashboard do Colaborador**: Operações diárias com consulta processual e timeline
+- **🔄 Redirecionamentos Inteligentes**: Roteamento automático baseado em papéis após autenticação
+- **🛡️ Guardas de Permissão**: Controle de acesso em nível de rota baseado em papéis de usuário
 - **🌐 Pronto para i18n**: Suporte a internacionalização integrado
 - **🔗 Integração PostgREST**: API REST auto-gerada para acesso direto ao banco
 
@@ -333,6 +354,48 @@ erDiagram
 - **[DataGrip](https://www.jetbrains.com/datagrip/)**
 
 <br>
+
+## 🧭 Fluxo de Navegação Baseado em Papéis
+
+O sistema YOL Benício implementa um fluxo de navegação inteligente que adapta a experiência do usuário baseado em seu papel no sistema.
+
+### Fluxo Principal de Navegação
+
+```mermaid
+flowchart TD
+    A[Login] --> B{Verificar Papel}
+    B -->|Gestor| C[Dashboard Gestor]
+    B -->|Cliente| D[Dashboard Cliente]
+    B -->|Colaborador| E[Dashboard Colaborador]
+    
+    E --> F[Consulta Processual]
+    F --> G[Detalhes do Processo]
+    G --> H[Timeline de Movimentações]
+    
+    C --> I[Gerenciamento de Equipe]
+    C --> J[Relatórios Gerenciais]
+    
+    D --> K[Meus Processos]
+    D --> L[Documentos Pessoais]
+```
+
+### Fluxo Principal de Navegação (Colaborador)
+
+O fluxo principal do sistema segue a jornada de um **Colaborador**:
+
+1. **Login** → Autenticação segura com JWT
+2. **Dashboard Colaborador** → Visão geral das tarefas e processos atribuídos
+3. **Consulta Processual** → Busca e filtros avançados de processos
+4. **Detalhes do Processo** → Visualização completa com abas organizadas
+5. **Timeline** → Histórico cronológico de movimentações e atualizações
+
+### Definição de Papéis
+
+| Papel | Nível de Acesso | Funcionalidades Principais |
+|-------|----------------|----------------------------|
+| **Gestor** | Completo | Gerenciamento de equipe, relatórios, configurações do sistema |
+| **Cliente** | Limitado | Visualização de processos pessoais, documentos, agendamentos |
+| **Colaborador** | Operacional | Consulta processual, timeline, gestão de casos atribuídos |
 
 ## :package: Instalação
 
