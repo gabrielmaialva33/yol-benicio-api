@@ -33,7 +33,7 @@ export default class extends BaseSchema {
           ELSE '#86878B'
         END as color
       FROM tabela_open_processos
-      WHERE pro_sta_ide = '1'
+      WHERE pro_dta_enc IS NULL OR pro_dta_enc = ''
       GROUP BY pro_are_ide;
     `)
 
