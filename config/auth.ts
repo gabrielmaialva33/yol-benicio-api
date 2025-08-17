@@ -8,7 +8,7 @@ import { jwtGuard } from '#auth/guards/jwt/define_config'
 import { JwtGuardUser } from '#auth/guards/jwt/types'
 
 const authConfig = defineConfig({
-  default: 'jwt',
+  default: 'web',
   guards: {
     api: tokensGuard({
       provider: tokensUserProvider({
