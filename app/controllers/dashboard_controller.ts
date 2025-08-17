@@ -7,7 +7,6 @@ export default class DashboardController {
   async index({ inertia, auth }: HttpContext) {
     // Get current user
     await auth.check()
-    const user = auth.user
 
     // TODO: Fetch real data from database
     const dashboardData = {

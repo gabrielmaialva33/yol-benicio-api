@@ -18,8 +18,8 @@ interface FolderData {
   code: string
   title: string
   description?: string
-  status: string
-  area: string
+  status: 'active' | 'completed' | 'pending' | 'cancelled' | 'archived'
+  area: 'civil_litigation' | 'labor' | 'tax' | 'criminal' | 'administrative' | 'consumer' | 'family' | 'corporate' | 'environmental' | 'intellectual_property' | 'real_estate' | 'international'
   court?: string
   case_number?: string
   opposing_party?: string
@@ -48,7 +48,9 @@ export default class FolderService {
     // Apply client number filter
     if (filters.clientNumber) {
       query.whereHas('client', (clientQuery) => {
-        clientQuery.where('code', 'ILIKE', `%${filters.clientNumber}%`)
+        clientQuery
+          .where('email', 'ILIKE', `%${filters.clientNumber}%`)
+          .orWhere('full_name', 'ILIKE', `%${filters.clientNumber}%`)
       })
     }
 
