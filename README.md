@@ -215,17 +215,17 @@ graph TD
     B -->|👨‍💼 Manager| C[📊 Manager Dashboard]
     B -->|👤 Client| D[📋 Client Dashboard]
     B -->|👥 Collaborator| E[⚡ Collaborator Dashboard]
-    
+
     C --> F[📁 Process Consultation]
     D --> F
     E --> F
-    
+
     F --> G[📄 Main Process View]
     G --> H[⏱️ Timeline & Movements]
     G --> I[📎 Documents]
     G --> J[💰 Financial]
     G --> K[📅 Schedule]
-    
+
     style A fill:#4A90E2,color:#fff
     style B fill:#FF6B6B,color:#fff
     style C fill:#4ECDC4,color:#fff
@@ -421,34 +421,34 @@ graph TB
         COMPONENTS[🧩 Components]
         LAYOUTS[🏗️ Layouts]
     end
-    
+
     subgraph "⚡ State Management"
         INERTIA[🔄 Inertia.js]
         FORMS[📝 Form Handling]
         CACHE[💾 Client Cache]
     end
-    
+
     subgraph "🎨 Styling & UI"
         TAILWIND[🎨 TailwindCSS v4]
         RESPONSIVE[📱 Responsive Design]
         THEMES[🌙 Dark/Light Themes]
     end
-    
+
     subgraph "🧪 Testing Layer"
         MSW[🔧 Mock Service Worker]
         JAPA[🧪 Japa Tests]
         E2E[🎭 End-to-End Tests]
     end
-    
+
     PAGES --> INERTIA
     COMPONENTS --> TAILWIND
     LAYOUTS --> RESPONSIVE
     INERTIA --> FORMS
     FORMS --> CACHE
-    
+
     MSW --> JAPA
     JAPA --> E2E
-    
+
     style INERTIA fill:#61DAFB,color:#000
     style TAILWIND fill:#38BDF8,color:#fff
     style MSW fill:#FF6B35,color:#fff
@@ -489,28 +489,28 @@ graph TB
         FUNC[⚙️ Functional Tests]
         INT[🔗 Integration Tests]
     end
-    
+
     subgraph "🎭 Frontend Testing"
         COMP[🧩 Component Tests]
         MSW[🔧 MSW Mocking]
         E2E[🎭 E2E Tests]
     end
-    
+
     subgraph "📊 Quality Metrics"
         COV[📈 Coverage Reports]
         PERF[⚡ Performance Tests]
         SEC[🔒 Security Tests]
     end
-    
+
     UNIT --> FUNC
     FUNC --> INT
     COMP --> MSW
     MSW --> E2E
-    
+
     INT --> COV
     E2E --> PERF
     PERF --> SEC
-    
+
     style UNIT fill:#4ECDC4,color:#000
     style MSW fill:#FF6B35,color:#fff
     style COV fill:#45B7D1,color:#fff
@@ -537,33 +537,33 @@ graph TB
         DOCKER[🐳 Docker Compose]
         HOT[🔥 Hot Reload]
     end
-    
+
     subgraph "🚀 CI/CD Pipeline"
         GIT[📝 Git Push]
         ACTIONS[⚙️ GitHub Actions]
         TESTS[🧪 Automated Tests]
         BUILD[🏗️ Build Process]
     end
-    
+
     subgraph "☁️ Production"
         CONTAINER[📦 Docker Container]
         DB[🗄️ PostgreSQL]
         REDIS[💾 Redis Cache]
         NGINX[🌐 Nginx Proxy]
     end
-    
+
     DEV --> DOCKER
     DOCKER --> HOT
-    
+
     GIT --> ACTIONS
     ACTIONS --> TESTS
     TESTS --> BUILD
     BUILD --> CONTAINER
-    
+
     CONTAINER --> DB
     CONTAINER --> REDIS
     CONTAINER --> NGINX
-    
+
     style DOCKER fill:#2496ED,color:#fff
     style ACTIONS fill:#2088FF,color:#fff
     style CONTAINER fill:#FF6B6B,color:#fff
@@ -590,29 +590,29 @@ graph TB
         CACHE[💾 Browser Caching]
         COMPRESS[🗜️ Asset Compression]
     end
-    
+
     subgraph "⚡ Backend Optimization"
         REDIS_CACHE[💾 Redis Caching]
         DB_INDEX[📊 Database Indexing]
         QUERY_OPT[🔍 Query Optimization]
     end
-    
+
     subgraph "📊 Monitoring"
         METRICS[📈 Performance Metrics]
         ALERTS[🚨 Real-time Alerts]
         ANALYTICS[📊 Usage Analytics]
     end
-    
+
     LAZY --> CACHE
     CACHE --> COMPRESS
-    
+
     REDIS_CACHE --> DB_INDEX
     DB_INDEX --> QUERY_OPT
-    
+
     COMPRESS --> METRICS
     QUERY_OPT --> ALERTS
     ALERTS --> ANALYTICS
-    
+
     style LAZY fill:#4ECDC4,color:#000
     style REDIS_CACHE fill:#DC382D,color:#fff
     style METRICS fill:#45B7D1,color:#fff

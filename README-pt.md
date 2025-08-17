@@ -47,7 +47,7 @@
 - **🎨 TailwindCSS v4**: Framework CSS de nova geração com performance aprimorada
 - **🔒 Segurança Aprimorada**: Implementação JWT avançada com rotação de refresh tokens
 - **📱 Mobile-First**: Design responsivo otimizado para todos os dispositivos
-- **🧪### 🧪 Estratégia de Testes Abrangente
+- \*\*🧪### 🧪 Estratégia de Testes Abrangente
 
 ```mermaid
 graph TB
@@ -57,28 +57,28 @@ graph TB
         C[Testes Funcionais]
         D[Testes de Integração]
     end
-    
+
     subgraph "Frontend Testing"
         E[MSW - Mock Service Worker]
         F[React Testing Library]
         G[Testes de Componentes]
         H[Testes E2E]
     end
-    
+
     subgraph "Cobertura e Qualidade"
         I[Relatórios de Cobertura]
         J[Análise de Código]
         K[Performance Testing]
         L[Testes de Acessibilidade]
     end
-    
+
     A --> B
     A --> C
     A --> D
     E --> F
     E --> G
     E --> H
-    
+
     style A fill:#FF6B6B
     style E fill:#4ECDC4
     style I fill:#45B7D1
@@ -102,21 +102,21 @@ graph TB
         C[Debug Mode]
         D[Volume Mapping]
     end
-    
+
     subgraph "Staging"
         E[Build Otimizado]
         F[Health Checks]
         G[Load Balancing]
         H[SSL/TLS]
     end
-    
+
     subgraph "Produção"
         I[Multi-stage Build]
         J[Imagens Minificadas]
         K[Secrets Management]
         L[Monitoring]
     end
-    
+
     A --> E
     E --> I
     B --> F
@@ -125,7 +125,7 @@ graph TB
     G --> K
     D --> H
     H --> L
-    
+
     style A fill:#2496ED
     style E fill:#FFA500
     style I fill:#32CD32
@@ -149,28 +149,28 @@ graph TB
         C[Session Cache]
         D[File Cache]
     end
-    
+
     subgraph "Database Optimization"
         E[Índices Otimizados]
         F[Query Optimization]
         G[Connection Pooling]
         H[Read Replicas]
     end
-    
+
     subgraph "Frontend Performance"
         I[Code Splitting]
         J[Lazy Loading]
         K[Asset Optimization]
         L[CDN Integration]
     end
-    
+
     subgraph "Monitoring"
         M[APM Tools]
         N[Real-time Metrics]
         O[Error Tracking]
         P[Performance Alerts]
     end
-    
+
     A --> E
     B --> F
     C --> G
@@ -183,7 +183,7 @@ graph TB
     J --> N
     K --> O
     L --> P
-    
+
     style A fill:#DC382D
     style E fill:#336791
     style I fill:#61DAFB
@@ -292,7 +292,7 @@ graph TB
         B --> C[TypeScript 5.0]
         C --> D[TailwindCSS v4]
     end
-    
+
     subgraph "Componentes de Interface"
         E[Dashboard Responsivo]
         F[Sistema de Abas]
@@ -300,7 +300,7 @@ graph TB
         H[Formulários Dinâmicos]
         I[Modais e Overlays]
     end
-    
+
     subgraph "Hooks Personalizados"
         J[useRoleRedirect]
         K[useAuth]
@@ -308,19 +308,19 @@ graph TB
         M[usePermissions]
         N[useNotifications]
     end
-    
+
     subgraph "Gerenciamento de Estado"
         O[Context API]
         P[Inertia State]
         Q[Local Storage]
         R[Session Storage]
     end
-    
+
     A --> E
     B --> F
     C --> G
     D --> H
-    
+
     style A fill:#61DAFB
     style B fill:#9333EA
     style C fill:#3178C6
@@ -334,6 +334,76 @@ graph TB
 - **TypeScript 5.0**: Tipagem estática, intellisense avançado, refatoração segura
 - **TailwindCSS v4**: Utilitários CSS, design system, responsividade mobile-first
 - **Componentes Reutilizáveis**: Biblioteca de componentes modular e testável
+
+### 🎨 Componentes de Interface Implementados
+
+```mermaid
+graph TB
+    subgraph "Layout Components"
+        A[AppLayout]
+        B[Sidebar]
+        C[Header]
+        D[Footer]
+    end
+
+    subgraph "Dashboard Components"
+        E[DashboardCard]
+        F[StatisticsWidget]
+        G[ChartComponent]
+        H[NotificationPanel]
+    end
+
+    subgraph "Process Components"
+        I[ProcessList]
+        J[ProcessDetail]
+        K[TimelineComponent]
+        L[MovementForm]
+    end
+
+    subgraph "Form Components"
+        M[InputField]
+        N[SelectField]
+        O[DatePicker]
+        P[FileUpload]
+    end
+
+    subgraph "UI Components"
+        Q[Modal]
+        R[Toast]
+        S[Loading]
+        T[Pagination]
+    end
+
+    A --> E
+    B --> F
+    C --> G
+    D --> H
+    E --> I
+    F --> J
+    G --> K
+    H --> L
+    I --> M
+    J --> N
+    K --> O
+    L --> P
+
+    style A fill:#E3F2FD
+    style E fill:#F3E5F5
+    style I fill:#E8F5E8
+    style M fill:#FFF3E0
+    style Q fill:#FCE4EC
+```
+
+#### 🧩 Biblioteca de Componentes
+
+- **Layout Responsivo**: Componentes de layout adaptativos para diferentes dispositivos
+- **Dashboard Interativo**: Widgets e cards para visualização de dados em tempo real
+- **Timeline Avançada**: Componente de timeline com filtros e busca
+- **Formulários Dinâmicos**: Campos de formulário com validação em tempo real
+- **Modais e Overlays**: Sistema de modais reutilizáveis com animações
+- **Sistema de Notificações**: Toast notifications com diferentes tipos e posições
+- **Componentes de Carregamento**: Loading states e skeleton screens
+- **Paginação Inteligente**: Componente de paginação com navegação otimizada
 
 ### 🔐 Fluxo de Autenticação
 
@@ -577,25 +647,76 @@ erDiagram
 
 O sistema YOL Benício implementa um fluxo de navegação inteligente que adapta a experiência do usuário baseado em seu papel no sistema.
 
-### Fluxo Principal de Navegação
+### 🔄 Sistema Inteligente de Navegação Baseado em Papéis
 
 ```mermaid
-flowchart TD
-    A[Login] --> B{Verificar Papel}
-    B -->|Gestor| C[Dashboard Gestor]
-    B -->|Cliente| D[Dashboard Cliente]
-    B -->|Colaborador| E[Dashboard Colaborador]
+graph TD
+    subgraph "Autenticação"
+        A[Login JWT] --> B[Verificar Token]
+        B --> C{Validar Permissões}
+    end
 
-    E --> F[Consulta Processual]
-    F --> G[Detalhes do Processo]
-    G --> H[Timeline de Movimentações]
+    subgraph "Roteamento Inteligente"
+        C -->|Gestor| D[Dashboard Gestor]
+        C -->|Cliente| E[Dashboard Cliente]
+        C -->|Colaborador| F[Dashboard Colaborador]
+    end
 
-    C --> I[Gerenciamento de Equipe]
-    C --> J[Relatórios Gerenciais]
+    subgraph "Gestor - Controle Total"
+        D --> G[👥 Gerenciar Usuários]
+        D --> H[📊 Relatórios Avançados]
+        D --> I[⚙️ Configurações Sistema]
+        D --> J[🔍 Auditoria Completa]
+        D --> K[💰 Gestão Financeira]
+    end
 
-    D --> K[Meus Processos]
-    D --> L[Documentos Pessoais]
+    subgraph "Cliente - Visão Focada"
+        E --> L[📋 Meus Processos]
+        E --> M[📄 Documentos Pessoais]
+        E --> N[💬 Comunicação Direta]
+        E --> O[📅 Agendamentos]
+        E --> P[💳 Faturas e Pagamentos]
+    end
+
+    subgraph "Colaborador - Operacional"
+        F --> Q[🔍 Consultar Processos]
+        F --> R[📈 Timeline Movimentações]
+        F --> S[✅ Tarefas Atribuídas]
+        F --> T[📝 Criar Movimentações]
+        F --> U[📁 Gerenciar Documentos]
+    end
+
+    style A fill:#4CAF50
+    style D fill:#FF9800
+    style E fill:#2196F3
+    style F fill:#9C27B0
 ```
+
+#### 🎯 Fluxo Principal do Colaborador
+
+```mermaid
+sequenceDiagram
+    participant U as Usuário
+    participant L as Login
+    participant D as Dashboard
+    participant P as Processos
+    participant T as Timeline
+
+    U->>L: Credenciais
+    L->>D: Redirect Dashboard Colaborador
+    D->>P: Consultar Processo
+    P->>T: Visualizar Timeline
+    T->>P: Adicionar Movimentação
+    P->>D: Retornar Dashboard
+```
+
+#### 🔐 Controle de Acesso Granular
+
+- **Gestor**: Acesso completo ao sistema, relatórios, configurações e auditoria
+- **Cliente**: Visão restrita aos próprios processos, documentos e comunicações
+- **Colaborador**: Acesso operacional a processos, criação de movimentações e tarefas
+- **Permissões Dinâmicas**: Sistema ACL com permissões configuráveis por papel
+- **Redirecionamento Inteligente**: Roteamento automático baseado no papel do usuário
 
 ### Fluxo Principal de Navegação (Colaborador)
 
