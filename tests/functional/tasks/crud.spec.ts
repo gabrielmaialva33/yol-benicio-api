@@ -85,7 +85,7 @@ test.group('Tasks CRUD', (group) => {
         current_page: 1,
       },
     })
-    
+
     const body = response.body()
     assert.equal(body.data.length, 2)
   })
@@ -365,10 +365,7 @@ test.group('Tasks CRUD', (group) => {
       priority: 'high',
     }
 
-    const response = await client
-      .put(`/api/v1/tasks/${task.id}`)
-      .json(updateData)
-      .loginAs(authUser)
+    const response = await client.put(`/api/v1/tasks/${task.id}`).json(updateData).loginAs(authUser)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -525,7 +522,10 @@ test.group('Tasks CRUD', (group) => {
       client.get(`/api/v1/tasks/${task.id}`).loginAs(authUser),
       client.post('/api/v1/tasks').json({ title: 'New Task' }).loginAs(authUser),
       client.put(`/api/v1/tasks/${task.id}`).json({ title: 'Updated' }).loginAs(authUser),
-      client.patch(`/api/v1/tasks/${task.id}/status`).json({ status: 'completed' }).loginAs(authUser),
+      client
+        .patch(`/api/v1/tasks/${task.id}/status`)
+        .json({ status: 'completed' })
+        .loginAs(authUser),
       client.delete(`/api/v1/tasks/${task.id}`).loginAs(authUser),
     ])
 

@@ -94,22 +94,22 @@ test.group('Tasks Dashboard', (group) => {
     const response = await client.get('/api/v1/tasks/dashboard').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const body = response.body()
     assert.exists(body.tasks)
     assert.exists(body.stats)
-    
+
     // Check pagination structure
     assert.exists(body.tasks.data)
     assert.exists(body.tasks.meta)
     assert.equal(body.tasks.data.length, 4)
     assert.equal(body.tasks.meta.total, 4)
-    
+
     // Verify tasks are ordered by created_at desc (newest first)
     const taskTitles = body.tasks.data.map((task: any) => task.title)
     assert.include(taskTitles, 'High Priority Task')
     assert.include(taskTitles, 'Overdue Task')
-    
+
     // Check stats
     assert.equal(body.stats.total_tasks, 4)
     assert.equal(body.stats.pending_tasks, 2)
@@ -155,15 +155,15 @@ test.group('Tasks Dashboard', (group) => {
     const response = await client.get('/api/v1/tasks/dashboard').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const body = response.body()
-    
+
     // Should return only 6 tasks (dashboard limit)
     assert.equal(body.tasks.data.length, 6)
     assert.equal(body.tasks.meta.total, 10)
     assert.equal(body.tasks.meta.per_page, 6)
     assert.equal(body.tasks.meta.current_page, 1)
-    
+
     // Stats should reflect all tasks
     assert.equal(body.stats.total_tasks, 10)
     assert.equal(body.stats.pending_tasks, 10)
@@ -215,10 +215,10 @@ test.group('Tasks Dashboard', (group) => {
     const response = await client.get('/api/v1/tasks/dashboard').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const body = response.body()
     const taskResponse = body.tasks.data[0]
-    
+
     // Verify task data includes relations
     assert.exists(taskResponse.assignee)
     assert.exists(taskResponse.creator)
@@ -226,7 +226,7 @@ test.group('Tasks Dashboard', (group) => {
     assert.equal(taskResponse.assignee.full_name, 'Assignee User')
     assert.equal(taskResponse.creator.id, authUser.id)
     assert.equal(taskResponse.creator.full_name, 'Auth User')
-    
+
     // Verify metadata is included
     assert.deepEqual(taskResponse.metadata, {
       estimated_hours: 4,
@@ -350,10 +350,10 @@ test.group('Tasks Dashboard', (group) => {
     const response = await client.get('/api/v1/tasks/dashboard').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const body = response.body()
     const stats = body.stats
-    
+
     assert.equal(stats.total_tasks, 10)
     assert.equal(stats.pending_tasks, 4) // pending + in_progress + future
     assert.equal(stats.completed_today, 2)
@@ -387,12 +387,12 @@ test.group('Tasks Dashboard', (group) => {
     const response = await client.get('/api/v1/tasks/dashboard').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const body = response.body()
-    
+
     assert.equal(body.tasks.data.length, 0)
     assert.equal(body.tasks.meta.total, 0)
-    
+
     assert.equal(body.stats.total_tasks, 0)
     assert.equal(body.stats.pending_tasks, 0)
     assert.equal(body.stats.completed_today, 0)

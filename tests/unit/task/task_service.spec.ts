@@ -274,10 +274,7 @@ test.group('TaskService', (group) => {
   })
 
   test('should throw error when getting non-existent task', async ({ assert }) => {
-    await assert.rejects(
-      () => taskService.getTask(99999),
-      'E_ROW_NOT_FOUND: Row not found'
-    )
+    await assert.rejects(() => taskService.getTask(99999), 'E_ROW_NOT_FOUND: Row not found')
   })
 
   test('should delete task', async ({ assert }) => {
@@ -298,10 +295,7 @@ test.group('TaskService', (group) => {
   })
 
   test('should throw error when deleting non-existent task', async ({ assert }) => {
-    await assert.rejects(
-      () => taskService.deleteTask(99999),
-      'E_ROW_NOT_FOUND: Row not found'
-    )
+    await assert.rejects(() => taskService.deleteTask(99999), 'E_ROW_NOT_FOUND: Row not found')
   })
 
   test('should handle empty date range gracefully', async ({ assert }) => {
