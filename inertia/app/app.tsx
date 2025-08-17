@@ -4,7 +4,7 @@
 // Import Tailwind CSS styles
 import '../css/app.css'
 import { StrictMode } from 'react'
-import { hydrateRoot } from 'react-dom/client'
+import { hydrateRoot, createRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -23,7 +23,6 @@ const queryClient = new QueryClient({
   },
 })
 
-
 createInertiaApp({
   progress: { color: '#5468FF' },
 
@@ -34,8 +33,11 @@ createInertiaApp({
   },
 
   setup({ el, App, props }) {
-    hydrateRoot(
-      el,
+    // Clear the element content first to avoid hydration issues when SSR is disabled
+    el.innerHTML = ''
+    
+    const root = createRoot(el)
+    root.render(
       <StrictMode>
         <QueryClientProvider client={queryClient}>
           <App {...props} />
