@@ -1,7 +1,7 @@
 {
   "name": "yol-benicio-api",
   "description": "Yol Benício Legal Management System - API built with AdonisJS.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": {
     "name": "Gabriel M.",
     "email": "gabrielmaialva33@gmail.com",
