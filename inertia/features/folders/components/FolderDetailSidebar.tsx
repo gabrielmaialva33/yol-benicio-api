@@ -1,6 +1,6 @@
 import React from 'react'
 import type { Folder } from '~/shared/types'
-import { generateAvatar } from '~/shared/utils/generate-avatar'
+import { generateAvatar } from '~/shared/utils/generate_avatar'
 
 interface FolderDetailSidebarProps {
   folder: Folder & {

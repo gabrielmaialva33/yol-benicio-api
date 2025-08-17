@@ -1,6 +1,6 @@
 import type { Folder } from '~/shared/types'
 import { Link } from '@inertiajs/react'
-import { generateAvatar } from '~/shared/utils/generate-avatar'
+import { generateAvatar } from '~/shared/utils/generate_avatar'
 
 const areaNames: Record<string, string> = {
   civil_litigation: 'Cível Contencioso',
