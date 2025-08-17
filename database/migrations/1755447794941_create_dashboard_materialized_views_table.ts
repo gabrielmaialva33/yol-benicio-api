@@ -84,7 +84,15 @@ export default class extends BaseSchema {
         c.cli_cod as client_code,
         COUNT(DISTINCT p.pro_ide) as folder_count,
         COUNT(DISTINCT a.age_ide) as agenda_count,
-        SUM(COALESCE(f.fat_vlr::numeric, 0)) as total_billing
+        SUM(
+          CASE 
+            WHEN f.fat_vlr ~ '^[0-9]+\.?[0-9]*$' 
+            THEN f.fat_vlr::numeric 
+            WHEN f.fat_vlr ~ '^[0-9]+\.?[0-9]*d[0-9]*$'
+            THEN REGEXP_REPLACE(f.fat_vlr, 'd[0-9]*$', '')::numeric
+            ELSE 0 
+          END
+        ) as total_billing
       FROM open_clientes c
       LEFT JOIN tabela_open_processos p ON p.pro_cas_ide::text = c.cli_ide
       LEFT JOIN open_agendas a ON a.age_pro_ide::text = p.pro_ide::text
