@@ -35,7 +35,7 @@ createInertiaApp({
   setup({ el, App, props }) {
     // Clear the element content first to avoid hydration issues when SSR is disabled
     el.innerHTML = ''
-    
+
     const root = createRoot(el)
     root.render(
       <StrictMode>

@@ -21,7 +21,7 @@ export default class AuthController {
 
       try {
         const user = await User.verifyCredentials(email, password)
-        
+
         if (!user) {
           return inertia.render('auth/login', {
             errors: {
@@ -38,7 +38,7 @@ export default class AuthController {
           error: authError.message,
           stack: authError.stack,
         })
-        
+
         if (authError instanceof errors.E_INVALID_CREDENTIALS) {
           return inertia.render('auth/login', {
             errors: {

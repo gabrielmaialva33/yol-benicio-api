@@ -1,5 +1,6 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
 import { DateTime } from 'luxon'
+import logger from '@adonisjs/core/services/logger'
 
 import User from '#modules/user/models/user'
 
@@ -9,7 +10,7 @@ export default class extends BaseSchema {
     const existingUser = await User.query().where('email', 'admin@benicio.com.br').first()
 
     if (existingUser) {
-      console.log('Admin user already exists: admin@benicio.com.br')
+      logger.info('Admin user already exists: admin@benicio.com.br')
       return
     }
 
@@ -28,7 +29,7 @@ export default class extends BaseSchema {
       },
     })
 
-    console.log('Admin user created:', {
+    logger.info('Admin user created successfully', {
       id: adminUser.id,
       email: adminUser.email,
       name: adminUser.full_name,
@@ -38,6 +39,6 @@ export default class extends BaseSchema {
   async down() {
     // Remove admin user
     await User.query().where('email', 'admin@benicio.com.br').delete()
-    console.log('Admin user removed: admin@benicio.com.br')
+    logger.info('Admin user removed: admin@benicio.com.br')
   }
 }

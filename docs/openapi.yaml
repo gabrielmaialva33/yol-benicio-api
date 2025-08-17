@@ -1050,7 +1050,7 @@ paths:
                         type: boolean
                         example: true
                       expires_at:
-                        type: [string, "null"]
+                        type: [string, 'null']
                         example: '2025-12-31T23:59:59.000Z'
       responses:
         '200':
