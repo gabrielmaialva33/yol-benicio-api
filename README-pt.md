@@ -3,15 +3,20 @@
 </h1>
 
 <p align="center">
-  <img src="https://img.shields.io/github/license/gabrielmaialva33/yol-benicio-api?color=00b8d3?style=flat&logo=appveyor" alt="License" />
-  <img src="https://img.shields.io/github/languages/top/gabrielmaialva33/yol-benicio-api?style=flat&logo=appveyor" alt="GitHub top language" >
-  <img src="https://img.shields.io/github/languages/count/gabrielmaialva33/yol-benicio-api?style=flat&logo=appveyor" alt="GitHub language count" >
-  <img src="https://img.shields.io/github/repo-size/gabrielmaialva33/yol-benicio-api?style=flat&logo=appveyor" alt="Repository size" >
-  <img src="https://wakatime.com/badge/user/e61842d0-c588-4586-96a3-f0448a434be4/project/b0347a5f-cacf-486d-bd2d-b91d3e6cb570.svg?style=flat&logo=appveyor" alt="Wakatime" >
-  <a href="https://github.com/gabrielmaialva33/yol-benicio-api/commits/master">
-    <img src="https://img.shields.io/github/last-commit/gabrielmaialva33/yol-benicio-api?style=flat&logo=appveyor" alt="GitHub last commit" >
-    <img src="https://img.shields.io/badge/feito%20por-Maia-15c3d6?style=flat&logo=appveyor" alt="Maia" >
-  </a>
+  <img src="https://img.shields.io/badge/versão-2025.1.0-blue?style=for-the-badge&logo=semantic-release" alt="Versão" />
+  <img src="https://img.shields.io/github/license/gabrielmaialva33/yol-benicio-api?color=00b8d3&style=for-the-badge&logo=mit" alt="Licença" />
+  <img src="https://img.shields.io/badge/Node.js-22.18.0-339933?style=for-the-badge&logo=node.js" alt="Node.js" />
+  <img src="https://img.shields.io/badge/AdonisJS-6.0-5A45FF?style=for-the-badge&logo=adonisjs" alt="AdonisJS" />
+  <img src="https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/PostgreSQL-16.0-336791?style=for-the-badge&logo=postgresql" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Redis-7.0-DC382D?style=for-the-badge&logo=redis" alt="Redis" />
+  <img src="https://img.shields.io/badge/Docker-Pronto-2496ED?style=for-the-badge&logo=docker" alt="Docker" />
+  <img src="https://img.shields.io/github/last-commit/gabrielmaialva33/yol-benicio-api?style=for-the-badge&logo=git" alt="Último Commit" />
+  <img src="https://img.shields.io/badge/feito%20com-❤️%20por%20Maia-15c3d6?style=for-the-badge" alt="Feito por Maia" />
 </p>
 
 <br>
@@ -34,7 +39,168 @@
 
 ## :bookmark: Sobre
 
-**Yol Benício API** é um sistema abrangente de gerenciamento jurídico construído com backend AdonisJS v6 e frontend React 19 + Inertia.js que fornece funcionalidades robustas para gerenciar processos jurídicos, clientes, agendas e faturamento. O sistema segue princípios de arquitetura limpa com clara separação de responsabilidades e possui um sistema de navegação baseado em papéis projetado para otimizar as operações de escritórios jurídicos para diferentes tipos de usuários (Gestores, Clientes e Colaboradores).
+**Yol Benício API** é um sistema de gerenciamento jurídico de nova geração construído para 2025 com tecnologias de ponta. Apresentando um poderoso backend AdonisJS v6 e frontend moderno React 19 + Inertia.js, oferece funcionalidades abrangentes para gerenciar processos jurídicos, clientes, agendas, faturamento e fluxos de documentos. O sistema implementa princípios de arquitetura limpa com design modular pronto para microsserviços e apresenta um sistema inteligente de navegação baseado em papéis otimizado para diferentes personas de usuários em escritórios jurídicos.
+
+### 🚀 **Novidades em 2025**
+
+- **⚡ React 19**: Recursos mais recentes do React com renderização concorrente e batching automático
+- **🎨 TailwindCSS v4**: Framework CSS de nova geração com performance aprimorada
+- **🔒 Segurança Aprimorada**: Implementação JWT avançada com rotação de refresh tokens
+- **📱 Mobile-First**: Design responsivo otimizado para todos os dispositivos
+- **🧪### 🧪 Estratégia de Testes Abrangente
+
+```mermaid
+graph TB
+    subgraph "Backend Testing"
+        A[Japa Framework]
+        B[Testes Unitários]
+        C[Testes Funcionais]
+        D[Testes de Integração]
+    end
+    
+    subgraph "Frontend Testing"
+        E[MSW - Mock Service Worker]
+        F[React Testing Library]
+        G[Testes de Componentes]
+        H[Testes E2E]
+    end
+    
+    subgraph "Cobertura e Qualidade"
+        I[Relatórios de Cobertura]
+        J[Análise de Código]
+        K[Performance Testing]
+        L[Testes de Acessibilidade]
+    end
+    
+    A --> B
+    A --> C
+    A --> D
+    E --> F
+    E --> G
+    E --> H
+    
+    style A fill:#FF6B6B
+    style E fill:#4ECDC4
+    style I fill:#45B7D1
+```
+
+#### 🔬 Recursos de Teste
+
+- **Japa Framework**: Framework de testes moderno para Node.js com suporte TypeScript
+- **MSW (Mock Service Worker)**: Interceptação de requisições para testes de frontend
+- **Cobertura Completa**: Relatórios detalhados de cobertura de código
+- **Testes Automatizados**: Pipeline CI/CD com execução automática de testes
+- **Testes de Performance**: Benchmarking e análise de performance
+- **Testes de Acessibilidade**: Conformidade com padrões WCAG
+- **🐳 Deployment e Containerização**
+
+```mermaid
+graph TB
+    subgraph "Desenvolvimento"
+        A[Docker Compose]
+        B[Hot Reload]
+        C[Debug Mode]
+        D[Volume Mapping]
+    end
+    
+    subgraph "Staging"
+        E[Build Otimizado]
+        F[Health Checks]
+        G[Load Balancing]
+        H[SSL/TLS]
+    end
+    
+    subgraph "Produção"
+        I[Multi-stage Build]
+        J[Imagens Minificadas]
+        K[Secrets Management]
+        L[Monitoring]
+    end
+    
+    A --> E
+    E --> I
+    B --> F
+    F --> J
+    C --> G
+    G --> K
+    D --> H
+    H --> L
+    
+    style A fill:#2496ED
+    style E fill:#FFA500
+    style I fill:#32CD32
+```
+
+#### 🚀 Recursos de Deploy
+
+- **Multi-stage Builds**: Imagens Docker otimizadas para produção
+- **Docker Compose**: Orquestração completa de serviços (API, DB, Redis)
+- **Health Checks**: Monitoramento automático de saúde dos containers
+- **Secrets Management**: Gerenciamento seguro de variáveis de ambiente
+- **Load Balancing**: Distribuição de carga para alta disponibilidade
+- **SSL/TLS**: Certificados automáticos com Let's Encrypt
+- **⚡ Performance e Otimizações**
+
+```mermaid
+graph TB
+    subgraph "Cache Strategy"
+        A[Redis Cache]
+        B[Query Cache]
+        C[Session Cache]
+        D[File Cache]
+    end
+    
+    subgraph "Database Optimization"
+        E[Índices Otimizados]
+        F[Query Optimization]
+        G[Connection Pooling]
+        H[Read Replicas]
+    end
+    
+    subgraph "Frontend Performance"
+        I[Code Splitting]
+        J[Lazy Loading]
+        K[Asset Optimization]
+        L[CDN Integration]
+    end
+    
+    subgraph "Monitoring"
+        M[APM Tools]
+        N[Real-time Metrics]
+        O[Error Tracking]
+        P[Performance Alerts]
+    end
+    
+    A --> E
+    B --> F
+    C --> G
+    D --> H
+    E --> I
+    F --> J
+    G --> K
+    H --> L
+    I --> M
+    J --> N
+    K --> O
+    L --> P
+    
+    style A fill:#DC382D
+    style E fill:#336791
+    style I fill:#61DAFB
+    style M fill:#FF6B6B
+```
+
+#### 🏎️ Otimizações Implementadas
+
+- **Redis Cache**: Cache distribuído para sessões, consultas e dados temporários
+- **Database Indexing**: Índices otimizados para consultas frequentes
+- **Code Splitting**: Carregamento sob demanda de componentes React
+- **Asset Optimization**: Minificação e compressão de assets estáticos
+- **Connection Pooling**: Pool de conexões para melhor utilização de recursos
+- **Real-time Monitoring**: Métricas de performance em tempo real
+- **Rate Limiting**: Proteção contra abuso de API com limitação inteligente
+- **Gzip Compression**: Compressão automática de respostas HTTP
+- **🔍 Monitoramento em Tempo Real**: Health checks avançados e log de auditoria
 
 ### 🏗️ Visão Geral da Arquitetura
 
@@ -116,6 +282,58 @@ graph TB
     style REDIS fill:#DC382D
     style PGREST fill:#008080
 ```
+
+### 🎯 Arquitetura Frontend Moderna
+
+```mermaid
+graph TB
+    subgraph "Frontend Stack 2025"
+        A[React 19] --> B[Inertia.js]
+        B --> C[TypeScript 5.0]
+        C --> D[TailwindCSS v4]
+    end
+    
+    subgraph "Componentes de Interface"
+        E[Dashboard Responsivo]
+        F[Sistema de Abas]
+        G[Timeline Interativa]
+        H[Formulários Dinâmicos]
+        I[Modais e Overlays]
+    end
+    
+    subgraph "Hooks Personalizados"
+        J[useRoleRedirect]
+        K[useAuth]
+        L[useProcess]
+        M[usePermissions]
+        N[useNotifications]
+    end
+    
+    subgraph "Gerenciamento de Estado"
+        O[Context API]
+        P[Inertia State]
+        Q[Local Storage]
+        R[Session Storage]
+    end
+    
+    A --> E
+    B --> F
+    C --> G
+    D --> H
+    
+    style A fill:#61DAFB
+    style B fill:#9333EA
+    style C fill:#3178C6
+    style D fill:#06B6D4
+```
+
+#### 🔧 Recursos Avançados do Frontend
+
+- **React 19**: Renderização concorrente, batching automático, Suspense aprimorado
+- **Inertia.js**: SPA sem API, roteamento do lado do servidor, compartilhamento de estado
+- **TypeScript 5.0**: Tipagem estática, intellisense avançado, refatoração segura
+- **TailwindCSS v4**: Utilitários CSS, design system, responsividade mobile-first
+- **Componentes Reutilizáveis**: Biblioteca de componentes modular e testável
 
 ### 🔐 Fluxo de Autenticação
 
