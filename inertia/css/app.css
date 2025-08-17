@@ -6,13 +6,15 @@
 @source "../app";
 @source "../../resources/views";
 
-/* Import font */
+/* Import fonts */
 @font-face {
   font-family: 'Inter';
   src: url('/Inter.woff2') format('woff2');
   font-weight: 100 900;
   font-display: swap;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Basic CSS reset for Tailwind v4 */
 @layer base {
@@ -32,7 +34,7 @@
     height: 100%;
     width: 100%;
     font-family:
-      'Inter',
+      'Montserrat',
       system-ui,
       -apple-system,
       sans-serif;
@@ -56,7 +58,8 @@
 /* Theme configuration using Tailwind v4's @theme */
 @theme {
   /* Font families */
-  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family-sans: 'Montserrat', sans-serif;
+  --font-family-work-sans: 'Work Sans', sans-serif;
   --font-family-mono: 'Menlo', 'Monaco', 'Courier New', monospace;
 
   /* Brand colors */
