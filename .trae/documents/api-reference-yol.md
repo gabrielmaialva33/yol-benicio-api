@@ -929,4 +929,88 @@ Content-Length: 1024000
 {
   "id": 1,
   "url": "https://exemplo.com/webhook",
-  "events": [
+  "events": ["folder.created", "folder.updated", "movement.created"],
+  "active": true,
+  "createdAt": "2024-01-22T19:00:00.000Z"
+}
+```
+
+### 11.2 Eventos Disponíveis
+
+| Evento | Descrição |
+|--------|----------|
+| `user.created` | Usuário criado |
+| `user.updated` | Usuário atualizado |
+| `user.deleted` | Usuário excluído |
+| `folder.created` | Pasta criada |
+| `folder.updated` | Pasta atualizada |
+| `folder.deleted` | Pasta excluída |
+| `file.uploaded` | Arquivo enviado |
+| `file.deleted` | Arquivo excluído |
+| `movement.created` | Movimentação adicionada |
+
+### 11.3 Formato do Payload
+
+```json
+{
+  "event": "folder.created",
+  "timestamp": "2024-01-22T19:30:00.000Z",
+  "data": {
+    "id": 1,
+    "code": "PROC-2024-001",
+    "title": "Novo Processo",
+    "userId": 1
+  },
+  "user": {
+    "id": 1,
+    "fullName": "João Silva",
+    "email": "joao@exemplo.com"
+  }
+}
+```
+
+## 12. Códigos de Erro Detalhados
+
+### 12.1 Erros de Validação (422)
+
+```json
+{
+  "message": "Dados de validação inválidos",
+  "errors": [
+    {
+      "field": "email",
+      "rule": "email",
+      "message": "O campo email deve ser um endereço de email válido"
+    },
+    {
+      "field": "password",
+      "rule": "minLength",
+      "message": "O campo password deve ter pelo menos 6 caracteres"
+    }
+  ]
+}
+```
+
+### 12.2 Erros de Autorização (403)
+
+```json
+{
+  "message": "Acesso negado",
+  "error": "INSUFFICIENT_PERMISSIONS",
+  "details": {
+    "required": "folders.create",
+    "user_permissions": ["folders.read"]
+  }
+}
+```
+
+### 12.3 Erros de Rate Limit (429)
+
+```json
+{
+  "message": "Muitas requisições",
+  "error": "RATE_LIMIT_EXCEEDED",
+  "details": {
+    "limit": 100,
+    "window": "1 minute",
+    "reset_
