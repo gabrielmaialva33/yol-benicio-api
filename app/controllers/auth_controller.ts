@@ -1,6 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import User from '#modules/user/models/user'
-import vine from '@vinejs/vine'
 import { loginValidator } from '#validators/auth'
 
 export default class AuthController {
