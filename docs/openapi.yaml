@@ -31,11 +31,11 @@ info:
 
     ## API Conventions
 
-    ### Request Format
-    - **Content-Type**: `application/json` for all requests (except file uploads)
+  ### Request Format
+  - **Content-Type**: `application/json` for all requests (except file uploads)
   - **Pagination**: Use `?page=1&per_page=10` query parameters (Users endpoints). Some admin endpoints (e.g., Roles) use `perPage`.
   - **Sorting**: Use `?sort_by=field&order=asc` or `?sort_by=field&order=desc` (Users endpoints). Some admin endpoints (e.g., Roles) use `sortBy`.
-    - **Searching**: Use `?search=term` for text search
+  - **Searching**: Use `?search=term` for text search
 
     ### Response Format
     - **Success**: HTTP 2xx with JSON body
