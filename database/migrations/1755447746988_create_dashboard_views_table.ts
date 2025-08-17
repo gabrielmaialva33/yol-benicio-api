@@ -6,7 +6,7 @@ export default class extends BaseSchema {
     await this.schema.raw(`
       CREATE OR REPLACE VIEW vw_dashboard_active_folders AS
       SELECT 
-        COUNT(*) FILTER (WHERE pro_sta_ide = '1') as active_count,
+        COUNT(*) FILTER (WHERE pro_dta_enc IS NULL OR pro_dta_enc = '') as active_count,
         COUNT(*) FILTER (WHERE DATE(pro_dta_inc::timestamp) >= DATE_TRUNC('month', CURRENT_DATE)) as new_this_month,
         COUNT(*) as total_count
       FROM tabela_open_processos;
