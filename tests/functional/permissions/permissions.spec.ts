@@ -25,6 +25,7 @@ test.group('Permissions', (group) => {
     const rootUser = await User.create({
       full_name: 'Root Admin',
       email: 'root@example.com',
+      username: 'root_admin_permissions_' + Date.now(),
       password: 'password123',
     })
 
@@ -87,6 +88,7 @@ test.group('Permissions', (group) => {
     const adminUser = await User.create({
       full_name: 'Admin User',
       email: 'admin@example.com',
+      username: 'admin_permissions_list_' + Date.now(),
       password: 'password123',
     })
 

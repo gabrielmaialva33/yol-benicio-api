@@ -89,7 +89,16 @@ router
   })
   .use(middleware.auth())
 
-// Inertia route for home page
-router.get('/', async ({ response }) => {
-  return response.redirect('/login')
+// API info route for root endpoint
+router.get('/', async ({ response, request }) => {
+  // If it's a browser request, redirect to login
+  if (request.header('accept')?.includes('text/html')) {
+    return response.redirect('/login')
+  }
+  
+  // Otherwise return API info
+  return response.json({
+    name: 'yol-benicio-api',
+    version: '0.0.1',
+  })
 })
