@@ -64,18 +64,49 @@ async function apiFetch<T>(
   return response.json()
 }
 
-// Custom hook for GET requests
+// Custom hook for GET requests (with object syntax support)
+export function useApiQuery<T>(
+  options: {
+    queryKey: string | string[]
+    queryFn: () => Promise<T>
+    initialData?: T
+  } & Omit<UseQueryOptions<T, ApiError>, 'queryKey' | 'queryFn'>
+): { data: T }
 export function useApiQuery<T>(
   key: string | string[],
   endpoint: string,
   params?: Record<string, any>,
   options?: Omit<UseQueryOptions<T, ApiError>, 'queryKey' | 'queryFn'>
+): { data: T | undefined }
+export function useApiQuery<T>(
+  keyOrOptions: string | string[] | {
+    queryKey: string | string[]
+    queryFn: () => Promise<T>
+    initialData?: T
+  },
+  endpoint?: string,
+  params?: Record<string, any>,
+  options?: Omit<UseQueryOptions<T, ApiError>, 'queryKey' | 'queryFn'>
 ) {
-  const queryKey = Array.isArray(key) ? key : [key]
+  // Object syntax (React Query style)
+  if (typeof keyOrOptions === 'object' && !Array.isArray(keyOrOptions) && 'queryKey' in keyOrOptions) {
+    const { queryKey, queryFn, initialData, ...queryOptions } = keyOrOptions
+    const key = Array.isArray(queryKey) ? queryKey : [queryKey]
+    
+    return useQuery<T, ApiError>({
+      queryKey: key,
+      queryFn,
+      initialData,
+      ...queryOptions,
+    })
+  }
+  
+  // Original signature
+  const queryKey = Array.isArray(keyOrOptions) ? keyOrOptions : [keyOrOptions]
 
   return useQuery<T, ApiError>({
     queryKey: [...queryKey, params],
-    queryFn: () => apiFetch<T>(endpoint, { params }),
+    queryFn: () => apiFetch<T>(endpoint!, { params }),
     ...options,
   })
 }

@@ -1,34 +1,25 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link, usePage } from '@inertiajs/react'
 import {
-  HomeIcon,
-  FolderIcon,
-  UsersIcon,
-  DocumentTextIcon,
-  CalendarIcon,
-  Cog6ToothIcon,
   ChevronDownIcon,
   ChevronRightIcon,
-  BuildingOfficeIcon,
-  ChartBarIcon,
-  ClipboardDocumentListIcon,
-  BanknotesIcon,
-  UserGroupIcon,
-  ScaleIcon,
 } from '@heroicons/react/24/outline'
 import { SidebarItem } from './SidebarItem'
+import { usePermissions } from '~/shared/hooks/use-permissions'
+import { menuItems, filterMenuItems } from '~/config/menu'
 
 interface MenuItem {
-  name: string
-  href?: string
-  icon: React.ComponentType<{ className?: string }>
-  children?: SubMenuItem[]
+  text: string
+  path?: string
+  icon: string | React.ComponentType<{ className?: string }>
+  subItems?: SubMenuItem[]
   badge?: string
+  color?: string
 }
 
 interface SubMenuItem {
-  name: string
-  href: string
+  text: string
+  path: string
   badge?: string
 }
 
@@ -40,134 +31,52 @@ interface FavoriteFolder {
   color: string
 }
 
-const pages: MenuItem[] = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-  {
-    name: 'Pastas',
-    icon: FolderIcon,
-    badge: '24',
-    children: [
-      { name: 'Todas as Pastas', href: '/folders' },
-      { name: 'Minhas Pastas', href: '/folders/my', badge: '12' },
-      { name: 'Arquivadas', href: '/folders/archived' },
-      { name: 'Compartilhadas', href: '/folders/shared' },
-    ],
-  },
-  {
-    name: 'Clientes',
-    icon: UsersIcon,
-    children: [
-      { name: 'Todos os Clientes', href: '/clients' },
-      { name: 'Novo Cliente', href: '/clients/create' },
-      { name: 'Empresas', href: '/clients/companies' },
-    ],
-  },
-  {
-    name: 'Processos',
-    icon: ScaleIcon,
-    children: [
-      { name: 'Todos os Processos', href: '/processes' },
-      { name: 'Em Andamento', href: '/processes/active', badge: '8' },
-      { name: 'Finalizados', href: '/processes/completed' },
-    ],
-  },
-  {
-    name: 'Documentos',
-    icon: DocumentTextIcon,
-    children: [
-      { name: 'Todos os Documentos', href: '/documents' },
-      { name: 'Modelos', href: '/documents/templates' },
-      { name: 'Contratos', href: '/documents/contracts' },
-    ],
-  },
-  {
-    name: 'Tarefas',
-    icon: ClipboardDocumentListIcon,
-    badge: '12',
-    children: [
-      { name: 'Minhas Tarefas', href: '/tasks/my', badge: '5' },
-      { name: 'Delegadas', href: '/tasks/delegated' },
-      { name: 'Concluídas', href: '/tasks/completed' },
-    ],
-  },
-  { name: 'Agenda', href: '/calendar', icon: CalendarIcon, badge: '3' },
-  {
-    name: 'Financeiro',
-    icon: BanknotesIcon,
-    children: [
-      { name: 'Faturamento', href: '/billing' },
-      { name: 'Relatórios', href: '/billing/reports' },
-      { name: 'Honorários', href: '/billing/fees' },
-    ],
-  },
-  {
-    name: 'Relatórios',
-    icon: ChartBarIcon,
-    children: [
-      { name: 'Dashboard Executivo', href: '/reports/executive' },
-      { name: 'Produtividade', href: '/reports/productivity' },
-      { name: 'Financeiro', href: '/reports/financial' },
-    ],
-  },
-  {
-    name: 'Administração',
-    icon: Cog6ToothIcon,
-    children: [
-      { name: 'Usuários', href: '/admin/users' },
-      { name: 'Permissões', href: '/admin/permissions' },
-      { name: 'Configurações', href: '/settings' },
-    ],
-  },
-]
 
 const DROPDOWN_VISIBLE_ITEMS_LIMIT = 3
 const MOBILE_BREAKPOINT = 768
 
-function SidebarHeader({ collapsed }: { collapsed: boolean }) {
+function SidebarHeader({ isCollapsed, toggle }: { isCollapsed: boolean; toggle: () => void }) {
   return (
-    <div className="flex items-center px-6 py-6 border-b border-gray-100">
-      <div className="flex items-center">
-        <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl shadow-lg">
-          <span className="text-white font-bold text-lg">Y</span>
-        </div>
-        {!collapsed && (
-          <div className="ml-3">
-            <h1 className="text-xl font-bold text-gray-900">YOL Benício</h1>
-            <p className="text-sm text-gray-500 font-medium">Advocacia & Consultoria</p>
-          </div>
-        )}
-      </div>
+    <div
+      className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between px-10 pr-[17px]'} gap-[78px]`}
+    >
+      <img
+        alt="Logo"
+        className={`cursor-pointer duration-500 ${isCollapsed ? 'w-[42px] h-[35px]' : 'w-[159px]'}`}
+        height={isCollapsed ? 35 : 60}
+        src={isCollapsed ? '/icons/logo.svg' : '/logo-yol.svg'}
+        width={isCollapsed ? 42 : 159}
+      />
+      {!isCollapsed && (
+        <img
+          alt="Fechar sidebar"
+          className="cursor-pointer w-6 h-6"
+          height={24}
+          onClick={toggle}
+          src="/icons/left-square.svg"
+          width={24}
+        />
+      )}
     </div>
   )
 }
 
-function SearchInput({ collapsed }: { collapsed: boolean }) {
-  if (collapsed) return null
-
+function SearchInput({ isCollapsed }: { isCollapsed: boolean }) {
+  if (isCollapsed) return null
   return (
-    <div className="px-6 py-4">
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="Buscar..."
-          className="w-full pl-10 pr-4 py-3 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200"
-        />
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg
-            className="h-5 w-5 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </div>
-      </div>
+    <div className='flex items-center rounded-md bg-[#86878B] px-3 py-[13px] gap-2'>
+      <img
+        alt='Pesquisar'
+        className='w-4 h-4 text-white'
+        height={16}
+        src='/icons/magnifier.svg'
+        width={16}
+      />
+      <input
+        className='text-sm bg-transparent w-full text-white focus:outline-none ml-2 placeholder:text-white'
+        placeholder='Pesquisar'
+        type='search'
+      />
     </div>
   )
 }
@@ -266,14 +175,15 @@ const MenuList = (props: {
         {props.title}
       </p>
       {visibleItems.map((item) => (
-        <MenuItemComponent
-          handleDropdown={handleDropdown}
-          isCollapsed={props.isCollapsed}
-          item={item}
-          key={item.text}
-          currentPath={props.currentPath}
-          openDropdown={openDropdown}
-        />
+        <li key={item.text}>
+          <MenuItemComponent
+            handleDropdown={handleDropdown}
+            isCollapsed={props.isCollapsed}
+            item={item}
+            currentPath={props.currentPath}
+            openDropdown={openDropdown}
+          />
+        </li>
       ))}
       {props.isDropdown &&
         !props.isCollapsed &&
@@ -309,6 +219,34 @@ export function Sidebar() {
   )
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed)
+
+  const {
+    hasRole,
+    hasAnyRole,
+    hasPermission,
+    hasAnyPermission,
+    getUserRoles,
+    getUserPermissions,
+  } = usePermissions()
+
+  // Filter menu items based on user permissions and roles
+  const filteredMenuItems = useMemo(() => {
+    const userRoles = getUserRoles()
+    const userPermissions = getUserPermissions()
+
+    const filtered = filterMenuItems(
+      menuItems,
+      userRoles,
+      userPermissions,
+      hasPermission,
+      hasRole,
+      hasAnyRole,
+      hasAnyPermission
+    )
+
+    // Return filtered items (already in correct format)
+    return filtered
+  }, [hasRole, hasAnyRole, hasPermission, hasAnyPermission, getUserRoles, getUserPermissions])
 
   // Convert favorite folders to MenuItem format
   const favorites: MenuItem[] = favoriteFolders
@@ -356,7 +294,7 @@ export function Sidebar() {
         <div
           className={`${isCollapsed ? 'flex flex-col items-center' : 'px-10 pr-[60px] border-b border-[#BABBC1] pb-[25px]'}`}
         >
-          <MenuList isCollapsed={isCollapsed} items={pages} title="PÁGINAS" currentPath={url} />
+          <MenuList isCollapsed={isCollapsed} items={filteredMenuItems} title="PÁGINAS" currentPath={url} />
         </div>
         {!isCollapsed && favorites.length > 0 && (
           <div className="px-10 pr-[60px]">

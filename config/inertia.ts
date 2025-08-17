@@ -11,7 +11,26 @@ const inertiaConfig = defineConfig({
    * Data that should be shared with all rendered pages
    */
   sharedData: {
-    // user: (ctx) => ctx.inertia.always(() => ctx.auth.user),
+    auth: async (ctx) => {
+      await ctx.auth.check()
+      if (!ctx.auth.user) {
+        return { user: null }
+      }
+
+      // Preload user with roles and permissions
+      await ctx.auth.user.load('roles', 'permissions')
+      
+      return {
+        user: {
+          id: ctx.auth.user.id,
+          name: ctx.auth.user.name,
+          email: ctx.auth.user.email,
+          avatar: ctx.auth.user.avatar,
+          roles: ctx.auth.user.roles?.map(role => role.slug) || [],
+          permissions: ctx.auth.user.permissions?.map(permission => permission.name) || [],
+        }
+      }
+    },
   },
 
   /**

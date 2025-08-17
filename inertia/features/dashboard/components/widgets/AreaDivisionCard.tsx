@@ -1,6 +1,11 @@
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
-import { Card, CardHeader, CardTitle, CardContent } from '~/shared/ui/primitives/Card'
 import { useApiQuery } from '~/shared/hooks/use_api'
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from '~/shared/ui/primitives/Card'
 
 interface AreaDivision {
   name: string
@@ -8,111 +13,98 @@ interface AreaDivision {
   color: string
 }
 
+const DEGREES_IN_HALF_CIRCLE = 180
+const LABEL_POSITION_RATIO = 0.5
+// Ajustes para aproximar do frame (136x136 -> raio ~68)
+const OUTER_RADIUS = 68
+const MINIMUM_PERCENTAGE_TO_DISPLAY = 2
+
 export function AreaDivisionCard() {
-  const { data, isLoading, error } = useApiQuery<AreaDivision[]>({
-    queryKey: ['dashboard', 'area-division'],
-    queryFn: () => fetch('/api/dashboard/area-division').then((res) => res.json()),
+  const { data: areaDivision = [] } = useApiQuery<AreaDivision[]>({
+    queryKey: ['areaDivision'],
+    queryFn: () => fetch('/api/dashboard/area-division').then((res) => res.json())
   })
 
-  if (isLoading) {
-    return (
-      <Card className="h-[400px]">
-        <CardHeader>
-          <CardTitle>Divisão por Área</CardTitle>
-        </CardHeader>
-        <CardContent className="flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-500" />
-        </CardContent>
-      </Card>
-    )
-  }
-
-  if (error || !data) {
-    return (
-      <Card className="h-[400px]">
-        <CardHeader>
-          <CardTitle>Divisão por Área</CardTitle>
-        </CardHeader>
-        <CardContent className="flex items-center justify-center">
-          <div className="text-gray-500">Erro ao carregar dados</div>
-        </CardContent>
-      </Card>
-    )
-  }
-
-  // Calculate total for percentages
-  const total = data.reduce((sum, item) => sum + item.value, 0)
-
-  // Custom label function for pie chart
-  const renderLabel = (entry: AreaDivision) => {
-    const percentage = ((entry.value / total) * 100).toFixed(0)
-    return percentage >= '2' ? `${percentage}%` : ''
-  }
+  // Paleta conforme Figma (ordem: Trabalhista, Cível, Amarelo, Vermelho)
+  const FIGMA_PALETTE = ['#00A76F', '#00B8D9', '#FFAB00', '#FF5630']
+  const MAX_SEGMENTS = 4
+  const displayData = areaDivision
+    .slice(0, MAX_SEGMENTS)
+    .map((d, i) => ({ ...d, color: FIGMA_PALETTE[i] ?? d.color }))
 
   return (
-    <Card className="h-[400px]">
-      <CardHeader>
-        <CardTitle>Divisão por Área</CardTitle>
+    <Card className='rounded-xl shadow-[0_4px_4px_rgba(0,0,0,0.03)]'>
+      <CardHeader className='mb-2'>
+        <CardTitle className='text-[25px] leading-[1.12] font-semibold tracking-[-0.02em]'>
+          Divisão por áreas
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="flex items-center justify-between">
-          {/* Pie Chart */}
-          <div className="w-48 h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={data}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={renderLabel}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(value: number) => [
-                    `${value} processos (${((value / total) * 100).toFixed(1)}%)`,
-                    'Quantidade',
-                  ]}
-                  contentStyle={{
-                    backgroundColor: 'white',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '6px',
-                    fontSize: '12px',
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* Legend */}
-          <div className="flex-1 ml-6">
-            <div className="space-y-3">
-              {data.map((item, index) => {
-                const percentage = ((item.value / total) * 100).toFixed(1)
-                return (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: item.color }}
-                      />
-                      <span className="text-sm text-gray-700">{item.name}</span>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium text-gray-900">{item.value}</div>
-                      <div className="text-xs text-gray-500">{percentage}%</div>
-                    </div>
-                  </div>
-                )
-              })}
+      <CardContent className='flex items-center justify-between pb-4'>
+        <div className='w-[136px] h-[136px] relative'>
+          <ResponsiveContainer height='100%' width='100%'>
+            <PieChart>
+              <Pie
+                cx='50%'
+                cy='50%'
+                data={displayData}
+                dataKey='value'
+                innerRadius={0}
+                label={({
+                  cx,
+                  cy,
+                  midAngle,
+                  innerRadius,
+                  outerRadius,
+                  value
+                }) => {
+                  if (midAngle === undefined || value === undefined) {
+                    return null
+                  }
+                  if (value < MINIMUM_PERCENTAGE_TO_DISPLAY) {
+                    return null
+                  }
+                  const radian = Math.PI / DEGREES_IN_HALF_CIRCLE
+                  const radius =
+                    innerRadius +
+                    (outerRadius - innerRadius) * LABEL_POSITION_RATIO
+                  const x = cx + radius * Math.cos(-midAngle * radian)
+                  const y = cy + radius * Math.sin(-midAngle * radian)
+                  return (
+                    <text
+                      className='text-[10px] font-normal'
+                      dominantBaseline='central'
+                      fill='white'
+                      textAnchor='middle'
+                      x={x}
+                      y={y}
+                    >
+                      {`${value}%`}
+                    </text>
+                  )
+                }}
+                labelLine={false}
+                outerRadius={OUTER_RADIUS}
+              >
+                {displayData.map(entry => (
+                  <Cell fill={entry.color} key={entry.name} stroke='white' />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <div className='space-y-2'>
+          {displayData.map(item => (
+            <div className='flex items-center gap-2' key={item.name}>
+              <div
+                className='w-3 h-3 rounded-[7px]'
+                style={{ backgroundColor: item.color }}
+              />
+              <span className='text-[13px] font-medium leading-[1.69] text-gray-800'>
+                {item.name}
+              </span>
             </div>
-          </div>
+          ))}
         </div>
       </CardContent>
     </Card>

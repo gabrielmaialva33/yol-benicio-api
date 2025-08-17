@@ -1,18 +1,22 @@
-import { useId, useState } from 'react'
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts'
-import { Card, CardHeader, CardTitle, CardContent } from '~/shared/ui/primitives/Card'
 import { useApiQuery } from '~/shared/hooks/use_api'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { useEffect, useId, useState } from 'react'
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from '~/shared/ui/primitives/Card'
 
-interface RequestData {
+interface Request {
   month: string
   value: number
   new: number
@@ -20,153 +24,139 @@ interface RequestData {
 }
 
 export function RequestsCard() {
-  const [currentMonth, setCurrentMonth] = useState(0)
-  const gradientId = useId()
-
-  const { data, isLoading, error } = useApiQuery<RequestData[]>({
-    queryKey: ['dashboard', 'requests'],
-    queryFn: () => fetch('/api/dashboard/requests').then((res) => res.json()),
+  const { data: requests = [] } = useApiQuery<Request[]>({
+    queryKey: ['requests'],
+    queryFn: () => fetch('/api/dashboard/requests').then((res) => res.json())
   })
+  const [currentMonthIndex, setCurrentMonthIndex] = useState(0)
+  const id = useId()
 
-  if (isLoading) {
-    return (
-      <Card className="h-[400px]">
-        <CardHeader>
-          <CardTitle>Solicitações</CardTitle>
-        </CardHeader>
-        <CardContent className="flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-500" />
-        </CardContent>
-      </Card>
-    )
-  }
-
-  if (error || !data || data.length === 0) {
-    return (
-      <Card className="h-[400px]">
-        <CardHeader>
-          <CardTitle>Solicitações</CardTitle>
-        </CardHeader>
-        <CardContent className="flex items-center justify-center">
-          <div className="text-gray-500">Erro ao carregar dados</div>
-        </CardContent>
-      </Card>
-    )
-  }
-
-  const currentData = data[currentMonth] || data[0]
-
-  // Generate chart data for area visualization
-  const chartData = Array.from({ length: 7 }, (_, i) => ({
-    day: i + 1,
-    value: Math.floor(Math.random() * currentData.value) + 5,
-  }))
+  useEffect(() => {
+    if (requests.length > 0) {
+      setCurrentMonthIndex(requests.length - 1)
+    }
+  }, [requests.length])
 
   const handlePrevMonth = () => {
-    setCurrentMonth((prev) => (prev > 0 ? prev - 1 : data.length - 1))
+    setCurrentMonthIndex(prev => (prev > 0 ? prev - 1 : prev))
   }
 
   const handleNextMonth = () => {
-    setCurrentMonth((prev) => (prev < data.length - 1 ? prev + 1 : 0))
+    setCurrentMonthIndex(prev => (prev < requests.length - 1 ? prev + 1 : prev))
   }
 
+  const currentRequest = requests[currentMonthIndex]
+
   return (
-    <Card className="h-[400px]">
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>Solicitações</CardTitle>
-          <div className="flex items-center space-x-2">
+    <Card>
+      <CardHeader className='flex items-center justify-between mb-4'>
+        <div>
+          <CardTitle>Requisições</CardTitle>
+          <p className='text-sm text-gray-500'>Requisições por período</p>
+        </div>
+        <div className='flex items-center space-x-2'>
+          <div className='bg-gray-100 rounded p-1'>
             <button
-              type="button"
+              aria-label='Mês anterior'
+              className='p-1 text-gray-400 hover:text-gray-600'
               onClick={handlePrevMonth}
-              className="p-1 hover:bg-gray-100 rounded"
+              type='button'
             >
-              <ChevronLeftIcon className="w-4 h-4 text-gray-500" />
+              <svg
+                className='w-4 h-4'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+              >
+                <title>Anterior</title>
+                <path
+                  d='M15 19l-7-7 7-7'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                />
+              </svg>
             </button>
-            <span className="text-sm font-medium text-gray-700 min-w-[3rem] text-center">
-              {currentData.month}
-            </span>
+          </div>
+          <div className='bg-gray-100 rounded p-1'>
             <button
-              type="button"
+              aria-label='Próximo mês'
+              className='p-1 text-gray-400 hover:text-gray-600'
               onClick={handleNextMonth}
-              className="p-1 hover:bg-gray-100 rounded"
+              type='button'
             >
-              <ChevronRightIcon className="w-4 h-4 text-gray-500" />
+              <svg
+                className='w-4 h-4'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+              >
+                <title>Próximo</title>
+                <path
+                  d='M9 5l7 7-7 7'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                />
+              </svg>
             </button>
           </div>
         </div>
       </CardHeader>
-      <CardContent>
-        {/* Stats Section */}
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <div className="text-3xl font-bold text-gray-900">{currentData.value}</div>
-            <div className="text-sm text-gray-500">Total de solicitações</div>
+      {currentRequest && (
+        <div className='mb-4'>
+          <div className='text-base font-semibold text-gray-800 mb-1'>
+            {currentMonthIndex === requests.length - 1
+              ? 'Novas neste mês'
+              : `Novas em ${currentRequest.month}`}
           </div>
-          <div className="text-right">
-            <div className="flex items-center space-x-1">
-              <div className="text-xl font-semibold text-blue-600">+{currentData.new}</div>
-              <div className="text-sm text-gray-500">({currentData.percentage}%)</div>
-            </div>
-            <div className="text-sm text-gray-500">Novas este mês</div>
-          </div>
-        </div>
-
-        {/* Area Chart */}
-        <div className="h-40">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              <defs>
-                <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis
-                dataKey="day"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12, fill: '#6b7280' }}
-              />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: 'white',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '6px',
-                  fontSize: '12px',
-                }}
-                labelFormatter={(label) => `Dia ${label}`}
-                formatter={(value: number) => [value, 'Solicitações']}
-              />
-              <Area
-                type="monotone"
-                dataKey="value"
-                stroke="#3b82f6"
-                strokeWidth={2}
-                fillOpacity={1}
-                fill={`url(#${gradientId})`}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Progress Indicator */}
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-gray-500">Meta mensal: 30</span>
-            <span className="text-gray-700">
-              {Math.round((currentData.value / 30) * 100)}% concluído
+          <div className='flex items-center space-x-2'>
+            <span className='text-4xl font-bold text-gray-800'>
+              {currentRequest.new}
             </span>
-          </div>
-          <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
-            <div
-              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${Math.min((currentData.value / 30) * 100, 100)}%` }}
-            />
+            <div className='flex-1 bg-gray-200 rounded-full h-2'>
+              <div
+                className='h-2 rounded-full bg-teal-500'
+                style={{ width: `${currentRequest.percentage}%` }}
+              />
+            </div>
+            <span className='text-sm font-medium text-gray-500'>{`${Math.round(currentRequest.percentage)}%`}</span>
           </div>
         </div>
+      )}
+      <CardContent className='h-64'>
+        <ResponsiveContainer height='100%' width='100%'>
+          <AreaChart data={requests}>
+            <defs>
+              <linearGradient id={id} x1='0' x2='0' y1='0' y2='1'>
+                <stop offset='5%' stopColor='#F43F5E' stopOpacity={0.8} />
+                <stop offset='95%' stopColor='#F43F5E' stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <XAxis
+              axisLine={false}
+              dataKey='month'
+              tick={{ fontSize: 12, fill: '#6B7280' }}
+              tickLine={false}
+            />
+            <CartesianGrid strokeDasharray='3 3' vertical={false} />
+            <YAxis
+              axisLine={false}
+              domain={[10, 24]}
+              tick={{ fontSize: 12, fill: '#6B7280' }}
+              tickLine={false}
+            />
+            <Tooltip />
+            <Area
+              dataKey='value'
+              dot={{ fill: '#F43F5E', strokeWidth: 2, r: 4 }}
+              fill={`url(#${id})`}
+              stroke='#F43F5E'
+              strokeWidth={2}
+              type='monotone'
+            />
+          </AreaChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   )

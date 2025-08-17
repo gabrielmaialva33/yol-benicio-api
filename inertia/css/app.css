@@ -1,5 +1,6 @@
 /* Import Tailwind CSS v4 */
 @import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Tell Tailwind where to look for class usage */
 @source "../pages";
@@ -13,8 +14,6 @@
   font-weight: 100 900;
   font-display: swap;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Basic CSS reset for Tailwind v4 */
 @layer base {

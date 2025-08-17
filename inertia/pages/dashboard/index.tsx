@@ -2,6 +2,7 @@ import { Head } from '@inertiajs/react'
 import { Header } from '~/features/dashboard/components/Header'
 import { Sidebar } from '~/features/dashboard/components/Sidebar'
 import { DashboardContent } from '~/features/dashboard/components/DashboardContent'
+import { UserSwitcher } from '~/shared/components/UserSwitcher'
 
 export default function Dashboard() {
   return (
@@ -16,6 +17,7 @@ export default function Dashboard() {
           </main>
         </div>
       </div>
+      <UserSwitcher />
     </>
   )
 }

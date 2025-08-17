@@ -6,7 +6,7 @@ import type { PaginatedResponse } from '../types/api'
 import type { Task } from '../types/domain'
 
 async function getTasks(): Promise<PaginatedResponse<Task>> {
-  const response = await fetch('/api/tasks')
+  const response = await fetch('/api/dashboard/tasks')
   return response.json()
 }
 

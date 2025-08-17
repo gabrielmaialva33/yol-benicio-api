@@ -1,111 +1,95 @@
-import { LineChart, Line, ResponsiveContainer } from 'recharts'
-import { Card, CardHeader, CardTitle, CardContent } from '~/shared/ui/primitives/Card'
+import { Line, LineChart, ResponsiveContainer } from 'recharts'
 import { useApiQuery } from '~/shared/hooks/use_api'
-import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/outline'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from '~/shared/ui/primitives/Card'
 
 interface BillingData {
   value: string
-  percentage: string
+  percentage: number
   chart: Array<{ pv: number }>
 }
 
 export function BillingCard() {
-  const { data, isLoading, error } = useApiQuery<BillingData>({
-    queryKey: ['dashboard', 'billing'],
+  const { data: billingData } = useApiQuery<BillingData>({
+    queryKey: ['billing'],
     queryFn: () => fetch('/api/dashboard/billing').then((res) => res.json()),
+    initialData: {
+      value: 'R$ 0',
+      percentage: 0,
+      chart: []
+    }
   })
 
-  if (isLoading) {
-    return (
-      <Card className="h-[300px]">
-        <CardHeader>
-          <CardTitle>Faturamento</CardTitle>
-        </CardHeader>
-        <CardContent className="flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-500" />
-        </CardContent>
-      </Card>
+  const percentageColor =
+    billingData?.percentage && billingData.percentage > 0 ? 'text-green-500' : 'text-red-500'
+  const percentageIcon =
+    billingData?.percentage && billingData.percentage > 0 ? (
+      <svg
+        className='w-4 h-4'
+        fill='none'
+        stroke='currentColor'
+        viewBox='0 0 24 24'
+      >
+        <title>Up</title>
+        <path
+          d='M5 17l5-5 5 5M5 7h10v10'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='2'
+        />
+      </svg>
+    ) : (
+      <svg
+        className='w-4 h-4'
+        fill='none'
+        stroke='currentColor'
+        viewBox='0 0 24 24'
+      >
+        <title>Down</title>
+        <path
+          d='M19 7l-10 10-5-5'
+          strokeLinecap='round'
+          strokeLinejoin='round'
+          strokeWidth='2'
+        />
+      </svg>
     )
-  }
-
-  if (error || !data) {
-    return (
-      <Card className="h-[300px]">
-        <CardHeader>
-          <CardTitle>Faturamento</CardTitle>
-        </CardHeader>
-        <CardContent className="flex items-center justify-center">
-          <div className="text-gray-500">Erro ao carregar dados</div>
-        </CardContent>
-      </Card>
-    )
-  }
-
-  const percentage = parseFloat(data.percentage)
-  const isPositive = percentage >= 0
 
   return (
-    <Card className="h-[300px]">
-      <CardHeader>
-        <CardTitle>Faturamento</CardTitle>
+    <Card tinted={true}>
+      <CardHeader className='flex items-start justify-between mb-4'>
+        <CardTitle className='text-[var(--color-text-primary)]'>
+          Faturamento
+        </CardTitle>
+        <div className='text-right'>
+          <div
+            className={`flex items-center space-x-1 font-semibold ${percentageColor}`}
+          >
+            {percentageIcon}
+            <span>{`${billingData?.percentage?.toFixed(2) || '0.00'}%`}</span>
+          </div>
+          <div className='text-sm'>Último mês</div>
+        </div>
       </CardHeader>
-      <CardContent>
-        {/* Revenue Display */}
-        <div className="mb-6">
-          <div className="text-3xl font-bold text-gray-900 mb-2">{data.value}</div>
-          <div className="flex items-center space-x-1">
-            {isPositive ? (
-              <ArrowUpIcon className="w-4 h-4 text-green-500" />
-            ) : (
-              <ArrowDownIcon className="w-4 h-4 text-red-500" />
-            )}
-            <span
-              className={`text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}
-            >
-              {Math.abs(percentage)}%
-            </span>
-            <span className="text-sm text-gray-500">vs mês anterior</span>
-          </div>
-        </div>
-
-        {/* Sparkline Chart */}
-        <div className="h-20 mb-6">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data.chart}>
-              <Line
-                type="monotone"
-                dataKey="pv"
-                stroke={isPositive ? '#10b981' : '#ef4444'}
-                strokeWidth={2}
-                dot={false}
-                activeDot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Additional Metrics */}
-        <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-100">
-          <div className="text-center">
-            <div className="text-lg font-semibold text-gray-900">
-              {Math.round(data.chart.reduce((sum, item) => sum + item.pv, 0) / data.chart.length)}
-            </div>
-            <div className="text-xs text-gray-500">Média mensal</div>
-          </div>
-          <div className="text-center">
-            <div className="text-lg font-semibold text-blue-600">
-              {Math.max(...data.chart.map((item) => item.pv))}
-            </div>
-            <div className="text-xs text-gray-500">Pico máximo</div>
-          </div>
-        </div>
-
-        {/* Trend Indicator */}
-        <div className="mt-4 text-center">
-          <div className={`text-xs ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-            {isPositive ? '📈 Tendência de crescimento' : '📉 Tendência de queda'}
-          </div>
-        </div>
+      <div className='text-[40px] font-bold mb-4 leading-none'>
+        {billingData?.value || 'R$ 0'}
+      </div>
+      <CardContent className='h-16 -mx-6 -mb-6'>
+        <ResponsiveContainer height='100%' width='100%'>
+          <LineChart data={billingData?.chart || []}>
+            <Line
+              dataKey='pv'
+              dot={false}
+              stroke='#004B50'
+              strokeWidth={2}
+              type='monotone'
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   )

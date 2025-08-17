@@ -215,6 +215,38 @@ export const dashboardHandlers = [
     return HttpResponse.json(generateTasksData())
   }),
 
+  // Tasks endpoint for TasksCard
+  http.get('/api/tasks', () => {
+    const tasks = Array.from({ length: 12 }, (_, i) => ({
+      id: i + 1,
+      title: faker.lorem.sentence(3),
+      description: faker.lorem.sentence(),
+      due_date: faker.date.future().toISOString(),
+      status: faker.helpers.arrayElement(['pending', 'completed', 'in_progress']),
+      priority: faker.helpers.arrayElement(['low', 'medium', 'high', 'urgent']),
+      folder: {
+        id: faker.number.int({ min: 1, max: 10 }),
+        title: faker.company.name(),
+        code: `PROC-${faker.number.int({ min: 1000, max: 9999 })}`,
+      },
+      assigned_to: {
+        id: faker.number.int({ min: 1, max: 5 }),
+        full_name: faker.person.fullName(),
+        email: faker.internet.email(),
+      },
+      created_by: {
+        id: faker.number.int({ min: 1, max: 5 }),
+        full_name: faker.person.fullName(),
+        email: faker.internet.email(),
+      },
+      created_at: faker.date.past().toISOString(),
+      updated_at: faker.date.recent().toISOString(),
+      metadata: {},
+    }))
+
+    return HttpResponse.json({ data: tasks, total: tasks.length })
+  }),
+
   // Get all dashboard data (comprehensive endpoint)
   http.get('/api/dashboard', () => {
     return HttpResponse.json({
