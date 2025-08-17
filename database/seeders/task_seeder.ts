@@ -1,59 +1,52 @@
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
-import Task from '#modules/task/models/task'
-import { DateTime } from 'luxon'
+import User from '#modules/user/models/user'
+import { TaskFactory } from '#database/factories/task_factory'
 
 export default class extends BaseSeeder {
   async run() {
-    // Create sample tasks for testing
-    await Task.createMany([
-      {
-        title: 'Revisar contrato de prestação de serviços',
-        description: 'Análise detalhada do contrato antes da assinatura',
-        status: 'pending',
-        priority: 'high',
-        due_date: DateTime.now().plus({ days: 3 }),
-        creator_id: 1,
-      },
-      {
-        title: 'Preparar petição inicial',
-        description: 'Elaborar petição para processo trabalhista',
-        status: 'in_progress',
-        priority: 'urgent',
-        due_date: DateTime.now().plus({ days: 1 }),
-        creator_id: 1,
-      },
-      {
-        title: 'Audiência de conciliação',
-        description: 'Participar da audiência no TRT',
-        status: 'pending',
-        priority: 'medium',
-        due_date: DateTime.now().plus({ days: 7 }),
-        creator_id: 1,
-      },
-      {
-        title: 'Análise de jurisprudência',
-        description: 'Pesquisar precedentes para o caso',
-        status: 'completed',
-        priority: 'low',
-        due_date: DateTime.now().minus({ days: 1 }),
-        creator_id: 1,
-      },
-      {
-        title: 'Elaborar parecer jurídico',
-        description: 'Parecer sobre questão tributária',
-        status: 'pending',
-        priority: 'medium',
-        due_date: DateTime.now().plus({ days: 5 }),
-        creator_id: 1,
-      },
-      {
-        title: 'Reunião com cliente',
-        description: 'Apresentar estratégia processual',
-        status: 'completed',
-        priority: 'high',
-        due_date: DateTime.now().startOf('day'),
-        creator_id: 1,
-      },
-    ])
+    // Get the admin user to assign tasks
+    const adminUser = await User.findBy('email', 'admin@benicio.com.br')
+    if (!adminUser) {
+      console.log('Admin user not found, skipping task seeding')
+      return
+    }
+
+    // Create a variety of tasks using the factory
+    
+    // Create some urgent tasks
+    await TaskFactory
+      .apply('urgent')
+      .merge({ creator_id: adminUser.id, assignee_id: adminUser.id })
+      .createMany(3)
+
+    // Create some overdue tasks
+    await TaskFactory
+      .apply('overdue')
+      .merge({ creator_id: adminUser.id, assignee_id: adminUser.id })
+      .createMany(2)
+
+    // Create some completed tasks
+    await TaskFactory
+      .apply('completed')
+      .merge({ creator_id: adminUser.id, assignee_id: adminUser.id })
+      .createMany(5)
+
+    // Create some in-progress tasks
+    await TaskFactory
+      .apply('inProgress')
+      .merge({ creator_id: adminUser.id, assignee_id: adminUser.id })
+      .createMany(4)
+
+    // Create regular tasks with random states
+    await TaskFactory
+      .merge({ creator_id: adminUser.id, assignee_id: adminUser.id })
+      .createMany(15)
+
+    // Create some unassigned tasks
+    await TaskFactory
+      .merge({ creator_id: adminUser.id, assignee_id: null })
+      .createMany(3)
+
+    console.log('✅ Created 32 sample tasks using TaskFactory')
   }
 }
