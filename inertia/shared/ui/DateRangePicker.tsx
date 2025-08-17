@@ -1,7 +1,7 @@
 import type { DateRange } from 'react-day-picker'
 import { DayPicker, getDefaultClassNames, type SelectRangeEventHandler } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
-import { formatDateRange } from '../utils/format-date-range'
+import { formatDateRange } from '../utils/format_date_range'
 
 interface DateRangePickerProps {
   dateRange: DateRange | undefined
