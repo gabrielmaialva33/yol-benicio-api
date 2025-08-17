@@ -13,7 +13,7 @@ export default function LoginPage() {
             <h1 className='sr-only'>YOL Project - Sistema Jurídico</h1>
             <img
               alt='YOL'
-              className='h-auto w-full max-w-[406px] animate-in fade-in zoom-in-50 duration-1000'
+              className='h-auto w-full max-w-[406px]'
               height={120}
               src="/logo-yol.svg"
               width={406}

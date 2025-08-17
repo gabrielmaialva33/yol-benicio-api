@@ -1,11 +1,11 @@
-import { useId, useState } from 'react'
+import { useState } from 'react'
 import { router, useForm } from '@inertiajs/react'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export function LoginForm() {
-  const emailId = useId()
-  const passwordId = useId()
+  const emailId = 'login-email'
+  const passwordId = 'login-password'
   const [clientErrors, setClientErrors] = useState({ email: '', password: '' })
 
   const { data, setData, post, processing, errors } = useForm({
@@ -40,7 +40,7 @@ export function LoginForm() {
   }
 
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-10 rounded-[15px] bg-white p-8 font-sans shadow-lg animate-in fade-in zoom-in-95 duration-1000 md:h-[607px] md:px-[32.5px] md:py-16">
+    <div className="flex w-full flex-col items-center justify-center gap-10 rounded-[15px] bg-white p-8 font-sans shadow-lg md:h-[607px] md:px-[32.5px] md:py-16">
       <div className="flex flex-col items-center gap-[15px] self-stretch">
         <h2 className="self-stretch text-center text-[40px] font-semibold leading-[0.6em] tracking-[-0.01em] text-gray-900">
           Fazer login

@@ -31,6 +31,16 @@
   body {
     height: 100%;
     width: 100%;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  /* Prevent hydration flash */
+  body {
+    visibility: hidden;
+  }
+  
+  body.hydrated {
+    visibility: visible;
   }
 
   button,
