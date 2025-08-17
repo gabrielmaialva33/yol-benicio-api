@@ -85,7 +85,20 @@ const generateFolderActivityData = () => {
 }
 
 const generateRequestsData = () => {
-  const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+  const months = [
+    'Jan',
+    'Fev',
+    'Mar',
+    'Abr',
+    'Mai',
+    'Jun',
+    'Jul',
+    'Ago',
+    'Set',
+    'Out',
+    'Nov',
+    'Dez',
+  ]
   const currentMonth = new Date().getMonth()
 
   return months.slice(0, currentMonth + 1).map((month, index) => {

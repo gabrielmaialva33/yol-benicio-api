@@ -31,7 +31,7 @@ export function usePermissions() {
    */
   const hasAnyPermission = (permissions: string[]): boolean => {
     if (!auth.user) return false
-    return permissions.some(permission => auth.user.permissions.includes(permission))
+    return permissions.some((permission) => auth.user.permissions.includes(permission))
   }
 
   /**
@@ -39,7 +39,7 @@ export function usePermissions() {
    */
   const hasAllPermissions = (permissions: string[]): boolean => {
     if (!auth.user) return false
-    return permissions.every(permission => auth.user.permissions.includes(permission))
+    return permissions.every((permission) => auth.user.permissions.includes(permission))
   }
 
   /**
@@ -55,7 +55,7 @@ export function usePermissions() {
    */
   const hasAnyRole = (roles: string[]): boolean => {
     if (!auth.user) return false
-    return roles.some(role => auth.user.roles.includes(role))
+    return roles.some((role) => auth.user.roles.includes(role))
   }
 
   /**
@@ -63,7 +63,7 @@ export function usePermissions() {
    */
   const hasAllRoles = (roles: string[]): boolean => {
     if (!auth.user) return false
-    return roles.every(role => auth.user.roles.includes(role))
+    return roles.every((role) => auth.user.roles.includes(role))
   }
 
   /**

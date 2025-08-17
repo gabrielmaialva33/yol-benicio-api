@@ -70,10 +70,10 @@ export function Header() {
           {/* Page Title and Search */}
           <div className="flex items-center space-x-6">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+              <h1 className="text-2xl font-semibold text-[#161C24]">{title}</h1>
               {description && <p className="text-gray-500 mt-1">{description}</p>}
               {breadcrumbs.length > 0 && (
-                <div className="mt-1">
+                <div className="mt-2">
                   <Breadcrumb items={breadcrumbs} />
                 </div>
               )}

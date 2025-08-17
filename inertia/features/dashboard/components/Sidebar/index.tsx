@@ -1,9 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Link, usePage } from '@inertiajs/react'
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-} from '@heroicons/react/24/outline'
+import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { SidebarItem } from './SidebarItem'
 import { usePermissions } from '~/shared/hooks/use-permissions'
 import { menuItems, filterMenuItems } from '~/config/menu'
@@ -30,7 +27,6 @@ interface FavoriteFolder {
   client_name: string
   color: string
 }
-
 
 const DROPDOWN_VISIBLE_ITEMS_LIMIT = 3
 const MOBILE_BREAKPOINT = 768
@@ -64,18 +60,18 @@ function SidebarHeader({ isCollapsed, toggle }: { isCollapsed: boolean; toggle: 
 function SearchInput({ isCollapsed }: { isCollapsed: boolean }) {
   if (isCollapsed) return null
   return (
-    <div className='flex items-center rounded-md bg-[#86878B] px-3 py-[13px] gap-2'>
+    <div className="flex items-center rounded-md bg-[#86878B] px-3 py-[13px] gap-2">
       <img
-        alt='Pesquisar'
-        className='w-4 h-4 text-white'
+        alt="Pesquisar"
+        className="w-4 h-4 text-white"
         height={16}
-        src='/icons/magnifier.svg'
+        src="/icons/magnifier.svg"
         width={16}
       />
       <input
-        className='text-sm bg-transparent w-full text-white focus:outline-none ml-2 placeholder:text-white'
-        placeholder='Pesquisar'
-        type='search'
+        className="text-sm bg-transparent w-full text-white focus:outline-none ml-2 placeholder:text-white"
+        placeholder="Pesquisar"
+        type="search"
       />
     </div>
   )
@@ -220,14 +216,8 @@ export function Sidebar() {
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed)
 
-  const {
-    hasRole,
-    hasAnyRole,
-    hasPermission,
-    hasAnyPermission,
-    getUserRoles,
-    getUserPermissions,
-  } = usePermissions()
+  const { hasRole, hasAnyRole, hasPermission, hasAnyPermission, getUserRoles, getUserPermissions } =
+    usePermissions()
 
   // Filter menu items based on user permissions and roles
   const filteredMenuItems = useMemo(() => {
@@ -294,7 +284,12 @@ export function Sidebar() {
         <div
           className={`${isCollapsed ? 'flex flex-col items-center' : 'px-10 pr-[60px] border-b border-[#BABBC1] pb-[25px]'}`}
         >
-          <MenuList isCollapsed={isCollapsed} items={filteredMenuItems} title="PÁGINAS" currentPath={url} />
+          <MenuList
+            isCollapsed={isCollapsed}
+            items={filteredMenuItems}
+            title="PÁGINAS"
+            currentPath={url}
+          />
         </div>
         {!isCollapsed && favorites.length > 0 && (
           <div className="px-10 pr-[60px]">

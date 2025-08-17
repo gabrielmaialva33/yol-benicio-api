@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-08-17
 
 ### Added
+
 - **Dashboard System**: Complete dashboard implementation with modular widgets
   - Added `ActiveFoldersCard`, `AreaDivisionCard`, `RequestsCard`, `BirthdaysCard`, `BillingCard`, `TasksCard`, `HearingsCard`, and `FolderActivityCard` widgets
   - API integration with loading/error states and fallback handling
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Upload rate limiting with proper error handling
 
 ### Fixed
+
 - **Test Infrastructure**: Comprehensive test suite with 100% pass rate
   - Fixed authentication issues in permission and file upload tests
   - Added unique usernames with timestamps to prevent database constraint violations
@@ -44,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved modular widget architecture for better reusability
 
 ### Changed
+
 - **Dashboard Architecture**: Migrated from static cards to dynamic widget system
   - Replaced `StatCard` implementation with modular dashboard widgets
   - Enhanced component reusability and layout optimization
@@ -58,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Better query optimization for dashboard statistics
 
 ### Security
+
 - **Authentication**: Strengthened JWT-based authentication system
   - Fixed authentication middleware configuration
   - Improved user session handling in file uploads
@@ -68,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - IP-based and user-based rate limiting strategies
 
 ### Performance
+
 - **Database Optimization**: Materialized views for improved query performance
   - Dashboard statistics pre-calculated and cached
   - Efficient folder and request tracking queries
@@ -78,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved error boundaries and loading states
 
 ### Documentation
+
 - **Code Quality**: Improved code formatting and documentation
   - Consistent formatting across all modules
   - Enhanced README documentation with proper code blocks
@@ -85,4 +91,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-This release marks the first stable version of the Yol Benício Legal Management System, featuring a complete dashboard system, robust authentication, comprehensive file management, and a solid foundation for future development.
+This release marks the first stable version of the Yol Benï¿½cio Legal Management System, featuring a complete dashboard system, robust authentication, comprehensive file management, and a solid foundation for future development.

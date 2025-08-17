@@ -23,7 +23,7 @@ export const menuItems: MenuItem[] = [
   {
     icon: '/icons/overview.svg',
     text: 'Visão Geral',
-    path: '/dashboard'
+    path: '/dashboard',
   },
   {
     icon: '/icons/folders.svg',
@@ -32,9 +32,9 @@ export const menuItems: MenuItem[] = [
     requiredPermissions: ['folders:list'],
     subItems: [
       { text: 'Cadastrar', path: '/dashboard/folders/register' },
-      { text: 'Consulta', path: '/dashboard/folders/consultation' }
-    ]
-  }
+      { text: 'Consulta', path: '/dashboard/folders/consultation' },
+    ],
+  },
 ]
 
 /**
@@ -50,20 +50,36 @@ export function filterMenuItems(
   checkAnyPermission: (permissions: string[]) => boolean
 ): MenuItem[] {
   return items
-    .map(item => {
+    .map((item) => {
       // Check if user has access to this menu item
-      const hasRoleAccess = checkItemAccess(item, userRoles, userPermissions, checkRole, checkAnyRole, checkPermission, checkAnyPermission)
-      
+      const hasRoleAccess = checkItemAccess(
+        item,
+        userRoles,
+        userPermissions,
+        checkRole,
+        checkAnyRole,
+        checkPermission,
+        checkAnyPermission
+      )
+
       if (!hasRoleAccess) {
         return null
       }
 
       // Filter children if they exist
       if (item.children) {
-        const filteredChildren = item.children.filter(child => 
-          checkItemAccess(child, userRoles, userPermissions, checkRole, checkAnyRole, checkPermission, checkAnyPermission)
+        const filteredChildren = item.children.filter((child) =>
+          checkItemAccess(
+            child,
+            userRoles,
+            userPermissions,
+            checkRole,
+            checkAnyRole,
+            checkPermission,
+            checkAnyPermission
+          )
         )
-        
+
         // If no children are accessible, hide the parent item
         if (filteredChildren.length === 0) {
           return null
@@ -71,7 +87,7 @@ export function filterMenuItems(
 
         return {
           ...item,
-          children: filteredChildren
+          children: filteredChildren,
         }
       }
 
@@ -102,7 +118,7 @@ function checkItemAccess(
     if (item.requireAnyRole) {
       hasRoleAccess = checkAnyRole(item.requiredRoles)
     } else {
-      hasRoleAccess = item.requiredRoles.every(role => checkRole(role))
+      hasRoleAccess = item.requiredRoles.every((role) => checkRole(role))
     }
   }
 
@@ -111,7 +127,9 @@ function checkItemAccess(
     if (item.requireAnyPermission) {
       hasPermissionAccess = checkAnyPermission(item.requiredPermissions)
     } else {
-      hasPermissionAccess = item.requiredPermissions.every(permission => checkPermission(permission))
+      hasPermissionAccess = item.requiredPermissions.every((permission) =>
+        checkPermission(permission)
+      )
     }
   }
 

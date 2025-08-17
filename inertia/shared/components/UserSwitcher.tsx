@@ -18,12 +18,28 @@ const mockUsers: Record<string, MockUser> = {
     avatar: null,
     roles: ['root'],
     permissions: [
-      'users:list', 'users:create', 'users:update', 'users:delete',
-      'folders:list', 'folders:create', 'folders:update', 'folders:delete',
-      'files:list', 'files:create', 'files:update', 'files:delete',
-      'reports:read', 'reports:create',
-      'roles:list', 'roles:create', 'roles:update', 'roles:delete',
-      'permissions:list', 'permissions:create', 'permissions:update', 'permissions:delete',
+      'users:list',
+      'users:create',
+      'users:update',
+      'users:delete',
+      'folders:list',
+      'folders:create',
+      'folders:update',
+      'folders:delete',
+      'files:list',
+      'files:create',
+      'files:update',
+      'files:delete',
+      'reports:read',
+      'reports:create',
+      'roles:list',
+      'roles:create',
+      'roles:update',
+      'roles:delete',
+      'permissions:list',
+      'permissions:create',
+      'permissions:update',
+      'permissions:delete',
     ],
   },
   admin: {
@@ -33,9 +49,17 @@ const mockUsers: Record<string, MockUser> = {
     avatar: null,
     roles: ['admin'],
     permissions: [
-      'users:list', 'users:create', 'users:update',
-      'folders:list', 'folders:create', 'folders:update', 'folders:delete',
-      'files:list', 'files:create', 'files:update', 'files:delete',
+      'users:list',
+      'users:create',
+      'users:update',
+      'folders:list',
+      'folders:create',
+      'folders:update',
+      'folders:delete',
+      'files:list',
+      'files:create',
+      'files:update',
+      'files:delete',
       'reports:read',
     ],
   },
@@ -46,8 +70,12 @@ const mockUsers: Record<string, MockUser> = {
     avatar: null,
     roles: ['user'],
     permissions: [
-      'folders:list', 'folders:create', 'folders:update',
-      'files:list', 'files:create', 'files:update',
+      'folders:list',
+      'folders:create',
+      'folders:update',
+      'files:list',
+      'files:create',
+      'files:update',
     ],
   },
   editor: {
@@ -56,10 +84,7 @@ const mockUsers: Record<string, MockUser> = {
     email: 'editor@yolbenicio.com',
     avatar: null,
     roles: ['editor'],
-    permissions: [
-      'files:list', 'files:create', 'files:update',
-      'folders:list', 'folders:update',
-    ],
+    permissions: ['files:list', 'files:create', 'files:update', 'folders:list', 'folders:update'],
   },
   guest: {
     id: 5,
@@ -67,10 +92,7 @@ const mockUsers: Record<string, MockUser> = {
     email: 'guest@yolbenicio.com',
     avatar: null,
     roles: ['guest'],
-    permissions: [
-      'folders:list',
-      'files:list',
-    ],
+    permissions: ['folders:list', 'files:list'],
   },
 }
 
@@ -96,9 +118,9 @@ export function UserSwitcher() {
 
   const getCurrentUserType = () => {
     if (!currentUser) return 'none'
-    return Object.keys(mockUsers).find(
-      key => mockUsers[key].email === currentUser.email
-    ) || 'unknown'
+    return (
+      Object.keys(mockUsers).find((key) => mockUsers[key].email === currentUser.email) || 'unknown'
+    )
   }
 
   return (
@@ -111,7 +133,7 @@ export function UserSwitcher() {
         >
           👤 {getCurrentUserType().toUpperCase()}
         </button>
-        
+
         {isOpen && (
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1">
             <div className="px-3 py-2 text-xs text-gray-500 border-b border-gray-100">
@@ -132,9 +154,7 @@ export function UserSwitcher() {
                 type="button"
               >
                 <div className="font-medium">{user.name}</div>
-                <div className="text-xs text-gray-500">
-                  {user.roles.join(', ')}
-                </div>
+                <div className="text-xs text-gray-500">{user.roles.join(', ')}</div>
               </button>
             ))}
           </div>

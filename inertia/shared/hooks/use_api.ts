@@ -79,20 +79,27 @@ export function useApiQuery<T>(
   options?: Omit<UseQueryOptions<T, ApiError>, 'queryKey' | 'queryFn'>
 ): { data: T | undefined }
 export function useApiQuery<T>(
-  keyOrOptions: string | string[] | {
-    queryKey: string | string[]
-    queryFn: () => Promise<T>
-    initialData?: T
-  },
+  keyOrOptions:
+    | string
+    | string[]
+    | {
+        queryKey: string | string[]
+        queryFn: () => Promise<T>
+        initialData?: T
+      },
   endpoint?: string,
   params?: Record<string, any>,
   options?: Omit<UseQueryOptions<T, ApiError>, 'queryKey' | 'queryFn'>
 ) {
   // Object syntax (React Query style)
-  if (typeof keyOrOptions === 'object' && !Array.isArray(keyOrOptions) && 'queryKey' in keyOrOptions) {
+  if (
+    typeof keyOrOptions === 'object' &&
+    !Array.isArray(keyOrOptions) &&
+    'queryKey' in keyOrOptions
+  ) {
     const { queryKey, queryFn, initialData, ...queryOptions } = keyOrOptions
     const key = Array.isArray(queryKey) ? queryKey : [queryKey]
-    
+
     return useQuery<T, ApiError>({
       queryKey: key,
       queryFn,
@@ -100,7 +107,7 @@ export function useApiQuery<T>(
       ...queryOptions,
     })
   }
-  
+
   // Original signature
   const queryKey = Array.isArray(keyOrOptions) ? keyOrOptions : [keyOrOptions]
 

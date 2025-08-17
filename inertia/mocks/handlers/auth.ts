@@ -9,12 +9,28 @@ const mockUsers = {
     avatar: null,
     roles: ['root'],
     permissions: [
-      'users:list', 'users:create', 'users:update', 'users:delete',
-      'folders:list', 'folders:create', 'folders:update', 'folders:delete',
-      'files:list', 'files:create', 'files:update', 'files:delete',
-      'reports:read', 'reports:create',
-      'roles:list', 'roles:create', 'roles:update', 'roles:delete',
-      'permissions:list', 'permissions:create', 'permissions:update', 'permissions:delete',
+      'users:list',
+      'users:create',
+      'users:update',
+      'users:delete',
+      'folders:list',
+      'folders:create',
+      'folders:update',
+      'folders:delete',
+      'files:list',
+      'files:create',
+      'files:update',
+      'files:delete',
+      'reports:read',
+      'reports:create',
+      'roles:list',
+      'roles:create',
+      'roles:update',
+      'roles:delete',
+      'permissions:list',
+      'permissions:create',
+      'permissions:update',
+      'permissions:delete',
     ],
   },
   admin: {
@@ -24,9 +40,17 @@ const mockUsers = {
     avatar: null,
     roles: ['admin'],
     permissions: [
-      'users:list', 'users:create', 'users:update',
-      'folders:list', 'folders:create', 'folders:update', 'folders:delete',
-      'files:list', 'files:create', 'files:update', 'files:delete',
+      'users:list',
+      'users:create',
+      'users:update',
+      'folders:list',
+      'folders:create',
+      'folders:update',
+      'folders:delete',
+      'files:list',
+      'files:create',
+      'files:update',
+      'files:delete',
       'reports:read',
     ],
   },
@@ -37,8 +61,12 @@ const mockUsers = {
     avatar: null,
     roles: ['user'],
     permissions: [
-      'folders:list', 'folders:create', 'folders:update',
-      'files:list', 'files:create', 'files:update',
+      'folders:list',
+      'folders:create',
+      'folders:update',
+      'files:list',
+      'files:create',
+      'files:update',
     ],
   },
   editor: {
@@ -47,10 +75,7 @@ const mockUsers = {
     email: 'editor@yolbenicio.com',
     avatar: null,
     roles: ['editor'],
-    permissions: [
-      'files:list', 'files:create', 'files:update',
-      'folders:list', 'folders:update',
-    ],
+    permissions: ['files:list', 'files:create', 'files:update', 'folders:list', 'folders:update'],
   },
   guest: {
     id: 5,
@@ -58,10 +83,7 @@ const mockUsers = {
     email: 'guest@yolbenicio.com',
     avatar: null,
     roles: ['guest'],
-    permissions: [
-      'folders:list',
-      'files:list',
-    ],
+    permissions: ['folders:list', 'files:list'],
   },
 }
 
@@ -71,8 +93,8 @@ export const authHandlers = [
     const body = (await request.json()) as { email: string; password: string }
 
     // Find user by email
-    const user = Object.values(mockUsers).find(u => u.email === body.email)
-    
+    const user = Object.values(mockUsers).find((u) => u.email === body.email)
+
     if (user && body.password === 'password') {
       return HttpResponse.json({
         user,
@@ -99,13 +121,13 @@ export const authHandlers = [
 
   // Get current user (check localStorage for selected user type)
   http.get('/api/me', () => {
-    const selectedUserType = typeof window !== 'undefined' 
-      ? localStorage.getItem('mock-user-type') 
-      : null
-    
-    const user = selectedUserType && mockUsers[selectedUserType] 
-      ? mockUsers[selectedUserType] 
-      : mockUsers.admin
+    const selectedUserType =
+      typeof window !== 'undefined' ? localStorage.getItem('mock-user-type') : null
+
+    const user =
+      selectedUserType && mockUsers[selectedUserType]
+        ? mockUsers[selectedUserType]
+        : mockUsers.admin
 
     return HttpResponse.json(user)
   }),
