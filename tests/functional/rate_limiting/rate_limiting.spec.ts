@@ -233,6 +233,7 @@ test.group('Rate Limiting', (group) => {
     const adminUser = await User.create({
       full_name: 'Admin User',
       email: 'admin@example.com',
+      username: 'admin_rate_limit_' + Date.now(),
       password: 'password123',
     })
 
