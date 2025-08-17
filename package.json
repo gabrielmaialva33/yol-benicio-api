@@ -136,9 +136,11 @@
     },
     "onlyBuiltDependencies": [
       "@swc/core",
+      "@tailwindcss/oxide",
       "argon2",
       "bcrypt",
       "msgpackr-extract",
+      "msw",
       "prettier-edgejs"
     ]
   },
