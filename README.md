@@ -231,8 +231,8 @@ graph TD
     style C fill:#4ECDC4,color:#fff
     style D fill:#45B7D1,color:#fff
     style E fill:#96CEB4,color:#fff
-
-    B -->|Collaborator| E[Collaborator Dashboard]
+end
+```    B -->|Collaborator| E[Collaborator Dashboard]
 
     E --> F[Process Consultation]
     F --> G[Process Details - Main Tab]
