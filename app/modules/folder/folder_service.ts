@@ -19,7 +19,19 @@ interface FolderData {
   title: string
   description?: string
   status: 'active' | 'completed' | 'pending' | 'cancelled' | 'archived'
-  area: 'civil_litigation' | 'labor' | 'tax' | 'criminal' | 'administrative' | 'consumer' | 'family' | 'corporate' | 'environmental' | 'intellectual_property' | 'real_estate' | 'international'
+  area:
+    | 'civil_litigation'
+    | 'labor'
+    | 'tax'
+    | 'criminal'
+    | 'administrative'
+    | 'consumer'
+    | 'family'
+    | 'corporate'
+    | 'environmental'
+    | 'intellectual_property'
+    | 'real_estate'
+    | 'international'
   court?: string
   case_number?: string
   opposing_party?: string
