@@ -23,14 +23,6 @@ const queryClient = new QueryClient({
   },
 })
 
-// Enable MSW in development (client-side only)
-if (import.meta.env.DEV && typeof window !== 'undefined') {
-  import('../mocks/browser').then(({ worker }) => {
-    worker.start({
-      onUnhandledRequest: 'bypass',
-    })
-  })
-}
 
 createInertiaApp({
   progress: { color: '#5468FF' },
@@ -54,5 +46,14 @@ createInertiaApp({
 
     // Mark body as hydrated to prevent flash of unstyled content
     document.body.classList.add('hydrated')
+
+    // Enable MSW in development after hydration is complete
+    if (import.meta.env.DEV && typeof window !== 'undefined') {
+      import('../mocks/browser').then(({ worker }) => {
+        worker.start({
+          onUnhandledRequest: 'bypass',
+        })
+      })
+    }
   },
 })
