@@ -95,7 +95,7 @@ router.get('/', async ({ response, request }) => {
   if (request.header('accept')?.includes('text/html')) {
     return response.redirect('/login')
   }
-  
+
   // Otherwise return API info
   return response.json({
     name: 'yol-benicio-api',
