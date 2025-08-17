@@ -65,9 +65,8 @@ export function Header() {
   const messages = props.messages || { unread: 0, items: [] }
 
   return (
-    <header className="bg-white/80 backdrop-blur-sm border-b border-white/20 shadow-sm">
-      <div className="px-6">
-        <div className="flex justify-between items-center h-16">
+    <header className="bg-[#F1F1F2] border-b border-gray-200 px-[30px] py-4">
+      <div className="flex items-center justify-between">
           {/* Page Title and Search */}
           <div className="flex items-center space-x-6">
             <div>
