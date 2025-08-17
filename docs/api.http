@@ -1,4 +1,4 @@
-### Base ACL API HTTP Requests
+### Yol Benício API HTTP Requests
 ### Base URL: http://localhost:3333
 ###
 ### Authentication: Most endpoints require JWT Bearer token
@@ -8,8 +8,8 @@
 ### - Content-Type: application/json (except file uploads)
 ### - Timestamps: ISO 8601 format
 ### - Database fields: snake_case naming
-### - Pagination: ?page=1&perPage=10
-### - Sorting: ?sortBy=field&order=asc|desc
+### - Pagination: ?page=1&per_page=10 (Users). Alguns endpoints admin usam perPage.
+### - Sorting: ?sort_by=field&order=asc|desc (Users). Alguns endpoints admin usam sortBy.
 ### - Search: ?search=term
 
 ### Variables (replace with actual values)
@@ -23,7 +23,7 @@
 ###############################################################################
 
 ### Get API Information
-GET {{baseUrl}}/
+GET {{baseUrl}}/api
 Accept: application/json
 
 ### Health Check
@@ -121,12 +121,12 @@ Authorization: Bearer {{token}}
 Accept: application/json
 
 ### List Users with Pagination
-GET {{baseUrl}}/api/v1/users?page=1&perPage=20
+GET {{baseUrl}}/api/v1/users?page=1&per_page=20
 Authorization: Bearer {{token}}
 Accept: application/json
 
 ### List Users with Sorting
-GET {{baseUrl}}/api/v1/users?sortBy=created_at&order=desc
+GET {{baseUrl}}/api/v1/users?sort_by=created_at&order=desc
 Authorization: Bearer {{token}}
 Accept: application/json
 
@@ -283,9 +283,9 @@ Content-Type: application/json
 
 {
   "user_id": 3,
-  "permission_ids": [
-    10,
-    11
+  "permissions": [
+    { "permission_id": 10, "granted": true },
+    { "permission_id": 11, "granted": false, "expires_at": "2025-12-31T23:59:59.000Z" }
   ]
 }
 
@@ -303,7 +303,8 @@ Content-Type: application/json
   "permissions": [
     "users.create",
     "files.delete"
-  ]
+  ],
+  "require_all": false
 }
 
 ###############################################################################
