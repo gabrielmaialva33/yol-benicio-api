@@ -42,15 +42,8 @@ export default class TaskService {
     } = {}
   ) {
     const query = Task.query()
-      .preload('assignee', (assigneeQuery) => {
-        assigneeQuery.select('id', 'full_name', 'email')
-      })
-      // .preload('folder', (folderQuery) => {
-      //   folderQuery.select('id', 'code', 'title')
-      // })
-      .preload('creator', (creatorQuery) => {
-        creatorQuery.select('id', 'full_name', 'email')
-      })
+      .preload('assignee')
+      .preload('creator')
       .orderBy('created_at', 'desc')
 
     // Apply filters

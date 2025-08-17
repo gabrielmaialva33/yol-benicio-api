@@ -104,9 +104,9 @@ test.group('Task Model', (group) => {
     await task.load('assignee')
 
     assert.exists(task.assignee)
-    assert.equal(task.assignee.id, user.id)
-    assert.equal(task.assignee.full_name, 'Test User')
-    assert.equal(task.assignee.email, 'test@example.com')
+    assert.equal(task.assignee!.id, user.id)
+    assert.equal(task.assignee!.full_name, 'Test User')
+    assert.equal(task.assignee!.email, 'test@example.com')
   })
 
   test('should load creator relation', async ({ assert }) => {
