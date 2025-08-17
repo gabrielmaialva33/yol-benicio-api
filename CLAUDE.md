@@ -21,18 +21,18 @@
 
 ### Enhanced AI Team Assignments
 
-| Task Category | Primary Agent | Secondary Agent | When to Use | Notes |
-|---------------|---------------|-----------------|-------------|-------|
-| **AdonisJS Backend Development** | `backend-developer` | `performance-optimizer` | Server-side features, API endpoints, services | Expert in AdonisJS v6 patterns, modular architecture |
-| **React Component Architecture** | `react-component-architect` | `tailwind-frontend-expert` | UI components, React 19 features | Specialized in React 19, component composition |
-| **React State Management** | `react-state-manager` | `react-component-architect` | React Query, client state, MSW | **NEW**: Data fetching, caching, optimistic updates |
-| **API Design & Documentation** | `api-architect` | `backend-developer` | REST APIs, OpenAPI specs, auth flows | REST design, security patterns, documentation |
-| **Tailwind CSS & Design System** | `tailwind-frontend-expert` | `react-component-architect` | Styling, design tokens, responsive design | Tailwind v4 features, design system consistency |
-| **Frontend Development** | `frontend-developer` | `react-component-architect` | General UI when specialists not needed | Fallback for non-specialized frontend work |
-| **Technical Documentation** | `documentation-specialist` | `api-architect` | API docs, README, architecture guides | **NEW**: Comprehensive documentation maintenance |
-| **Code Quality & Security** | `code-reviewer` | `backend-developer` | **MANDATORY** for all features and PRs | Security audits, code standards, vulnerability checks |
-| **Performance Optimization** | `performance-optimizer` | `backend-developer` | **MANDATORY** for slowness, scaling issues | Database queries, caching, frontend optimization |
-| **Codebase Exploration** | `code-archaeologist` | `backend-developer` | Understanding complex systems (RBAC, modules) | **NEW**: Architecture analysis, legacy exploration |
+| Task Category                    | Primary Agent               | Secondary Agent             | When to Use                                   | Notes                                                 |
+|----------------------------------|-----------------------------|-----------------------------|-----------------------------------------------|-------------------------------------------------------|
+| **AdonisJS Backend Development** | `backend-developer`         | `performance-optimizer`     | Server-side features, API endpoints, services | Expert in AdonisJS v6 patterns, modular architecture  |
+| **React Component Architecture** | `react-component-architect` | `tailwind-frontend-expert`  | UI components, React 19 features              | Specialized in React 19, component composition        |
+| **React State Management**       | `react-state-manager`       | `react-component-architect` | React Query, client state, MSW                | **NEW**: Data fetching, caching, optimistic updates   |
+| **API Design & Documentation**   | `api-architect`             | `backend-developer`         | REST APIs, OpenAPI specs, auth flows          | REST design, security patterns, documentation         |
+| **Tailwind CSS & Design System** | `tailwind-frontend-expert`  | `react-component-architect` | Styling, design tokens, responsive design     | Tailwind v4 features, design system consistency       |
+| **Frontend Development**         | `frontend-developer`        | `react-component-architect` | General UI when specialists not needed        | Fallback for non-specialized frontend work            |
+| **Technical Documentation**      | `documentation-specialist`  | `api-architect`             | API docs, README, architecture guides         | **NEW**: Comprehensive documentation maintenance      |
+| **Code Quality & Security**      | `code-reviewer`             | `backend-developer`         | **MANDATORY** for all features and PRs        | Security audits, code standards, vulnerability checks |
+| **Performance Optimization**     | `performance-optimizer`     | `backend-developer`         | **MANDATORY** for slowness, scaling issues    | Database queries, caching, frontend optimization      |
+| **Codebase Exploration**         | `code-archaeologist`        | `backend-developer`         | Understanding complex systems (RBAC, modules) | **NEW**: Architecture analysis, legacy exploration    |
 
 ### Workflow Patterns & Agent Collaboration
 
