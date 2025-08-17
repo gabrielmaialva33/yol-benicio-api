@@ -82,5 +82,5 @@ router
         })
       )
   })
-  .use([middleware.auth({ guards: ['jwt'] }), adminThrottle])
+  .use([middleware.auth({ guards: ['jwt'] })])
   .prefix('/api/v1/admin')
