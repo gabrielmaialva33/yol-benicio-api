@@ -175,33 +175,34 @@ export const dashboardHandlers = [
     return HttpResponse.json(generateMessages())
   }),
 
-  // Widget-specific endpoints
+  // Widget-specific endpoints - using original project endpoints
   http.get('/api/dashboard/active-folders', () => {
     return HttpResponse.json(generateActiveFoldersData())
   }),
 
-  http.get('/api/dashboard/area-division', () => {
+  http.get('/api/area-division', () => {
     return HttpResponse.json(generateAreaDivisionData())
   }),
 
-  http.get('/api/dashboard/folder-activity', () => {
+  http.get('/api/folder-activity', () => {
     return HttpResponse.json(generateFolderActivityData())
   }),
 
-  http.get('/api/dashboard/requests', () => {
+  http.get('/api/requests', () => {
     return HttpResponse.json(generateRequestsData())
   }),
 
-  http.get('/api/dashboard/billing', () => {
-    return HttpResponse.json(generateBillingData())
-  }),
-
-  http.get('/api/dashboard/hearings', () => {
+  http.get('/api/hearings', () => {
     return HttpResponse.json(generateHearingsData())
   }),
 
-  http.get('/api/dashboard/birthdays', () => {
+  http.get('/api/birthdays', () => {
     return HttpResponse.json(generateBirthdaysData())
+  }),
+
+  // Legacy endpoints for backward compatibility
+  http.get('/api/dashboard/billing', () => {
+    return HttpResponse.json(generateBillingData())
   }),
 
   http.get('/api/dashboard/tasks', () => {
