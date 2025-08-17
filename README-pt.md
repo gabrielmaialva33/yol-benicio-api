@@ -367,14 +367,14 @@ flowchart TD
     B -->|Gestor| C[Dashboard Gestor]
     B -->|Cliente| D[Dashboard Cliente]
     B -->|Colaborador| E[Dashboard Colaborador]
-    
+
     E --> F[Consulta Processual]
     F --> G[Detalhes do Processo]
     G --> H[Timeline de Movimentações]
-    
+
     C --> I[Gerenciamento de Equipe]
     C --> J[Relatórios Gerenciais]
-    
+
     D --> K[Meus Processos]
     D --> L[Documentos Pessoais]
 ```
@@ -391,11 +391,11 @@ O fluxo principal do sistema segue a jornada de um **Colaborador**:
 
 ### Definição de Papéis
 
-| Papel | Nível de Acesso | Funcionalidades Principais |
-|-------|----------------|----------------------------|
-| **Gestor** | Completo | Gerenciamento de equipe, relatórios, configurações do sistema |
-| **Cliente** | Limitado | Visualização de processos pessoais, documentos, agendamentos |
-| **Colaborador** | Operacional | Consulta processual, timeline, gestão de casos atribuídos |
+| Papel           | Nível de Acesso | Funcionalidades Principais                                    |
+| --------------- | --------------- | ------------------------------------------------------------- |
+| **Gestor**      | Completo        | Gerenciamento de equipe, relatórios, configurações do sistema |
+| **Cliente**     | Limitado        | Visualização de processos pessoais, documentos, agendamentos  |
+| **Colaborador** | Operacional     | Consulta processual, timeline, gestão de casos atribuídos     |
 
 ## :package: Instalação
 

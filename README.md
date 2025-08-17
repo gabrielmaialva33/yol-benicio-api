@@ -199,19 +199,20 @@ graph TD
     B -->|Manager| C[Manager Dashboard]
     B -->|Client| D[Client Dashboard]
     B -->|Collaborator| E[Collaborator Dashboard]
-    
+
     E --> F[Process Consultation]
     F --> G[Process Details - Main Tab]
     G --> H[Timeline]
     H --> G
     G --> F
     E --> F
-    
+
     C --> I[Complete Management View]
     D --> J[Limited Client View]
 ```
 
 #### Main Navigation Flow (Collaborator Focus):
+
 1. **Login** → Credential validation with role-based redirect
 2. **Collaborator Dashboard** → Personalized overview with:
    - Active folders
@@ -223,11 +224,12 @@ graph TD
 5. **Timeline** → Movement history and updates
 
 #### User Role Definitions:
-| Role | Access Level | Primary Functions |
-|------|-------------|-------------------|
-| **Manager** | Full access | Team management, reporting, complete system access |
-| **Client** | Limited | View personal processes, limited consultations |
-| **Collaborator** | Operational | Daily operations, process consultation, timeline management |
+
+| Role             | Access Level | Primary Functions                                           |
+| ---------------- | ------------ | ----------------------------------------------------------- |
+| **Manager**      | Full access  | Team management, reporting, complete system access          |
+| **Client**       | Limited      | View personal processes, limited consultations              |
+| **Collaborator** | Operational  | Daily operations, process consultation, timeline management |
 
 ## 🌟 Key Features
 

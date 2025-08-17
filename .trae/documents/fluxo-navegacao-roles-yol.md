@@ -42,14 +42,14 @@ O fluxo de navegação consiste nas seguintes páginas principais:
 
 1. **Login** → Validação de credenciais
 2. **Dashboard Colaborador** → Visão geral personalizada com:
+   - Pastas ativas do colaborador
 
-   * Pastas ativas do colaborador
+   - Próximas audiências
 
-   * Próximas audiências
+   - Tarefas pendentes
 
-   * Tarefas pendentes
+   - Acesso rápido à consulta processual
 
-   * Acesso rápido à consulta processual
 3. **Consulta Processual** → Busca e filtros específicos
 4. **Seleção de Processo** → Clique em processo da lista
 5. **Processo - Aba Principal** → Detalhes principais
@@ -70,17 +70,17 @@ graph TD
 
 ### 4.1 Estilo de Design
 
-* **Cores Primárias**: #373737 (cinza escuro), #00B8D9 (azul), #F1F1F2 (cinza claro)
+- **Cores Primárias**: #373737 (cinza escuro), #00B8D9 (azul), #F1F1F2 (cinza claro)
 
-* **Cores Secundárias**: Laranja (#FF6B35) para destaques, branco para cards
+- **Cores Secundárias**: Laranja (#FF6B35) para destaques, branco para cards
 
-* **Estilo de Botões**: Bordas arredondadas, sombras suaves
+- **Estilo de Botões**: Bordas arredondadas, sombras suaves
 
-* **Fonte**: Work Sans, tamanhos 14px-40px
+- **Fonte**: Work Sans, tamanhos 14px-40px
 
-* **Layout**: Card-based, navegação lateral, header fixo
+- **Layout**: Card-based, navegação lateral, header fixo
 
-* **Ícones**: Outline style, consistentes com o tema jurídico
+- **Ícones**: Outline style, consistentes com o tema jurídico
 
 ### 4.2 Visão Geral das Páginas
 
@@ -100,50 +100,47 @@ Design mobile-first com adaptações para desktop. Navegação lateral colapsáv
 
 ### 5.1 Componentes Existentes a Adaptar
 
-* **Login**: `/inertia/pages/auth/login.tsx` - Já implementado
+- **Login**: `/inertia/pages/auth/login.tsx` - Já implementado
 
-* **Dashboard**: `/inertia/pages/dashboard/index.tsx` - Adaptar para colaborador
+- **Dashboard**: `/inertia/pages/dashboard/index.tsx` - Adaptar para colaborador
 
-* **Consulta**: `/inertia/pages/folders/consultation.tsx` - Já implementado
+- **Consulta**: `/inertia/pages/folders/consultation.tsx` - Já implementado
 
-* **Processo**: `/inertia/pages/folders/show.tsx` - Aba "processo" existente
+- **Processo**: `/inertia/pages/folders/show.tsx` - Aba "processo" existente
 
-* **Timeline**: `/inertia/features/folders/components/ProcessTimeline.tsx` - Já implementado
+- **Timeline**: `/inertia/features/folders/components/ProcessTimeline.tsx` - Já implementado
 
 ### 5.2 Adaptações Necessárias
 
 1. **Dashboard do Colaborador**:
+   - Criar componente `CollaboratorDashboard`
 
-   * Criar componente `CollaboratorDashboard`
+   - Filtrar dados baseado no papel do usuário
 
-   * Filtrar dados baseado no papel do usuário
-
-   * Cards específicos para workflow do colaborador
+   - Cards específicos para workflow do colaborador
 
 2. **Redirecionamento Pós-Login**:
+   - Modificar `AuthController.login()` para redirecionar baseado no papel
 
-   * Modificar `AuthController.login()` para redirecionar baseado no papel
+   - Gestor → Dashboard completo
 
-   * Gestor → Dashboard completo
+   - Cliente → Dashboard limitado
 
-   * Cliente → Dashboard limitado
-
-   * Colaborador → Dashboard específico
+   - Colaborador → Dashboard específico
 
 3. **Controle de Acesso**:
+   - Utilizar middleware existente `acl_middleware.ts`
 
-   * Utilizar middleware existente `acl_middleware.ts`
+   - Implementar verificações de papel nas rotas
 
-   * Implementar verificações de papel nas rotas
-
-   * Filtrar dados baseado nas permissões
+   - Filtrar dados baseado nas permissões
 
 ### 5.3 Rotas Necessárias
 
 ```typescript
 // Rotas específicas por papel
 /dashboard/collaborator - Dashboard do colaborador
-/dashboard/manager - Dashboard do gestor  
+/dashboard/manager - Dashboard do gestor
 /dashboard/client - Dashboard do cliente
 
 // Rotas existentes mantidas
@@ -153,19 +150,18 @@ Design mobile-first com adaptações para desktop. Navegação lateral colapsáv
 
 ## 6. Critérios de Aceitação
 
-* [ ] Login redireciona corretamente baseado no papel do usuário
+- [ ] Login redireciona corretamente baseado no papel do usuário
 
-* [ ] Dashboard do colaborador exibe informações relevantes
+- [ ] Dashboard do colaborador exibe informações relevantes
 
-* [ ] Consulta processual funciona com filtros apropriados
+- [ ] Consulta processual funciona com filtros apropriados
 
-* [ ] Navegação entre processo e timeline é fluida
+- [ ] Navegação entre processo e timeline é fluida
 
-* [ ] Interface responsiva em mobile e desktop
+- [ ] Interface responsiva em mobile e desktop
 
-* [ ] Controle de acesso baseado em RBAC funcional
+- [ ] Controle de acesso baseado em RBAC funcional
 
-* [ ] Performance adequada com carregamento < 2s
+- [ ] Performance adequada com carregamento < 2s
 
-* [ ] Testes unitários e funcionais implementados
-
+- [ ] Testes unitários e funcionais implementados

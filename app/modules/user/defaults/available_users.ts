@@ -8,7 +8,7 @@ export interface DefaultUserData extends ModelAttributes<User> {
 
 export default [
   {
-    full_name: 'Administrador Benício',
+    full_name: 'Administrador Benï¿½cio',
     email: 'admin@benicio.com.br',
     username: 'admin',
     password: 'benicio123',

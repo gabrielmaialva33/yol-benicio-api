@@ -9,18 +9,18 @@ graph TD
     C --> D[PostgreSQL Database]
     C --> E[Redis Cache]
     C --> F[RBAC System]
-    
+
     subgraph "Frontend Layer"
         A
         B
     end
-    
+
     subgraph "Backend Layer"
         C
         F
         E
     end
-    
+
     subgraph "Data Layer"
         D
     end
@@ -129,11 +129,11 @@ graph TD
     B --> C[Service Layer]
     C --> D[Repository Layer]
     D --> E[(Database)]
-    
+
     B --> F[Middleware Layer]
     F --> G[RBAC System]
     G --> H[(Redis Cache)]
-    
+
     subgraph "Servidor AdonisJS"
         B
         C
@@ -183,7 +183,7 @@ erDiagram
     PERMISSION ||--o{ USER_PERMISSIONS : granted_directly
     USER ||--o{ FOLDERS : owns
     FOLDER ||--o{ MOVEMENTS : has
-    
+
     USER {
         int id PK
         string full_name
@@ -192,7 +192,7 @@ erDiagram
         boolean is_deleted
         timestamp created_at
     }
-    
+
     ROLE {
         int id PK
         string name
@@ -200,7 +200,7 @@ erDiagram
         string description
         timestamp created_at
     }
-    
+
     PERMISSION {
         int id PK
         string name
@@ -208,7 +208,7 @@ erDiagram
         string action
         timestamp created_at
     }
-    
+
     FOLDER {
         int id PK
         string code
@@ -316,7 +316,7 @@ export function useRoleRedirect(user: User) {
     }
     return '/dashboard'
   }
-  
+
   return { redirectUrl: getRedirectUrl() }
 }
 ```
@@ -337,11 +337,9 @@ export function useRoleRedirect(user: User) {
 
 ```typescript
 // Exemplo de proteção de rota
-router.get('/dashboard/collaborator', [DashboardController, 'collaborator'])
-  .use([
-    middleware.auth(),
-    middleware.acl({ role_slugs: ['user', 'editor'] })
-  ])
+router
+  .get('/dashboard/collaborator', [DashboardController, 'collaborator'])
+  .use([middleware.auth(), middleware.acl({ role_slugs: ['user', 'editor'] })])
 ```
 
 ## 9. Performance e Otimização
