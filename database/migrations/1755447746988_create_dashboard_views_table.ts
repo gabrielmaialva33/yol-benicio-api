@@ -1,17 +1,18 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
+import db from '@adonisjs/lucid/services/db'
 
 export default class extends BaseSchema {
   /**
    * Check if a table exists in the database
    */
   private async tableExists(tableName: string): Promise<boolean> {
-    const result = await this.schema.connection().rawQuery(`
+    const result = await db.rawQuery(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
         WHERE table_schema = 'public' 
-        AND table_name = '${tableName}'
+        AND table_name = ?
       )
-    `)
+    `, [tableName])
     return result.rows[0].exists
   }
 
