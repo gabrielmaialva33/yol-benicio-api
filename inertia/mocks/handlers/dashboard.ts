@@ -85,14 +85,20 @@ const generateFolderActivityData = () => {
 }
 
 const generateRequestsData = () => {
-  return [
-    {
-      month: 'Jan',
-      value: faker.number.int({ min: 15, max: 30 }),
-      new: faker.number.int({ min: 5, max: 12 }),
-      percentage: faker.number.int({ min: 20, max: 30 }),
-    },
-  ]
+  const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+  const currentMonth = new Date().getMonth()
+
+  return months.slice(0, currentMonth + 1).map((month, index) => {
+    const baseValue = 10 + index * 1.5 + Math.random() * 4
+    const newRequests = Math.floor(Math.random() * 5) + 3
+
+    return {
+      month,
+      value: Math.round(baseValue),
+      new: newRequests,
+      percentage: Math.round((newRequests / 20) * 100),
+    }
+  })
 }
 
 const generateBillingData = () => {
