@@ -1,4 +1,5 @@
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
+import logger from '@adonisjs/core/services/logger'
 import User from '#modules/user/models/user'
 import { TaskFactory } from '#database/factories/task_factory'
 
@@ -7,7 +8,7 @@ export default class extends BaseSeeder {
     // Get the admin user to assign tasks
     const adminUser = await User.findBy('email', 'admin@benicio.com.br')
     if (!adminUser) {
-      console.log('Admin user not found, skipping task seeding')
+      logger.info('Admin user not found, skipping task seeding')
       return
     }
 
@@ -39,6 +40,6 @@ export default class extends BaseSeeder {
     // Create some unassigned tasks
     await TaskFactory.merge({ creator_id: adminUser.id, assignee_id: null }).createMany(3)
 
-    console.log('✅ Created 32 sample tasks using TaskFactory')
+    logger.info('✅ Created 32 sample tasks using TaskFactory')
   }
 }

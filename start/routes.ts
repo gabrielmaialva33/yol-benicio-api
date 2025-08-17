@@ -20,6 +20,7 @@ import '#modules/file/routes/index'
 import '#modules/permission/routes/index'
 import '#modules/folder/routes/index'
 import '#modules/task/routes/index'
+import '#modules/hearing/routes/index'
 
 router
   .get('/api', async () => {
