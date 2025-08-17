@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src=".github/assets/images/img1.png" height="200" alt="acl">
+    <img src=".github/assets/images/logo.svg" height="200" alt="Logo Yol Benício">
 </h1>
 
 <p align="center">
@@ -357,7 +357,7 @@ Os seguintes softwares devem estar instalados:
 
 ### :arrow_forward: **Rodando o backend**
 
-```sh
+````sh
  :package: API
 
 ```sh
@@ -370,7 +370,7 @@ Os seguintes softwares devem estar instalados:
     $ node ace migration:run  # ou docker compose -f docker-compose.dev.yml up --build
     # Iniciar API
     $ pnpm dev  # ou node ace serve --hmr
-```
+````
 
 > Opcional: Usar Docker para tudo
 
@@ -378,7 +378,7 @@ Os seguintes softwares devem estar instalados:
 > docker compose -f docker-compose.dev.yml up --build
 > ```
 
-```
+````
 
 <br>
 
@@ -422,7 +422,7 @@ graph LR
     style SIGNUP fill:#90EE90
     style ROLE_LIST fill:#FFB6C1
     style ROLE_ATTACH fill:#FFB6C1
-```
+````
 
 ### 📋 Detalhes das Rotas
 

@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src=".github/assets/images/img1.png" height="200" alt="acl">
+    <img src=".github/assets/images/logo.svg" height="200" alt="Yol Benício Logo">
 </h1>
 
 <p align="center">
