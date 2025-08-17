@@ -8,33 +8,25 @@ Este guia fornece todas as informações necessárias para desenvolvedores que t
 
 ### 2.1 Ferramentas Obrigatórias
 
-| Ferramenta     | Versão Mínima | Propósito              |
-| -------------- | ------------- | ---------------------- |
-| **Node.js**    | 22.18.0+      | Runtime JavaScript     |
-| **pnpm**       | 8.0+          | Gerenciador de pacotes |
-| **PostgreSQL** | 15+           | Banco de dados         |
-| **Redis**      | 7+            | Cache e sessões        |
-| **Git**        | 2.30+         | Controle de versão     |
+| Ferramenta | Versão Mínima | Propósito |
+|------------|---------------|----------|
+| **Node.js** | 22.18.0+ | Runtime JavaScript |
+| **pnpm** | 8.0+ | Gerenciador de pacotes |
+| **PostgreSQL** | 15+ | Banco de dados |
+| **Redis** | 7+ | Cache e sessões |
+| **Git** | 2.30+ | Controle de versão |
 
 ### 2.2 Ferramentas Recomendadas
 
-* **VS Code** com extensões:
-
-  * AdonisJS Extension Pack
-
-  * TypeScript Hero
-
-  * Tailwind CSS IntelliSense
-
-  * ESLint
-
-  * Prettier
-
-* **Docker** (para ambiente containerizado)
-
-* **Postman/Insomnia** (para testes de API)
-
-* **DBeaver/pgAdmin** (para administração do banco)
+- **VS Code** com extensões:
+  - AdonisJS Extension Pack
+  - TypeScript Hero
+  - Tailwind CSS IntelliSense
+  - ESLint
+  - Prettier
+- **Docker** (para ambiente containerizado)
+- **Postman/Insomnia** (para testes de API)
+- **DBeaver/pgAdmin** (para administração do banco)
 
 ## 3. Setup do Ambiente
 
@@ -195,22 +187,15 @@ app/modules/exemplo/
 ### 5.1 Convenções de Nomenclatura
 
 **Arquivos e Diretórios:**
-
-* `snake_case` para arquivos: `user_controller.ts`
-
-* `kebab-case` para diretórios: `user-management/`
-
-* `PascalCase` para classes: `UserController`
-
-* `camelCase` para métodos e variáveis: `getUserById`
+- `snake_case` para arquivos: `user_controller.ts`
+- `kebab-case` para diretórios: `user-management/`
+- `PascalCase` para classes: `UserController`
+- `camelCase` para métodos e variáveis: `getUserById`
 
 **Banco de Dados:**
-
-* Tabelas em `snake_case` plural: `users`, `user_roles`
-
-* Colunas em `snake_case`: `full_name`, `created_at`
-
-* Chaves estrangeiras: `user_id`, `role_id`
+- Tabelas em `snake_case` plural: `users`, `user_roles`
+- Colunas em `snake_case`: `full_name`, `created_at`
+- Chaves estrangeiras: `user_id`, `role_id`
 
 ### 5.2 Estrutura de Controladores
 
@@ -422,5 +407,56 @@ export class UserService {
   }
 
   /**
+   * Busca usuários com filtros
+   */
+  async searchUsers(filters: UserFilters) {
+    const query = User.query()
+    
+    if (filters.name) {
+      query.whereILike('full_name', `%${filters.name}%`)
+    }
+    
+    if (filters.email) {
+      query.whereILike('email', `%${filters.email}%`)
+    }
+    
+    if (filters.role) {
+      query.whereHas('roles', (roleQuery) => {
+        roleQuery.where('slug', filters.role)
+      })
+    }
+    
+    return query.paginate(filters.page || 1, filters.limit || 20)
+  }
+}
 ```
 
+## 6. Frontend com React + Inertia.js
+
+### 6.1 Estrutura de Componentes
+
+```typescript
+// inertia/features/users/components/UserForm.tsx
+import React from 'react'
+import { useForm } from '@inertiajs/react'
+import { Button } from '@/shared/ui/Button'
+import { Input } from '@/shared/ui/Input'
+import { Card } from '@/shared/ui/Card'
+
+interface UserFormProps {
+  user?: User
+  onSubmit?: () => void
+}
+
+export function UserForm({ user, onSubmit }: UserFormProps) {
+  const { data, setData, post, put, processing, errors } = useForm({
+    fullName: user?.fullName || '',
+    email: user?.email || '',
+    username: user?.username || '',
+  })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (user) {
+      put(`
