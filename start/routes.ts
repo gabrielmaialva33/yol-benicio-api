@@ -61,6 +61,17 @@ const DashboardController = () => import('#controllers/dashboard_controller')
 router
   .group(() => {
     router.get('/dashboard', [DashboardController, 'index']).as('dashboard.index')
+    
+    // Dashboard API endpoints
+    router.get('/api/dashboard', [DashboardController, 'getDashboardData']).as('api.dashboard.all')
+    router.get('/api/dashboard/active-folders', [DashboardController, 'getActiveFolders']).as('api.dashboard.active-folders')
+    router.get('/api/dashboard/area-division', [DashboardController, 'getAreaDivision']).as('api.dashboard.area-division')
+    router.get('/api/dashboard/folder-activity', [DashboardController, 'getFolderActivity']).as('api.dashboard.folder-activity')
+    router.get('/api/dashboard/requests', [DashboardController, 'getRequests']).as('api.dashboard.requests')
+    router.get('/api/dashboard/billing', [DashboardController, 'getBilling']).as('api.dashboard.billing')
+    router.get('/api/dashboard/hearings', [DashboardController, 'getHearings']).as('api.dashboard.hearings')
+    router.get('/api/dashboard/birthdays', [DashboardController, 'getBirthdays']).as('api.dashboard.birthdays')
+    router.get('/api/dashboard/tasks', [DashboardController, 'getTasks']).as('api.dashboard.tasks')
   })
   .use(middleware.auth())
 

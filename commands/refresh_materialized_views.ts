@@ -5,7 +5,7 @@ import db from '@adonisjs/lucid/services/db'
 export default class RefreshMaterializedViews extends BaseCommand {
   static commandName = 'refresh:materialized-views'
   static description = 'Refresh all materialized views for dashboard'
-  
+
   static options: CommandOptions = {
     startApp: true,
   }
@@ -15,11 +15,11 @@ export default class RefreshMaterializedViews extends BaseCommand {
       'mv_dashboard_monthly_evolution',
       'mv_dashboard_billing',
       'mv_dashboard_folder_activity',
-      'mv_dashboard_requests'
+      'mv_dashboard_requests',
     ]
 
     this.logger.info('🔄 Refreshing materialized views...')
-    
+
     for (const view of views) {
       try {
         await db.rawQuery(`REFRESH MATERIALIZED VIEW ${view}`)
@@ -28,7 +28,7 @@ export default class RefreshMaterializedViews extends BaseCommand {
         this.logger.error(`❌ Failed to refresh ${view}: ${error.message}`)
       }
     }
-    
+
     this.logger.info('✨ Materialized views refresh completed')
   }
 }
