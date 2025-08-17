@@ -1,6 +1,8 @@
+/* Import external fonts first */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap');
+
 /* Import Tailwind CSS v4 */
 @import 'tailwindcss';
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Work+Sans:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Tell Tailwind where to look for class usage */
 @source "../pages";
