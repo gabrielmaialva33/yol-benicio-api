@@ -82,34 +82,26 @@ export default class HearingService {
     const monthStart = now.startOf('month')
     const monthEnd = now.endOf('month')
 
-    const [
-      totalResult,
-      pendingResult,
-      upcomingWeekResult,
-      upcomingMonthResult,
-      overdueResult,
-    ] = await Promise.all([
-      Hearing.query().count('* as total'),
-      Hearing.query().whereIn('status', ['pending', 'in_progress']).count('* as total'),
-      Hearing.query()
-        .whereIn('status', ['pending', 'in_progress'])
-        .whereBetween('scheduled_date', [weekStart.toSQL(), weekEnd.toSQL()])
-        .count('* as total'),
-      Hearing.query()
-        .whereIn('status', ['pending', 'in_progress'])
-        .whereBetween('scheduled_date', [monthStart.toSQL(), monthEnd.toSQL()])
-        .count('* as total'),
-      Hearing.query()
-        .whereIn('status', ['pending', 'in_progress'])
-        .where('scheduled_date', '<', now.toSQL())
-        .count('* as total'),
-    ])
+    const [totalResult, pendingResult, upcomingWeekResult, upcomingMonthResult, overdueResult] =
+      await Promise.all([
+        Hearing.query().count('* as total'),
+        Hearing.query().whereIn('status', ['pending', 'in_progress']).count('* as total'),
+        Hearing.query()
+          .whereIn('status', ['pending', 'in_progress'])
+          .whereBetween('scheduled_date', [weekStart.toSQL(), weekEnd.toSQL()])
+          .count('* as total'),
+        Hearing.query()
+          .whereIn('status', ['pending', 'in_progress'])
+          .whereBetween('scheduled_date', [monthStart.toSQL(), monthEnd.toSQL()])
+          .count('* as total'),
+        Hearing.query()
+          .whereIn('status', ['pending', 'in_progress'])
+          .where('scheduled_date', '<', now.toSQL())
+          .count('* as total'),
+      ])
 
     // Get hearings by type
-    const typeStats = await Hearing.query()
-      .select('type')
-      .count('* as count')
-      .groupBy('type')
+    const typeStats = await Hearing.query().select('type').count('* as count').groupBy('type')
 
     return {
       total_hearings: Number(totalResult[0]!.$extras.total),
@@ -220,29 +212,32 @@ export default class HearingService {
   /**
    * Update hearing
    */
-  async updateHearing(id: number, data: Partial<{
-    title: string
-    description: string
-    type: string
-    status: string
-    priority: string
-    scheduled_date: DateTime
-    due_date: DateTime
-    assignee_id: number
-    folder_id: number
-    metadata: Record<string, any>
-    notes: string
-  }>): Promise<Hearing> {
+  async updateHearing(
+    id: number,
+    data: Partial<{
+      title: string
+      description: string
+      type: string
+      status: string
+      priority: string
+      scheduled_date: DateTime
+      due_date: DateTime
+      assignee_id: number
+      folder_id: number
+      metadata: Record<string, any>
+      notes: string
+    }>
+  ): Promise<Hearing> {
     const hearing = await Hearing.findOrFail(id)
-    
+
     // Set completed_at when status changes to completed
     if (data.status === 'completed' && hearing.status !== 'completed') {
       data.completed_at = DateTime.now()
     }
-    
+
     hearing.merge(data)
     await hearing.save()
-    
+
     return hearing
   }
 
@@ -251,15 +246,15 @@ export default class HearingService {
    */
   async updateHearingStatus(id: number, status: string): Promise<Hearing> {
     const hearing = await Hearing.findOrFail(id)
-    
+
     hearing.status = status as any
-    
+
     if (status === 'completed') {
       hearing.completed_at = DateTime.now()
     }
-    
+
     await hearing.save()
-    
+
     return hearing
   }
 
@@ -269,7 +264,7 @@ export default class HearingService {
   async deleteHearing(id: number): Promise<{ message: string }> {
     const hearing = await Hearing.findOrFail(id)
     await hearing.delete()
-    
+
     return { message: 'Hearing deleted successfully' }
   }
 }

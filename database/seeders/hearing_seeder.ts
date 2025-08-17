@@ -30,7 +30,9 @@ export default class extends BaseSeeder {
       .createMany(2)
 
     // Create regular hearings with random states
-    await HearingFactory.merge({ creator_id: firstUser.id, assignee_id: firstUser.id }).createMany(15)
+    await HearingFactory.merge({ creator_id: firstUser.id, assignee_id: firstUser.id }).createMany(
+      15
+    )
 
     // Create some unassigned hearings
     await HearingFactory.merge({ creator_id: firstUser.id, assignee_id: null }).createMany(6)

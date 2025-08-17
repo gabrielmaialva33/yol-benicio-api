@@ -26,12 +26,13 @@ export const HearingFactory = factory
       : null
 
     const status = faker.helpers.arrayElement(statuses)
-    const completedAt = status === 'completed' 
-      ? faker.date.between({
-          from: DateTime.fromJSDate(scheduledDate).minus({ days: 30 }).toJSDate(),
-          to: DateTime.fromJSDate(scheduledDate).plus({ days: 30 }).toJSDate(),
-        })
-      : null
+    const completedAt =
+      status === 'completed'
+        ? faker.date.between({
+            from: DateTime.fromJSDate(scheduledDate).minus({ days: 30 }).toJSDate(),
+            to: DateTime.fromJSDate(scheduledDate).plus({ days: 30 }).toJSDate(),
+          })
+        : null
 
     return {
       title: faker.helpers.arrayElement([
@@ -65,11 +66,15 @@ export const HearingFactory = factory
           'Vara Criminal',
         ]),
         process_number: `${faker.number.int({ min: 1000000, max: 9999999 })}-${faker.number.int({ min: 10, max: 99 })}.${DateTime.now().year}.8.26.${faker.number.int({ min: 1000, max: 9999 })}`,
-        estimated_duration: faker.helpers.arrayElement(['30 min', '1 hora', '2 horas', '3 horas', 'Dia todo']),
+        estimated_duration: faker.helpers.arrayElement([
+          '30 min',
+          '1 hora',
+          '2 horas',
+          '3 horas',
+          'Dia todo',
+        ]),
       },
-      notes: faker.datatype.boolean({ probability: 0.6 }) 
-        ? faker.lorem.paragraph()
-        : null,
+      notes: faker.datatype.boolean({ probability: 0.6 }) ? faker.lorem.paragraph() : null,
     }
   })
   .state('upcoming', (({ faker }) => ({

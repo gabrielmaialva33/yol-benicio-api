@@ -1,6 +1,6 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
-import HearingsController from '../controllers/hearings_controller.js'
+const HearingsController = () => import('../controllers/hearings_controller.js')
 
 // Hearings API routes
 router
