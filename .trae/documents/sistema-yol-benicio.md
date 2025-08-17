@@ -30,26 +30,26 @@ graph TB
         B[Inertia.js]
         C[TailwindCSS v4]
     end
-    
+
     subgraph "Backend Layer"
         D[AdonisJS v6]
         E[Node.js 22.18.0]
         F[JWT Authentication]
         G[RBAC System]
     end
-    
+
     subgraph "Data Layer"
         H[PostgreSQL]
         I[Redis Cache]
         J[File Storage]
     end
-    
+
     subgraph "External Services"
         K[Email Service]
         L[Backup Service]
         M[Monitoring]
     end
-    
+
     A --> B
     B --> D
     D --> E
@@ -65,19 +65,19 @@ graph TB
 
 ### 2.2 Stack Tecnológico
 
-| Camada | Tecnologia | Versão | Propósito |
-|--------|------------|--------|-----------|
-| **Frontend** | React | 19.x | Interface do usuário |
-| **Frontend** | Inertia.js | 2.x | SPA sem API separada |
-| **Frontend** | TypeScript | 5.x | Tipagem estática |
-| **Frontend** | TailwindCSS | 4.x | Estilização |
-| **Backend** | AdonisJS | 6.x | Framework web |
-| **Runtime** | Node.js | 22.18.0+ | Ambiente de execução |
-| **Database** | PostgreSQL | 15+ | Banco de dados principal |
-| **Cache** | Redis | 7+ | Cache e sessões |
-| **Auth** | JWT | - | Autenticação |
-| **Tests** | Japa | 3.x | Framework de testes |
-| **Mock** | MSW | 2.x | Mock Service Worker |
+| Camada       | Tecnologia  | Versão   | Propósito                |
+| ------------ | ----------- | -------- | ------------------------ |
+| **Frontend** | React       | 19.x     | Interface do usuário     |
+| **Frontend** | Inertia.js  | 2.x      | SPA sem API separada     |
+| **Frontend** | TypeScript  | 5.x      | Tipagem estática         |
+| **Frontend** | TailwindCSS | 4.x      | Estilização              |
+| **Backend**  | AdonisJS    | 6.x      | Framework web            |
+| **Runtime**  | Node.js     | 22.18.0+ | Ambiente de execução     |
+| **Database** | PostgreSQL  | 15+      | Banco de dados principal |
+| **Cache**    | Redis       | 7+       | Cache e sessões          |
+| **Auth**     | JWT         | -        | Autenticação             |
+| **Tests**    | Japa        | 3.x      | Framework de testes      |
+| **Mock**     | MSW         | 2.x      | Mock Service Worker      |
 
 ### 2.3 Arquitetura Modular
 
@@ -89,20 +89,20 @@ graph LR
         C[Role]
         D[Permission]
     end
-    
+
     subgraph "Business Modules"
         E[Folder]
         F[File]
         G[Audit]
         H[Health]
     end
-    
+
     subgraph "Support Modules"
         I[Ownership]
         J[Notification]
         K[Report]
     end
-    
+
     A --> B
     B --> C
     C --> D
@@ -117,6 +117,7 @@ graph LR
 ### 3.1 Módulo de Autenticação (Auth)
 
 **Responsabilidades:**
+
 - Login/Logout de usuários
 - Gerenciamento de sessões
 - Recuperação de senha
@@ -124,6 +125,7 @@ graph LR
 - Rate limiting
 
 **Componentes Principais:**
+
 - `AuthController`: Controle de autenticação
 - `AuthMiddleware`: Middleware de autenticação
 - `JwtGuard`: Guarda JWT personalizado
@@ -132,12 +134,14 @@ graph LR
 ### 3.2 Módulo de Usuários (User)
 
 **Responsabilidades:**
+
 - CRUD de usuários
 - Perfis de usuário
 - Configurações pessoais
 - Histórico de atividades
 
 **Funcionalidades:**
+
 - Cadastro e edição de usuários
 - Upload de foto de perfil
 - Configurações de notificação
@@ -153,7 +157,7 @@ graph TD
     B --> C[EDITOR]
     C --> D[USER]
     D --> E[GUEST]
-    
+
     A -.-> |"Herda todas"| F[Todas as Permissões]
     B -.-> |"Herda de USER"| G[Permissões Administrativas]
     C -.-> |"Herda de USER"| H[Permissões de Edição]
@@ -163,17 +167,18 @@ graph TD
 
 **Permissões por Módulo:**
 
-| Módulo | CREATE | READ | UPDATE | DELETE | ADMIN |
-|--------|--------|------|--------|-----------|-------|
-| **Users** | ADMIN+ | USER+ | OWNER/ADMIN | ADMIN+ | ROOT |
-| **Folders** | USER+ | OWNER+ | OWNER/EDITOR+ | OWNER/ADMIN+ | ADMIN+ |
-| **Files** | USER+ | OWNER+ | OWNER/EDITOR+ | OWNER/ADMIN+ | ADMIN+ |
-| **Roles** | ROOT | ADMIN+ | ROOT | ROOT | ROOT |
-| **Permissions** | ROOT | ADMIN+ | ROOT | ROOT | ROOT |
+| Módulo          | CREATE | READ   | UPDATE        | DELETE       | ADMIN  |
+| --------------- | ------ | ------ | ------------- | ------------ | ------ |
+| **Users**       | ADMIN+ | USER+  | OWNER/ADMIN   | ADMIN+       | ROOT   |
+| **Folders**     | USER+  | OWNER+ | OWNER/EDITOR+ | OWNER/ADMIN+ | ADMIN+ |
+| **Files**       | USER+  | OWNER+ | OWNER/EDITOR+ | OWNER/ADMIN+ | ADMIN+ |
+| **Roles**       | ROOT   | ADMIN+ | ROOT          | ROOT         | ROOT   |
+| **Permissions** | ROOT   | ADMIN+ | ROOT          | ROOT         | ROOT   |
 
 ### 3.4 Módulo de Pastas/Processos (Folder)
 
 **Funcionalidades Principais:**
+
 - Criação e gestão de processos
 - Organização hierárquica
 - Controle de status
@@ -196,6 +201,7 @@ stateDiagram-v2
 ### 3.5 Módulo de Arquivos (File)
 
 **Capacidades:**
+
 - Upload seguro de arquivos
 - Controle de versões
 - Organização por categorias
@@ -203,6 +209,7 @@ stateDiagram-v2
 - Download controlado
 
 **Tipos de Arquivo Suportados:**
+
 - Documentos: PDF, DOC, DOCX, TXT
 - Imagens: JPG, PNG, GIF, SVG
 - Planilhas: XLS, XLSX, CSV
@@ -211,12 +218,14 @@ stateDiagram-v2
 ### 3.6 Módulo de Auditoria (Audit)
 
 **Rastreamento:**
+
 - Todas as ações do usuário
 - Alterações em dados sensíveis
 - Tentativas de acesso
 - Operações administrativas
 
 **Informações Capturadas:**
+
 - Usuário responsável
 - Timestamp da ação
 - IP de origem
@@ -234,7 +243,7 @@ sequenceDiagram
     participant B as Backend
     participant D as Database
     participant R as Redis
-    
+
     U->>F: Acessa /login
     F->>U: Exibe formulário
     U->>F: Submete credenciais
@@ -280,6 +289,7 @@ flowchart LR
 ### 5.1 Design System
 
 **Paleta de Cores:**
+
 - **Primary**: #373737 (Cinza Escuro)
 - **Secondary**: #00B8D9 (Azul)
 - **Accent**: #FF6B35 (Laranja)
@@ -290,11 +300,13 @@ flowchart LR
 - **Error**: #FF3547 (Vermelho)
 
 **Tipografia:**
+
 - **Font Family**: Work Sans, Inter, system-ui
 - **Sizes**: 12px, 14px, 16px, 18px, 24px, 32px, 40px
 - **Weights**: 400 (Regular), 500 (Medium), 600 (Semibold), 700 (Bold)
 
 **Componentes Base:**
+
 - Botões com bordas arredondadas (8px)
 - Cards com sombras suaves
 - Inputs com foco destacado
@@ -304,12 +316,14 @@ flowchart LR
 ### 5.2 Layouts Responsivos
 
 **Breakpoints:**
+
 - **Mobile**: < 768px
 - **Tablet**: 768px - 1024px
 - **Desktop**: > 1024px
 - **Large**: > 1440px
 
 **Adaptações Mobile:**
+
 - Navegação lateral vira drawer
 - Tabelas com scroll horizontal
 - Cards empilhados verticalmente
@@ -318,18 +332,21 @@ flowchart LR
 ### 5.3 Dashboards por Papel
 
 **Dashboard do Gestor:**
+
 - Visão geral de todos os processos
 - Métricas de performance da equipe
 - Relatórios financeiros
 - Gestão de usuários e permissões
 
 **Dashboard do Colaborador:**
+
 - Processos atribuídos
 - Tarefas pendentes
 - Próximas audiências
 - Timeline de atividades
 
 **Dashboard do Cliente:**
+
 - Seus processos
 - Status e atualizações
 - Documentos disponíveis
@@ -340,18 +357,21 @@ flowchart LR
 ### 6.1 Medidas de Segurança
 
 **Autenticação:**
+
 - JWT com refresh tokens
 - Rate limiting por IP
 - Bloqueio por tentativas
 - 2FA (planejado)
 
 **Autorização:**
+
 - RBAC granular
 - Ownership validation
 - Middleware de permissões
 - Audit trail completo
 
 **Dados:**
+
 - Criptografia em trânsito (HTTPS)
 - Hashing de senhas (Argon2)
 - Soft deletes para auditoria
@@ -370,12 +390,14 @@ flowchart LR
 ### 7.1 Otimizações
 
 **Backend:**
+
 - Cache Redis para sessões
 - Índices otimizados no PostgreSQL
 - Lazy loading de relacionamentos
 - Paginação em consultas
 
 **Frontend:**
+
 - Code splitting por rotas
 - Lazy loading de componentes
 - Otimização de imagens
@@ -384,12 +406,14 @@ flowchart LR
 ### 7.2 Monitoramento
 
 **Métricas Coletadas:**
+
 - Tempo de resposta das APIs
 - Uso de memória e CPU
 - Erros e exceções
 - Atividade de usuários
 
 **Alertas Configurados:**
+
 - Alta latência (> 2s)
 - Erro rate elevado (> 5%)
 - Uso de recursos crítico (> 80%)
@@ -400,18 +424,21 @@ flowchart LR
 ### 8.1 Próximas Versões
 
 **v2.0 - Q2 2024:**
+
 - Integração com tribunais
 - Assinatura digital
 - Relatórios avançados
 - API pública
 
 **v2.1 - Q3 2024:**
+
 - Mobile app nativo
 - Inteligência artificial
 - Workflow automation
 - Integração contábil
 
 **v3.0 - Q4 2024:**
+
 - Multi-tenancy
 - Marketplace de plugins
 - Analytics avançado

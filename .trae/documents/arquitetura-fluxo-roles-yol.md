@@ -28,15 +28,15 @@ graph TD
 
 ## 2. Descrição das Tecnologias
 
-* **Frontend**: React\@19 + Inertia.js + TypeScript + TailwindCSS
+- **Frontend**: React\@19 + Inertia.js + TypeScript + TailwindCSS
 
-* **Backend**: AdonisJS\@6 + Node.js\@22.18.0
+- **Backend**: AdonisJS\@6 + Node.js\@22.18.0
 
-* **Banco de Dados**: PostgreSQL (via Supabase/local)
+- **Banco de Dados**: PostgreSQL (via Supabase/local)
 
-* **Cache**: Redis
+- **Cache**: Redis
 
-* **Autenticação**: JWT com sistema RBAC existente
+- **Autenticação**: JWT com sistema RBAC existente
 
 ## 3. Definições de Rotas
 
@@ -69,12 +69,12 @@ Request:
 
 Response:
 
-| Parâmetro     | Tipo    | Descrição                                |
-| ------------- | ------- | ---------------------------------------- |
-| success       | boolean | Status da autenticação                   |
-| redirect\_url | string  | URL de redirecionamento baseada no papel |
-| user          | object  | Dados do usuário autenticado             |
-| roles         | array   | Papéis do usuário                        |
+| Parâmetro    | Tipo    | Descrição                                |
+| ------------ | ------- | ---------------------------------------- |
+| success      | boolean | Status da autenticação                   |
+| redirect_url | string  | URL de redirecionamento baseada no papel |
+| user         | object  | Dados do usuário autenticado             |
+| roles        | array   | Papéis do usuário                        |
 
 Exemplo:
 
@@ -101,12 +101,12 @@ GET /api/dashboard/collaborator
 
 Response:
 
-| Parâmetro          | Tipo  | Descrição                    |
-| ------------------ | ----- | ---------------------------- |
-| active\_folders    | array | Pastas ativas do colaborador |
-| upcoming\_hearings | array | Próximas audiências          |
-| pending\_tasks     | array | Tarefas pendentes            |
-| recent\_movements  | array | Movimentações recentes       |
+| Parâmetro         | Tipo  | Descrição                    |
+| ----------------- | ----- | ---------------------------- |
+| active_folders    | array | Pastas ativas do colaborador |
+| upcoming_hearings | array | Próximas audiências          |
+| pending_tasks     | array | Tarefas pendentes            |
+| recent_movements  | array | Movimentações recentes       |
 
 **Verificação de Permissões**
 
@@ -147,27 +147,27 @@ graph TD
 
 **Controller Layer**:
 
-* `AuthController` - Gerencia login e redirecionamento
+- `AuthController` - Gerencia login e redirecionamento
 
-* `DashboardController` - Endpoints específicos por papel
+- `DashboardController` - Endpoints específicos por papel
 
-* `FoldersController` - Consulta e visualização de processos
+- `FoldersController` - Consulta e visualização de processos
 
 **Service Layer**:
 
-* `RoleBasedRedirectService` - Lógica de redirecionamento
+- `RoleBasedRedirectService` - Lógica de redirecionamento
 
-* `CollaboratorDashboardService` - Dados específicos do colaborador
+- `CollaboratorDashboardService` - Dados específicos do colaborador
 
-* `PermissionCheckService` - Verificação de permissões
+- `PermissionCheckService` - Verificação de permissões
 
 **Middleware Layer**:
 
-* `auth_middleware.ts` - Autenticação (existente)
+- `auth_middleware.ts` - Autenticação (existente)
 
-* `acl_middleware.ts` - Controle de acesso por papel (existente)
+- `acl_middleware.ts` - Controle de acesso por papel (existente)
 
-* `permission_middleware.ts` - Verificação de permissões (existente)
+- `permission_middleware.ts` - Verificação de permissões (existente)
 
 ## 6. Modelo de Dados
 
@@ -325,13 +325,13 @@ export function useRoleRedirect(user: User) {
 
 ### 8.1 Middleware de Segurança
 
-* **Autenticação**: Verificação de JWT válido
+- **Autenticação**: Verificação de JWT válido
 
-* **Autorização**: Verificação de papéis via `acl_middleware`
+- **Autorização**: Verificação de papéis via `acl_middleware`
 
-* **Permissões**: Verificação granular via `permission_middleware`
+- **Permissões**: Verificação granular via `permission_middleware`
 
-* **Rate Limiting**: Proteção contra ataques (existente)
+- **Rate Limiting**: Proteção contra ataques (existente)
 
 ### 8.2 Controle de Acesso por Rota
 
@@ -346,11 +346,11 @@ router
 
 ### 9.1 Estratégias de Cache
 
-* **Redis**: Cache de permissões e papéis do usuário
+- **Redis**: Cache de permissões e papéis do usuário
 
-* **Frontend**: Cache de dados do dashboard via React Query
+- **Frontend**: Cache de dados do dashboard via React Query
 
-* **Database**: Índices otimizados nas tabelas de relacionamento
+- **Database**: Índices otimizados nas tabelas de relacionamento
 
 ### 9.2 Otimizações de Query
 
@@ -360,4 +360,3 @@ CREATE INDEX idx_user_roles_user_id ON user_roles(user_id);
 CREATE INDEX idx_folders_user_id_status ON folders(user_id, status);
 CREATE INDEX idx_movements_folder_id_date ON movements(folder_id, movement_date DESC);
 ```
-

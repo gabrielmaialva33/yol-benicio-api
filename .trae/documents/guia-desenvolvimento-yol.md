@@ -8,13 +8,13 @@ Este guia fornece todas as informações necessárias para desenvolvedores que t
 
 ### 2.1 Ferramentas Obrigatórias
 
-| Ferramenta | Versão Mínima | Propósito |
-|------------|---------------|----------|
-| **Node.js** | 22.18.0+ | Runtime JavaScript |
-| **pnpm** | 8.0+ | Gerenciador de pacotes |
-| **PostgreSQL** | 15+ | Banco de dados |
-| **Redis** | 7+ | Cache e sessões |
-| **Git** | 2.30+ | Controle de versão |
+| Ferramenta     | Versão Mínima | Propósito              |
+| -------------- | ------------- | ---------------------- |
+| **Node.js**    | 22.18.0+      | Runtime JavaScript     |
+| **pnpm**       | 8.0+          | Gerenciador de pacotes |
+| **PostgreSQL** | 15+           | Banco de dados         |
+| **Redis**      | 7+            | Cache e sessões        |
+| **Git**        | 2.30+         | Controle de versão     |
 
 ### 2.2 Ferramentas Recomendadas
 
@@ -187,12 +187,14 @@ app/modules/exemplo/
 ### 5.1 Convenções de Nomenclatura
 
 **Arquivos e Diretórios:**
+
 - `snake_case` para arquivos: `user_controller.ts`
 - `kebab-case` para diretórios: `user-management/`
 - `PascalCase` para classes: `UserController`
 - `camelCase` para métodos e variáveis: `getUserById`
 
 **Banco de Dados:**
+
 - Tabelas em `snake_case` plural: `users`, `user_roles`
 - Colunas em `snake_case`: `full_name`, `created_at`
 - Chaves estrangeiras: `user_id`, `role_id`
@@ -212,11 +214,9 @@ export default class UsersController {
   async index({ request, response }: HttpContext) {
     const page = request.input('page', 1)
     const limit = request.input('limit', 20)
-    
-    const users = await User.query()
-      .preload('roles')
-      .paginate(page, limit)
-    
+
+    const users = await User.query().preload('roles').paginate(page, limit)
+
     return response.ok(users)
   }
 
@@ -226,7 +226,7 @@ export default class UsersController {
   async store({ request, response }: HttpContext) {
     const payload = await request.validateUsing(createUserValidator)
     const user = await User.create(payload)
-    
+
     return response.created(user)
   }
 
@@ -236,7 +236,7 @@ export default class UsersController {
   async show({ params, response }: HttpContext) {
     const user = await User.findOrFail(params.id)
     await user.load('roles')
-    
+
     return response.ok(user)
   }
 
@@ -246,10 +246,10 @@ export default class UsersController {
   async update({ params, request, response }: HttpContext) {
     const user = await User.findOrFail(params.id)
     const payload = await request.validateUsing(updateUserValidator)
-    
+
     user.merge(payload)
     await user.save()
-    
+
     return response.ok(user)
   }
 
@@ -259,7 +259,7 @@ export default class UsersController {
   async destroy({ params, response }: HttpContext) {
     const user = await User.findOrFail(params.id)
     await user.delete()
-    
+
     return response.noContent()
   }
 }
@@ -320,7 +320,7 @@ export default class User extends BaseModel {
    */
   async hasRole(roleSlug: string): Promise<boolean> {
     await this.load('roles')
-    return this.roles.some(role => role.slug === roleSlug)
+    return this.roles.some((role) => role.slug === roleSlug)
   }
 
   /**
@@ -387,11 +387,11 @@ export class UserService {
    */
   async createUser(data: CreateUserData): Promise<User> {
     const user = await User.create(data)
-    
+
     // Atribuir papel padrão
     const defaultRole = await Role.findByOrFail('slug', 'user')
     await user.related('roles').attach([defaultRole.id])
-    
+
     return user
   }
 
@@ -402,7 +402,7 @@ export class UserService {
     const user = await User.findOrFail(userId)
     user.merge(data)
     await user.save()
-    
+
     return user
   }
 
@@ -411,21 +411,21 @@ export class UserService {
    */
   async searchUsers(filters: UserFilters) {
     const query = User.query()
-    
+
     if (filters.name) {
       query.whereILike('full_name', `%${filters.name}%`)
     }
-    
+
     if (filters.email) {
       query.whereILike('email', `%${filters.email}%`)
     }
-    
+
     if (filters.role) {
       query.whereHas('roles', (roleQuery) => {
         roleQuery.where('slug', filters.role)
       })
     }
-    
+
     return query.paginate(filters.page || 1, filters.limit || 20)
   }
 }
@@ -457,7 +457,7 @@ export function UserForm({ user, onSubmit }: UserFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (user) {
       put(`/users/${user.id}`, {
         onSuccess: () => onSubmit?.()
@@ -479,7 +479,7 @@ export function UserForm({ user, onSubmit }: UserFormProps) {
           error={errors.fullName}
           required
         />
-        
+
         <Input
           label="Email"
           type="email"
@@ -488,14 +488,14 @@ export function UserForm({ user, onSubmit }: UserFormProps) {
           error={errors.email}
           required
         />
-        
+
         <Input
           label="Nome de Usuário"
           value={data.username}
           onChange={(e) => setData('username', e.target.value)}
           error={errors.username}
         />
-        
+
         <div className="flex justify-end space-x-2">
           <Button type="submit" loading={processing}>
             {user ? 'Atualizar' : 'Criar'} Usuário
@@ -516,25 +516,25 @@ import { PageProps } from '@/shared/types'
 
 export function usePermissions() {
   const { auth } = usePage<PageProps>().props
-  
+
   const hasPermission = (permission: string): boolean => {
     return auth.user.permissions?.includes(permission) || false
   }
-  
+
   const hasRole = (role: string): boolean => {
-    return auth.user.roles?.some(r => r.slug === role) || false
+    return auth.user.roles?.some((r) => r.slug === role) || false
   }
-  
+
   const isAdmin = (): boolean => {
     return hasRole('admin') || hasRole('root')
   }
-  
+
   return {
     hasPermission,
     hasRole,
     isAdmin,
     permissions: auth.user.permissions || [],
-    roles: auth.user.roles || []
+    roles: auth.user.roles || [],
   }
 }
 ```
@@ -554,15 +554,11 @@ processCLIArgs(process.argv.splice(2))
 
 configure({
   files: ['tests/**/*.spec.ts'],
-  plugins: [
-    assert(),
-    apiClient(),
-    pluginAdonisJS()
-  ],
+  plugins: [assert(), apiClient(), pluginAdonisJS()],
   reporters: {
-    activated: ['spec']
+    activated: ['spec'],
   },
-  importer: (filePath) => import(filePath)
+  importer: (filePath) => import(filePath),
 })
 
 run()
@@ -584,17 +580,15 @@ test.group('Users - Create', (group) => {
     const userData = {
       fullName: 'João Silva',
       email: 'joao@example.com',
-      password: '123456'
+      password: '123456',
     }
 
-    const response = await client
-      .post('/users')
-      .json(userData)
+    const response = await client.post('/users').json(userData)
 
     response.assertStatus(201)
     response.assertBodyContains({
       fullName: userData.fullName,
-      email: userData.email
+      email: userData.email,
     })
 
     const user = await User.findBy('email', userData.email)
@@ -603,17 +597,15 @@ test.group('Users - Create', (group) => {
   })
 
   test('should validate required fields', async ({ client }) => {
-    const response = await client
-      .post('/users')
-      .json({})
+    const response = await client.post('/users').json({})
 
     response.assertStatus(422)
     response.assertBodyContains({
       errors: [
         { field: 'fullName', message: 'The fullName field is required' },
         { field: 'email', message: 'The email field is required' },
-        { field: 'password', message: 'The password field is required' }
-      ]
+        { field: 'password', message: 'The password field is required' },
+      ],
     })
   })
 })
@@ -630,11 +622,11 @@ import User from '#models/user'
 test.group('UserService', () => {
   test('should create user with default role', async ({ assert }) => {
     const userService = new UserService()
-    
+
     const userData = {
       fullName: 'Test User',
       email: 'test@example.com',
-      password: '123456'
+      password: '123456',
     }
 
     const user = await userService.createUser(userData)
@@ -738,7 +730,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     services:
       postgres:
         image: postgres:15
@@ -750,7 +742,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      
+
       redis:
         image: redis:7
         options: >-
@@ -758,21 +750,21 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-      
+
       - name: Install pnpm
         run: npm install -g pnpm
-      
+
       - name: Install dependencies
         run: pnpm install
-      
+
       - name: Run tests
         run: pnpm test
         env:
@@ -790,6 +782,7 @@ jobs:
 ### 9.1 Problemas Comuns
 
 **Erro de Conexão com Banco:**
+
 ```bash
 # Verificar se PostgreSQL está rodando
 brew services list | grep postgresql
@@ -799,6 +792,7 @@ brew services restart postgresql
 ```
 
 **Erro de Permissões:**
+
 ```bash
 # Sincronizar permissões
 node ace sync:permissions
@@ -808,6 +802,7 @@ psql -d yol_benicio_dev -c "SELECT * FROM roles;"
 ```
 
 **Problemas com Cache:**
+
 ```bash
 # Limpar cache Redis
 redis-cli FLUSHALL
@@ -834,13 +829,13 @@ export default defineConfig({
             target: 'pino-pretty',
             level: 'info',
             options: {
-              colorize: true
-            }
-          }
-        ]
-      }
-    }
-  }
+              colorize: true,
+            },
+          },
+        ],
+      },
+    },
+  },
 })
 ```
 

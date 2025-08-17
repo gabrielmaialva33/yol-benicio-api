@@ -7,6 +7,7 @@ Bem-vindo ao Sistema YOL Benício, uma plataforma completa para gestão jurídic
 ### 1.1 Sobre o Sistema
 
 O YOL Benício é uma solução moderna e intuitiva que centraliza:
+
 - **Gestão de Processos**: Controle completo de pastas e processos jurídicos
 - **Documentação**: Upload, organização e compartilhamento de arquivos
 - **Timeline de Movimentações**: Histórico detalhado de todas as ações
@@ -16,17 +17,20 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 ### 1.2 Requisitos do Sistema
 
 **Navegadores Suportados:**
+
 - Chrome 90+
 - Firefox 88+
 - Safari 14+
 - Edge 90+
 
 **Dispositivos:**
+
 - Desktop (recomendado)
 - Tablet (compatível)
 - Mobile (visualização adaptada)
 
 **Conexão:**
+
 - Internet banda larga recomendada
 - Suporte offline limitado
 
@@ -35,12 +39,14 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 ### 2.1 Gestor/Manager
 
 **Responsabilidades:**
+
 - Supervisão geral do escritório
 - Gestão de usuários e permissões
 - Análise de relatórios e estatísticas
 - Configuração do sistema
 
 **Principais Funcionalidades:**
+
 - Dashboard executivo com métricas
 - Gestão completa de usuários
 - Relatórios avançados
@@ -50,12 +56,14 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 ### 2.2 Colaborador/Advogado
 
 **Responsabilidades:**
+
 - Gestão de processos atribuídos
 - Atendimento a clientes
 - Documentação de movimentações
 - Upload e organização de arquivos
 
 **Principais Funcionalidades:**
+
 - Dashboard de processos
 - Criação e edição de pastas
 - Timeline de movimentações
@@ -65,11 +73,13 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 ### 2.3 Cliente
 
 **Responsabilidades:**
+
 - Acompanhamento de seus processos
 - Visualização de documentos
 - Comunicação com advogados
 
 **Principais Funcionalidades:**
+
 - Dashboard de acompanhamento
 - Visualização de processos
 - Timeline de movimentações (somente leitura)
@@ -98,6 +108,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 ```
 
 **Requisitos da Senha:**
+
 - Mínimo 8 caracteres
 - Pelo menos 1 letra maiúscula
 - Pelo menos 1 número
@@ -106,6 +117,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 ### 3.3 Navegação Básica
 
 **Menu Principal:**
+
 - **Dashboard**: Visão geral personalizada
 - **Processos**: Lista de pastas/processos
 - **Documentos**: Arquivos e documentação
@@ -113,6 +125,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 - **Configurações**: Preferências pessoais
 
 **Barra Superior:**
+
 - **Busca Global**: Pesquise processos, clientes ou documentos
 - **Notificações**: Alertas e atualizações
 - **Perfil**: Configurações da conta e logout
@@ -122,6 +135,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 ### 4.1 Dashboard do Gestor
 
 **Métricas Principais:**
+
 ```
 ┌─────────────────┬─────────────────┬─────────────────┐
 │ Total Processos │ Processos Ativos│ Usuários Ativos │
@@ -158,6 +172,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 ### 4.2 Dashboard do Colaborador
 
 **Visão Geral:**
+
 ```
 ┌─────────────────┬─────────────────┬─────────────────┐
 │ Meus Processos  │ Prazos Próximos │ Tarefas Pendentes│
@@ -194,6 +209,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 ### 4.3 Dashboard do Cliente
 
 **Acompanhamento:**
+
 ```
 ┌─────────────────┬─────────────────┬─────────────────┐
 │ Meus Processos  │ Atualizações    │ Documentos      │
@@ -236,6 +252,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 1. **Acesse "Processos" → "Novo Processo"**
 
 2. **Informações Básicas:**
+
    ```
    Código do Processo: PROC-2024-001 (gerado automaticamente)
    Título: [Descrição clara do processo]
@@ -244,6 +261,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
    ```
 
 3. **Dados do Cliente:**
+
    ```
    Nome Completo: [Nome do cliente]
    Email: [email@cliente.com]
@@ -253,6 +271,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
    ```
 
 4. **Informações Jurídicas:**
+
    ```
    Advogado Responsável: [Selecionar da lista]
    Valor da Causa: [R$ 0,00]
@@ -261,6 +280,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
    ```
 
 5. **Descrição Detalhada:**
+
    ```
    Resumo do Caso: [Descrição completa]
    Objetivos: [O que se pretende alcançar]
@@ -276,11 +296,13 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 ### 5.2 Editando um Processo
 
 **Permissões:**
+
 - **Gestor**: Pode editar qualquer processo
 - **Colaborador**: Pode editar processos próprios
 - **Cliente**: Apenas visualização
 
 **Campos Editáveis:**
+
 - Título e descrição
 - Status do processo
 - Prioridade
@@ -289,6 +311,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 - Advogado responsável
 
 **Como Editar:**
+
 1. Acesse o processo desejado
 2. Clique em "Editar" (ícone de lápis)
 3. Modifique os campos necessários
@@ -297,17 +320,18 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 
 ### 5.3 Status dos Processos
 
-| Status | Descrição | Cor | Ações Disponíveis |
-|--------|-----------|-----|-------------------|
-| **Rascunho** | Processo em criação | Cinza | Editar, Ativar, Excluir |
-| **Ativo** | Processo em andamento | Verde | Editar, Suspender, Arquivar |
-| **Suspenso** | Processo temporariamente parado | Amarelo | Reativar, Arquivar |
-| **Concluído** | Processo finalizado | Azul | Visualizar, Arquivar |
-| **Arquivado** | Processo arquivado | Roxo | Visualizar, Desarquivar |
+| Status        | Descrição                       | Cor     | Ações Disponíveis           |
+| ------------- | ------------------------------- | ------- | --------------------------- |
+| **Rascunho**  | Processo em criação             | Cinza   | Editar, Ativar, Excluir     |
+| **Ativo**     | Processo em andamento           | Verde   | Editar, Suspender, Arquivar |
+| **Suspenso**  | Processo temporariamente parado | Amarelo | Reativar, Arquivar          |
+| **Concluído** | Processo finalizado             | Azul    | Visualizar, Arquivar        |
+| **Arquivado** | Processo arquivado              | Roxo    | Visualizar, Desarquivar     |
 
 ### 5.4 Filtros e Busca
 
 **Filtros Disponíveis:**
+
 - **Status**: Todos, Ativo, Suspenso, Concluído
 - **Área Jurídica**: Civil, Trabalhista, Criminal, etc.
 - **Prioridade**: Baixa, Média, Alta, Urgente
@@ -316,6 +340,7 @@ O YOL Benício é uma solução moderna e intuitiva que centraliza:
 - **Data**: Período de criação ou atualização
 
 **Busca Avançada:**
+
 ```
 Campos de Busca:
 - Código do processo
@@ -326,8 +351,9 @@ Campos de Busca:
 ```
 
 **Dicas de Busca:**
+
 - Use aspas para busca exata: "João Silva"
-- Use * para busca parcial: João*
+- Use _ para busca parcial: João_
 - Combine filtros para resultados precisos
 - Salve buscas frequentes como favoritas
 
@@ -360,6 +386,7 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 ### 6.2 Adicionando Movimentações (Colaborador/Gestor)
 
 **Tipos de Movimentação:**
+
 - **Audiência**: Audiências, sessões, julgamentos
 - **Petição**: Petições protocoladas
 - **Decisão**: Decisões judiciais recebidas
@@ -371,6 +398,7 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 **Formulário de Nova Movimentação:**
 
 1. **Informações Básicas:**
+
    ```
    Tipo: [Selecionar da lista]
    Data/Hora: [Data e hora da ocorrência]
@@ -378,6 +406,7 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
    ```
 
 2. **Descrição:**
+
    ```
    Título: [Resumo da movimentação]
    Descrição Detalhada: [Explicação completa]
@@ -400,11 +429,13 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 ### 6.3 Editando Movimentações
 
 **Permissões:**
+
 - Apenas o autor ou gestor pode editar
 - Edições são registradas no log de auditoria
 - Movimentações antigas podem ter restrições
 
 **Processo de Edição:**
+
 1. Clique no ícone de edição na movimentação
 2. Modifique os campos necessários
 3. Adicione motivo da alteração
@@ -413,6 +444,7 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 ### 6.4 Filtros da Timeline
 
 **Filtros Disponíveis:**
+
 - **Período**: Última semana, mês, trimestre, ano
 - **Tipo**: Filtrar por tipo de movimentação
 - **Responsável**: Filtrar por quem executou
@@ -424,12 +456,14 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 ### 7.1 Upload de Arquivos
 
 **Formatos Suportados:**
+
 - **Documentos**: PDF, DOC, DOCX, TXT, RTF
 - **Planilhas**: XLS, XLSX, CSV
 - **Imagens**: JPG, PNG, GIF, BMP
 - **Outros**: ZIP, RAR (com restrições)
 
 **Limites:**
+
 - Tamanho máximo por arquivo: 50MB
 - Total por processo: 1GB
 - Quantidade máxima: 500 arquivos
@@ -443,6 +477,7 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 3. **Selecione o arquivo ou arraste para a área**
 
 4. **Preencha as informações:**
+
    ```
    Nome do Documento: [Nome descritivo]
    Categoria: [Contrato, Petição, Decisão, etc.]
@@ -451,6 +486,7 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
    ```
 
 5. **Configurações de Acesso:**
+
    ```
    ☐ Visível para o cliente
    ☐ Requer aprovação para download
@@ -463,6 +499,7 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 ### 7.2 Organização de Documentos
 
 **Categorias Padrão:**
+
 - **Contratos**: Contratos e acordos
 - **Petições**: Petições e manifestações
 - **Decisões**: Decisões e sentenças
@@ -472,11 +509,13 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 - **Cliente**: Documentos fornecidos pelo cliente
 
 **Visualização:**
+
 - **Lista**: Visualização em lista com detalhes
 - **Grade**: Visualização em miniaturas
 - **Timeline**: Ordenação cronológica
 
 **Filtros:**
+
 - Categoria
 - Data de upload
 - Tamanho do arquivo
@@ -488,14 +527,15 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 
 **Níveis de Acesso:**
 
-| Nível | Descrição | Permissões |
-|-------|-----------|------------|
-| **Público** | Visível para todos | Visualizar, Download |
-| **Equipe** | Apenas equipe interna | Visualizar, Download, Editar |
-| **Restrito** | Apenas usuários específicos | Conforme definido |
-| **Confidencial** | Apenas gestor e autor | Visualizar, Download |
+| Nível            | Descrição                   | Permissões                   |
+| ---------------- | --------------------------- | ---------------------------- |
+| **Público**      | Visível para todos          | Visualizar, Download         |
+| **Equipe**       | Apenas equipe interna       | Visualizar, Download, Editar |
+| **Restrito**     | Apenas usuários específicos | Conforme definido            |
+| **Confidencial** | Apenas gestor e autor       | Visualizar, Download         |
 
 **Compartilhamento com Cliente:**
+
 1. Selecione o documento
 2. Clique em "Compartilhar"
 3. Marque "Visível para cliente"
@@ -506,12 +546,14 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 ### 7.4 Controle de Versões
 
 **Funcionalidades:**
+
 - Histórico completo de versões
 - Comparação entre versões
 - Restauração de versões anteriores
 - Log de alterações
 
 **Processo:**
+
 1. Upload de nova versão do arquivo
 2. Sistema detecta arquivo existente
 3. Pergunta se é nova versão
@@ -549,6 +591,7 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
    - Alertas do sistema
 
 **Geração de Relatórios:**
+
 1. Acesse "Relatórios" no menu principal
 2. Selecione o tipo de relatório
 3. Defina período e filtros
@@ -559,12 +602,14 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 ### 8.2 Métricas para Colaboradores
 
 **Dashboard Pessoal:**
+
 - Processos ativos
 - Prazos próximos
 - Produtividade mensal
 - Metas e objetivos
 
 **Relatórios Individuais:**
+
 - Histórico de atividades
 - Tempo gasto por processo
 - Documentos produzidos
@@ -573,12 +618,14 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 ### 8.3 Acompanhamento para Clientes
 
 **Informações Disponíveis:**
+
 - Status atual dos processos
 - Próximas etapas
 - Documentos compartilhados
 - Histórico de comunicação
 
 **Relatórios Simplificados:**
+
 - Resumo mensal
 - Evolução do processo
 - Custos e honorários
@@ -589,6 +636,7 @@ A timeline mostra o histórico completo de um processo em ordem cronológica:
 ### 9.1 Configurações Pessoais
 
 **Perfil do Usuário:**
+
 ```
 Informações Básicas:
 - Nome completo
@@ -599,6 +647,7 @@ Informações Básicas:
 ```
 
 **Preferências:**
+
 ```
 Interface:
 ☐ Tema escuro
@@ -619,6 +668,7 @@ Privacidade:
 ```
 
 **Segurança:**
+
 - Alterar senha
 - Autenticação em dois fatores
 - Sessões ativas
@@ -627,18 +677,21 @@ Privacidade:
 ### 9.2 Configurações Administrativas (Gestor)
 
 **Gestão de Usuários:**
+
 - Criar/editar usuários
 - Definir permissões
 - Gerenciar papéis
 - Controle de acesso
 
 **Configurações do Sistema:**
+
 - Parâmetros gerais
 - Integrações
 - Backup automático
 - Logs de auditoria
 
 **Personalização:**
+
 - Logo da empresa
 - Cores do sistema
 - Campos customizados
@@ -673,29 +726,34 @@ Privacidade:
 ### 10.2 Canais de Notificação
 
 **Dentro do Sistema:**
+
 - Sino de notificações (header)
 - Badge com contador
 - Pop-ups para alertas críticos
 - Dashboard com resumo
 
 **Email:**
+
 - Resumo diário
 - Alertas imediatos
 - Relatórios semanais
 - Newsletters
 
 **SMS (Opcional):**
+
 - Apenas para alertas críticos
 - Prazos urgentes
 - Confirmações importantes
 
 **Push Notifications:**
+
 - Navegador (se habilitado)
 - Aplicativo mobile (futuro)
 
 ### 10.3 Configuração de Alertas
 
 **Prazos Processuais:**
+
 ```
 Alertas Automáticos:
 ☐ 30 dias antes do prazo
@@ -707,6 +765,7 @@ Alertas Automáticos:
 ```
 
 **Atividades do Processo:**
+
 ```
 ☐ Novo documento adicionado
 ☐ Movimentação registrada
@@ -716,6 +775,7 @@ Alertas Automáticos:
 ```
 
 **Administrativo:**
+
 ```
 ☐ Novo usuário criado
 ☐ Permissões alteradas
@@ -778,21 +838,25 @@ Alertas Automáticos:
 ### 11.2 Mensagens de Erro
 
 **"Acesso Negado"**
+
 - Você não tem permissão para esta ação
 - Contate o administrador
 - Verifique seu papel no sistema
 
 **"Sessão Expirada"**
+
 - Faça login novamente
 - Sessões expiram após 8 horas de inatividade
 - Salve seu trabalho regularmente
 
 **"Arquivo Muito Grande"**
+
 - Reduza o tamanho do arquivo
 - Comprima ou divida em partes menores
 - Máximo 50MB por arquivo
 
 **"Formato Não Suportado"**
+
 - Converta para formato aceito
 - Consulte lista de formatos suportados
 - Entre em contato se necessário
@@ -826,17 +890,20 @@ Alertas Automáticos:
 ### 12.1 Canais de Suporte
 
 **Suporte Técnico:**
+
 - **Email**: suporte@yolbenicio.com
 - **Telefone**: (11) 3000-0000
 - **WhatsApp**: (11) 99000-0000
 - **Horário**: Segunda a Sexta, 8h às 18h
 
 **Suporte Comercial:**
+
 - **Email**: comercial@yolbenicio.com
 - **Telefone**: (11) 3000-0001
 - **Horário**: Segunda a Sexta, 9h às 17h
 
 **Emergências:**
+
 - **24/7**: (11) 99999-9999
 - Apenas para problemas críticos
 - Indisponibilidade total do sistema
@@ -844,12 +911,14 @@ Alertas Automáticos:
 ### 12.2 Base de Conhecimento
 
 **Recursos Online:**
+
 - **FAQ**: https://help.yolbenicio.com/faq
 - **Tutoriais**: https://help.yolbenicio.com/tutorials
 - **Vídeos**: https://youtube.com/yolbenicio
 - **Blog**: https://blog.yolbenicio.com
 
 **Documentação:**
+
 - Manual completo (PDF)
 - Guias rápidos
 - Changelog de atualizações
@@ -875,6 +944,7 @@ Alertas Automáticos:
    - Integração com outros sistemas
 
 **Agendamento:**
+
 - Email: treinamento@yolbenicio.com
 - Telefone: (11) 3000-0002
 - Formulário online: https://yolbenicio.com/treinamento
@@ -954,8 +1024,9 @@ R: Sim, alertas configuráveis por email, SMS e notificações no sistema.
 **Sistema:** YOL Benício v1.0
 
 **Suporte:**
+
 - 📧 suporte@yolbenicio.com
 - 📞 (11) 3000-0000
 - 🌐 https://help.yolbenicio.com
 
-*Este manual é atualizado regularmente. Verifique sempre a versão mais recente online.*
+_Este manual é atualizado regularmente. Verifique sempre a versão mais recente online._

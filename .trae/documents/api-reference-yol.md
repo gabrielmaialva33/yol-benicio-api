@@ -6,15 +6,15 @@ Esta documentação fornece informações completas sobre a API REST do Sistema 
 
 ### 1.1 Informações Gerais
 
-* **Base URL**: `https://api.yolbenicio.com` (produção) / `http://localhost:3333` (desenvolvimento)
+- **Base URL**: `https://api.yolbenicio.com` (produção) / `http://localhost:3333` (desenvolvimento)
 
-* **Versão**: v1
+- **Versão**: v1
 
-* **Formato**: JSON
+- **Formato**: JSON
 
-* **Autenticação**: JWT Bearer Token
+- **Autenticação**: JWT Bearer Token
 
-* **Rate Limiting**: 100 requests/minuto por IP
+- **Rate Limiting**: 100 requests/minuto por IP
 
 ### 1.2 Códigos de Status HTTP
 
@@ -105,11 +105,11 @@ Esta documentação fornece informações completas sobre a API REST do Sistema 
 
 **Possíveis Erros:**
 
-* `400`: Credenciais inválidas
+- `400`: Credenciais inválidas
 
-* `422`: Dados de validação inválidos
+- `422`: Dados de validação inválidos
 
-* `429`: Muitas tentativas de login
+- `429`: Muitas tentativas de login
 
 ### 2.2 Logout
 
@@ -414,7 +414,7 @@ Authorization: Bearer {token}
       "status": "active",
       "area": "trabalhista",
       "priority": "high",
-      "value": 50000.00,
+      "value": 50000.0,
       "clientName": "João Silva",
       "clientEmail": "joao@cliente.com",
       "lawyerName": "Dr. Maria Santos",
@@ -455,7 +455,7 @@ Authorization: Bearer {token}
   "description": "Processo por danos morais em acidente",
   "area": "civil",
   "priority": "medium",
-  "value": 25000.00,
+  "value": 25000.0,
   "clientName": "Maria Oliveira",
   "clientEmail": "maria@cliente.com",
   "clientPhone": "(11) 99999-9999",
@@ -474,7 +474,7 @@ Authorization: Bearer {token}
   "status": "draft",
   "area": "civil",
   "priority": "medium",
-  "value": 25000.00,
+  "value": 25000.0,
   "clientName": "Maria Oliveira",
   "clientEmail": "maria@cliente.com",
   "clientPhone": "(11) 99999-9999",
@@ -502,7 +502,7 @@ Authorization: Bearer {token}
   "status": "active",
   "area": "trabalhista",
   "priority": "high",
-  "value": 50000.00,
+  "value": 50000.0,
   "clientName": "João Silva",
   "clientEmail": "joao@cliente.com",
   "clientPhone": "(11) 88888-8888",
@@ -552,7 +552,7 @@ Authorization: Bearer {token}
   "title": "Ação Trabalhista - João vs Empresa X (Atualizado)",
   "status": "active",
   "priority": "urgent",
-  "value": 55000.00
+  "value": 55000.0
 }
 ```
 
@@ -578,11 +578,11 @@ Authorization: Bearer {token}
 
 **Form Data:**
 
-* `file`: Arquivo a ser enviado
+- `file`: Arquivo a ser enviado
 
-* `description`: Descrição do arquivo (opcional)
+- `description`: Descrição do arquivo (opcional)
 
-* `category`: Categoria do arquivo (opcional)
+- `category`: Categoria do arquivo (opcional)
 
 **Response (201):**
 
@@ -1080,20 +1080,20 @@ import { YolBenicioClient } from '@yol-benicio/api-client'
 
 const client = new YolBenicioClient({
   baseURL: 'https://api.yolbenicio.com',
-  token: 'your-jwt-token'
+  token: 'your-jwt-token',
 })
 
 // Listar pastas
 const folders = await client.folders.list({
   page: 1,
-  limit: 20
+  limit: 20,
 })
 
 // Criar pasta
 const newFolder = await client.folders.create({
   code: 'PROC-2024-003',
   title: 'Nova Pasta',
-  area: 'civil'
+  area: 'civil',
 })
 ```
 
@@ -1122,7 +1122,7 @@ new_folder = client.folders.create({
 })
 ```
 
-***
+---
 
 **Última atualização:** Janeiro 2024\
 **Versão da API:** v1.0\
@@ -1130,9 +1130,8 @@ new_folder = client.folders.create({
 
 **Suporte:**
 
-* Email: <api-support@yolbenicio.com>
+- Email: <api-support@yolbenicio.com>
 
-* Discord: [YOL Benício Developers](https://discord.gg/yolbenicio)
+- Discord: [YOL Benício Developers](https://discord.gg/yolbenicio)
 
-* GitHub: [Issues](https://github.com/yol-benicio/api/issues)
-
+- GitHub: [Issues](https://github.com/yol-benicio/api/issues)
