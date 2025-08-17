@@ -16,6 +16,7 @@ import {
   UserGroupIcon,
   ScaleIcon,
 } from '@heroicons/react/24/outline'
+import { SidebarItem } from './SidebarItem'
 
 interface MenuItem {
   name: string
