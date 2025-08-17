@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import DashboardService from '#services/DashboardService'
+import DashboardService from '#services/dashboard_service.js'
 
 export default class DashboardController {
   private dashboardService = new DashboardService()
