@@ -44,7 +44,7 @@ const generateActiveFoldersData = () => {
     month: faker.date.past({ years: 0.5 }).toLocaleDateString('pt-BR', { month: 'short' }),
     value: faker.number.int({ min: 5, max: 25 }),
   }))
-  
+
   return {
     active: faker.number.int({ min: 45, max: 85 }),
     newThisMonth: faker.number.int({ min: 8, max: 15 }),
@@ -99,10 +99,10 @@ const generateBillingData = () => {
   const chart = Array.from({ length: 6 }, () => ({
     pv: faker.number.int({ min: 1000, max: 1500 }),
   }))
-  
+
   const value = faker.number.int({ min: 125000, max: 200000 })
   const percentage = faker.number.float({ min: 10, max: 25, multipleOf: 0.1 })
-  
+
   return {
     value: `R$ ${(value / 1000).toFixed(1)}k`,
     percentage: percentage.toFixed(1),
@@ -140,8 +140,9 @@ const generateHearingsData = () => {
 }
 
 const generateBirthdaysData = () => {
-  const avatarUrl = 'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=BlazerShirt&clotheColor=Blue01&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light'
-  
+  const avatarUrl =
+    'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=BlazerShirt&clotheColor=Blue01&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light'
+
   return Array.from({ length: 2 }, () => ({
     avatar: avatarUrl,
     name: faker.person.fullName(),
@@ -174,7 +175,54 @@ export const dashboardHandlers = [
     return HttpResponse.json(generateMessages())
   }),
 
-  // Get dashboard widgets data
+  // Widget-specific endpoints
+  http.get('/api/dashboard/active-folders', () => {
+    return HttpResponse.json(generateActiveFoldersData())
+  }),
+
+  http.get('/api/dashboard/area-division', () => {
+    return HttpResponse.json(generateAreaDivisionData())
+  }),
+
+  http.get('/api/dashboard/folder-activity', () => {
+    return HttpResponse.json(generateFolderActivityData())
+  }),
+
+  http.get('/api/dashboard/requests', () => {
+    return HttpResponse.json(generateRequestsData())
+  }),
+
+  http.get('/api/dashboard/billing', () => {
+    return HttpResponse.json(generateBillingData())
+  }),
+
+  http.get('/api/dashboard/hearings', () => {
+    return HttpResponse.json(generateHearingsData())
+  }),
+
+  http.get('/api/dashboard/birthdays', () => {
+    return HttpResponse.json(generateBirthdaysData())
+  }),
+
+  http.get('/api/dashboard/tasks', () => {
+    return HttpResponse.json(generateTasksData())
+  }),
+
+  // Get all dashboard data (comprehensive endpoint)
+  http.get('/api/dashboard', () => {
+    return HttpResponse.json({
+      activeFolders: generateActiveFoldersData(),
+      areaDivision: generateAreaDivisionData(),
+      folderActivity: generateFolderActivityData(),
+      requests: generateRequestsData(),
+      billing: generateBillingData(),
+      hearings: generateHearingsData(),
+      birthdays: generateBirthdaysData(),
+      tasks: generateTasksData(),
+    })
+  }),
+
+  // Legacy widgets endpoint for backward compatibility
   http.get('/api/dashboard/widgets', () => {
     return HttpResponse.json({
       activeFolders: faker.number.int({ min: 10, max: 50 }),

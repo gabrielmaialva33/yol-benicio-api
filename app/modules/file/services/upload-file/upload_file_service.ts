@@ -12,7 +12,7 @@ export default class UploadFileService {
   async run(file: MultipartFile) {
     const { auth } = HttpContext.getOrFail()
     const user = auth.user
-    
+
     if (!user) {
       throw new Error('User not authenticated')
     }

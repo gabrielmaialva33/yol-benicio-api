@@ -49,14 +49,19 @@ createInertiaApp({
     // Mark body as hydrated to prevent flash of unstyled content
     document.body.classList.add('hydrated')
 
-    // Enable MSW in development after hydration is complete
-    // Temporarily disabled to test real backend authentication
-    // if (import.meta.env.DEV && typeof window !== 'undefined') {
-    //   import('../mocks/browser').then(({ worker }) => {
-    //     worker.start({
-    //       onUnhandledRequest: 'bypass',
-    //     })
-    //   })
-    // }
+    // Enable MSW in development for dashboard widgets
+    // Use VITE_USE_MSW=true to enable mock data, otherwise use real API
+    if (
+      import.meta.env.DEV &&
+      import.meta.env.VITE_USE_MSW === 'true' &&
+      typeof window !== 'undefined'
+    ) {
+      import('../mocks/browser').then(({ worker }) => {
+        worker.start({
+          onUnhandledRequest: 'bypass',
+        })
+        console.log('🎭 MSW enabled for dashboard widgets')
+      })
+    }
   },
 })
