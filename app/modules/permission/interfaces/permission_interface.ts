@@ -30,6 +30,7 @@ namespace IPermission {
     ROLES = 'roles',
     PERMISSIONS = 'permissions',
     FILES = 'files',
+    FOLDERS = 'folders',
     SETTINGS = 'settings',
     REPORTS = 'reports',
     AUDIT = 'audit',
