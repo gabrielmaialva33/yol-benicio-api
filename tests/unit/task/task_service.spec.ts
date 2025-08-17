@@ -8,7 +8,6 @@ import Role from '#modules/role/models/role'
 import IRole from '#modules/role/interfaces/role_interface'
 import { DateTime } from 'luxon'
 import db from '@adonisjs/lucid/services/db'
-import { TaskFactory } from '#database/factories/task_factory'
 
 test.group('TaskService', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
