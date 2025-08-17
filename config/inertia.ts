@@ -18,14 +18,17 @@ const inertiaConfig = defineConfig({
       }
 
       // Preload user with roles and permissions
-      await ctx.auth.user.load('roles', 'permissions')
+      await ctx.auth.user.load((preloader) => {
+        preloader.load('roles')
+        preloader.load('permissions')
+      })
 
       return {
         user: {
           id: ctx.auth.user.id,
-          name: ctx.auth.user.name,
+          name: ctx.auth.user.full_name,
           email: ctx.auth.user.email,
-          avatar: ctx.auth.user.avatar,
+          avatar: null, // Avatar field doesn't exist in the User model
           roles: ctx.auth.user.roles?.map((role) => role.slug) || [],
           permissions: ctx.auth.user.permissions?.map((permission) => permission.name) || [],
         },

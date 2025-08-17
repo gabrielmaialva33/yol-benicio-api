@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useTasks } from '~/shared/hooks/use-tasks'
+import { useTasks } from '~/shared/hooks/use_tasks'
 import { DateRangePicker } from '~/shared/ui/DateRangePicker'
 import { Card, CardContent, CardHeader, CardTitle } from '~/shared/ui/primitives/Card'
 import { TaskItem } from './TaskItem'

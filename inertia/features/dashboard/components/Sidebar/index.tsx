@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { Link, usePage } from '@inertiajs/react'
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { SidebarItem } from './SidebarItem'
-import { usePermissions } from '~/shared/hooks/use-permissions'
+import { usePermissions } from '~/shared/hooks/use_permissions'
 import { menuItems, filterMenuItems } from '~/config/menu'
 
 interface MenuItem {

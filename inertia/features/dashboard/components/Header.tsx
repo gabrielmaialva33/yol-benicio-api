@@ -67,111 +67,113 @@ export function Header() {
   return (
     <header className="bg-[#F8FAFC] border-b border-gray-200 px-[30px] py-[16px] h-[73px]">
       <div className="flex items-center justify-between h-full">
-          {/* Page Title and Search */}
-          <div className="flex items-center space-x-6">
-            <div>
-              <h1 className="text-[30px] font-semibold text-[#161C24] font-['Inter']">{title}</h1>
-              {description && <p className="text-[#A1A5B7] mt-1 text-[18px] font-medium">{description}</p>}
-              {breadcrumbs.length > 0 && (
-                <div className="mt-2">
-                  <Breadcrumb items={breadcrumbs} />
-                </div>
-              )}
-            </div>
-
-            {/* Search Bar */}
-            <div className="hidden md:block">
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Buscar pastas, clientes..."
-                  className="block w-80 pl-10 pr-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                />
+        {/* Page Title and Search */}
+        <div className="flex items-center space-x-6">
+          <div>
+            <h1 className="text-[30px] font-semibold text-[#161C24] font-['Inter']">{title}</h1>
+            {description && (
+              <p className="text-[#A1A5B7] mt-1 text-[18px] font-medium">{description}</p>
+            )}
+            {breadcrumbs.length > 0 && (
+              <div className="mt-2">
+                <Breadcrumb items={breadcrumbs} />
               </div>
-            </div>
+            )}
           </div>
 
-          {/* Right side - Actions and User */}
-          <div className="flex items-center space-x-6">
-            {/* Quick Settings */}
-            <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200">
-              <Cog6ToothIcon className="h-5 w-5" />
-            </button>
-            {/* Notifications */}
-            <div className="relative" ref={notificationsRef}>
-              <button
-                aria-label="Notificações"
-                className="w-9 h-9 flex items-center justify-center rounded-md text-gray-500 hover:text-gray-700 hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 transition"
-                ref={notificationsTriggerRef}
-                type="button"
-              >
-                <img
-                  alt="Notificações"
-                  className="w-5 h-5"
-                  height={20}
-                  src="/icons/bell.svg"
-                  width={20}
-                />
-                {notifications.unread > 0 && (
-                  <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-[#F8FAFC]" />
-                )}
-              </button>
-              {showNotifications && <NotificationsDropdown notifications={notifications.items} />}
-            </div>
-            {/* Messages */}
-            <div className="relative" ref={messagesRef}>
-              <button
-                aria-label="Mensagens"
-                className="w-9 h-9 flex items-center justify-center rounded-md text-gray-500 hover:text-gray-700 hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 transition"
-                ref={messagesTriggerRef}
-                type="button"
-              >
-                <img
-                  alt="Mensagens"
-                  className="w-5 h-5"
-                  height={20}
-                  src="/icons/messages.svg"
-                  width={20}
-                />
-                {messages.unread > 0 && (
-                  <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-[#F8FAFC]" />
-                )}
-              </button>
-              {showMessages && <MessagesDropdown messages={messages.items} />}
-            </div>
-
-            {/* Divider */}
-            <div className="h-6 w-px bg-gray-200"></div>
-
-            {/* User Menu */}
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-medium text-gray-600">U</span>
-                </div>
-                <span className="text-sm text-gray-700 font-medium">Usuário</span>
+          {/* Search Bar */}
+          <div className="hidden md:block">
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
               </div>
+              <input
+                type="text"
+                placeholder="Buscar pastas, clientes..."
+                className="block w-80 pl-10 pr-3 py-2 border border-gray-200 rounded-lg bg-gray-50/50 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
             </div>
+          </div>
+        </div>
 
+        {/* Right side - Actions and User */}
+        <div className="flex items-center space-x-6">
+          {/* Quick Settings */}
+          <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+            <Cog6ToothIcon className="h-5 w-5" />
+          </button>
+          {/* Notifications */}
+          <div className="relative" ref={notificationsRef}>
             <button
-              aria-label="Sair"
+              aria-label="Notificações"
               className="w-9 h-9 flex items-center justify-center rounded-md text-gray-500 hover:text-gray-700 hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 transition"
-              onClick={handleLogout}
+              ref={notificationsTriggerRef}
               type="button"
             >
               <img
-                alt="Sair"
+                alt="Notificações"
                 className="w-5 h-5"
                 height={20}
-                src="/icons/exit-right.svg"
+                src="/icons/bell.svg"
                 width={20}
               />
+              {notifications.unread > 0 && (
+                <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-[#F8FAFC]" />
+              )}
             </button>
+            {showNotifications && <NotificationsDropdown notifications={notifications.items} />}
           </div>
+          {/* Messages */}
+          <div className="relative" ref={messagesRef}>
+            <button
+              aria-label="Mensagens"
+              className="w-9 h-9 flex items-center justify-center rounded-md text-gray-500 hover:text-gray-700 hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 transition"
+              ref={messagesTriggerRef}
+              type="button"
+            >
+              <img
+                alt="Mensagens"
+                className="w-5 h-5"
+                height={20}
+                src="/icons/messages.svg"
+                width={20}
+              />
+              {messages.unread > 0 && (
+                <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-[#F8FAFC]" />
+              )}
+            </button>
+            {showMessages && <MessagesDropdown messages={messages.items} />}
+          </div>
+
+          {/* Divider */}
+          <div className="h-6 w-px bg-gray-200"></div>
+
+          {/* User Menu */}
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                <span className="text-xs font-medium text-gray-600">U</span>
+              </div>
+              <span className="text-sm text-gray-700 font-medium">Usuário</span>
+            </div>
+          </div>
+
+          <button
+            aria-label="Sair"
+            className="w-9 h-9 flex items-center justify-center rounded-md text-gray-500 hover:text-gray-700 hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 transition"
+            onClick={handleLogout}
+            type="button"
+          >
+            <img
+              alt="Sair"
+              className="w-5 h-5"
+              height={20}
+              src="/icons/exit-right.svg"
+              width={20}
+            />
+          </button>
         </div>
+      </div>
     </header>
   )
 }

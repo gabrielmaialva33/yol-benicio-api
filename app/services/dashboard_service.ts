@@ -1,6 +1,8 @@
 import db from '@adonisjs/lucid/services/db'
+import TaskService from '#modules/task/services/task_service'
 
 export default class DashboardService {
+  private taskService = new TaskService()
   /**
    * Get active folders statistics
    */
@@ -140,13 +142,7 @@ export default class DashboardService {
    * Get tasks statistics
    */
   async getTasksStats() {
-    // Mock data baseado no padrão original
-    return {
-      total_tasks: 50,
-      pending_tasks: 12,
-      completed_today: 5,
-      overdue_tasks: 3,
-    }
+    return this.taskService.getTasksStats()
   }
 
   /**

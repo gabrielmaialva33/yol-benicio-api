@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { usePermissions } from '../hooks/use-permissions'
+import { usePermissions } from '../hooks/use_permissions'
 
 interface MockUser {
   id: number
