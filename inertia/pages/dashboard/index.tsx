@@ -8,7 +8,7 @@ export default function Dashboard() {
   return (
     <>
       <Head title="Dashboard - YOL Benício" />
-      <div className="flex h-screen bg-[#F1F1F2]">
+      <div className="flex h-screen bg-[#F8FAFC]">
         <Sidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
           <Header />

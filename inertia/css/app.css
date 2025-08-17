@@ -33,7 +33,7 @@
     height: 100%;
     width: 100%;
     font-family:
-      'Montserrat',
+      'Inter',
       system-ui,
       -apple-system,
       sans-serif;
@@ -57,7 +57,7 @@
 /* Theme configuration using Tailwind v4's @theme */
 @theme {
   /* Font families */
-  --font-family-sans: 'Montserrat', sans-serif;
+  --font-family-sans: 'Inter', sans-serif;
   --font-family-work-sans: 'Work Sans', sans-serif;
   --font-family-mono: 'Menlo', 'Monaco', 'Courier New', monospace;
 
@@ -117,7 +117,7 @@
   --radius-pill: 9999px;
 
   /* Shadows */
-  --shadow-card: 0px 4px 4px 0px rgba(0, 0, 0, 0.03);
+  --shadow-card: 0px 2px 8px 0px rgba(99, 99, 99, 0.2);
 
   /* Font sizes */
   --text-display: 48px;

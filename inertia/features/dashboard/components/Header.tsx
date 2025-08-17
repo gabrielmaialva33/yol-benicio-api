@@ -65,13 +65,13 @@ export function Header() {
   const messages = props.messages || { unread: 0, items: [] }
 
   return (
-    <header className="bg-[#F1F1F2] border-b border-gray-200 px-[30px] py-4">
-      <div className="flex items-center justify-between">
+    <header className="bg-[#F8FAFC] border-b border-gray-200 px-[30px] h-[73px]">
+      <div className="flex items-center justify-between h-full">
           {/* Page Title and Search */}
           <div className="flex items-center space-x-6">
             <div>
-              <h1 className="text-2xl font-semibold text-[#161C24]">{title}</h1>
-              {description && <p className="text-gray-500 mt-1">{description}</p>}
+              <h1 className="text-[30px] font-semibold text-[#161C24] font-['Inter']">{title}</h1>
+              {description && <p className="text-[#A1A5B7] mt-1">{description}</p>}
               {breadcrumbs.length > 0 && (
                 <div className="mt-2">
                   <Breadcrumb items={breadcrumbs} />
@@ -116,7 +116,7 @@ export function Header() {
                   width={20}
                 />
                 {notifications.unread > 0 && (
-                  <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-[#F1F1F2]" />
+                  <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-[#F8FAFC]" />
                 )}
               </button>
               {showNotifications && <NotificationsDropdown notifications={notifications.items} />}
@@ -137,7 +137,7 @@ export function Header() {
                   width={20}
                 />
                 {messages.unread > 0 && (
-                  <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-[#F1F1F2]" />
+                  <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-[#F8FAFC]" />
                 )}
               </button>
               {showMessages && <MessagesDropdown messages={messages.items} />}
