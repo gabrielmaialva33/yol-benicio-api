@@ -42,9 +42,9 @@ export default class extends BaseSchema {
       CREATE OR REPLACE VIEW vw_dashboard_tasks AS
       SELECT
         COUNT(*) as total_tasks,
-        COUNT(*) FILTER (WHERE age_sta_ide = '1') as pending_tasks,
-        COUNT(*) FILTER (WHERE age_sta_ide = '2' AND DATE(age_dta_alt::timestamp) = CURRENT_DATE) as completed_today,
-        COUNT(*) FILTER (WHERE age_sta_ide = '1' AND DATE(age_dta_ven::timestamp) < CURRENT_DATE) as overdue_tasks
+        COUNT(*) FILTER (WHERE age_flg = '0' OR age_flg IS NULL) as pending_tasks,
+        COUNT(*) FILTER (WHERE age_flg = '1' AND DATE(age_dta_inc::timestamp) = CURRENT_DATE) as completed_today,
+        COUNT(*) FILTER (WHERE (age_flg = '0' OR age_flg IS NULL) AND DATE(age_dta::timestamp) < CURRENT_DATE) as overdue_tasks
       FROM open_agendas;
     `)
 
@@ -52,12 +52,12 @@ export default class extends BaseSchema {
     await this.schema.raw(`
       CREATE OR REPLACE VIEW vw_dashboard_hearings AS
       SELECT
-        COUNT(*) FILTER (WHERE age_tip_ide = '1') as hearings_count,
-        COUNT(*) FILTER (WHERE age_tip_ide = '1' AND DATE(age_dta_ven::timestamp) BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '7 days') as hearings_this_week,
-        COUNT(*) FILTER (WHERE age_tip_ide = '2') as deadlines_count,
-        COUNT(*) FILTER (WHERE age_tip_ide = '2' AND DATE(age_dta_ven::timestamp) BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '7 days') as deadlines_this_week
+        COUNT(*) FILTER (WHERE age_dsc ILIKE '%audiencia%' OR age_dsc ILIKE '%hearing%') as hearings_count,
+        COUNT(*) FILTER (WHERE (age_dsc ILIKE '%audiencia%' OR age_dsc ILIKE '%hearing%') AND DATE(age_dta::timestamp) BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '7 days') as hearings_this_week,
+        COUNT(*) FILTER (WHERE age_dsc ILIKE '%prazo%' OR age_dsc ILIKE '%deadline%') as deadlines_count,
+        COUNT(*) FILTER (WHERE (age_dsc ILIKE '%prazo%' OR age_dsc ILIKE '%deadline%') AND DATE(age_dta::timestamp) BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '7 days') as deadlines_this_week
       FROM open_agendas
-      WHERE age_sta_ide = '1';
+      WHERE age_flg = '0' OR age_flg IS NULL;
     `)
 
     // VIEW 5: Estatísticas de Clientes
