@@ -785,6 +785,110 @@ Content-Length: 1024000
       "folderId": 1,
       "folderTitle": "Ação Trabalhista - João vs Empresa X",
       "description": "Audiência realizada com sucesso",
-      "mov
+      "movementDate": "2024-01-22T14:30:00.000Z"
+    }
+  ]
+}
+```
+
+### 8.2 Estatísticas Administrativas
+
+**Endpoint:** `GET /admin/statistics`
+
+**Permissões:** `admin.statistics`
+
+**Query Parameters:**
+
+| Parâmetro   | Tipo   | Descrição                         |
+| ----------- | ------ | --------------------------------- |
+| `period`    | string | Período (week/month/quarter/year) |
+| `startDate` | date   | Data inicial personalizada        |
+| `endDate`   | date   | Data final personalizada          |
+
+**Response (200):**
+
+```json
+{
+  "overview": {
+    "totalUsers": 50,
+    "activeUsers": 45,
+    "totalFolders": 200,
+    "activeFolders": 150,
+    "totalFiles": 1500,
+    "storageUsed": "2.5 GB"
+  },
+  "foldersByStatus": {
+    "draft": 10,
+    "active": 150,
+    "suspended": 15,
+    "completed": 20,
+    "archived": 5
+  },
+  "foldersByArea": {
+    "civil": 80,
+    "trabalhista": 60,
+    "criminal": 30,
+    "tributario": 20,
+    "outros": 10
+  },
+  "monthlyActivity": [
+    {
+      "month": "2024-01",
+      "newFolders": 25,
+      "completedFolders": 8,
+      "newUsers": 5
+    }
+  ]
+}
+```
+
+## 9. Auditoria
+
+### 9.1 Logs de Auditoria
+
+**Endpoint:** `GET /audit/logs`
+
+**Permissões:** `audit.read`
+
+**Query Parameters:**
+
+| Parâmetro   | Tipo    | Descrição           |
+| ----------- | ------- | ------------------- |
+| `userId`    | integer | Filtrar por usuário |
+| `resource`  | string  | Filtrar por recurso |
+| `action`    | string  | Filtrar por ação    |
+| `startDate` | date    | Data inicial        |
+| `endDate`   | date    | Data final          |
+| `ip`        | string  | Filtrar por IP      |
+
+**Response (200):**
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "userId": 1,
+      "resource": "folders",
+      "resourceId": 1,
+      "action": "update",
+      "oldData": {
+        "title": "Título Antigo"
+      },
+      "newData": {
+        "title": "Título Novo"
+      },
+      "ipAddress": "192.168.1.100",
+      "userAgent": "Mozilla/5.0...",
+      "createdAt": "2024-01-22T16:00:00.000Z",
+      "user": {
+        "id": 1,
+        "fullName": "João Silva",
+        "email": "joao@exemplo.com"
+      }
+    }
+  ],
+  "meta": {
+    "total": 1000
 ```
 
