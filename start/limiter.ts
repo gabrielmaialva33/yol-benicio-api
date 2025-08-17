@@ -141,6 +141,7 @@ export const adminThrottle = limiter.define('admin', async (ctx) => {
             error.setMessage('Authentication required')
           }
         })
+        .usingKey(`admin_user_noauth`)
     }
 
     return limiter.allowRequests(200).every('1 minute').usingKey(`admin_user_${ctx.auth.user.id}`)
@@ -156,5 +157,6 @@ export const adminThrottle = limiter.define('admin', async (ctx) => {
           error.setMessage('Authentication required')
         }
       })
+      .usingKey(`admin_user_noauth`)
   }
 })
