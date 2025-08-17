@@ -1,6 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import TaskService from '../services/task_service.js'
 import { DateTime } from 'luxon'
+import { storeTaskValidator } from '#validators/task/store_task'
 
 export default class TasksController {
   private taskService = new TaskService()
