@@ -169,8 +169,8 @@ export default class HearingService {
   async createHearing(data: {
     title: string
     description?: string
-    type: string
-    priority?: string
+    type: 'audiencia' | 'prazo_judicial' | 'prazo_extrajudicial' | 'prazo_fatal'
+    priority?: 'low' | 'medium' | 'high' | 'urgent'
     scheduled_date: DateTime
     due_date?: DateTime
     folder_id?: number
@@ -217,15 +217,16 @@ export default class HearingService {
     data: Partial<{
       title: string
       description: string
-      type: string
-      status: string
-      priority: string
+      type: 'audiencia' | 'prazo_judicial' | 'prazo_extrajudicial' | 'prazo_fatal'
+      status: 'pending' | 'in_progress' | 'completed' | 'cancelled'
+      priority: 'low' | 'medium' | 'high' | 'urgent'
       scheduled_date: DateTime
       due_date: DateTime
       assignee_id: number
       folder_id: number
       metadata: Record<string, any>
       notes: string
+      completed_at: DateTime
     }>
   ): Promise<Hearing> {
     const hearing = await Hearing.findOrFail(id)
@@ -244,10 +245,10 @@ export default class HearingService {
   /**
    * Update hearing status
    */
-  async updateHearingStatus(id: number, status: string): Promise<Hearing> {
+  async updateHearingStatus(id: number, status: 'pending' | 'in_progress' | 'completed' | 'cancelled'): Promise<Hearing> {
     const hearing = await Hearing.findOrFail(id)
 
-    hearing.status = status as any
+    hearing.status = status
 
     if (status === 'completed') {
       hearing.completed_at = DateTime.now()
