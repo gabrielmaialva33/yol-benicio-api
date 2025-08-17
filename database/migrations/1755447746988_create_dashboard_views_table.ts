@@ -5,7 +5,7 @@ export default class extends BaseSchema {
    * Check if a table exists in the database
    */
   private async tableExists(tableName: string): Promise<boolean> {
-    const result = await this.schema.raw(`
+    const result = await this.schema.connection().rawQuery(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
         WHERE table_schema = 'public' 
