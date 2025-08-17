@@ -18,6 +18,7 @@ import '#modules/role/routes/index'
 import '#modules/user/routes/index'
 import '#modules/file/routes/index'
 import '#modules/permission/routes/index'
+import '#modules/folder/routes/index'
 
 router
   .get('/api', async () => {
