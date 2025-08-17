@@ -10,7 +10,7 @@ import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
 import router from '@adonisjs/core/services/router'
-
+import { middleware } from '#start/kernel'
 import { throttle } from '#start/limiter'
 
 import '#modules/health/routes/index'
@@ -32,7 +32,22 @@ router
     }
   })
   .use(throttle)
+
+// Authentication routes
+const AuthController = () => import('#controllers/auth_controller')
+router.get('/login', [AuthController, 'showLogin']).as('auth.login')
+router.post('/login', [AuthController, 'login']).as('auth.store')
+router.post('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
+
+// Dashboard routes (protected)
+const DashboardController = () => import('#controllers/dashboard_controller')
+router
+  .group(() => {
+    router.get('/dashboard', [DashboardController, 'index']).as('dashboard.index')
+  })
+  .use(middleware.auth())
+
 // Inertia route for home page
-router.get('/', async ({ inertia }) => {
-  return inertia.render('home')
+router.get('/', async ({ response }) => {
+  return response.redirect('/login')
 })
