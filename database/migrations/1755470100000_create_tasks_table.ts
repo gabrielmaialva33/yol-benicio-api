@@ -14,9 +14,9 @@ export default class extends BaseSchema {
         .defaultTo('pending')
       table.enum('priority', ['low', 'medium', 'high', 'urgent']).defaultTo('medium')
 
-      table.timestamp('due_date').nullable()
-      table.integer('assignee_id').unsigned().nullable()
-      table.integer('folder_id').unsigned().nullable()
+      table.timestamp('due_date').nullable().defaultTo(null)
+      table.integer('assignee_id').unsigned().nullable().defaultTo(null)
+      table.integer('folder_id').unsigned().nullable().defaultTo(null)
       table.integer('creator_id').unsigned().nullable()
 
       table.jsonb('metadata').defaultTo('{}')
