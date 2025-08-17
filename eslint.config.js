@@ -1,3 +1,5 @@
 import { configApp } from '@adonisjs/eslint-config'
 
-export default configApp({})
+export default configApp({
+  ignores: ['tmp/**/*']
+})
