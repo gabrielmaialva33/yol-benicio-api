@@ -41,10 +41,7 @@ export default class TaskService {
       dateRange?: DateRange
     } = {}
   ) {
-    const query = Task.query()
-      .preload('assignee')
-      .preload('creator')
-      .orderBy('created_at', 'desc')
+    const query = Task.query().preload('assignee').preload('creator').orderBy('created_at', 'desc')
 
     // Apply filters
     if (filters.status) {
@@ -89,15 +86,18 @@ export default class TaskService {
   /**
    * Update task
    */
-  async updateTask(id: number, data: {
-    title?: string
-    description?: string
-    priority?: 'low' | 'medium' | 'high' | 'urgent'
-    due_date?: DateTime
-    assignee_id?: number
-    folder_id?: number
-    metadata?: Record<string, any>
-  }) {
+  async updateTask(
+    id: number,
+    data: {
+      title?: string
+      description?: string
+      priority?: 'low' | 'medium' | 'high' | 'urgent'
+      due_date?: DateTime
+      assignee_id?: number
+      folder_id?: number
+      metadata?: Record<string, any>
+    }
+  ) {
     const task = await Task.findOrFail(id)
     task.merge(data)
     await task.save()

@@ -57,7 +57,7 @@ test.group('Tasks Dashboard', (group) => {
     await assignPermissions(userRole, [IPermission.Actions.READ])
 
     // Create test tasks with different statuses and priorities
-    const tasks = await Task.createMany([
+    await Task.createMany([
       {
         title: 'High Priority Task',
         status: 'pending',
@@ -200,7 +200,7 @@ test.group('Tasks Dashboard', (group) => {
 
     await assignPermissions(userRole, [IPermission.Actions.READ])
 
-    const task = await Task.create({
+    await Task.create({
       title: 'Task with Relations',
       status: 'pending',
       priority: 'high',

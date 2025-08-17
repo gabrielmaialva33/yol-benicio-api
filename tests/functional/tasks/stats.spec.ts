@@ -147,15 +147,15 @@ test.group('Tasks Stats', (group) => {
     const response = await client.get('/api/v1/tasks/stats').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const stats = response.body()
-    
+
     // Verify all stat fields are present and correct
     assert.equal(stats.total_tasks, 10)
     assert.equal(stats.pending_tasks, 4) // pending + in_progress tasks (excluding overdue count)
     assert.equal(stats.completed_today, 1) // only tasks completed today
     assert.equal(stats.overdue_tasks, 2) // only pending/in_progress with past due_date
-    
+
     // Verify data types
     assert.isNumber(stats.total_tasks)
     assert.isNumber(stats.pending_tasks)
@@ -210,9 +210,9 @@ test.group('Tasks Stats', (group) => {
     const response = await client.get('/api/v1/tasks/stats').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const stats = response.body()
-    
+
     assert.equal(stats.total_tasks, 2)
     assert.equal(stats.pending_tasks, 1)
     assert.equal(stats.completed_today, 0) // No tasks completed today
@@ -267,9 +267,9 @@ test.group('Tasks Stats', (group) => {
     const response = await client.get('/api/v1/tasks/stats').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const stats = response.body()
-    
+
     assert.equal(stats.total_tasks, 2)
     assert.equal(stats.pending_tasks, 2)
     assert.equal(stats.completed_today, 0)
@@ -344,9 +344,9 @@ test.group('Tasks Stats', (group) => {
     const response = await client.get('/api/v1/tasks/stats').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const stats = response.body()
-    
+
     assert.equal(stats.total_tasks, 4)
     assert.equal(stats.pending_tasks, 2) // pending + in_progress
     assert.equal(stats.completed_today, 0)
@@ -380,16 +380,19 @@ test.group('Tasks Stats', (group) => {
     const response = await client.get('/api/v1/tasks/stats').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const stats = response.body()
-    
+
     assert.equal(stats.total_tasks, 0)
     assert.equal(stats.pending_tasks, 0)
     assert.equal(stats.completed_today, 0)
     assert.equal(stats.overdue_tasks, 0)
   })
 
-  test('should handle timezone differences correctly for completed_today', async ({ client, assert }) => {
+  test('should handle timezone differences correctly for completed_today', async ({
+    client,
+    assert,
+  }) => {
     const userRole = await Role.firstOrCreate(
       { slug: IRole.Slugs.USER },
       {
@@ -451,9 +454,9 @@ test.group('Tasks Stats', (group) => {
     const response = await client.get('/api/v1/tasks/stats').loginAs(authUser)
 
     response.assertStatus(200)
-    
+
     const stats = response.body()
-    
+
     assert.equal(stats.total_tasks, 3)
     assert.equal(stats.pending_tasks, 0)
     assert.equal(stats.completed_today, 2) // Only the two completed today

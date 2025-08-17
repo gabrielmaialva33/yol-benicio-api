@@ -89,7 +89,7 @@ test.group('TaskService', (group) => {
 
   test('should get tasks with pagination', async ({ assert }) => {
     // Create multiple tasks
-    const tasks = await Task.createMany([
+    await Task.createMany([
       {
         title: 'Task 1',
         status: 'pending',
@@ -269,8 +269,8 @@ test.group('TaskService', (group) => {
     assert.equal(foundTask.title, task.title)
     assert.exists(foundTask.assignee)
     assert.exists(foundTask.creator)
-    assert.equal(foundTask.assignee.id, user.id)
-    assert.equal(foundTask.creator.id, user.id)
+    assert.equal(foundTask.assignee!.id, user.id)
+    assert.equal(foundTask.creator!.id, user.id)
   })
 
   test('should throw error when getting non-existent task', async ({ assert }) => {

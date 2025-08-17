@@ -88,7 +88,7 @@ test.group('Tasks CRUD', (group) => {
 
     const body = response.body()
     response.assertBodyContains({
-      data: Array.isArray(body.data) ? body.data : []
+      data: Array.isArray(body.data) ? body.data : [],
     })
   })
 
