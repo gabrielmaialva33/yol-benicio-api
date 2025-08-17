@@ -142,6 +142,8 @@ export const adminThrottle = limiter.define('admin', async (ctx) => {
           }
         })
     }
+
+    return limiter.allowRequests(200).every('1 minute').usingKey(`admin_user_${ctx.auth.user.id}`)
   } catch {
     return limiter
       .allowRequests(0)
@@ -155,6 +157,4 @@ export const adminThrottle = limiter.define('admin', async (ctx) => {
         }
       })
   }
-
-  return limiter.allowRequests(200).every('1 minute').usingKey(`admin_user_${ctx.auth.user.id}`)
 })
