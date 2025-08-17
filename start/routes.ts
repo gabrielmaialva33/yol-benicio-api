@@ -34,6 +34,22 @@ router
   })
   .use(throttle)
 
+// Serve API docs (Redoc)
+router.get('/docs', async ({ response }) => {
+  const redocPath = join(process.cwd(), 'docs', 'redoc.html')
+  const html = await readFile(redocPath, 'utf-8')
+  response.header('content-type', 'text/html; charset=utf-8')
+  return html
+})
+
+// Serve OpenAPI spec
+router.get('/openapi.yaml', async ({ response }) => {
+  const specPath = join(process.cwd(), 'docs', 'openapi.yaml')
+  const spec = await readFile(specPath, 'utf-8')
+  response.header('content-type', 'application/yaml; charset=utf-8')
+  return spec
+})
+
 // Authentication routes
 const AuthController = () => import('#controllers/auth_controller')
 router.get('/login', [AuthController, 'showLogin']).as('auth.login')
