@@ -262,14 +262,6 @@ components:
         maximum: 100
       description: Number of items per page
 
-    sortByParam:
-      name: sortBy
-      in: query
-      schema:
-        type: string
-        default: id
-      description: Field to sort by
-
     per_pageParam:
       name: per_page
       in: query
