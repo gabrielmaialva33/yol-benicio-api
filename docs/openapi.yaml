@@ -869,6 +869,16 @@ paths:
       parameters:
         - $ref: '#/components/parameters/pageParam'
         - $ref: '#/components/parameters/perPageParam'
+        - in: query
+          name: resource
+          schema:
+            type: string
+          description: Filter by resource
+        - in: query
+          name: action
+          schema:
+            type: string
+          description: Filter by action
       responses:
         '200':
           description: Permission list retrieved successfully
