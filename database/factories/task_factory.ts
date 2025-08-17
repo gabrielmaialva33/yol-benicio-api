@@ -9,7 +9,7 @@ export const TaskFactory = factory
 
     // 30% chance of having a due date
     const hasDueDate = faker.datatype.boolean({ probability: 0.3 })
-    const due_date = hasDueDate
+    const dueDate = hasDueDate
       ? faker.date.between({
           from: DateTime.now().minus({ days: 7 }).toJSDate(),
           to: DateTime.now().plus({ days: 30 }).toJSDate(),
@@ -77,7 +77,7 @@ export const TaskFactory = factory
       description: faker.lorem.paragraph({ min: 1, max: 3 }),
       status,
       priority,
-      due_date: due_date ? DateTime.fromJSDate(due_date) : null,
+      due_date: dueDate ? DateTime.fromJSDate(dueDate) : null,
       metadata,
     }
   })
