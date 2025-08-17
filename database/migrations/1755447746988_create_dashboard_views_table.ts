@@ -26,25 +26,26 @@ export default class extends BaseSchema {
     await this.schema.raw(`
       CREATE OR REPLACE VIEW vw_dashboard_area_division AS
       SELECT 
-        CASE 
-          WHEN pro_are_ide ~ '^[0-9]+$' AND pro_are_ide::int = 1 THEN 'Trabalhista'
-          WHEN pro_are_ide ~ '^[0-9]+$' AND pro_are_ide::int = 2 THEN 'Cível'
-          WHEN pro_are_ide ~ '^[0-9]+$' AND pro_are_ide::int = 3 THEN 'Tributário'
-          WHEN pro_are_ide ~ '^[0-9]+$' AND pro_are_ide::int = 4 THEN 'Criminal'
+        CASE pro_are_ide
+          WHEN '1' THEN 'Trabalhista'
+          WHEN '2' THEN 'Cível'
+          WHEN '3' THEN 'Tributário'
+          WHEN '4' THEN 'Criminal'
           ELSE 'Outros'
         END as name,
         COUNT(*) as value,
-        CASE 
-          WHEN pro_are_ide ~ '^[0-9]+$' AND pro_are_ide::int = 1 THEN '#00A76F'
-          WHEN pro_are_ide ~ '^[0-9]+$' AND pro_are_ide::int = 2 THEN '#00B8D9'
-          WHEN pro_are_ide ~ '^[0-9]+$' AND pro_are_ide::int = 3 THEN '#FFAB00'
-          WHEN pro_are_ide ~ '^[0-9]+$' AND pro_are_ide::int = 4 THEN '#FF5630'
+        CASE pro_are_ide
+          WHEN '1' THEN '#00A76F'
+          WHEN '2' THEN '#00B8D9'
+          WHEN '3' THEN '#FFAB00'
+          WHEN '4' THEN '#FF5630'
           ELSE '#86878B'
         END as color
       FROM tabela_open_processos
       WHERE (pro_dta_enc IS NULL OR pro_dta_enc = '')
         AND pro_are_ide IS NOT NULL 
         AND pro_are_ide != ''
+        AND pro_are_ide ~ '^[0-9]+$'
       GROUP BY pro_are_ide;
     `)
 
