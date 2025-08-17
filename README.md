@@ -232,17 +232,6 @@ graph TD
     style D fill:#45B7D1,color:#fff
     style E fill:#96CEB4,color:#fff
 end
-```    B -->|Collaborator| E[Collaborator Dashboard]
-
-    E --> F[Process Consultation]
-    F --> G[Process Details - Main Tab]
-    G --> H[Timeline]
-    H --> G
-    G --> F
-    E --> F
-
-    C --> I[Complete Management View]
-    D --> J[Limited Client View]
 ```
 
 #### Main Navigation Flow (Collaborator Focus):
