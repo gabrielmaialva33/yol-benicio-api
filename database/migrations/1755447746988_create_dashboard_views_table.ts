@@ -289,7 +289,6 @@ export default class extends BaseSchema {
         25 as percentage;
     `)
   }
-  }
 
   async down() {
     await this.schema.raw('DROP MATERIALIZED VIEW IF EXISTS mv_dashboard_requests CASCADE')
