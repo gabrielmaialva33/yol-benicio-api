@@ -115,7 +115,7 @@ export default class extends BaseSchema {
         'bg-blue-500' as color,
         ROUND((COUNT(*) * 100.0 / NULLIF((SELECT COUNT(*) FROM tabela_open_processos), 0)), 2) as percentage
       FROM tabela_open_processos
-      WHERE pro_sta_ide = '1';
+      WHERE pro_dta_enc IS NULL OR pro_dta_enc = '';
     `)
 
     // Criar índices para otimização
