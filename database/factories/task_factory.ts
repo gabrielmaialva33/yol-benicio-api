@@ -73,19 +73,19 @@ export const TaskFactory = factory
     task.priority = 'urgent'
     task.due_date = DateTime.now().plus({ days: 1 })
   })
-  .state('overdue', (task) => {
+  .state('overdue', (task, { faker }) => {
     task.status = 'pending'
     task.due_date = DateTime.now().minus({ days: faker.number.int({ min: 1, max: 7 }) })
     task.priority = faker.helpers.arrayElement(['high', 'urgent'])
   })
-  .state('completed', (task) => {
+  .state('completed', (task, { faker }) => {
     task.status = 'completed'
     task.updated_at = DateTime.now().minus({ 
       days: faker.number.int({ min: 0, max: 7 }),
       hours: faker.number.int({ min: 0, max: 23 })
     })
   })
-  .state('inProgress', (task) => {
+  .state('inProgress', (task, { faker }) => {
     task.status = 'in_progress'
     task.priority = faker.helpers.arrayElement(['medium', 'high'])
   })
