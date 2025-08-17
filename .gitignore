@@ -29,3 +29,5 @@ yarn-error.log
 
 # AdonisJS specific
 storage/uploads/*
+logs
+
