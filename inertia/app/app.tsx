@@ -50,12 +50,13 @@ createInertiaApp({
     document.body.classList.add('hydrated')
 
     // Enable MSW in development after hydration is complete
-    if (import.meta.env.DEV && typeof window !== 'undefined') {
-      import('../mocks/browser').then(({ worker }) => {
-        worker.start({
-          onUnhandledRequest: 'bypass',
-        })
-      })
-    }
+    // Temporarily disabled to test real backend authentication
+    // if (import.meta.env.DEV && typeof window !== 'undefined') {
+    //   import('../mocks/browser').then(({ worker }) => {
+    //     worker.start({
+    //       onUnhandledRequest: 'bypass',
+    //     })
+    //   })
+    // }
   },
 })
