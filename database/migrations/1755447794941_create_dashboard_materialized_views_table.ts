@@ -60,41 +60,30 @@ export default class extends BaseSchema {
       ORDER BY year DESC, month DESC;
     `)
 
-    // MATERIALIZED VIEW 3: Estatísticas de Solicitações (Requests)
+    -- MATERIALIZED VIEW 3: Estatísticas de Solicitações (Requests) - Simplificada
     await this.schema.raw(`
       CREATE MATERIALIZED VIEW mv_dashboard_requests AS
       SELECT
-        TO_CHAR(DATE_TRUNC('month', 
-          CASE 
-            WHEN age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' 
-            THEN age_dta_inc::timestamp 
-            ELSE CURRENT_DATE::timestamp 
-          END
-        ), 'Mon') as month,
-        DATE_TRUNC('month', 
-          CASE 
-            WHEN age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}' 
-            THEN age_dta_inc::timestamp 
-            ELSE CURRENT_DATE::timestamp 
-          END
-        ) as month_date,
+        TO_CHAR(month_date, 'Mon') as month,
+        month_date,
         COUNT(*) as total_requests,
-        COUNT(*) FILTER (
-          WHERE age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
-          AND DATE(age_dta_inc::timestamp) >= DATE_TRUNC('month', CURRENT_DATE)
-        ) as new_requests,
-        ROUND((
-          COUNT(*) FILTER (
-            WHERE age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
-            AND DATE(age_dta_inc::timestamp) >= DATE_TRUNC('month', CURRENT_DATE)
-          ) * 100.0 / NULLIF(COUNT(*), 0)
-        ), 2) as percentage
-      FROM open_agendas
-      WHERE age_dta_inc IS NOT NULL 
-        AND age_dta_inc != ''
-        AND age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
-        AND age_dta_inc::timestamp >= CURRENT_DATE - INTERVAL '12 months'
-      GROUP BY DATE_TRUNC('month', age_dta_inc::timestamp)
+        SUM(CASE WHEN is_current_month THEN 1 ELSE 0 END) as new_requests,
+        ROUND((SUM(CASE WHEN is_current_month THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0)), 2) as percentage
+      FROM (
+        SELECT 
+          DATE_TRUNC('month', age_dta_inc::timestamp) as month_date,
+          CASE 
+            WHEN DATE(age_dta_inc::timestamp) >= DATE_TRUNC('month', CURRENT_DATE) 
+            THEN true 
+            ELSE false 
+          END as is_current_month
+        FROM open_agendas
+        WHERE age_dta_inc IS NOT NULL 
+          AND age_dta_inc != ''
+          AND age_dta_inc ~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+          AND age_dta_inc::timestamp >= CURRENT_DATE - INTERVAL '12 months'
+      ) sub
+      GROUP BY month_date
       ORDER BY month_date;
     `)
 
