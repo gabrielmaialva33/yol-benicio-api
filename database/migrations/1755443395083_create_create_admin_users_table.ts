@@ -1,4 +1,5 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
+import { DateTime } from 'luxon'
 
 import User from '#modules/user/models/user'
 
@@ -23,7 +24,7 @@ export default class extends BaseSchema {
         email_verified: true,
         email_verification_token: null,
         email_verification_sent_at: null,
-        email_verified_at: new Date().toISOString(),
+        email_verified_at: DateTime.now().toISO(),
       },
     })
 

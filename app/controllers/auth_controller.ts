@@ -14,17 +14,25 @@ export default class AuthController {
    * Handle login request
    */
   async login({ request, response, auth, inertia }: HttpContext) {
-    const { email, password } = await request.validateUsing(loginValidator)
-
     try {
-      const user = await User.verifyCredentials(email, password)
-      await auth.use('web').login(user)
+      const { email, password } = await request.validateUsing(loginValidator)
 
-      return response.redirect('/dashboard')
-    } catch (error) {
+      try {
+        const user = await User.verifyCredentials(email, password)
+        await auth.use('web').login(user)
+
+        return response.redirect('/dashboard')
+      } catch (authError) {
+        return inertia.render('auth/login', {
+          errors: {
+            email: ['Invalid email or password'],
+          },
+        })
+      }
+    } catch (validationError) {
       return inertia.render('auth/login', {
-        errors: {
-          message: 'Credenciais inválidas',
+        errors: validationError.messages || {
+          message: 'Validation failed',
         },
       })
     }
