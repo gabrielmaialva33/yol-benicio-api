@@ -9,8 +9,8 @@ export default class extends BaseSchema {
         TO_CHAR(DATE_TRUNC('month', pro_dta_inc::timestamp), 'Mon') as month,
         DATE_TRUNC('month', pro_dta_inc::timestamp) as month_date,
         COUNT(*) as folder_count,
-        COUNT(*) FILTER (WHERE pro_sta_ide = '1') as active_count,
-        COUNT(*) FILTER (WHERE pro_sta_ide = '2') as completed_count
+        COUNT(*) FILTER (WHERE pro_dta_enc IS NULL OR pro_dta_enc = '') as active_count,
+        COUNT(*) FILTER (WHERE pro_dta_enc IS NOT NULL AND pro_dta_enc != '') as completed_count
       FROM tabela_open_processos
       WHERE pro_dta_inc::timestamp >= CURRENT_DATE - INTERVAL '6 months'
       GROUP BY DATE_TRUNC('month', pro_dta_inc::timestamp)
@@ -67,7 +67,7 @@ export default class extends BaseSchema {
         SUM(COALESCE(f.fat_vlr::numeric, 0)) as total_billing
       FROM open_clientes c
       LEFT JOIN tabela_open_processos p ON p.pro_cas_ide::text = c.cli_ide
-      LEFT JOIN open_agendas a ON a.age_cli_ide::text = c.cli_ide
+      LEFT JOIN open_agendas a ON a.age_pro_ide::text = p.pro_ide::text
       LEFT JOIN open_faturamentos f ON f.fat_coc_ide = c.cli_ide
       GROUP BY c.cli_ide, c.cli_nom, c.cli_cod
       HAVING COUNT(DISTINCT p.pro_ide) > 0 OR COUNT(DISTINCT a.age_ide) > 0
@@ -104,7 +104,7 @@ export default class extends BaseSchema {
         'bg-emerald-500' as color,
         ROUND((COUNT(*) * 100.0 / NULLIF((SELECT COUNT(*) FROM tabela_open_processos), 0)), 2) as percentage
       FROM tabela_open_processos
-      WHERE pro_sta_ide = '2' 
+      WHERE pro_dta_enc IS NOT NULL AND pro_dta_enc != ''
         AND pro_dta_alt::timestamp >= DATE_TRUNC('month', CURRENT_DATE)
       
       UNION ALL

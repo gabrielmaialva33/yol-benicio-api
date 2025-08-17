@@ -69,7 +69,7 @@ export default class extends BaseSchema {
           WHERE EXISTS (
             SELECT 1 FROM tabela_open_processos p 
             WHERE p.pro_cas_ide::text = c.cli_ide 
-            AND p.pro_sta_ide = '1'
+            AND (p.pro_dta_enc IS NULL OR p.pro_dta_enc = '')
           )
         ) as active_clients,
         COUNT(DISTINCT cli_ide) FILTER (
