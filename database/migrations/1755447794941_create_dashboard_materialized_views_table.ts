@@ -28,12 +28,32 @@ export default class extends BaseSchema {
       SELECT
         fat_ano::int as year,
         fat_mes::int as month,
-        SUM(COALESCE(fat_vlr::numeric, 0)) as total_value,
+        SUM(
+          CASE 
+            WHEN fat_vlr ~ '^[0-9]+\.?[0-9]*$' 
+            THEN fat_vlr::numeric 
+            WHEN fat_vlr ~ '^[0-9]+\.?[0-9]*d[0-9]*$'
+            THEN REGEXP_REPLACE(fat_vlr, 'd[0-9]*$', '')::numeric
+            ELSE 0 
+          END
+        ) as total_value,
         COUNT(*) as invoice_count,
-        AVG(COALESCE(fat_vlr::numeric, 0)) as avg_value,
+        AVG(
+          CASE 
+            WHEN fat_vlr ~ '^[0-9]+\.?[0-9]*$' 
+            THEN fat_vlr::numeric 
+            WHEN fat_vlr ~ '^[0-9]+\.?[0-9]*d[0-9]*$'
+            THEN REGEXP_REPLACE(fat_vlr, 'd[0-9]*$', '')::numeric
+            ELSE 0 
+          END
+        ) as avg_value,
         TO_CHAR(MAKE_DATE(fat_ano::int, fat_mes::int, 1), 'Mon') as month_name
       FROM open_faturamentos
-      WHERE fat_ano::int >= EXTRACT(YEAR FROM CURRENT_DATE) - 1
+      WHERE fat_ano IS NOT NULL AND fat_ano != ''
+        AND fat_mes IS NOT NULL AND fat_mes != ''
+        AND fat_ano ~ '^[0-9]+$'
+        AND fat_mes ~ '^[0-9]+$'
+        AND fat_ano::int >= EXTRACT(YEAR FROM CURRENT_DATE) - 1
         AND fat_vlr IS NOT NULL
         AND fat_vlr != ''
       GROUP BY fat_ano::int, fat_mes::int
