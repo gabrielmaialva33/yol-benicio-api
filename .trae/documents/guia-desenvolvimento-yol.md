@@ -459,4 +459,415 @@ export function UserForm({ user, onSubmit }: UserFormProps) {
     e.preventDefault()
     
     if (user) {
-      put(`
+      put(`/users/${user.id}`, {
+        onSuccess: () => onSubmit?.()
+      })
+    } else {
+      post('/users', {
+        onSuccess: () => onSubmit?.()
+      })
+    }
+  }
+
+  return (
+    <Card>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <Input
+          label="Nome Completo"
+          value={data.fullName}
+          onChange={(e) => setData('fullName', e.target.value)}
+          error={errors.fullName}
+          required
+        />
+        
+        <Input
+          label="Email"
+          type="email"
+          value={data.email}
+          onChange={(e) => setData('email', e.target.value)}
+          error={errors.email}
+          required
+        />
+        
+        <Input
+          label="Nome de Usuário"
+          value={data.username}
+          onChange={(e) => setData('username', e.target.value)}
+          error={errors.username}
+        />
+        
+        <div className="flex justify-end space-x-2">
+          <Button type="submit" loading={processing}>
+            {user ? 'Atualizar' : 'Criar'} Usuário
+          </Button>
+        </div>
+      </form>
+    </Card>
+  )
+}
+```
+
+### 6.2 Hooks Personalizados
+
+```typescript
+// inertia/shared/hooks/usePermissions.ts
+import { usePage } from '@inertiajs/react'
+import { PageProps } from '@/shared/types'
+
+export function usePermissions() {
+  const { auth } = usePage<PageProps>().props
+  
+  const hasPermission = (permission: string): boolean => {
+    return auth.user.permissions?.includes(permission) || false
+  }
+  
+  const hasRole = (role: string): boolean => {
+    return auth.user.roles?.some(r => r.slug === role) || false
+  }
+  
+  const isAdmin = (): boolean => {
+    return hasRole('admin') || hasRole('root')
+  }
+  
+  return {
+    hasPermission,
+    hasRole,
+    isAdmin,
+    permissions: auth.user.permissions || [],
+    roles: auth.user.roles || []
+  }
+}
+```
+
+## 7. Testes
+
+### 7.1 Configuração de Testes
+
+```typescript
+// tests/bootstrap.ts
+import { assert } from '@japa/assert'
+import { apiClient } from '@japa/api-client'
+import { pluginAdonisJS } from '@japa/plugin-adonisjs'
+import { configure, processCLIArgs, run } from '@japa/runner'
+
+processCLIArgs(process.argv.splice(2))
+
+configure({
+  files: ['tests/**/*.spec.ts'],
+  plugins: [
+    assert(),
+    apiClient(),
+    pluginAdonisJS()
+  ],
+  reporters: {
+    activated: ['spec']
+  },
+  importer: (filePath) => import(filePath)
+})
+
+run()
+```
+
+### 7.2 Testes Funcionais
+
+```typescript
+// tests/functional/users/create_user.spec.ts
+import { test } from '@japa/runner'
+import User from '#models/user'
+
+test.group('Users - Create', (group) => {
+  group.each.setup(async () => {
+    // Setup para cada teste
+  })
+
+  test('should create a new user', async ({ client, assert }) => {
+    const userData = {
+      fullName: 'João Silva',
+      email: 'joao@example.com',
+      password: '123456'
+    }
+
+    const response = await client
+      .post('/users')
+      .json(userData)
+
+    response.assertStatus(201)
+    response.assertBodyContains({
+      fullName: userData.fullName,
+      email: userData.email
+    })
+
+    const user = await User.findBy('email', userData.email)
+    assert.isNotNull(user)
+    assert.equal(user!.fullName, userData.fullName)
+  })
+
+  test('should validate required fields', async ({ client }) => {
+    const response = await client
+      .post('/users')
+      .json({})
+
+    response.assertStatus(422)
+    response.assertBodyContains({
+      errors: [
+        { field: 'fullName', message: 'The fullName field is required' },
+        { field: 'email', message: 'The email field is required' },
+        { field: 'password', message: 'The password field is required' }
+      ]
+    })
+  })
+})
+```
+
+### 7.3 Testes Unitários
+
+```typescript
+// tests/unit/user/user_service.spec.ts
+import { test } from '@japa/runner'
+import { UserService } from '#modules/user/services/user_service'
+import User from '#models/user'
+
+test.group('UserService', () => {
+  test('should create user with default role', async ({ assert }) => {
+    const userService = new UserService()
+    
+    const userData = {
+      fullName: 'Test User',
+      email: 'test@example.com',
+      password: '123456'
+    }
+
+    const user = await userService.createUser(userData)
+    await user.load('roles')
+
+    assert.equal(user.fullName, userData.fullName)
+    assert.equal(user.email, userData.email)
+    assert.isTrue(user.roles.length > 0)
+    assert.equal(user.roles[0].slug, 'user')
+  })
+})
+```
+
+## 8. Deploy e Produção
+
+### 8.1 Build para Produção
+
+```bash
+# Build do frontend
+pnpm build
+
+# Build do backend (se necessário)
+node ace build
+```
+
+### 8.2 Variáveis de Ambiente - Produção
+
+```env
+# .env.production
+TZ=UTC
+PORT=3333
+HOST=0.0.0.0
+LOG_LEVEL=info
+APP_KEY=your-production-32-character-secret-key
+NODE_ENV=production
+
+# Database
+DB_HOST=your-db-host
+DB_PORT=5432
+DB_USER=your-db-user
+DB_PASSWORD=your-secure-password
+DB_DATABASE=yol_benicio_prod
+
+# Redis
+REDIS_HOST=your-redis-host
+REDIS_PORT=6379
+REDIS_PASSWORD=your-redis-password
+
+# JWT
+JWT_SECRET=your-production-jwt-secret
+
+# Mail
+SMTP_HOST=your-smtp-host
+SMTP_PORT=587
+SMTP_USERNAME=your-smtp-user
+SMTP_PASSWORD=your-smtp-password
+```
+
+### 8.3 Docker para Produção
+
+```dockerfile
+# Dockerfile
+FROM node:22-alpine
+
+WORKDIR /app
+
+# Instalar pnpm
+RUN npm install -g pnpm
+
+# Copiar arquivos de dependências
+COPY package.json pnpm-lock.yaml ./
+
+# Instalar dependências
+RUN pnpm install --frozen-lockfile
+
+# Copiar código fonte
+COPY . .
+
+# Build da aplicação
+RUN pnpm build
+
+# Expor porta
+EXPOSE 3333
+
+# Comando de inicialização
+CMD ["node", "bin/server.js"]
+```
+
+### 8.4 CI/CD com GitHub Actions
+
+```yaml
+# .github/workflows/ci.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: yol_benicio_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      
+      - name: Install pnpm
+        run: npm install -g pnpm
+      
+      - name: Install dependencies
+        run: pnpm install
+      
+      - name: Run tests
+        run: pnpm test
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_DATABASE: yol_benicio_test
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+```
+
+## 9. Troubleshooting
+
+### 9.1 Problemas Comuns
+
+**Erro de Conexão com Banco:**
+```bash
+# Verificar se PostgreSQL está rodando
+brew services list | grep postgresql
+
+# Reiniciar PostgreSQL
+brew services restart postgresql
+```
+
+**Erro de Permissões:**
+```bash
+# Sincronizar permissões
+node ace sync:permissions
+
+# Verificar roles no banco
+psql -d yol_benicio_dev -c "SELECT * FROM roles;"
+```
+
+**Problemas com Cache:**
+```bash
+# Limpar cache Redis
+redis-cli FLUSHALL
+
+# Reiniciar Redis
+brew services restart redis
+```
+
+### 9.2 Logs e Debugging
+
+```typescript
+// Configurar logs detalhados
+// config/logger.ts
+export default defineConfig({
+  default: 'app',
+  loggers: {
+    app: {
+      enabled: true,
+      name: env.get('APP_NAME'),
+      level: env.get('LOG_LEVEL', 'info'),
+      transport: {
+        targets: [
+          {
+            target: 'pino-pretty',
+            level: 'info',
+            options: {
+              colorize: true
+            }
+          }
+        ]
+      }
+    }
+  }
+})
+```
+
+## 10. Recursos Adicionais
+
+### 10.1 Documentação Oficial
+
+- [AdonisJS Documentation](https://docs.adonisjs.com/)
+- [Inertia.js Documentation](https://inertiajs.com/)
+- [React Documentation](https://react.dev/)
+- [TailwindCSS Documentation](https://tailwindcss.com/docs)
+
+### 10.2 Ferramentas de Desenvolvimento
+
+- [AdonisJS DevTools](https://github.com/adonisjs/devtools)
+- [Lucid ORM](https://lucid.adonisjs.com/)
+- [Vine Validator](https://vinejs.dev/)
+- [Japa Testing](https://japa.dev/)
+
+### 10.3 Comunidade
+
+- [AdonisJS Discord](https://discord.gg/vDcEjq6)
+- [GitHub Discussions](https://github.com/adonisjs/core/discussions)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/adonisjs)
+
+---
+
+**Última atualização:** Janeiro 2024  
+**Versão do documento:** 1.0  
+**Mantenedor:** Equipe de Desenvolvimento YOL Benício
