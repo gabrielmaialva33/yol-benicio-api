@@ -81,18 +81,11 @@ export default class TasksController {
       await auth.check()
       const user = auth.user!
 
-      const data = request.only([
-        'title',
-        'description',
-        'priority',
-        'due_date',
-        'assignee_id',
-        'folder_id',
-      ])
+      const data = await request.validateUsing(storeTaskValidator)
 
       // Parse due_date if provided
       if (data.due_date) {
-        data.due_date = DateTime.fromISO(data.due_date)
+        data.due_date = DateTime.fromISO(data.due_date.toString())
       }
 
       const task = await this.taskService.createTask({
@@ -102,6 +95,12 @@ export default class TasksController {
 
       return response.created(task)
     } catch (error) {
+      if (error.status === 422) {
+        return response.status(422).json({
+          message: 'Validation failed',
+          errors: error.messages,
+        })
+      }
       return response.badRequest({
         message: 'Failed to create task',
         error: error.message,
