@@ -1,10 +1,7 @@
 import { router, usePage } from '@inertiajs/react'
 import { Breadcrumb } from '~/shared/components/Breadcrumb'
 import { useDetectOutsideClick } from '~/shared/utils/use_detect_outside_click'
-import {
-  MagnifyingGlassIcon,
-  Cog6ToothIcon,
-} from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, Cog6ToothIcon } from '@heroicons/react/24/outline'
 import { MessagesDropdown } from './MessagesDropdown'
 import { NotificationsDropdown } from './NotificationsDropdown'
 

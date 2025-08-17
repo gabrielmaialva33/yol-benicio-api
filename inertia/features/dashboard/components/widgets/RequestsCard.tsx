@@ -55,7 +55,7 @@ export function RequestsCard() {
   }
 
   const currentData = data[currentMonth] || data[0]
-  
+
   // Generate chart data for area visualization
   const chartData = Array.from({ length: 7 }, (_, i) => ({
     day: i + 1,
@@ -129,11 +129,7 @@ export function RequestsCard() {
                 tickLine={false}
                 tick={{ fontSize: 12, fill: '#6b7280' }}
               />
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12, fill: '#6b7280' }}
-              />
+              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'white',

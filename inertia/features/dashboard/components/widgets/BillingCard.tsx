@@ -59,7 +59,9 @@ export function BillingCard() {
             ) : (
               <ArrowDownIcon className="w-4 h-4 text-red-500" />
             )}
-            <span className={`text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+            <span
+              className={`text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}
+            >
               {Math.abs(percentage)}%
             </span>
             <span className="text-sm text-gray-500">vs mês anterior</span>

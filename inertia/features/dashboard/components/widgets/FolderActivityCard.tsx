@@ -86,7 +86,8 @@ export function FolderActivityCard() {
               <div className="flex justify-between text-xs text-gray-500">
                 <span>Meta: {Math.round(activity.value / (activity.percentage / 100))}</span>
                 <span>
-                  Progresso: {activity.value} / {Math.round(activity.value / (activity.percentage / 100))}
+                  Progresso: {activity.value} /{' '}
+                  {Math.round(activity.value / (activity.percentage / 100))}
                 </span>
               </div>
             </div>

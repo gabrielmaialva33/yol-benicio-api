@@ -77,11 +77,7 @@ export function ActiveFoldersCard() {
                 tickLine={false}
                 tick={{ fontSize: 12, fill: '#6b7280' }}
               />
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tick={{ fontSize: 12, fill: '#6b7280' }}
-              />
+              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'white',

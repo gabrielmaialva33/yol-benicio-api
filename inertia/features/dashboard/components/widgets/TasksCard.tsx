@@ -132,11 +132,7 @@ export function TasksCard() {
                 task.priority === 'high' ? 'border-l-4 border-l-red-500' : ''
               }`}
             >
-              <button
-                type="button"
-                onClick={() => toggleTask(task.id)}
-                className="flex-shrink-0"
-              >
+              <button type="button" onClick={() => toggleTask(task.id)} className="flex-shrink-0">
                 <div
                   className={`w-4 h-4 border-2 rounded ${
                     task.completed
@@ -182,11 +178,7 @@ export function TasksCard() {
                     />
                   </svg>
                 </button>
-                <button
-                  type="button"
-                  className="text-gray-400 hover:text-gray-600"
-                  title="Anexos"
-                >
+                <button type="button" className="text-gray-400 hover:text-gray-600" title="Anexos">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
