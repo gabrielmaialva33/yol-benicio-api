@@ -9,7 +9,6 @@ import {
 } from '@heroicons/react/24/outline'
 import { MessagesDropdown } from './MessagesDropdown'
 import { NotificationsDropdown } from './NotificationsDropdown'
-import { UserDropdown } from './UserDropdown'
 
 const pageTitles: Record<string, { title: string; description: string }> = {
   '/dashboard': {
@@ -154,7 +153,9 @@ export function Header() {
             <div className="h-6 w-px bg-gray-200"></div>
 
             {/* User Menu */}
-            <UserDropdown />
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-gray-700">Usuário</span>
+            </div>
 
             <button
               aria-label="Sair"
