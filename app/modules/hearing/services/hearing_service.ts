@@ -245,7 +245,10 @@ export default class HearingService {
   /**
    * Update hearing status
    */
-  async updateHearingStatus(id: number, status: 'pending' | 'in_progress' | 'completed' | 'cancelled'): Promise<Hearing> {
+  async updateHearingStatus(
+    id: number,
+    status: 'pending' | 'in_progress' | 'completed' | 'cancelled'
+  ): Promise<Hearing> {
     const hearing = await Hearing.findOrFail(id)
 
     hearing.status = status
