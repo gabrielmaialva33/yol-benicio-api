@@ -39,8 +39,15 @@ export default class Task extends BaseModel {
   declare creator_id: number | null
 
   @column({
-    prepare: (value: any) => JSON.stringify(value),
-    consume: (value: string) => JSON.parse(value || '{}'),
+    prepare: (value: any) => value ? JSON.stringify(value) : '{}',
+    consume: (value: string | null) => {
+      if (!value) return {}
+      try {
+        return JSON.parse(value)
+      } catch {
+        return {}
+      }
+    },
   })
   declare metadata: Record<string, any>
 
@@ -49,11 +56,11 @@ export default class Task extends BaseModel {
    * Timestamps
    * ------------------------------------------------------
    */
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  @column.dateTime({ autoCreate: true, columnName: 'created_at' })
+  declare created_at: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  @column.dateTime({ autoCreate: true, autoUpdate: true, columnName: 'updated_at' })
+  declare updated_at: DateTime
 
   /**
    * ------------------------------------------------------
