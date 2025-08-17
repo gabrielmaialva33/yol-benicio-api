@@ -38,6 +38,126 @@ const generateMessages = () => {
   }))
 }
 
+// Widget-specific mock data generators
+const generateActiveFoldersData = () => {
+  const history = Array.from({ length: 6 }, (_, i) => ({
+    month: faker.date.past({ years: 0.5 }).toLocaleDateString('pt-BR', { month: 'short' }),
+    value: faker.number.int({ min: 5, max: 25 }),
+  }))
+  
+  return {
+    active: faker.number.int({ min: 45, max: 85 }),
+    newThisMonth: faker.number.int({ min: 8, max: 15 }),
+    history,
+  }
+}
+
+const generateAreaDivisionData = () => {
+  return [
+    { name: 'Trabalhista', value: 35, color: '#00A76F' },
+    { name: 'Cível', value: 30, color: '#00B8D9' },
+    { name: 'Tributário', value: 20, color: '#FFAB00' },
+    { name: 'Criminal', value: 15, color: '#FF5630' },
+  ]
+}
+
+const generateFolderActivityData = () => {
+  return [
+    {
+      label: 'Novas esta semana',
+      value: faker.number.int({ min: 3, max: 8 }),
+      color: 'bg-cyan-500',
+      percentage: faker.number.int({ min: 15, max: 25 }),
+    },
+    {
+      label: 'Novas este mês',
+      value: faker.number.int({ min: 8, max: 15 }),
+      color: 'bg-purple-500',
+      percentage: faker.number.int({ min: 25, max: 35 }),
+    },
+    {
+      label: 'Total ativo',
+      value: faker.number.int({ min: 45, max: 85 }),
+      color: 'bg-blue-500',
+      percentage: faker.number.int({ min: 45, max: 55 }),
+    },
+  ]
+}
+
+const generateRequestsData = () => {
+  return [
+    {
+      month: 'Jan',
+      value: faker.number.int({ min: 15, max: 30 }),
+      new: faker.number.int({ min: 5, max: 12 }),
+      percentage: faker.number.int({ min: 20, max: 30 }),
+    },
+  ]
+}
+
+const generateBillingData = () => {
+  const chart = Array.from({ length: 6 }, () => ({
+    pv: faker.number.int({ min: 1000, max: 1500 }),
+  }))
+  
+  const value = faker.number.int({ min: 125000, max: 200000 })
+  const percentage = faker.number.float({ min: 10, max: 25, multipleOf: 0.1 })
+  
+  return {
+    value: `R$ ${(value / 1000).toFixed(1)}k`,
+    percentage: percentage.toFixed(1),
+    chart,
+  }
+}
+
+const generateHearingsData = () => {
+  return [
+    {
+      label: 'Audiências',
+      percentage: faker.number.int({ min: 70, max: 85 }),
+      total: faker.number.int({ min: 10, max: 15 }),
+      completed: faker.number.int({ min: 8, max: 12 }),
+      color: '#14B8A6',
+      date: faker.date.future().toISOString(),
+    },
+    {
+      label: 'Prazos processuais',
+      percentage: faker.number.int({ min: 55, max: 70 }),
+      total: faker.number.int({ min: 18, max: 25 }),
+      completed: faker.number.int({ min: 12, max: 18 }),
+      color: '#F43F5E',
+      date: faker.date.future().toISOString(),
+    },
+    {
+      label: 'Prazos administrativos',
+      percentage: faker.number.int({ min: 80, max: 95 }),
+      total: faker.number.int({ min: 8, max: 12 }),
+      completed: faker.number.int({ min: 7, max: 11 }),
+      color: '#8B5CF6',
+      date: faker.date.future().toISOString(),
+    },
+  ]
+}
+
+const generateBirthdaysData = () => {
+  const avatarUrl = 'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=BlazerShirt&clotheColor=Blue01&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light'
+  
+  return Array.from({ length: 2 }, () => ({
+    avatar: avatarUrl,
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+  }))
+}
+
+const generateTasksData = () => {
+  return {
+    total_tasks: faker.number.int({ min: 45, max: 65 }),
+    pending_tasks: faker.number.int({ min: 10, max: 18 }),
+    completed_today: faker.number.int({ min: 3, max: 8 }),
+    overdue_tasks: faker.number.int({ min: 2, max: 6 }),
+  }
+}
+
 export const dashboardHandlers = [
   // Get favorite folders
   http.get('/api/dashboard/favorite-folders', () => {
