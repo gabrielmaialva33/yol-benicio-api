@@ -7,7 +7,6 @@ import { FolderFactory } from '#database/factories/folder_factory'
 import Folder from '#modules/folder/models/folder'
 
 test.group('Folders CRUD API', (group) => {
-  let authToken: string
   let user: any
   let client: any
 

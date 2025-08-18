@@ -7,7 +7,6 @@ import { FolderFactory } from '#database/factories/folder_factory'
 import Client from '#modules/client/models/client'
 
 test.group('Clients CRUD API', (group) => {
-  let authToken: string
   let user: any
 
   group.setup(async () => {
