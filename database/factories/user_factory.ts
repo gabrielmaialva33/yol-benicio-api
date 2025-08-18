@@ -8,7 +8,7 @@ export const UserFactory = factory
       username: faker.internet.username(),
       email: faker.internet.email().toLowerCase(),
       password: faker.internet.password(),
-      is_deleted: faker.datatype.boolean(),
+      is_deleted: false,
     }
   })
   .build()
