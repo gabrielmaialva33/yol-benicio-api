@@ -33,16 +33,7 @@ test.group('Clients CRUD API', (group) => {
       },
     }).create()
 
-    // Get auth token
-    const authResponse = await testUtils
-      .httpClient()
-      .post('/api/v1/sessions/sign-in')
-      .json({
-        uid: user.email,
-        password: 'secret123',
-      })
-
-    authToken = authResponse.body().data.token
+    // No need for manual auth token - will use .loginAs(user)
   })
 
   test('should get clients list', async ({ client: testClient }) => {
@@ -51,7 +42,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/clients')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBody({
@@ -88,7 +79,7 @@ test.group('Clients CRUD API', (group) => {
     // Test type filter
     const individualsResponse = await testClient
       .get('/api/v1/clients?type=individual')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     individualsResponse.assertStatus(200)
     individualsResponse.assertBodyContains({ meta: { total: 3 } })
@@ -96,7 +87,7 @@ test.group('Clients CRUD API', (group) => {
     // Test city filter
     const spResponse = await testClient
       .get('/api/v1/clients?city=São Paulo')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     spResponse.assertStatus(200)
     spResponse.assertBodyContains({ meta: { total: 3 } })
@@ -104,7 +95,7 @@ test.group('Clients CRUD API', (group) => {
     // Test state filter
     const rjResponse = await testClient
       .get('/api/v1/clients?state=RJ')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     rjResponse.assertStatus(200)
     rjResponse.assertBodyContains({ meta: { total: 2 } })
@@ -126,7 +117,7 @@ test.group('Clients CRUD API', (group) => {
     // Search by name
     const nameResponse = await testClient
       .get('/api/v1/clients?search=João')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     nameResponse.assertStatus(200)
     nameResponse.assertBodyContains({ meta: { total: 1 } })
@@ -135,7 +126,7 @@ test.group('Clients CRUD API', (group) => {
     // Search by document
     const docResponse = await testClient
       .get('/api/v1/clients?search=987654')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     docResponse.assertStatus(200)
     docResponse.assertBodyContains({ meta: { total: 1 } })
@@ -144,7 +135,7 @@ test.group('Clients CRUD API', (group) => {
     // Search by email
     const emailResponse = await testClient
       .get('/api/v1/clients?search=maria@email')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     emailResponse.assertStatus(200)
     emailResponse.assertBodyContains({ meta: { total: 1 } })
@@ -175,7 +166,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .post('/api/v1/clients')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
       .json(clientData)
 
     response.assertStatus(201)
@@ -211,7 +202,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .post('/api/v1/clients')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
       .json(clientData)
 
     response.assertStatus(201)
@@ -234,7 +225,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .get(`/api/v1/clients/${client.id}`)
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -263,7 +254,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .put(`/api/v1/clients/${client.id}`)
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
       .json(updateData)
 
     response.assertStatus(200)
@@ -286,7 +277,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .put(`/api/v1/clients/${client.id}`)
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
       .json(updateData)
 
     response.assertStatus(200)
@@ -301,7 +292,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .delete(`/api/v1/clients/${client.id}`)
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -332,7 +323,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/clients/search?search=Jo&limit=5')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assert?.isArray(response.body())
@@ -354,7 +345,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/clients/stats')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -369,7 +360,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/clients/recent?limit=5')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assert?.isArray(response.body())
@@ -386,7 +377,7 @@ test.group('Clients CRUD API', (group) => {
     // First page
     const page1Response = await testClient
       .get('/api/v1/clients?page=1&limit=10')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     page1Response.assertStatus(200)
     page1Response.assertBodyContains({
@@ -401,7 +392,7 @@ test.group('Clients CRUD API', (group) => {
     // Second page
     const page2Response = await testClient
       .get('/api/v1/clients?page=2&limit=10')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     page2Response.assertStatus(200)
     page2Response.assertBodyContains({
@@ -421,7 +412,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .post('/api/v1/clients')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
       .json(invalidData)
 
     response.assertStatus(400)
@@ -433,7 +424,7 @@ test.group('Clients CRUD API', (group) => {
   test('should handle not found errors', async ({ client: testClient }) => {
     const response = await testClient
       .get('/api/v1/clients/999999')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(404)
     response.assertBodyContains({
@@ -464,7 +455,7 @@ test.group('Clients CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/clients')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     
@@ -488,7 +479,7 @@ test.group('Clients CRUD API', (group) => {
     // Search should match both name and email
     const response = await testClient
       .get('/api/v1/clients?search=silva')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({ meta: { total: 2 } })
