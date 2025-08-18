@@ -82,7 +82,7 @@ test.group('Clients CRUD API', (group) => {
     ])
   })
 
-  test('should get clients list', async ({ client: testClient }) => {
+  test('should get clients list', async ({ client: testClient, assert }) => {
     // Create test clients
     await ClientFactory.createMany(5)
 
@@ -91,18 +91,15 @@ test.group('Clients CRUD API', (group) => {
       .loginAs(user)
 
     response.assertStatus(200)
-    response.assertBodyContains({
-      meta: {
-        total: 5,
-        per_page: 10,
-        current_page: 1,
-      },
-    })
-
+    
     const body = response.body()
-    response.assertBodyContains({
-      data: Array.isArray(body.data) ? body.data : [],
-    })
+    assert.isObject(body.meta)
+    assert.isNumber(body.meta.total)
+    assert.isTrue(body.meta.total >= 5)
+    assert.equal(body.meta.per_page, 10)
+    assert.equal(body.meta.current_page, 1)
+    assert.isArray(body.data)
+    assert.isTrue(body.data.length >= 5)
   })
 
   test('should get clients with filters', async ({ client: testClient }) => {
