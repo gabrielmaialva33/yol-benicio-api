@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 
 export const ClientFactory = factory
   .define(Client, async ({ faker }) => {
-    const type = faker.helpers.arrayElement(['individual', 'company']) as const
+    const type = faker.helpers.arrayElement(['individual', 'company'] as const)
     const states = [
       'AC',
       'AL',
