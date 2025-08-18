@@ -60,6 +60,10 @@ test.group('FolderService', (group) => {
       responsible_lawyer_id: user.id,
     }).create()
 
+    // Debug: verify user exists
+    assert.isNotNull(user)
+    assert.isDefined(user.id)
+    
     const result = await folderService.getFolder(folder.id)
 
     assert.equal(result.id, folder.id)
@@ -67,6 +71,7 @@ test.group('FolderService', (group) => {
     assert.isDefined(result.client)
     assert.equal(result.client.id, client.id)
     assert.isDefined(result.responsibleLawyer)
+    assert.isNotNull(result.responsibleLawyer)
     assert.equal(result.responsibleLawyer.id, user.id)
   })
 
