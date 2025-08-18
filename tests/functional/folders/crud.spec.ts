@@ -34,16 +34,7 @@ test.group('Folders CRUD API', (group) => {
       },
     }).create()
 
-    // Get auth token
-    const authResponse = await testUtils
-      .httpClient()
-      .post('/api/v1/auth/sign-in')
-      .json({
-        email: user.email,
-        password: 'secret123',
-      })
-
-    authToken = authResponse.body().data.token
+    // No need for manual auth token - will use .loginAs(user)
     
     // Create a client for testing
     client = await ClientFactory.create()
@@ -58,7 +49,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/folders')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBody({
@@ -96,7 +87,7 @@ test.group('Folders CRUD API', (group) => {
     // Test status filter
     const activeResponse = await testClient
       .get('/api/v1/folders?status=active')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     activeResponse.assertStatus(200)
     activeResponse.assertBodyContains({ meta: { total: 2 } })
@@ -104,7 +95,7 @@ test.group('Folders CRUD API', (group) => {
     // Test area filter
     const laborResponse = await testClient
       .get('/api/v1/folders?area=labor')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     laborResponse.assertStatus(200)
     laborResponse.assertBodyContains({ meta: { total: 1 } })
@@ -112,7 +103,7 @@ test.group('Folders CRUD API', (group) => {
     // Test client filter
     const clientResponse = await testClient
       .get(`/api/v1/folders?client_id=${client.id}`)
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     clientResponse.assertStatus(200)
     clientResponse.assertBodyContains({ meta: { total: 3 } })
@@ -144,7 +135,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .post('/api/v1/folders')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
       .json(folderData)
 
     response.assertStatus(201)
@@ -166,7 +157,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .get(`/api/v1/folders/${folder.id}`)
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -198,7 +189,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .put(`/api/v1/folders/${folder.id}`)
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
       .json(updateData)
 
     response.assertStatus(200)
@@ -221,7 +212,7 @@ test.group('Folders CRUD API', (group) => {
     // Toggle to favorite
     const favoriteResponse = await testClient
       .patch(`/api/v1/folders/${folder.id}/favorite`)
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     favoriteResponse.assertStatus(200)
     favoriteResponse.assertBodyContains({
@@ -232,7 +223,7 @@ test.group('Folders CRUD API', (group) => {
     // Toggle back to not favorite
     const unfavoriteResponse = await testClient
       .patch(`/api/v1/folders/${folder.id}/favorite`)
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     unfavoriteResponse.assertStatus(200)
     unfavoriteResponse.assertBodyContains({
@@ -249,7 +240,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .delete(`/api/v1/folders/${folder.id}`)
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -278,7 +269,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/folders/stats')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -299,7 +290,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/folders/dashboard')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assert?.isDefined(response.body().active)
@@ -317,7 +308,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/folders/consultation?status=active')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assert?.isArray(response.body())
@@ -332,7 +323,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/folders/recent-activity?limit=3')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assert?.isArray(response.body())
@@ -348,7 +339,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .post('/api/v1/folders')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
       .json(invalidData)
 
     response.assertStatus(400)
@@ -360,7 +351,7 @@ test.group('Folders CRUD API', (group) => {
   test('should handle not found errors', async ({ client: testClient }) => {
     const response = await testClient
       .get('/api/v1/folders/999999')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(404)
     response.assertBodyContains({
@@ -389,7 +380,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/folders?search=Important')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({ meta: { total: 1 } })
@@ -411,7 +402,7 @@ test.group('Folders CRUD API', (group) => {
 
     const response = await testClient
       .get('/api/v1/folders?is_favorite=true')
-      .header('Authorization', `Bearer ${authToken}`)
+      .loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({ meta: { total: 2 } })
