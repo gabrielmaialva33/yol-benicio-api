@@ -55,7 +55,9 @@ export default class FolderDocument extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updated_at: DateTime
 
-  @belongsTo(() => Folder)
+  @belongsTo(() => Folder, {
+    foreignKey: 'folder_id',
+  })
   declare folder: BelongsTo<typeof Folder>
 
   @belongsTo(() => User, {

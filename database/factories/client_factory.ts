@@ -68,6 +68,7 @@ export const ClientFactory = factory
           max: 2,
         }),
       },
+      is_deleted: false,
     }
   })
   .build()

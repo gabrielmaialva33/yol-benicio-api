@@ -151,10 +151,10 @@ test.group('FolderService', (group) => {
     const folderAfterDelete = await Folder.query().where('id', folder.id).first()
     assert.isNull(folderAfterDelete)
 
-    // Verify it exists in the database but is marked as deleted
-    const deletedFolder = await Folder.query().where('id', folder.id).where('is_deleted', true).first()
-    assert.isNotNull(deletedFolder)
-    assert.isTrue(deletedFolder!.is_deleted)
+    // Verify it exists in the database but is marked as deleted (using direct DB query)
+    const deletedFolderRaw = await db.from('folders').where('id', folder.id).where('is_deleted', true).first()
+    assert.isNotNull(deletedFolderRaw)
+    assert.isTrue(deletedFolderRaw!.is_deleted)
   })
 
   test('should get folder statistics', async ({ assert }) => {

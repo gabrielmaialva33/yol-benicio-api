@@ -1,6 +1,7 @@
 import { test } from '@japa/runner'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { DateTime } from 'luxon'
+import db from '@adonisjs/lucid/services/db'
 import ClientService from '#modules/client/services/client_service'
 import Client from '#modules/client/models/client'
 import { ClientFactory } from '#database/factories/client_factory'
@@ -159,6 +160,11 @@ test.group('ClientService', (group) => {
 
   test('should delete client (soft delete)', async ({ assert }) => {
     const client = await ClientFactory.create()
+    
+    // Verify client exists before deletion
+    const clientBeforeDelete = await Client.query().where('id', client.id).first()
+    assert.isNotNull(clientBeforeDelete)
+    assert.isFalse(clientBeforeDelete!.is_deleted)
 
     const result = await clientService.deleteClient(client.id)
     assert.equal(result.message, 'Client deleted successfully')
@@ -167,10 +173,10 @@ test.group('ClientService', (group) => {
     const clientAfterDelete = await Client.query().where('id', client.id).first()
     assert.isNull(clientAfterDelete)
 
-    // Verify it exists in the database but is marked as deleted
-    const deletedClient = await Client.query().where('id', client.id).where('is_deleted', true).first()
-    assert.isNotNull(deletedClient)
-    assert.isTrue(deletedClient!.is_deleted)
+    // Verify it exists in the database but is marked as deleted (using direct DB query)
+    const deletedClientRaw = await db.from('clients').where('id', client.id).where('is_deleted', true).first()
+    assert.isNotNull(deletedClientRaw)
+    assert.isTrue(deletedClientRaw!.is_deleted)
   })
 
   test('should search clients for selection', async ({ assert }) => {

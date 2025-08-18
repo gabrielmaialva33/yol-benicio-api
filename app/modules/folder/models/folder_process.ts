@@ -54,6 +54,8 @@ export default class FolderProcess extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updated_at: DateTime
 
-  @belongsTo(() => Folder)
+  @belongsTo(() => Folder, {
+    foreignKey: 'folder_id',
+  })
   declare folder: BelongsTo<typeof Folder>
 }

@@ -56,6 +56,7 @@ export const FolderFactory = factory
       object_detail: faker.lorem.paragraph(),
       last_movement: faker.lorem.sentence(),
       is_favorite: faker.datatype.boolean(),
+      is_deleted: false,
       metadata: {
         priority: faker.helpers.arrayElement(['low', 'medium', 'high']),
         complexity: faker.helpers.arrayElement(['simple', 'medium', 'complex']),

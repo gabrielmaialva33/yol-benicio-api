@@ -100,8 +100,14 @@ export default class Folder extends BaseModel {
   declare last_movement: string | null
 
   @column({
-    prepare: (value: any) => JSON.stringify(value),
-    consume: (value: string) => JSON.parse(value || '{}'),
+    prepare: (value: any) => value ? JSON.stringify(value) : '{}',
+    consume: (value: string) => {
+      try {
+        return typeof value === 'string' ? JSON.parse(value || '{}') : value || {}
+      } catch (error) {
+        return {}
+      }
+    },
   })
   declare metadata: Record<string, any>
 
@@ -132,13 +138,19 @@ export default class Folder extends BaseModel {
   })
   declare responsibleLawyer: BelongsTo<typeof User>
 
-  @hasMany(() => FolderProcess)
+  @hasMany(() => FolderProcess, {
+    foreignKey: 'folder_id',
+  })
   declare processes: HasMany<typeof FolderProcess>
 
-  @hasMany(() => FolderDocument)
+  @hasMany(() => FolderDocument, {
+    foreignKey: 'folder_id',
+  })
   declare documents: HasMany<typeof FolderDocument>
 
-  @hasMany(() => FolderMovement)
+  @hasMany(() => FolderMovement, {
+    foreignKey: 'folder_id',
+  })
   declare movements: HasMany<typeof FolderMovement>
 
   /**
