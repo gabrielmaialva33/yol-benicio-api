@@ -152,7 +152,7 @@ test.group('FolderService', (group) => {
     assert.isNull(folderAfterDelete)
 
     // Verify it exists in the database but is marked as deleted
-    const deletedFolder = await Folder.query().withoutGlobalScopes().where('id', folder.id).first()
+    const deletedFolder = await Folder.query().where('id', folder.id).where('is_deleted', true).first()
     assert.isNotNull(deletedFolder)
     assert.isTrue(deletedFolder!.is_deleted)
   })
