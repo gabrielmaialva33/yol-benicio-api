@@ -35,14 +35,6 @@ export const ClientFactory = factory
       'TO',
     ]
 
-    const generateCPF = (): string => {
-      return faker.string.numeric(11)
-    }
-
-    const generateCNPJ = (): string => {
-      return faker.string.numeric(14)
-    }
-
     return {
       name: type === 'individual' ? faker.person.fullName() : faker.company.name(),
       document: faker.string.alphanumeric(11) + faker.string.numeric(3),
