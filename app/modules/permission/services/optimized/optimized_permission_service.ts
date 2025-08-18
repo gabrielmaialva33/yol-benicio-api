@@ -1,4 +1,5 @@
 import { inject } from '@adonisjs/core'
+import { DateTime } from 'luxon'
 import User from '#modules/user/models/user'
 import Permission from '#modules/permission/models/permission'
 import IPermission from '#modules/permission/interfaces/permission_interface'
@@ -202,7 +203,7 @@ export default class OptimizedPermissionService {
       .preload('permissions', (query) => {
         query.where('granted', true)
         query.where((subQuery) => {
-          subQuery.whereNull('expires_at').orWhere('expires_at', '>', new Date())
+          subQuery.whereNull('expires_at').orWhere('expires_at', '>', DateTime.now().toJSDate())
         })
       })
       .preload('roles', (query) => {

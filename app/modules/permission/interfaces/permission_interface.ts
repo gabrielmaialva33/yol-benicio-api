@@ -32,6 +32,7 @@ namespace IPermission {
     TASKS = 'tasks',
     FILES = 'files',
     FOLDERS = 'folders',
+    CLIENTS = 'clients',
     SETTINGS = 'settings',
     REPORTS = 'reports',
     AUDIT = 'audit',

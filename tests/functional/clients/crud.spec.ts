@@ -1,0 +1,492 @@
+import { test } from '@japa/runner'
+import testUtils from '@adonisjs/core/services/test_utils'
+import { DateTime } from 'luxon'
+import { UserFactory } from '#database/factories/user_factory'
+import { ClientFactory } from '#database/factories/client_factory'
+import { FolderFactory } from '#database/factories/folder_factory'
+import Client from '#modules/client/models/client'
+
+test.group('Clients CRUD API', (group) => {
+  let authToken: string
+  let user: any
+
+  group.setup(async () => {
+    await testUtils.db().migrate()
+  })
+
+  group.teardown(async () => {
+    // Skip rollback due to database lock issues in tests
+  })
+
+  group.each.setup(async () => {
+    await testUtils.db().truncate()
+    
+    // Create user with admin permissions
+    user = await UserFactory.merge({
+      email: 'admin@test.com',
+      password: 'secret123',
+      is_active: true,
+      email_verified_at: DateTime.now(),
+    }).create()
+
+    // Get auth token
+    const authResponse = await testUtils
+      .httpClient()
+      .post('/api/v1/auth/sign-in')
+      .json({
+        email: 'admin@test.com',
+        password: 'secret123',
+      })
+
+    authToken = authResponse.body().data.token
+  })
+
+  test('should get clients list', async ({ client: testClient }) => {
+    // Create test clients
+    await ClientFactory.createMany(5)
+
+    const response = await testClient
+      .get('/api/v1/clients')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    response.assertStatus(200)
+    response.assertBody({
+      data: response.body().data,
+      meta: {
+        total: 5,
+        per_page: 10,
+        current_page: 1,
+        last_page: 1,
+        first_page: 1,
+        first_page_url: response.body().meta.first_page_url,
+        last_page_url: response.body().meta.last_page_url,
+        next_page_url: null,
+        previous_page_url: null,
+      },
+    })
+  })
+
+  test('should get clients with filters', async ({ client: testClient }) => {
+    // Create individual clients
+    await ClientFactory.merge({
+      type: 'individual',
+      city: 'São Paulo',
+      state: 'SP',
+    }).createMany(3)
+
+    // Create company clients
+    await ClientFactory.merge({
+      type: 'company',
+      city: 'Rio de Janeiro',
+      state: 'RJ',
+    }).createMany(2)
+
+    // Test type filter
+    const individualsResponse = await testClient
+      .get('/api/v1/clients?type=individual')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    individualsResponse.assertStatus(200)
+    individualsResponse.assertBodyContains({ meta: { total: 3 } })
+
+    // Test city filter
+    const spResponse = await testClient
+      .get('/api/v1/clients?city=São Paulo')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    spResponse.assertStatus(200)
+    spResponse.assertBodyContains({ meta: { total: 3 } })
+
+    // Test state filter
+    const rjResponse = await testClient
+      .get('/api/v1/clients?state=RJ')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    rjResponse.assertStatus(200)
+    rjResponse.assertBodyContains({ meta: { total: 2 } })
+  })
+
+  test('should search clients', async ({ client: testClient }) => {
+    await ClientFactory.merge({
+      name: 'João Silva',
+      document: '12345678901',
+      email: 'joao@email.com',
+    }).create()
+
+    await ClientFactory.merge({
+      name: 'Maria Santos',
+      document: '98765432100',
+      email: 'maria@email.com',
+    }).create()
+
+    // Search by name
+    const nameResponse = await testClient
+      .get('/api/v1/clients?search=João')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    nameResponse.assertStatus(200)
+    nameResponse.assertBodyContains({ meta: { total: 1 } })
+    nameResponse.assert?.equal(nameResponse.body().data[0].name, 'João Silva')
+
+    // Search by document
+    const docResponse = await testClient
+      .get('/api/v1/clients?search=987654')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    docResponse.assertStatus(200)
+    docResponse.assertBodyContains({ meta: { total: 1 } })
+    docResponse.assert?.equal(docResponse.body().data[0].name, 'Maria Santos')
+
+    // Search by email
+    const emailResponse = await testClient
+      .get('/api/v1/clients?search=maria@email')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    emailResponse.assertStatus(200)
+    emailResponse.assertBodyContains({ meta: { total: 1 } })
+  })
+
+  test('should create new individual client', async ({ client: testClient }) => {
+    const clientData = {
+      name: 'João Silva',
+      document: '12345678901',
+      email: 'joao@email.com',
+      phone: '11999999999',
+      street: 'Rua das Flores',
+      number: '123',
+      complement: 'Apto 45',
+      neighborhood: 'Centro',
+      city: 'São Paulo',
+      state: 'SP',
+      postal_code: '01234567',
+      country: 'Brasil',
+      type: 'individual',
+      birthday: '1990-01-01T00:00:00.000Z',
+      notes: 'Cliente importante',
+      metadata: {
+        source: 'website',
+        priority: 'high',
+      },
+    }
+
+    const response = await testClient
+      .post('/api/v1/clients')
+      .header('Authorization', `Bearer ${authToken}`)
+      .json(clientData)
+
+    response.assertStatus(201)
+    response.assertBodyContains({
+      name: 'João Silva',
+      document: '12345678901',
+      email: 'joao@email.com',
+      type: 'individual',
+      city: 'São Paulo',
+      state: 'SP',
+    })
+  })
+
+  test('should create new company client', async ({ client: testClient }) => {
+    const clientData = {
+      name: 'Empresa ABC Ltda',
+      document: '12345678000199',
+      email: 'contato@empresa.com',
+      phone: '1133333333',
+      street: 'Av. Paulista',
+      number: '1000',
+      city: 'São Paulo',
+      state: 'SP',
+      postal_code: '01310100',
+      type: 'company',
+      contact_person: 'Maria Santos',
+      notes: 'Empresa parceira',
+      metadata: {
+        segment: 'technology',
+        size: 'medium',
+      },
+    }
+
+    const response = await testClient
+      .post('/api/v1/clients')
+      .header('Authorization', `Bearer ${authToken}`)
+      .json(clientData)
+
+    response.assertStatus(201)
+    response.assertBodyContains({
+      name: 'Empresa ABC Ltda',
+      document: '12345678000199',
+      type: 'company',
+      contact_person: 'Maria Santos',
+    })
+  })
+
+  test('should show single client with folders', async ({ client: testClient }) => {
+    const client = await ClientFactory.create()
+    
+    // Create folders for this client
+    await FolderFactory.merge({
+      client_id: client.id,
+      responsible_lawyer_id: user.id,
+    }).createMany(3)
+
+    const response = await testClient
+      .get(`/api/v1/clients/${client.id}`)
+      .header('Authorization', `Bearer ${authToken}`)
+
+    response.assertStatus(200)
+    response.assertBodyContains({
+      id: client.id,
+      name: client.name,
+      document: client.document,
+    })
+    response.assert?.equal(response.body().folders.length, 3)
+  })
+
+  test('should update client', async ({ client: testClient }) => {
+    const client = await ClientFactory.create()
+
+    const updateData = {
+      name: 'Updated Name',
+      email: 'updated@email.com',
+      phone: '11888888888',
+      city: 'Rio de Janeiro',
+      state: 'RJ',
+      notes: 'Updated notes',
+      metadata: {
+        updated: true,
+        priority: 'medium',
+      },
+    }
+
+    const response = await testClient
+      .put(`/api/v1/clients/${client.id}`)
+      .header('Authorization', `Bearer ${authToken}`)
+      .json(updateData)
+
+    response.assertStatus(200)
+    response.assertBodyContains({
+      id: client.id,
+      name: 'Updated Name',
+      email: 'updated@email.com',
+      phone: '11888888888',
+      city: 'Rio de Janeiro',
+      state: 'RJ',
+    })
+  })
+
+  test('should update client birthday', async ({ client: testClient }) => {
+    const client = await ClientFactory.merge({ type: 'individual' }).create()
+
+    const updateData = {
+      birthday: '1985-06-15T00:00:00.000Z',
+    }
+
+    const response = await testClient
+      .put(`/api/v1/clients/${client.id}`)
+      .header('Authorization', `Bearer ${authToken}`)
+      .json(updateData)
+
+    response.assertStatus(200)
+    response.assert?.equal(
+      DateTime.fromISO(response.body().birthday).toISODate(),
+      '1985-06-15'
+    )
+  })
+
+  test('should delete client', async ({ client: testClient }) => {
+    const client = await ClientFactory.create()
+
+    const response = await testClient
+      .delete(`/api/v1/clients/${client.id}`)
+      .header('Authorization', `Bearer ${authToken}`)
+
+    response.assertStatus(200)
+    response.assertBodyContains({
+      message: 'Client deleted successfully',
+    })
+
+    // Verify client is soft deleted
+    const deletedClient = await Client.query().where('id', client.id).where('is_deleted', true).first()
+    response.assert?.isNotNull(deletedClient)
+    response.assert?.isTrue(deletedClient!.is_deleted)
+  })
+
+  test('should get client search for selection', async ({ client: testClient }) => {
+    await ClientFactory.merge({
+      name: 'João Silva',
+      document: '12345678901',
+    }).create()
+
+    await ClientFactory.merge({
+      name: 'José Santos',
+      document: '98765432100',
+    }).create()
+
+    await ClientFactory.merge({
+      name: 'Maria Costa',
+      document: '11111111111',
+    }).create()
+
+    const response = await testClient
+      .get('/api/v1/clients/search?search=Jo&limit=5')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    response.assertStatus(200)
+    response.assert?.isArray(response.body())
+    response.assert?.equal(response.body().length, 2)
+    response.assert?.isTrue(
+      response.body().some((c: any) => c.name === 'João Silva')
+    )
+    response.assert?.isTrue(
+      response.body().some((c: any) => c.name === 'José Santos')
+    )
+  })
+
+  test('should get client statistics', async ({ client: testClient }) => {
+    // Create individual clients
+    await ClientFactory.merge({ type: 'individual' }).createMany(5)
+    
+    // Create company clients
+    await ClientFactory.merge({ type: 'company' }).createMany(3)
+
+    const response = await testClient
+      .get('/api/v1/clients/stats')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    response.assertStatus(200)
+    response.assertBodyContains({
+      total: 8,
+      individual: 5,
+      company: 3,
+    })
+  })
+
+  test('should get recent clients', async ({ client: testClient }) => {
+    await ClientFactory.createMany(10)
+
+    const response = await testClient
+      .get('/api/v1/clients/recent?limit=5')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    response.assertStatus(200)
+    response.assert?.isArray(response.body())
+    response.assert?.equal(response.body().length, 5)
+    response.assert?.isDefined(response.body()[0].name)
+    response.assert?.isDefined(response.body()[0].document)
+    response.assert?.isDefined(response.body()[0].type)
+    response.assert?.isDefined(response.body()[0].created_at)
+  })
+
+  test('should handle pagination', async ({ client: testClient }) => {
+    await ClientFactory.createMany(25)
+
+    // First page
+    const page1Response = await testClient
+      .get('/api/v1/clients?page=1&limit=10')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    page1Response.assertStatus(200)
+    page1Response.assertBodyContains({
+      meta: {
+        total: 25,
+        per_page: 10,
+        current_page: 1,
+        last_page: 3,
+      },
+    })
+
+    // Second page
+    const page2Response = await testClient
+      .get('/api/v1/clients?page=2&limit=10')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    page2Response.assertStatus(200)
+    page2Response.assertBodyContains({
+      meta: {
+        current_page: 2,
+      },
+    })
+  })
+
+  test('should handle validation errors', async ({ client: testClient }) => {
+    const invalidData = {
+      // Missing required fields
+      name: '',
+      document: '',
+      type: 'invalid_type',
+    }
+
+    const response = await testClient
+      .post('/api/v1/clients')
+      .header('Authorization', `Bearer ${authToken}`)
+      .json(invalidData)
+
+    response.assertStatus(400)
+    response.assertBodyContains({
+      message: 'Failed to create client',
+    })
+  })
+
+  test('should handle not found errors', async ({ client: testClient }) => {
+    const response = await testClient
+      .get('/api/v1/clients/999999')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    response.assertStatus(404)
+    response.assertBodyContains({
+      message: 'Client not found',
+    })
+  })
+
+  test('should handle unauthorized access', async ({ client: testClient }) => {
+    const response = await testClient.get('/api/v1/clients')
+
+    response.assertStatus(401)
+  })
+
+  test('should handle client with folders count', async ({ client: testClient }) => {
+    const client1 = await ClientFactory.create()
+    const client2 = await ClientFactory.create()
+
+    // Create folders for clients
+    await FolderFactory.merge({
+      client_id: client1.id,
+      responsible_lawyer_id: user.id,
+    }).createMany(3)
+
+    await FolderFactory.merge({
+      client_id: client2.id,
+      responsible_lawyer_id: user.id,
+    }).createMany(1)
+
+    const response = await testClient
+      .get('/api/v1/clients')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    response.assertStatus(200)
+    
+    const clientWithFolders = response.body().data.find((c: any) => c.id === client1.id)
+    response.assert?.equal(clientWithFolders.folders_count, 3)
+  })
+
+  test('should handle complex search queries', async ({ client: testClient }) => {
+    await ClientFactory.merge({
+      name: 'João Silva',
+      email: 'joao.silva@email.com',
+      phone: '11999887766',
+    }).create()
+
+    await ClientFactory.merge({
+      name: 'Empresa Silva Ltda',
+      email: 'contato@silva.com',
+      phone: '1133334444',
+    }).create()
+
+    // Search should match both name and email
+    const response = await testClient
+      .get('/api/v1/clients?search=silva')
+      .header('Authorization', `Bearer ${authToken}`)
+
+    response.assertStatus(200)
+    response.assertBodyContains({ meta: { total: 2 } })
+  })
+})

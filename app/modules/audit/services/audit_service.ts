@@ -1,5 +1,6 @@
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
+import { DateTime } from 'luxon'
 import AuditLog from '../models/audit_log.js'
 
 export interface AuditLogData {
@@ -115,7 +116,7 @@ export default class AuditService {
     // Check for repeated failed attempts
     const failedAttempts = await AuditLog.query()
       .where('result', 'denied')
-      .where('created_at', '>=', new Date(Date.now() - hours * 60 * 60 * 1000))
+      .where('created_at', '>=', DateTime.now().minus({ hours }).toJSDate())
       .groupBy('user_id', 'ip_address')
       .select('user_id', 'ip_address')
       .count('* as attempts')
@@ -136,7 +137,7 @@ export default class AuditService {
     if (suspiciousIps.length > 0) {
       const suspiciousActivity = await AuditLog.query()
         .whereIn('ip_address', suspiciousIps)
-        .where('created_at', '>=', new Date(Date.now() - hours * 60 * 60 * 1000))
+        .where('created_at', '>=', DateTime.now().minus({ hours }).toJSDate())
         .groupBy('ip_address')
         .select('ip_address')
         .count('* as activity')
@@ -215,7 +216,7 @@ export default class AuditService {
    * Clean up old audit logs
    */
   async cleanupOldLogs(daysToKeep: number = 90): Promise<number> {
-    const cutoffDate = new Date(Date.now() - daysToKeep * 24 * 60 * 60 * 1000)
+    const cutoffDate = DateTime.now().minus({ days: daysToKeep }).toJSDate()
 
     const deletedCount = await AuditLog.query().where('created_at', '<', cutoffDate).delete()
 

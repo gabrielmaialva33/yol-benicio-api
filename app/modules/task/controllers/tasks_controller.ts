@@ -22,8 +22,8 @@ export default class TasksController {
       const dateTo = request.input('date_to')
       const dateRange = dateFrom
         ? {
-            from: new Date(dateFrom),
-            to: dateTo ? new Date(dateTo) : new Date(dateFrom),
+            from: DateTime.fromISO(dateFrom).toJSDate(),
+            to: dateTo ? DateTime.fromISO(dateTo).toJSDate() : DateTime.fromISO(dateFrom).toJSDate(),
           }
         : undefined
 
@@ -165,8 +165,8 @@ export default class TasksController {
       const dateTo = request.input('date_to')
       const dateRange = dateFrom
         ? {
-            from: new Date(dateFrom),
-            to: dateTo ? new Date(dateTo) : new Date(dateFrom),
+            from: DateTime.fromISO(dateFrom).toJSDate(),
+            to: dateTo ? DateTime.fromISO(dateTo).toJSDate() : DateTime.fromISO(dateFrom).toJSDate(),
           }
         : undefined
 

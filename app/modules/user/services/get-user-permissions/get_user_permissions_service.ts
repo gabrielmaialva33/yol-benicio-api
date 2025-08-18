@@ -1,5 +1,6 @@
 import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
+import { DateTime } from 'luxon'
 
 import UsersRepository from '#modules/user/repositories/users_repository'
 import NotFoundException from '#exceptions/not_found_exception'
@@ -29,7 +30,7 @@ export default class GetUserPermissionsService {
       .where('user_permissions.granted', true)
       .where(function (query) {
         query.whereNull('user_permissions.expires_at')
-        query.orWhere('user_permissions.expires_at', '>', new Date())
+        query.orWhere('user_permissions.expires_at', '>', DateTime.now().toJSDate())
       })
       .select(
         'permissions.id',

@@ -1,4 +1,5 @@
 import db from '@adonisjs/lucid/services/db'
+import { DateTime } from 'luxon'
 import TaskService from '#modules/task/services/task_service'
 
 export default class DashboardService {
@@ -95,7 +96,7 @@ export default class DashboardService {
         total: 12,
         completed: 9,
         color: '#14B8A6',
-        date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+        date: DateTime.now().plus({ days: 5 }).toISO(),
       },
       {
         label: 'Prazos processuais',
@@ -103,7 +104,7 @@ export default class DashboardService {
         total: 20,
         completed: 12,
         color: '#F43F5E',
-        date: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
+        date: DateTime.now().plus({ days: 10 }).toISO(),
       },
       {
         label: 'Prazos administrativos',
@@ -111,7 +112,7 @@ export default class DashboardService {
         total: 10,
         completed: 9,
         color: '#8B5CF6',
-        date: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
+        date: DateTime.now().plus({ days: 15 }).toISO(),
       },
     ]
   }

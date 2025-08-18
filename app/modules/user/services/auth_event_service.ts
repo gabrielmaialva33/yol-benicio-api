@@ -1,5 +1,6 @@
 import emitter from '@adonisjs/core/services/emitter'
 import type { HttpContext } from '@adonisjs/core/http'
+import { DateTime } from 'luxon'
 
 import {
   extractRequestMetadata,
@@ -11,7 +12,6 @@ import {
   type UserRegisteredEventData,
 } from '#modules/user/events/auth_events'
 import type User from '#modules/user/models/user'
-import { DateTime } from 'luxon'
 
 export default class AuthEventService {
   /**
@@ -41,7 +41,7 @@ export default class AuthEventService {
       user,
       method,
       isAdmin,
-      timestamp: new Date(),
+      timestamp: DateTime.now().toJSDate(),
       ...extractRequestMetadata(ctx),
       ...additionalData,
     }
@@ -57,7 +57,7 @@ export default class AuthEventService {
       email,
       reason,
       attemptCount,
-      timestamp: new Date(),
+      timestamp: DateTime.now().toJSDate(),
       ...extractRequestMetadata(ctx),
     }
 
@@ -70,7 +70,7 @@ export default class AuthEventService {
   static emitLogout(user: User | null, ctx: HttpContext, sessionId?: string) {
     const eventData: LogoutEventData = {
       user,
-      timestamp: new Date(),
+      timestamp: DateTime.now().toJSDate(),
       sessionId,
       ...extractRequestMetadata(ctx),
     }
@@ -92,7 +92,7 @@ export default class AuthEventService {
       method: 'password',
       source,
       emailVerified,
-      timestamp: new Date(),
+      timestamp: DateTime.now().toJSDate(),
       ...extractRequestMetadata(ctx),
     }
 
@@ -109,7 +109,7 @@ export default class AuthEventService {
   ) {
     const eventData: TokenRefreshedEventData = {
       user,
-      timestamp: new Date(),
+      timestamp: DateTime.now().toJSDate(),
       ...extractRequestMetadata(ctx),
       ...tokenIds,
     }
