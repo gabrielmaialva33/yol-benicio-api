@@ -26,8 +26,12 @@ test.group('Folders CRUD API', (group) => {
     user = await UserFactory.merge({
       email: 'admin@test.com',
       password: 'secret123',
-      is_active: true,
-      email_verified_at: DateTime.now(),
+      metadata: {
+        email_verified: true,
+        email_verification_token: null,
+        email_verification_sent_at: null,
+        email_verified_at: DateTime.now().toISO(),
+      },
     }).create()
 
     // Get auth token
