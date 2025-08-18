@@ -24,7 +24,7 @@ test.group('Folders CRUD API', (group) => {
     
     // Create user with admin permissions
     user = await UserFactory.merge({
-      email: 'admin@test.com',
+      email: `admin-${Date.now()}@test.com`,
       password: 'secret123',
       metadata: {
         email_verified: true,
@@ -39,7 +39,7 @@ test.group('Folders CRUD API', (group) => {
       .httpClient()
       .post('/api/v1/auth/sign-in')
       .json({
-        email: 'admin@test.com',
+        email: user.email,
         password: 'secret123',
       })
 
