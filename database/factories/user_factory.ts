@@ -9,6 +9,12 @@ export const UserFactory = factory
       email: faker.internet.email().toLowerCase(),
       password: faker.internet.password(),
       is_deleted: false,
+      metadata: {
+        email_verified: false,
+        email_verification_token: null,
+        email_verification_sent_at: null,
+        email_verified_at: null,
+      },
     }
   })
   .build()
