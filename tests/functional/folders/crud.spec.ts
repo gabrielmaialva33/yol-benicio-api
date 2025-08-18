@@ -5,6 +5,11 @@ import { UserFactory } from '#database/factories/user_factory'
 import { ClientFactory } from '#database/factories/client_factory'
 import { FolderFactory } from '#database/factories/folder_factory'
 import Folder from '#modules/folder/models/folder'
+import Role from '#modules/role/models/role'
+import Permission from '#modules/permission/models/permission'
+import IRole from '#modules/role/interfaces/role_interface'
+import IPermission from '#modules/permission/interfaces/permission_interface'
+import db from '@adonisjs/lucid/services/db'
 
 test.group('Folders CRUD API', (group) => {
   let user: any
@@ -18,9 +23,39 @@ test.group('Folders CRUD API', (group) => {
     // Skip rollback due to database lock issues in tests
   })
 
+  // Helper function to create and assign permissions to a role
+  async function assignPermissions(role: Role, actions: string[]) {
+    const permissions = await Promise.all(
+      actions.map((action) =>
+        Permission.firstOrCreate(
+          {
+            resource: IPermission.Resources.FOLDERS,
+            action: action,
+          },
+          {
+            name: `folders.${action}`,
+            resource: IPermission.Resources.FOLDERS,
+            action: action,
+          }
+        )
+      )
+    )
+    await role.related('permissions').sync(permissions.map((p) => p.id))
+  }
+
   group.each.setup(async () => {
     await testUtils.db().truncate()
     
+    // Create user role with folder permissions
+    const userRole = await Role.firstOrCreate(
+      { slug: IRole.Slugs.USER },
+      {
+        name: 'User',
+        slug: IRole.Slugs.USER,
+        description: 'Regular user role',
+      }
+    )
+
     // Create user with admin permissions
     user = await UserFactory.merge({
       email: `admin-${Date.now()}@test.com`,
@@ -33,7 +68,19 @@ test.group('Folders CRUD API', (group) => {
       },
     }).create()
 
-    // No need for manual auth token - will use .loginAs(user)
+    await db.table('user_roles').insert({
+      user_id: user.id,
+      role_id: userRole.id,
+    })
+
+    // Assign all folder permissions to user role
+    await assignPermissions(userRole, [
+      IPermission.Actions.LIST,
+      IPermission.Actions.READ,
+      IPermission.Actions.CREATE,
+      IPermission.Actions.UPDATE,
+      IPermission.Actions.DELETE,
+    ])
     
     // Create a client for testing
     client = await ClientFactory.create()
