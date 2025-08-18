@@ -36,9 +36,9 @@ test.group('Clients CRUD API', (group) => {
     // Get auth token
     const authResponse = await testUtils
       .httpClient()
-      .post('/api/v1/auth/sign-in')
+      .post('/api/v1/sessions/sign-in')
       .json({
-        email: user.email,
+        uid: user.email,
         password: 'secret123',
       })
 
