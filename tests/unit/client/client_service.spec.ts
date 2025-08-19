@@ -92,18 +92,18 @@ test.group('ClientService', (group) => {
     const allClients = await clientService.getClients(1, 10)
     assert.isDefined(allClients)
     assert.isAtLeast(allClients.total, 5) // At least 5 (our test data)
-    assert.isArray(allClients.rows)
+    assert.isArray(allClients.all())
 
     // Test with type filter
     const individuals = await clientService.getClients(1, 10, { type: 'individual' })
     assert.isDefined(individuals)
     assert.isAtLeast(individuals.total, 3) // At least 3 individuals
-    assert.isTrue(individuals.rows.every(client => client.type === 'individual'))
+    assert.isTrue(individuals.all().every((client: Client) => client.type === 'individual'))
 
     const companies = await clientService.getClients(1, 10, { type: 'company' })
     assert.isDefined(companies)
     assert.isAtLeast(companies.total, 2) // At least 2 companies
-    assert.isTrue(companies.rows.every(client => client.type === 'company'))
+    assert.isTrue(companies.all().every((client: Client) => client.type === 'company'))
   })
 
   test('should search clients by name and document', async ({ assert }) => {
