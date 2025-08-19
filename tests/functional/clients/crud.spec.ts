@@ -44,7 +44,7 @@ test.group('Clients CRUD API', (group) => {
 
   group.each.setup(async () => {
     await testUtils.db().truncate()
-    
+
     // Create user role with client permissions
     const userRole = await Role.firstOrCreate(
       { slug: IRole.Slugs.USER },
@@ -86,12 +86,10 @@ test.group('Clients CRUD API', (group) => {
     // Create test clients
     await ClientFactory.createMany(5)
 
-    const response = await testClient
-      .get('/api/v1/clients')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/clients').loginAs(user)
 
     response.assertStatus(200)
-    
+
     const body = response.body()
     assert.isObject(body.meta)
     assert.isNumber(body.meta.total)
@@ -126,17 +124,13 @@ test.group('Clients CRUD API', (group) => {
     individualsResponse.assertBodyContains({ meta: { total: 3 } })
 
     // Test city filter
-    const spResponse = await testClient
-      .get('/api/v1/clients?city=São Paulo')
-      .loginAs(user)
+    const spResponse = await testClient.get('/api/v1/clients?city=São Paulo').loginAs(user)
 
     spResponse.assertStatus(200)
     spResponse.assertBodyContains({ meta: { total: 3 } })
 
     // Test state filter
-    const rjResponse = await testClient
-      .get('/api/v1/clients?state=RJ')
-      .loginAs(user)
+    const rjResponse = await testClient.get('/api/v1/clients?state=RJ').loginAs(user)
 
     rjResponse.assertStatus(200)
     rjResponse.assertBodyContains({ meta: { total: 2 } })
@@ -156,27 +150,21 @@ test.group('Clients CRUD API', (group) => {
     }).create()
 
     // Search by name
-    const nameResponse = await testClient
-      .get('/api/v1/clients?search=João')
-      .loginAs(user)
+    const nameResponse = await testClient.get('/api/v1/clients?search=João').loginAs(user)
 
     nameResponse.assertStatus(200)
     nameResponse.assertBodyContains({ meta: { total: 1 } })
     nameResponse.assert?.equal(nameResponse.body().data[0].name, 'João Silva')
 
     // Search by document
-    const docResponse = await testClient
-      .get('/api/v1/clients?search=987654')
-      .loginAs(user)
+    const docResponse = await testClient.get('/api/v1/clients?search=987654').loginAs(user)
 
     docResponse.assertStatus(200)
     docResponse.assertBodyContains({ meta: { total: 1 } })
     docResponse.assert?.equal(docResponse.body().data[0].name, 'Maria Santos')
 
     // Search by email
-    const emailResponse = await testClient
-      .get('/api/v1/clients?search=maria@email')
-      .loginAs(user)
+    const emailResponse = await testClient.get('/api/v1/clients?search=maria@email').loginAs(user)
 
     emailResponse.assertStatus(200)
     emailResponse.assertBodyContains({ meta: { total: 1 } })
@@ -205,10 +193,7 @@ test.group('Clients CRUD API', (group) => {
       },
     }
 
-    const response = await testClient
-      .post('/api/v1/clients')
-      .loginAs(user)
-      .json(clientData)
+    const response = await testClient.post('/api/v1/clients').loginAs(user).json(clientData)
 
     response.assertStatus(201)
     response.assertBodyContains({
@@ -241,10 +226,7 @@ test.group('Clients CRUD API', (group) => {
       },
     }
 
-    const response = await testClient
-      .post('/api/v1/clients')
-      .loginAs(user)
-      .json(clientData)
+    const response = await testClient.post('/api/v1/clients').loginAs(user).json(clientData)
 
     response.assertStatus(201)
     response.assertBodyContains({
@@ -257,16 +239,14 @@ test.group('Clients CRUD API', (group) => {
 
   test('should show single client with folders', async ({ client: testClient }) => {
     const client = await ClientFactory.create()
-    
+
     // Create folders for this client
     await FolderFactory.merge({
       client_id: client.id,
       responsible_lawyer_id: user.id,
     }).createMany(3)
 
-    const response = await testClient
-      .get(`/api/v1/clients/${client.id}`)
-      .loginAs(user)
+    const response = await testClient.get(`/api/v1/clients/${client.id}`).loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -322,18 +302,13 @@ test.group('Clients CRUD API', (group) => {
       .json(updateData)
 
     response.assertStatus(200)
-    response.assert?.equal(
-      DateTime.fromISO(response.body().birthday).toISODate(),
-      '1985-06-15'
-    )
+    response.assert?.equal(DateTime.fromISO(response.body().birthday).toISODate(), '1985-06-15')
   })
 
   test('should delete client', async ({ client: testClient }) => {
     const client = await ClientFactory.create()
 
-    const response = await testClient
-      .delete(`/api/v1/clients/${client.id}`)
-      .loginAs(user)
+    const response = await testClient.delete(`/api/v1/clients/${client.id}`).loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -341,7 +316,10 @@ test.group('Clients CRUD API', (group) => {
     })
 
     // Verify client is soft deleted
-    const deletedClient = await Client.query().where('id', client.id).where('is_deleted', true).first()
+    const deletedClient = await Client.query()
+      .where('id', client.id)
+      .where('is_deleted', true)
+      .first()
     response.assert?.isNotNull(deletedClient)
     response.assert?.isTrue(deletedClient!.is_deleted)
   })
@@ -362,31 +340,23 @@ test.group('Clients CRUD API', (group) => {
       document: '11111111111',
     }).create()
 
-    const response = await testClient
-      .get('/api/v1/clients/search?search=Jo&limit=5')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/clients/search?search=Jo&limit=5').loginAs(user)
 
     response.assertStatus(200)
     response.assert?.isArray(response.body())
     response.assert?.equal(response.body().length, 2)
-    response.assert?.isTrue(
-      response.body().some((c: any) => c.name === 'João Silva')
-    )
-    response.assert?.isTrue(
-      response.body().some((c: any) => c.name === 'José Santos')
-    )
+    response.assert?.isTrue(response.body().some((c: any) => c.name === 'João Silva'))
+    response.assert?.isTrue(response.body().some((c: any) => c.name === 'José Santos'))
   })
 
   test('should get client statistics', async ({ client: testClient }) => {
     // Create individual clients
     await ClientFactory.merge({ type: 'individual' }).createMany(5)
-    
+
     // Create company clients
     await ClientFactory.merge({ type: 'company' }).createMany(3)
 
-    const response = await testClient
-      .get('/api/v1/clients/stats')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/clients/stats').loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -399,9 +369,7 @@ test.group('Clients CRUD API', (group) => {
   test('should get recent clients', async ({ client: testClient }) => {
     await ClientFactory.createMany(10)
 
-    const response = await testClient
-      .get('/api/v1/clients/recent?limit=5')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/clients/recent?limit=5').loginAs(user)
 
     response.assertStatus(200)
     response.assert?.isArray(response.body())
@@ -416,9 +384,7 @@ test.group('Clients CRUD API', (group) => {
     await ClientFactory.createMany(25)
 
     // First page
-    const page1Response = await testClient
-      .get('/api/v1/clients?page=1&limit=10')
-      .loginAs(user)
+    const page1Response = await testClient.get('/api/v1/clients?page=1&limit=10').loginAs(user)
 
     page1Response.assertStatus(200)
     page1Response.assertBodyContains({
@@ -431,9 +397,7 @@ test.group('Clients CRUD API', (group) => {
     })
 
     // Second page
-    const page2Response = await testClient
-      .get('/api/v1/clients?page=2&limit=10')
-      .loginAs(user)
+    const page2Response = await testClient.get('/api/v1/clients?page=2&limit=10').loginAs(user)
 
     page2Response.assertStatus(200)
     page2Response.assertBodyContains({
@@ -451,10 +415,7 @@ test.group('Clients CRUD API', (group) => {
       type: 'invalid_type',
     }
 
-    const response = await testClient
-      .post('/api/v1/clients')
-      .loginAs(user)
-      .json(invalidData)
+    const response = await testClient.post('/api/v1/clients').loginAs(user).json(invalidData)
 
     response.assertStatus(400)
     response.assertBodyContains({
@@ -463,9 +424,7 @@ test.group('Clients CRUD API', (group) => {
   })
 
   test('should handle not found errors', async ({ client: testClient }) => {
-    const response = await testClient
-      .get('/api/v1/clients/999999')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/clients/999999').loginAs(user)
 
     response.assertStatus(404)
     response.assertBodyContains({
@@ -494,12 +453,10 @@ test.group('Clients CRUD API', (group) => {
       responsible_lawyer_id: user.id,
     }).createMany(1)
 
-    const response = await testClient
-      .get('/api/v1/clients')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/clients').loginAs(user)
 
     response.assertStatus(200)
-    
+
     const clientWithFolders = response.body().data.find((c: any) => c.id === client1.id)
     response.assert?.equal(clientWithFolders.folders_count, 3)
   })
@@ -518,9 +475,7 @@ test.group('Clients CRUD API', (group) => {
     }).create()
 
     // Search should match both name and email
-    const response = await testClient
-      .get('/api/v1/clients?search=silva')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/clients?search=silva').loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({ meta: { total: 2 } })

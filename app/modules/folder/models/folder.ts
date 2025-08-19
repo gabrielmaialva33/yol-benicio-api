@@ -100,7 +100,7 @@ export default class Folder extends BaseModel {
   declare last_movement: string | null
 
   @column({
-    prepare: (value: any) => value ? JSON.stringify(value) : '{}',
+    prepare: (value: any) => (value ? JSON.stringify(value) : '{}'),
     consume: (value: string) => {
       try {
         return typeof value === 'string' ? JSON.parse(value || '{}') : value || {}

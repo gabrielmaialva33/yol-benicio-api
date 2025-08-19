@@ -34,45 +34,73 @@ const MOBILE_BREAKPOINT = 768
 function SidebarHeader({ isCollapsed, toggle }: { isCollapsed: boolean; toggle: () => void }) {
   return (
     <div
-      className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between px-[40px] pr-[17px]'} gap-[78px]`}
+      className={`flex items-center ${isCollapsed ? 'justify-center py-6' : 'justify-between px-6 py-6'} border-b border-slate-700/30`}
     >
       <img
         alt="Logo"
-        className={`cursor-pointer duration-500 ${isCollapsed ? 'w-[42px] h-[35px]' : 'w-[159px]'}`}
-        height={isCollapsed ? 35 : 60}
+        className={`cursor-pointer transition-all duration-300 ${isCollapsed ? 'w-10 h-8' : 'w-36'}`}
+        height={isCollapsed ? 32 : 48}
         src={isCollapsed ? '/icons/logo.svg' : '/logo-yol.svg'}
-        width={isCollapsed ? 42 : 159}
+        width={isCollapsed ? 40 : 144}
       />
       {!isCollapsed && (
-        <img
-          alt="Fechar sidebar"
-          className="cursor-pointer w-6 h-6"
-          height={24}
+        <button
           onClick={toggle}
-          src="/icons/left-square.svg"
-          width={24}
-        />
+          className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors duration-200 group"
+          aria-label="Fechar sidebar"
+        >
+          <img
+            alt="Fechar sidebar"
+            className="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity duration-200"
+            src="/icons/sidebar-close.svg"
+          />
+        </button>
       )}
     </div>
   )
 }
 
 function SearchInput({ isCollapsed }: { isCollapsed: boolean }) {
-  if (isCollapsed) return null
+  const [searchTerm, setSearchTerm] = useState('')
+
+  if (isCollapsed) {
+    return (
+      <div className="px-4 py-3">
+        <div className="flex justify-center">
+          <div className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors duration-200">
+            <img
+              alt="Pesquisar"
+              className="w-5 h-5 text-slate-400"
+              height={20}
+              src="/icons/magnifier.svg"
+              width={20}
+            />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="flex items-center rounded-md bg-[#86878B] px-3 py-[13px] gap-2">
-      <img
-        alt="Pesquisar"
-        className="w-4 h-4 text-white"
-        height={16}
-        src="/icons/magnifier.svg"
-        width={16}
-      />
-      <input
-        className="text-sm bg-transparent w-full text-white focus:outline-none ml-2 placeholder:text-white"
-        placeholder="Pesquisar"
-        type="search"
-      />
+    <div className="px-6 py-4">
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <img
+            alt="Pesquisar"
+            className="w-5 h-5 text-slate-400"
+            height={20}
+            src="/icons/magnifier.svg"
+            width={20}
+          />
+        </div>
+        <input
+          type="text"
+          className="block w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl leading-5 placeholder-slate-400 text-slate-100 focus:outline-none focus:placeholder-slate-300 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 text-sm"
+          placeholder="Buscar..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
     </div>
   )
 }
@@ -85,53 +113,89 @@ const MenuItemComponent = (props: {
   currentPath: string
 }) => {
   const isActive = props.currentPath === props.item.path
-  const isDropdownOpen =
-    props.openDropdown === props.item.text || props.currentPath.startsWith(props.item.path || '---')
+  const isDropdownOpen = props.openDropdown === props.item.text
 
   const content = (
-    <SidebarItem
-      active={isActive}
-      asButton={!props.item.subItems}
-      badge={props.item.badge}
-      color={props.item.color}
-      hasSubItems={Boolean(props.item.subItems)}
-      icon={props.item.icon}
-      isCollapsed={props.isCollapsed}
-      isOpen={isDropdownOpen}
-      text={props.item.text}
-    />
+    <>
+      <div className="flex items-center">
+        {props.item.icon && (
+          <div className="flex items-center justify-center w-8 h-8 mr-3">
+            <img
+              alt={props.item.text}
+              className="w-5 h-5"
+              height={20}
+              src={props.item.icon}
+              width={20}
+            />
+          </div>
+        )}
+        {!props.isCollapsed && (
+          <span className="text-sm font-medium truncate">{props.item.text}</span>
+        )}
+      </div>
+      {!props.isCollapsed && (
+        <div className="flex items-center ml-auto">
+          {props.item.badge && (
+            <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full mr-2 font-medium">
+              {props.item.badge}
+            </span>
+          )}
+          {props.item.subItems && (
+            <img
+              alt="Dropdown"
+              className={`w-4 h-4 transition-transform duration-200 ${
+                isDropdownOpen ? 'rotate-180' : ''
+              }`}
+              height={16}
+              src="/icons/down.svg"
+              width={16}
+            />
+          )}
+        </div>
+      )}
+    </>
   )
 
   return (
-    <div key={props.item.text}>
-      {props.item.subItems ? (
-        <button
-          className="w-full"
-          data-testid={`sidebar-${props.item.text.toLowerCase().replace(/\s+/g, '-')}`}
-          onClick={() => props.handleDropdown(props.item.text)}
-          type="button"
-        >
-          {content}
-        </button>
-      ) : (
-        <Link href={props.item.path || '#'}>{content}</Link>
-      )}
+    <div className="w-full">
+      <div
+        className={`flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer transition-all duration-200 group ${
+          isActive
+            ? 'bg-blue-600 text-white shadow-lg'
+            : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+        } ${props.isCollapsed ? 'justify-center' : ''}`}
+      >
+        {props.item.subItems ? (
+          <button
+            className="w-full flex items-center justify-between"
+            data-testid={`sidebar-${props.item.text.toLowerCase().replace(/\s+/g, '-')}`}
+            onClick={() => props.handleDropdown(props.item.text)}
+            type="button"
+          >
+            {content}
+          </button>
+        ) : (
+          <Link className="w-full flex items-center justify-between" href={props.item.path || '#'}>
+            {content}
+          </Link>
+        )}
+      </div>
       {props.item.subItems && isDropdownOpen && !props.isCollapsed && (
-        <ul className="pl-8 mt-2 space-y-2">
+        <ul className="ml-6 mt-2 space-y-1 border-l border-slate-600 pl-4">
           {props.item.subItems.map((subItem) => {
             const isSubItemActive = props.currentPath === subItem.path
             return (
               <li key={subItem.text}>
                 <Link
-                  className={`flex items-center p-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isSubItemActive
-                      ? 'bg-orange-500 text-white'
-                      : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-700/30'
                   }`}
                   href={subItem.path}
                 >
-                  <span className="w-1.5 h-1.5 bg-white rounded-full mr-3" />
-                  {subItem.text}
+                  <span className="w-1.5 h-1.5 bg-current rounded-full mr-3 opacity-60" />
+                  <span className="truncate">{subItem.text}</span>
                 </Link>
               </li>
             )
@@ -164,44 +228,46 @@ const MenuList = (props: {
   }
 
   return (
-    <ul className={`pt-2 ${props.isCollapsed ? 'space-y-1' : ''}`}>
-      <p
-        className={`text-sm font-semibold text-[#A1A5B7] mt-4 mb-2 ${props.isCollapsed ? 'hidden' : 'block'}`}
-      >
-        {props.title}
-      </p>
-      {visibleItems.map((item) => (
-        <li key={item.text}>
-          <MenuItemComponent
-            handleDropdown={handleDropdown}
-            isCollapsed={props.isCollapsed}
-            item={item}
-            currentPath={props.currentPath}
-            openDropdown={openDropdown}
-          />
-        </li>
-      ))}
+    <div className={`${props.isCollapsed ? 'space-y-1' : 'space-y-1'}`}>
+      {!props.isCollapsed && (
+        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-3">
+          {props.title}
+        </h3>
+      )}
+      <ul className="space-y-1">
+        {visibleItems.map((item) => (
+          <li key={item.text}>
+            <MenuItemComponent
+              handleDropdown={handleDropdown}
+              isCollapsed={props.isCollapsed}
+              item={item}
+              currentPath={props.currentPath}
+              openDropdown={openDropdown}
+            />
+          </li>
+        ))}
+      </ul>
       {props.isDropdown &&
         !props.isCollapsed &&
         props.items.length > DROPDOWN_VISIBLE_ITEMS_LIMIT && (
           <button
-            className="flex items-center pl-3 mt-2 cursor-pointer"
+            className="flex items-center px-3 py-2 mt-2 text-slate-400 hover:text-white transition-colors duration-200 rounded-lg hover:bg-slate-700/30"
             onClick={() => setShowAll(!showAll)}
             type="button"
           >
             <img
               alt="Mostrar mais"
-              className={`w-4 h-4 transition-transform ${showAll ? 'rotate-180' : ''}`}
+              className={`w-4 h-4 transition-transform duration-200 ${showAll ? 'rotate-180' : ''}`}
               height={16}
               src="/icons/down.svg"
               width={16}
             />
-            <span className="ml-2 text-sm text-[#A1A5B7] font-semibold">
+            <span className="ml-2 text-sm font-medium">
               {showAll ? 'Mostrar menos' : 'Mostrar mais'}
             </span>
           </button>
         )}
-    </ul>
+    </div>
   )
 }
 
@@ -255,11 +321,14 @@ export function Sidebar() {
         isCollapsed ? 'w-20' : 'w-72'
       } h-screen transition-all duration-300 ease-in-out flex flex-col overflow-hidden`}
     >
-      <div className="flex flex-col items-center py-6">
-        <SidebarHeader isCollapsed={isCollapsed} toggle={toggleSidebar} />
-        {isCollapsed && (
+      <SidebarHeader isCollapsed={isCollapsed} toggle={toggleSidebar} />
+      
+      <SearchInput isCollapsed={isCollapsed} />
+      
+      {isCollapsed && (
+        <div className="flex justify-center py-4">
           <button
-            className="mt-4 bg-slate-700/50 hover:bg-slate-600/50 text-white rounded-lg p-2 transition-colors duration-200"
+            className="bg-slate-700/50 hover:bg-slate-600/50 text-white rounded-lg p-2 transition-colors duration-200"
             onClick={toggleSidebar}
             type="button"
           >
@@ -271,18 +340,14 @@ export function Sidebar() {
               width={20}
             />
           </button>
-        )}
-      </div>
+        </div>
+      )}
+      
       <nav
         className={`flex-1 flex flex-col overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent ${
           isCollapsed ? 'items-center px-2' : 'px-4'
         }`}
       >
-        {!isCollapsed && (
-          <div className="mb-6">
-            <SearchInput isCollapsed={isCollapsed} />
-          </div>
-        )}
         <div
           className={`${
             isCollapsed ? 'flex flex-col items-center space-y-2' : 'border-b border-slate-700/50 pb-6 mb-6'
@@ -296,7 +361,7 @@ export function Sidebar() {
           />
         </div>
         {!isCollapsed && favorites.length > 0 && (
-          <div>
+          <div className="border-t border-slate-700/30 pt-6">
             <MenuList
               isCollapsed={isCollapsed}
               isDropdown={true}

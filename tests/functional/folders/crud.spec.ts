@@ -45,7 +45,7 @@ test.group('Folders CRUD API', (group) => {
 
   group.each.setup(async () => {
     await testUtils.db().truncate()
-    
+
     // Create user role with folder permissions
     const userRole = await Role.firstOrCreate(
       { slug: IRole.Slugs.USER },
@@ -81,7 +81,7 @@ test.group('Folders CRUD API', (group) => {
       IPermission.Actions.UPDATE,
       IPermission.Actions.DELETE,
     ])
-    
+
     // Create a client for testing
     client = await ClientFactory.create()
   })
@@ -93,12 +93,10 @@ test.group('Folders CRUD API', (group) => {
       responsible_lawyer_id: user.id,
     }).createMany(3)
 
-    const response = await testClient
-      .get('/api/v1/folders')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/folders').loginAs(user)
 
     response.assertStatus(200)
-    
+
     const body = response.body()
     assert.isObject(body.meta)
     assert.isNumber(body.meta.total)
@@ -126,17 +124,13 @@ test.group('Folders CRUD API', (group) => {
     }).create()
 
     // Test status filter
-    const activeResponse = await testClient
-      .get('/api/v1/folders?status=active')
-      .loginAs(user)
+    const activeResponse = await testClient.get('/api/v1/folders?status=active').loginAs(user)
 
     activeResponse.assertStatus(200)
     activeResponse.assertBodyContains({ meta: { total: 2 } })
 
     // Test area filter
-    const laborResponse = await testClient
-      .get('/api/v1/folders?area=labor')
-      .loginAs(user)
+    const laborResponse = await testClient.get('/api/v1/folders?area=labor').loginAs(user)
 
     laborResponse.assertStatus(200)
     laborResponse.assertBodyContains({ meta: { total: 1 } })
@@ -174,10 +168,7 @@ test.group('Folders CRUD API', (group) => {
       metadata: { priority: 'high' },
     }
 
-    const response = await testClient
-      .post('/api/v1/folders')
-      .loginAs(user)
-      .json(folderData)
+    const response = await testClient.post('/api/v1/folders').loginAs(user).json(folderData)
 
     response.assertStatus(201)
     response.assertBodyContains({
@@ -196,9 +187,7 @@ test.group('Folders CRUD API', (group) => {
       responsible_lawyer_id: user.id,
     }).create()
 
-    const response = await testClient
-      .get(`/api/v1/folders/${folder.id}`)
-      .loginAs(user)
+    const response = await testClient.get(`/api/v1/folders/${folder.id}`).loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -279,9 +268,7 @@ test.group('Folders CRUD API', (group) => {
       responsible_lawyer_id: user.id,
     }).create()
 
-    const response = await testClient
-      .delete(`/api/v1/folders/${folder.id}`)
-      .loginAs(user)
+    const response = await testClient.delete(`/api/v1/folders/${folder.id}`).loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -289,7 +276,10 @@ test.group('Folders CRUD API', (group) => {
     })
 
     // Verify folder is soft deleted
-    const deletedFolder = await Folder.query().where('id', folder.id).where('is_deleted', true).first()
+    const deletedFolder = await Folder.query()
+      .where('id', folder.id)
+      .where('is_deleted', true)
+      .first()
     response.assert?.isNotNull(deletedFolder)
     response.assert?.isTrue(deletedFolder!.is_deleted)
   })
@@ -308,9 +298,7 @@ test.group('Folders CRUD API', (group) => {
       responsible_lawyer_id: user.id,
     }).createMany(2)
 
-    const response = await testClient
-      .get('/api/v1/folders/stats')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/folders/stats').loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({
@@ -329,9 +317,7 @@ test.group('Folders CRUD API', (group) => {
       responsible_lawyer_id: user.id,
     }).createMany(5)
 
-    const response = await testClient
-      .get('/api/v1/folders/dashboard')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/folders/dashboard').loginAs(user)
 
     response.assertStatus(200)
     response.assert?.isDefined(response.body().active)
@@ -362,9 +348,7 @@ test.group('Folders CRUD API', (group) => {
       responsible_lawyer_id: user.id,
     }).createMany(5)
 
-    const response = await testClient
-      .get('/api/v1/folders/recent-activity?limit=3')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/folders/recent-activity?limit=3').loginAs(user)
 
     response.assertStatus(200)
     response.assert?.isArray(response.body())
@@ -378,10 +362,7 @@ test.group('Folders CRUD API', (group) => {
       area: 'invalid_area',
     }
 
-    const response = await testClient
-      .post('/api/v1/folders')
-      .loginAs(user)
-      .json(invalidData)
+    const response = await testClient.post('/api/v1/folders').loginAs(user).json(invalidData)
 
     response.assertStatus(400)
     response.assertBodyContains({
@@ -390,9 +371,7 @@ test.group('Folders CRUD API', (group) => {
   })
 
   test('should handle not found errors', async ({ client: testClient }) => {
-    const response = await testClient
-      .get('/api/v1/folders/999999')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/folders/999999').loginAs(user)
 
     response.assertStatus(404)
     response.assertBodyContains({
@@ -419,9 +398,7 @@ test.group('Folders CRUD API', (group) => {
       responsible_lawyer_id: user.id,
     }).create()
 
-    const response = await testClient
-      .get('/api/v1/folders?search=Important')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/folders?search=Important').loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({ meta: { total: 1 } })
@@ -441,9 +418,7 @@ test.group('Folders CRUD API', (group) => {
       responsible_lawyer_id: user.id,
     }).create()
 
-    const response = await testClient
-      .get('/api/v1/folders?is_favorite=true')
-      .loginAs(user)
+    const response = await testClient.get('/api/v1/folders?is_favorite=true').loginAs(user)
 
     response.assertStatus(200)
     response.assertBodyContains({ meta: { total: 2 } })

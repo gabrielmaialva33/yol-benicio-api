@@ -69,7 +69,7 @@ test.group('ClientService', (group) => {
 
   test('should get client by id with folders relation', async ({ assert }) => {
     const client = await ClientFactory.create()
-    
+
     // Create some folders for this client
     await FolderFactory.merge({ client_id: client.id }).createMany(3)
 
@@ -84,9 +84,11 @@ test.group('ClientService', (group) => {
   test('should get paginated clients with filters', async ({ assert }) => {
     // Create individual clients
     await ClientFactory.merge({ type: 'individual', city: 'São Paulo', state: 'SP' }).createMany(3)
-    
+
     // Create company clients
-    await ClientFactory.merge({ type: 'company', city: 'Rio de Janeiro', state: 'RJ' }).createMany(2)
+    await ClientFactory.merge({ type: 'company', city: 'Rio de Janeiro', state: 'RJ' }).createMany(
+      2
+    )
 
     // Test without filters
     const allClients = await clientService.getClients(1, 10)
@@ -135,7 +137,9 @@ test.group('ClientService', (group) => {
     assert.isTrue(searchByDocument.all().some((client: Client) => client.name === 'Maria Santos'))
 
     // Search with no results (using unique search term)
-    const noResults = await clientService.getClients(1, 10, { search: 'NONEXISTENT_UNIQUE_SEARCH_TERM_123456' })
+    const noResults = await clientService.getClients(1, 10, {
+      search: 'NONEXISTENT_UNIQUE_SEARCH_TERM_123456',
+    })
     assert.isDefined(noResults)
     assert.equal(noResults.total, 0)
   })
@@ -160,7 +164,7 @@ test.group('ClientService', (group) => {
 
   test('should delete client (soft delete)', async ({ assert }) => {
     const client = await ClientFactory.create()
-    
+
     // Verify client exists before deletion
     const clientBeforeDelete = await Client.query().where('id', client.id).first()
     assert.isNotNull(clientBeforeDelete)
@@ -174,7 +178,11 @@ test.group('ClientService', (group) => {
     assert.isNull(clientAfterDelete)
 
     // Verify it exists in the database but is marked as deleted (using direct DB query)
-    const deletedClientRaw = await db.from('clients').where('id', client.id).where('is_deleted', true).first()
+    const deletedClientRaw = await db
+      .from('clients')
+      .where('id', client.id)
+      .where('is_deleted', true)
+      .first()
     assert.isNotNull(deletedClientRaw)
     assert.isTrue(deletedClientRaw!.is_deleted)
   })
@@ -198,14 +206,14 @@ test.group('ClientService', (group) => {
     const searchResults = await clientService.searchClients('UNIQUE_Jo', 5)
 
     assert.equal(searchResults.length, 2)
-    assert.isTrue(searchResults.some(client => client.name === 'UNIQUE_João_Silva_TEST'))
-    assert.isTrue(searchResults.some(client => client.name === 'UNIQUE_José_Santos_TEST'))
+    assert.isTrue(searchResults.some((client) => client.name === 'UNIQUE_João_Silva_TEST'))
+    assert.isTrue(searchResults.some((client) => client.name === 'UNIQUE_José_Santos_TEST'))
   })
 
   test('should get client statistics', async ({ assert }) => {
     // Create individual clients
     await ClientFactory.merge({ type: 'individual' }).createMany(5)
-    
+
     // Create company clients
     await ClientFactory.merge({ type: 'company' }).createMany(3)
 

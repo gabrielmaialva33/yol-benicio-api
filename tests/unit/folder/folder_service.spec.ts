@@ -63,7 +63,7 @@ test.group('FolderService', (group) => {
     // Debug: verify user exists
     assert.isNotNull(user)
     assert.isDefined(user.id)
-    
+
     const result = await folderService.getFolder(folder.id)
 
     assert.equal(result.id, folder.id)
@@ -157,7 +157,11 @@ test.group('FolderService', (group) => {
     assert.isNull(folderAfterDelete)
 
     // Verify it exists in the database but is marked as deleted (using direct DB query)
-    const deletedFolderRaw = await db.from('folders').where('id', folder.id).where('is_deleted', true).first()
+    const deletedFolderRaw = await db
+      .from('folders')
+      .where('id', folder.id)
+      .where('is_deleted', true)
+      .first()
     assert.isNotNull(deletedFolderRaw)
     assert.isTrue(deletedFolderRaw!.is_deleted)
   })
