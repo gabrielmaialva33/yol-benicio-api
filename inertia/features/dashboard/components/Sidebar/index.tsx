@@ -251,48 +251,52 @@ export function Sidebar() {
 
   return (
     <aside
-      className={`bg-[#373737] text-white ${
-        isCollapsed ? 'w-16 md:w-24' : 'w-[280px] md:w-[340px]'
-      } h-screen py-10 transition-all duration-300 ease-in-out flex flex-col overflow-hidden`}
+      className={`bg-gradient-to-b from-slate-900 to-slate-800 text-white shadow-2xl border-r border-slate-700/50 ${
+        isCollapsed ? 'w-20' : 'w-72'
+      } h-screen transition-all duration-300 ease-in-out flex flex-col overflow-hidden`}
     >
-      <div className="flex flex-col gap-[25px] items-center">
+      <div className="flex flex-col items-center py-6">
         <SidebarHeader isCollapsed={isCollapsed} toggle={toggleSidebar} />
         {isCollapsed && (
           <button
-            className="bg-[#373737] text-white rounded-full p-1"
+            className="mt-4 bg-slate-700/50 hover:bg-slate-600/50 text-white rounded-lg p-2 transition-colors duration-200"
             onClick={toggleSidebar}
             type="button"
           >
             <img
-              alt="Alternar Sidebar"
-              className="transition-transform duration-300 rotate-180"
-              height={24}
+              alt="Expandir Sidebar"
+              className="transition-transform duration-300 rotate-180 w-5 h-5"
+              height={20}
               src="/icons/left-square.svg"
-              width={24}
+              width={20}
             />
           </button>
         )}
       </div>
       <nav
-        className={`flex-1 flex flex-col overflow-y-auto overflow-x-hidden ${isCollapsed ? 'items-center mt-[40px]' : 'gap-[25px] mt-[25px]'}`}
+        className={`flex-1 flex flex-col overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent ${
+          isCollapsed ? 'items-center px-2' : 'px-4'
+        }`}
       >
         {!isCollapsed && (
-          <div className="px-10 pr-[60px]">
+          <div className="mb-6">
             <SearchInput isCollapsed={isCollapsed} />
           </div>
         )}
         <div
-          className={`${isCollapsed ? 'flex flex-col items-center' : 'px-10 pr-[60px] border-b border-[#BABBC1] pb-[25px]'}`}
+          className={`${
+            isCollapsed ? 'flex flex-col items-center space-y-2' : 'border-b border-slate-700/50 pb-6 mb-6'
+          }`}
         >
           <MenuList
             isCollapsed={isCollapsed}
             items={filteredMenuItems}
-            title="PÁGINAS"
+            title="NAVEGAÇÃO"
             currentPath={url}
           />
         </div>
         {!isCollapsed && favorites.length > 0 && (
-          <div className="px-10 pr-[60px]">
+          <div>
             <MenuList
               isCollapsed={isCollapsed}
               isDropdown={true}
