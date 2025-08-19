@@ -25,15 +25,10 @@ export function RequestsCard() {
   const { data: requestData } = useApiQuery<RequestData>({
     queryKey: ['requests'],
     queryFn: () => fetch('/api/dashboard/requests').then((res) => res.json()),
-    initialData: {
-      new: 0,
-      percentage: 0,
-      history: [],
-    },
   })
   const id = useId()
 
-  const averageRequests = requestData.history.length > 0 
+  const averageRequests = requestData?.history?.length > 0 
     ? Math.round(requestData.history.reduce((sum, req) => sum + req.value, 0) / requestData.history.length) 
     : 0
 
@@ -86,21 +81,21 @@ export function RequestsCard() {
             <div className="text-sm font-medium text-gray-600">Novas neste mês</div>
             <div className="flex items-center gap-1 text-rose-600">
               <TrendingUp className="h-4 w-4" />
-              <span className="text-sm font-medium">{Math.round(requestData.percentage)}%</span>
+              <span className="text-sm font-medium">{Math.round(requestData?.percentage || 0)}%</span>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="text-3xl font-bold text-gray-900">{requestData.new}</div>
+            <div className="text-3xl font-bold text-gray-900">{requestData?.new || 0}</div>
             <div className="flex-1">
               <div className="flex justify-between text-xs text-gray-500 mb-1">
                 <span>0</span>
-                <span>{requestData.new}</span>
+                <span>{requestData?.new || 0}</span>
               </div>
               <div className="bg-gray-200 rounded-full h-2.5 overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-rose-500 to-pink-500 rounded-full transition-all duration-500 ease-out"
-                  style={{ width: `${requestData.percentage}%` }}
+                  style={{ width: `${requestData?.percentage || 0}%` }}
                 />
               </div>
             </div>
@@ -110,7 +105,7 @@ export function RequestsCard() {
 
       <CardContent className="h-64 pt-0 relative z-10">
         <ResponsiveContainer height="100%" width="100%">
-          <AreaChart data={requests} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+          <AreaChart data={requestData?.history || []} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
             <defs>
               <linearGradient id={id} x1="0" x2="0" y1="0" y2="1">
                 <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.3} />

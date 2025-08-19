@@ -16,11 +16,6 @@ export function ActiveFoldersCard() {
   const { data: folders } = useApiQuery<FolderData>({
     queryKey: ['active-folders-stats'],
     queryFn: () => fetch('/api/dashboard/active-folders').then((res) => res.json()),
-    initialData: {
-      active: 0,
-      newThisMonth: 0,
-      history: [],
-    },
   })
 
   return (
