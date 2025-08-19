@@ -131,7 +131,7 @@ export interface FolderFormData {
   // Basic Information
   clientNumber: string
   status: FolderStatus
-  
+
   // Process Information
   processNumber: string
   cnjNumber?: string
@@ -143,7 +143,7 @@ export interface FolderFormData {
   clientCode: string
   folder: string
   defaultBillingCase: boolean
-  
+
   // Court Information
   organ: string
   distribution: FolderDistribution
@@ -152,7 +152,7 @@ export interface FolderFormData {
   searchType?: string
   code?: string
   judge?: string
-  
+
   // Location and Responsibles
   area: string
   subArea: string
@@ -163,21 +163,21 @@ export interface FolderFormData {
   partner: string
   coordinator?: string
   lawyer: string
-  
+
   // Parties
   plaintiff: Omit<FolderParty, 'type'> & { type: 'Autor' }
   defendant: Omit<FolderParty, 'type'> & { type: 'Réu' }
-  
+
   // Detailed Information
   observation?: string
   objectDetail?: string
-  
+
   // Values
   caseValue: number
   convictionValue?: number
   costs?: number
   fees?: number
-  
+
   // Important Dates
   distributionDate: string
   citationDate?: string
@@ -297,19 +297,19 @@ export interface FolderFormErrors {
 
 // Props for form components
 export interface FormFieldProps<T = string> {
-  name: string
-  label: string
-  value?: T
-  onChange?: (value: T) => void
-  onBlur?: () => void
-  error?: string
-  disabled?: boolean
-  required?: boolean
-  placeholder?: string
-  hint?: string
+  'name': string
+  'label': string
+  'value'?: T
+  'onChange'?: (value: T) => void
+  'onBlur'?: () => void
+  'error'?: string
+  'disabled'?: boolean
+  'required'?: boolean
+  'placeholder'?: string
+  'hint'?: string
   'aria-label'?: string
   'aria-describedby'?: string
-  className?: string
+  'className'?: string
 }
 
 export interface SelectFieldProps extends Omit<FormFieldProps<string>, 'onChange'> {
@@ -319,12 +319,12 @@ export interface SelectFieldProps extends Omit<FormFieldProps<string>, 'onChange
 }
 
 export interface ToggleSwitchProps {
-  label: string
-  checked?: boolean
-  onChange?: (checked: boolean) => void
-  disabled?: boolean
-  description?: string
-  size?: 'sm' | 'md' | 'lg'
+  'label': string
+  'checked'?: boolean
+  'onChange'?: (checked: boolean) => void
+  'disabled'?: boolean
+  'description'?: string
+  'size'?: 'sm' | 'md' | 'lg'
   'aria-label'?: string
 }
 
