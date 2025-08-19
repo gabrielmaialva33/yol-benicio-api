@@ -33,7 +33,7 @@ export function AreaDivisionCard() {
   return (
     <Card className="group relative overflow-hidden bg-gradient-to-br from-white to-gray-50/50 border-0 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      
+
       <CardHeader className="pb-4 relative z-10">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-gray-800 flex items-center gap-2">
@@ -47,7 +47,7 @@ export function AreaDivisionCard() {
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="pt-0 pb-6 relative z-10">
         <div className="flex items-center justify-between gap-6">
           <div className="relative">
@@ -70,7 +70,8 @@ export function AreaDivisionCard() {
                         return null
                       }
                       const radian = Math.PI / DEGREES_IN_HALF_CIRCLE
-                      const radius = innerRadius + (outerRadius - innerRadius) * LABEL_POSITION_RATIO
+                      const radius =
+                        innerRadius + (outerRadius - innerRadius) * LABEL_POSITION_RATIO
                       const x = cx + radius * Math.cos(-midAngle * radian)
                       const y = cy + radius * Math.sin(-midAngle * radian)
                       return (
@@ -89,16 +90,16 @@ export function AreaDivisionCard() {
                     labelLine={false}
                   >
                     {displayData.map((entry) => (
-                      <Cell 
-                        fill={entry.color} 
-                        key={entry.name} 
-                        stroke="white" 
+                      <Cell
+                        fill={entry.color}
+                        key={entry.name}
+                        stroke="white"
                         strokeWidth={2}
                         className="hover:opacity-80 transition-opacity duration-200"
                       />
                     ))}
                   </Pie>
-                  <Tooltip 
+                  <Tooltip
                     contentStyle={{
                       backgroundColor: 'white',
                       border: 'none',
@@ -109,7 +110,7 @@ export function AreaDivisionCard() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            
+
             {/* Centro do donut com total */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center">
@@ -118,20 +119,21 @@ export function AreaDivisionCard() {
               </div>
             </div>
           </div>
-          
+
           <div className="flex-1 space-y-3">
             {displayData.map((item, index) => {
               const percentage = totalValue > 0 ? Math.round((item.value / totalValue) * 100) : 0
               return (
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200" key={item.name}>
+                <div
+                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                  key={item.name}
+                >
                   <div className="flex items-center gap-3">
-                    <div 
-                      className="w-4 h-4 rounded-full shadow-sm" 
-                      style={{ backgroundColor: item.color }} 
+                    <div
+                      className="w-4 h-4 rounded-full shadow-sm"
+                      style={{ backgroundColor: item.color }}
                     />
-                    <span className="text-sm font-medium text-gray-700">
-                      {item.name}
-                    </span>
+                    <span className="text-sm font-medium text-gray-700">{item.name}</span>
                   </div>
                   <div className="text-right">
                     <div className="text-sm font-semibold text-gray-900">{item.value}</div>

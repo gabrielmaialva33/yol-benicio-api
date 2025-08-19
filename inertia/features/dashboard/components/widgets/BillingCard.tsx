@@ -24,7 +24,7 @@ export function BillingCard() {
   const percentageColor = isPositive ? 'text-emerald-600' : 'text-rose-600'
   const percentageBg = isPositive ? 'bg-emerald-50' : 'bg-rose-50'
   const TrendIcon = isPositive ? TrendingUp : TrendingDown
-  
+
   const formatCurrency = (value: string) => {
     return value || 'R$ 0,00'
   }
@@ -35,7 +35,7 @@ export function BillingCard() {
   return (
     <Card className="group relative overflow-hidden bg-gradient-to-br from-white to-emerald-50/30 border-0 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      
+
       <CardHeader className="pb-4 relative z-10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -47,7 +47,7 @@ export function BillingCard() {
               <p className="text-sm text-gray-500">Receita mensal</p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <div className={`flex items-center gap-1 px-2 py-1 rounded-lg ${percentageBg}`}>
               <TrendIcon className={`h-3 w-3 ${percentageColor}`} />
@@ -61,7 +61,7 @@ export function BillingCard() {
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="relative z-10">
         <div className="mb-6">
           <div className="flex items-baseline gap-2 mb-2">
@@ -73,18 +73,19 @@ export function BillingCard() {
               <span className="text-xs">este mês</span>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2 text-sm">
             <span className="text-gray-600">Comparado ao mês anterior:</span>
             <div className={`flex items-center gap-1 ${percentageColor}`}>
               <TrendIcon className="h-3 w-3" />
               <span className="font-medium">
-                {isPositive ? '+' : ''}{billingData?.percentage?.toFixed(2) || '0.00'}%
+                {isPositive ? '+' : ''}
+                {billingData?.percentage?.toFixed(2) || '0.00'}%
               </span>
             </div>
           </div>
         </div>
-        
+
         <div className="relative">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-sm font-medium text-gray-700">Tendência de Faturamento</h4>
@@ -93,7 +94,7 @@ export function BillingCard() {
               <span>Últimos {chartData.length} períodos</span>
             </div>
           </div>
-          
+
           {hasData ? (
             <div className="h-20 w-full">
               <ResponsiveContainer width="100%" height="100%">
@@ -104,26 +105,26 @@ export function BillingCard() {
                       <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <XAxis 
-                    dataKey="name" 
-                    axisLine={false} 
-                    tickLine={false} 
+                  <XAxis
+                    dataKey="name"
+                    axisLine={false}
+                    tickLine={false}
                     tick={{ fontSize: 10, fill: '#9ca3af' }}
                     hide
                   />
                   <YAxis hide />
-                  <Tooltip 
+                  <Tooltip
                     contentStyle={{
                       backgroundColor: '#f9fafb',
                       border: '1px solid #e5e7eb',
                       borderRadius: '8px',
-                      fontSize: '12px'
+                      fontSize: '12px',
                     }}
                     labelStyle={{ color: '#374151' }}
                   />
-                  <Line 
-                    dataKey="pv" 
-                    stroke="#10b981" 
+                  <Line
+                    dataKey="pv"
+                    stroke="#10b981"
                     strokeWidth={2.5}
                     dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
                     activeDot={{ r: 4, fill: '#059669' }}
@@ -141,12 +142,13 @@ export function BillingCard() {
             </div>
           )}
         </div>
-        
+
         <div className="mt-4 pt-4 border-t border-gray-100">
           <div className="grid grid-cols-3 gap-4 text-center">
             <div className="p-2 bg-gradient-to-br from-emerald-50 to-green-50 rounded-lg">
               <div className="text-sm font-bold text-emerald-600">
-                {isPositive ? '+' : ''}{billingData?.percentage?.toFixed(1) || '0.0'}%
+                {isPositive ? '+' : ''}
+                {billingData?.percentage?.toFixed(1) || '0.0'}%
               </div>
               <div className="text-xs text-gray-600">Variação</div>
             </div>

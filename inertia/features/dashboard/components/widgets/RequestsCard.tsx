@@ -48,7 +48,7 @@ export function RequestsCard() {
   return (
     <Card className="group relative overflow-hidden bg-gradient-to-br from-white to-rose-50/30 border-0 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      
+
       <CardHeader className="pb-4 relative z-10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -60,7 +60,7 @@ export function RequestsCard() {
               <p className="text-sm text-gray-500">Requisições por período</p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 px-2 py-1 bg-gray-50 rounded-lg">
               <Activity className="h-3 w-3 text-gray-500" />
@@ -89,7 +89,7 @@ export function RequestsCard() {
           </div>
         </div>
       </CardHeader>
-      
+
       {currentRequest && (
         <div className="px-6 pb-4 relative z-10">
           <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-lg p-4">
@@ -101,16 +101,18 @@ export function RequestsCard() {
               </div>
               <div className="flex items-center gap-1 text-rose-600">
                 <TrendingUp className="h-4 w-4" />
-                <span className="text-sm font-medium">{Math.round(currentRequest.percentage)}%</span>
+                <span className="text-sm font-medium">
+                  {Math.round(currentRequest.percentage)}%
+                </span>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <div className="text-3xl font-bold text-gray-900">{currentRequest.new}</div>
               <div className="flex-1">
                 <div className="flex justify-between text-xs text-gray-500 mb-1">
                   <span>0</span>
-                  <span>{Math.max(...requests.map(r => r.new))}</span>
+                  <span>{Math.max(...requests.map((r) => r.new))}</span>
                 </div>
                 <div className="bg-gray-200 rounded-full h-2.5 overflow-hidden">
                   <div
@@ -123,7 +125,7 @@ export function RequestsCard() {
           </div>
         </div>
       )}
-      
+
       <CardContent className="h-64 pt-0 relative z-10">
         <ResponsiveContainer height="100%" width="100%">
           <AreaChart data={requests} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
@@ -148,29 +150,29 @@ export function RequestsCard() {
               tickMargin={8}
               width={40}
             />
-            <Tooltip 
+            <Tooltip
               contentStyle={{
                 backgroundColor: 'white',
                 border: 'none',
                 borderRadius: '8px',
                 boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
-                fontSize: '12px'
+                fontSize: '12px',
               }}
               labelStyle={{ color: '#374151', fontWeight: '500' }}
             />
             <Area
               dataKey="value"
-              dot={{ 
-                fill: '#f43f5e', 
-                strokeWidth: 2, 
+              dot={{
+                fill: '#f43f5e',
+                strokeWidth: 2,
                 r: 4,
-                className: 'hover:r-6 transition-all duration-200'
+                className: 'hover:r-6 transition-all duration-200',
               }}
               activeDot={{
                 r: 6,
                 fill: '#f43f5e',
                 strokeWidth: 2,
-                stroke: 'white'
+                stroke: 'white',
               }}
               fill={`url(#${id})`}
               stroke="#f43f5e"
