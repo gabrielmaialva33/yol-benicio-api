@@ -271,7 +271,7 @@ test.group('FolderService', (group) => {
     const searchResults = await folderService.getFolders(1, 10, { search: 'Test' })
     assert.isDefined(searchResults)
     assert.isAtLeast(searchResults.total, 1)
-    assert.isTrue(searchResults.rows.some(folder => folder.title === 'Test Case 123'))
+    assert.isTrue(searchResults.all().some((folder: Folder) => folder.title === 'Test Case 123'))
   })
 
   test('should filter folders by date range', async ({ assert }) => {
