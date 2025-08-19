@@ -12,38 +12,30 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '~/shared/ui/primitives/Card'
 import { FileText, ChevronLeft, ChevronRight, TrendingUp, Activity } from 'lucide-react'
 
-interface Request {
-  month: string
-  value: number
+interface RequestData {
   new: number
   percentage: number
+  history: {
+    month: string
+    value: number
+  }[]
 }
 
 export function RequestsCard() {
-  const { data: requests = [] } = useApiQuery<Request[]>({
+  const { data: requestData } = useApiQuery<RequestData>({
     queryKey: ['requests'],
     queryFn: () => fetch('/api/dashboard/requests').then((res) => res.json()),
+    initialData: {
+      new: 0,
+      percentage: 0,
+      history: [],
+    },
   })
-  const [currentMonthIndex, setCurrentMonthIndex] = useState(0)
   const id = useId()
 
-  useEffect(() => {
-    if (requests.length > 0) {
-      setCurrentMonthIndex(requests.length - 1)
-    }
-  }, [requests.length])
-
-  const handlePrevMonth = () => {
-    setCurrentMonthIndex((prev) => (prev > 0 ? prev - 1 : prev))
-  }
-
-  const handleNextMonth = () => {
-    setCurrentMonthIndex((prev) => (prev < requests.length - 1 ? prev + 1 : prev))
-  }
-
-  const currentRequest = requests[currentMonthIndex]
-  const totalRequests = requests.reduce((sum, req) => sum + req.value, 0)
-  const averageRequests = requests.length > 0 ? Math.round(totalRequests / requests.length) : 0
+  const averageRequests = requestData.history.length > 0 
+    ? Math.round(requestData.history.reduce((sum, req) => sum + req.value, 0) / requestData.history.length) 
+    : 0
 
   return (
     <Card className="group relative overflow-hidden bg-gradient-to-br from-white to-rose-50/30 border-0 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
@@ -70,8 +62,7 @@ export function RequestsCard() {
               <button
                 aria-label="Mês anterior"
                 className="p-1.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={handlePrevMonth}
-                disabled={currentMonthIndex === 0}
+                disabled={true}
                 type="button"
               >
                 <ChevronLeft className="h-4 w-4" />
@@ -79,8 +70,7 @@ export function RequestsCard() {
               <button
                 aria-label="Próximo mês"
                 className="p-1.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={handleNextMonth}
-                disabled={currentMonthIndex === requests.length - 1}
+                disabled={true}
                 type="button"
               >
                 <ChevronRight className="h-4 w-4" />
@@ -90,41 +80,33 @@ export function RequestsCard() {
         </div>
       </CardHeader>
 
-      {currentRequest && (
-        <div className="px-6 pb-4 relative z-10">
-          <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-3">
-              <div className="text-sm font-medium text-gray-600">
-                {currentMonthIndex === requests.length - 1
-                  ? 'Novas neste mês'
-                  : `Novas em ${currentRequest.month}`}
-              </div>
-              <div className="flex items-center gap-1 text-rose-600">
-                <TrendingUp className="h-4 w-4" />
-                <span className="text-sm font-medium">
-                  {Math.round(currentRequest.percentage)}%
-                </span>
-              </div>
+      <div className="px-6 pb-4 relative z-10">
+        <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-lg p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="text-sm font-medium text-gray-600">Novas neste mês</div>
+            <div className="flex items-center gap-1 text-rose-600">
+              <TrendingUp className="h-4 w-4" />
+              <span className="text-sm font-medium">{Math.round(requestData.percentage)}%</span>
             </div>
+          </div>
 
-            <div className="flex items-center gap-4">
-              <div className="text-3xl font-bold text-gray-900">{currentRequest.new}</div>
-              <div className="flex-1">
-                <div className="flex justify-between text-xs text-gray-500 mb-1">
-                  <span>0</span>
-                  <span>{Math.max(...requests.map((r) => r.new))}</span>
-                </div>
-                <div className="bg-gray-200 rounded-full h-2.5 overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-rose-500 to-pink-500 rounded-full transition-all duration-500 ease-out"
-                    style={{ width: `${currentRequest.percentage}%` }}
-                  />
-                </div>
+          <div className="flex items-center gap-4">
+            <div className="text-3xl font-bold text-gray-900">{requestData.new}</div>
+            <div className="flex-1">
+              <div className="flex justify-between text-xs text-gray-500 mb-1">
+                <span>0</span>
+                <span>{requestData.new}</span>
+              </div>
+              <div className="bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-rose-500 to-pink-500 rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${requestData.percentage}%` }}
+                />
               </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       <CardContent className="h-64 pt-0 relative z-10">
         <ResponsiveContainer height="100%" width="100%">
