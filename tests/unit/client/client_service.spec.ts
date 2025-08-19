@@ -126,13 +126,13 @@ test.group('ClientService', (group) => {
     const searchByName = await clientService.getClients(1, 10, { search: 'João' })
     assert.isDefined(searchByName)
     assert.isAtLeast(searchByName.total, 1)
-    assert.isTrue(searchByName.rows.some(client => client.name === 'João Silva'))
+    assert.isTrue(searchByName.all().some((client: Client) => client.name === 'João Silva'))
 
     // Search by document
     const searchByDocument = await clientService.getClients(1, 10, { search: 'DOC987' })
     assert.isDefined(searchByDocument)
     assert.isAtLeast(searchByDocument.total, 1)
-    assert.isTrue(searchByDocument.rows.some(client => client.name === 'Maria Santos'))
+    assert.isTrue(searchByDocument.all().some((client: Client) => client.name === 'Maria Santos'))
 
     // Search with no results (using unique search term)
     const noResults = await clientService.getClients(1, 10, { search: 'NONEXISTENT_UNIQUE_SEARCH_TERM_123456' })
