@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Link, usePage } from '@inertiajs/react'
 import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { X } from 'lucide-react'
 import { SidebarItem } from './SidebarItem'
 import { usePermissions } from '~/shared/hooks/use_permissions'
 import { menuItems, filterMenuItems } from '~/config/menu'
@@ -49,11 +50,7 @@ function SidebarHeader({ isCollapsed, toggle }: { isCollapsed: boolean; toggle: 
           className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors duration-200 group"
           aria-label="Fechar sidebar"
         >
-          <img
-            alt="Fechar sidebar"
-            className="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity duration-200"
-            src="/icons/sidebar-close.svg"
-          />
+          <X className="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity duration-200" />
         </button>
       )}
     </div>
