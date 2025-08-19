@@ -21,7 +21,7 @@ export function BirthdaysCard() {
   return (
     <Card className="group relative overflow-hidden bg-gradient-to-br from-white to-pink-50/30 border-0 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-rose-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
+      
       <CardHeader className="pb-4 relative z-10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -33,7 +33,7 @@ export function BirthdaysCard() {
               <p className="text-sm text-gray-500">Celebrações este mês</p>
             </div>
           </div>
-
+          
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1 px-2 py-1 bg-pink-50 rounded-lg">
               <Users className="h-3 w-3 text-pink-600" />
@@ -49,7 +49,7 @@ export function BirthdaysCard() {
           </div>
         </div>
       </CardHeader>
-
+      
       <CardContent className="relative z-10">
         <div className="mb-4">
           <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
@@ -57,12 +57,12 @@ export function BirthdaysCard() {
             <span>Colegas que fazem aniversário este mês</span>
           </div>
         </div>
-
+        
         <div className="space-y-3">
           {displayedBirthdays.length > 0 ? (
             displayedBirthdays.map((user, index) => (
-              <div
-                key={user.email}
+              <div 
+                key={user.email} 
                 className="group/item flex items-center gap-3 p-3 bg-gradient-to-r from-white to-pink-50/50 rounded-lg border border-pink-100/50 hover:border-pink-200 hover:shadow-sm transition-all duration-200"
               >
                 <div className="relative">
@@ -77,7 +77,7 @@ export function BirthdaysCard() {
                     <Gift className="h-2.5 w-2.5 text-white" />
                   </div>
                 </div>
-
+                
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-semibold text-gray-900 truncate">{user.name}</h4>
@@ -91,9 +91,9 @@ export function BirthdaysCard() {
                     <span className="truncate">{user.email}</span>
                   </div>
                 </div>
-
-                <button
-                  className="p-2 text-gray-400 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-all duration-200 opacity-0 group-hover/item:opacity-100"
+                
+                <button 
+                  className="p-2 text-gray-400 hover:text-pink-600 hover:bg-pink-50 rounded-lg transition-all duration-200 opacity-0 group-hover/item:opacity-100" 
                   type="button"
                 >
                   <ChevronRight className="h-4 w-4" />
@@ -110,10 +110,10 @@ export function BirthdaysCard() {
             </div>
           )}
         </div>
-
+        
         {hasMoreBirthdays && (
           <div className="mt-4 pt-4 border-t border-pink-100">
-            <button
+            <button 
               className="w-full flex items-center justify-center gap-2 py-2 text-sm font-medium text-pink-600 hover:text-pink-700 hover:bg-pink-50 rounded-lg transition-colors duration-200"
               type="button"
             >
@@ -123,7 +123,7 @@ export function BirthdaysCard() {
             </button>
           </div>
         )}
-
+        
         <div className="mt-4 pt-4 border-t border-pink-100">
           <div className="grid grid-cols-3 gap-4 text-center">
             <div className="p-2 bg-gradient-to-br from-pink-50 to-rose-50 rounded-lg">
