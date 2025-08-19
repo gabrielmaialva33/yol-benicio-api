@@ -103,19 +103,19 @@ test.group('FolderService', (group) => {
     const activeFolders = await folderService.getFolders(1, 10, { status: 'active' })
     assert.isDefined(activeFolders)
     assert.isAtLeast(activeFolders.total, 3)
-    assert.isTrue(activeFolders.rows.every(folder => folder.status === 'active'))
+    assert.isTrue(activeFolders.all().every((folder: Folder) => folder.status === 'active'))
 
     // Test with area filter
     const laborFolders = await folderService.getFolders(1, 10, { area: 'labor' })
     assert.isDefined(laborFolders)
     assert.isAtLeast(laborFolders.total, 2)
-    assert.isTrue(laborFolders.rows.every(folder => folder.area === 'labor'))
+    assert.isTrue(laborFolders.all().every((folder: Folder) => folder.area === 'labor'))
 
     // Test with client filter
     const clientFolders = await folderService.getFolders(1, 10, { client_id: client.id })
     assert.isDefined(clientFolders)
     assert.isAtLeast(clientFolders.total, 5)
-    assert.isTrue(clientFolders.rows.every(folder => folder.client_id === client.id))
+    assert.isTrue(clientFolders.all().every((folder: Folder) => folder.client_id === client.id))
   })
 
   test('should update folder', async ({ assert }) => {
