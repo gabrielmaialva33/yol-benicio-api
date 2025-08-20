@@ -103,7 +103,7 @@
     "@heroicons/react": "^2.2.0",
     "@inertiajs/react": "^2.1.2",
     "@rlanz/bull-queue": "^3.1.0",
-    "@tanstack/react-query": "^5.85.3",
+    "@tanstack/react-query": "^5.85.5",
     "@tanstack/react-query-devtools": "^5.85.3",
     "@vinejs/vine": "^3.0.1",
     "argon2": "^0.44.0",
