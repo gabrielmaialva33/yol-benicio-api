@@ -82,8 +82,8 @@ test.group('TaskService', (group) => {
     const tasks = await taskService.getTasksStats()
 
     assert.equal(tasks.length, 4)
-    assert.equal(tasks.filter(task => !task.completed).length, 3) // 2 pending + 1 in_progress
-    assert.equal(tasks.filter(task => task.completed).length, 1)
+    assert.equal(tasks.filter((task) => !task.completed).length, 3) // 2 pending + 1 in_progress
+    assert.equal(tasks.filter((task) => task.completed).length, 1)
     // Since getTasksStats returns basic task info, not detailed stats
     assert.isArray(tasks)
   })
