@@ -2,7 +2,7 @@ FROM library/postgres
 COPY ./init.sql /docker-entrypoint-initdb.d/
 
 # Build AdonisJS
-FROM node:lts-alpine AS builder
+FROM node:22-alpine AS builder
 # Set directory for all files
 WORKDIR /home/node
 # Copy over package.json files
