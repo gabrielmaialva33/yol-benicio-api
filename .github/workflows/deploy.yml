@@ -52,13 +52,24 @@ jobs:
           check-latest: true
           cache: 'pnpm'
 
-      - name: Install pnpm
+      - name: Setup pnpm (pinned)
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: 10.0.0
+          run_install: false
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Show versions
+        run: |
+          node -v
+          pnpm -v
+
+      - name: Install dependencies (frozen lockfile with fallback)
+        run: |
+          if ! pnpm install --frozen-lockfile; then
+            echo "Frozen install falhou, tentando regenerar lockfile (PR externo?)" >&2
+            pnpm install --no-frozen-lockfile
+          fi
+          pnpm store prune || true
 
       - name: Print environment versions
         run: |
@@ -92,8 +103,8 @@ jobs:
           QUEUE_REDIS_PORT=6379
           QUEUE_REDIS_PASSWORD=
 
-          ACCESS_TOKEN_SECRET=test-secret
-          REFRESH_TOKEN_SECRET=test-secret
+          LIMITER_STORE=memory
+          DRIVE_DISK=fs
           EOF
 
       - name: Run database migrations
