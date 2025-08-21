@@ -20,7 +20,7 @@ RUN pnpm build
 
 
 # Build final runtime container
-FROM node:lts-alpine
+FROM node:22-alpine
 # Set environment variables
 ENV NODE_ENV=development
 # Disable .env file loading
