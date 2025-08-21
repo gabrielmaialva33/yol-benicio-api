@@ -164,4 +164,58 @@ export function createApiHooks<T>({ baseUrl, token }: UseApiOptions) {
   }
 }
 
+// Generic hook for API queries
+export const useApiQuery = <T>(
+  endpoint: string,
+  params?: QueryParams,
+  options?: {
+    enabled?: boolean
+    staleTime?: number
+    refetchInterval?: number
+  }
+) => {
+  const baseUrl = '/api/v1'
+  
+  return useQuery<T>({
+    queryKey: [endpoint, params],
+    queryFn: async () => {
+      const url = new URL(endpoint, window.location.origin)
+      
+      if (params) {
+        Object.entries(params).forEach(([key, value]) => {
+          if (value !== undefined && value !== null && value !== '') {
+            url.searchParams.append(key, String(value))
+          }
+        })
+      }
+
+      const response = await fetch(url.toString(), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        credentials: 'include',
+      })
+
+      if (!response.ok) {
+        let errorMessage = 'Erro desconhecido'
+        try {
+          const error = (await response.json()) as ErrorResponse
+          errorMessage = error.errors[0]?.message || `Erro ${response.status}`
+        } catch {
+          errorMessage = `Erro ${response.status}: ${response.statusText}`
+        }
+        throw new Error(errorMessage)
+      }
+
+      return response.json()
+    },
+    enabled: options?.enabled ?? true,
+    staleTime: options?.staleTime ?? 5 * 60 * 1000,
+    refetchInterval: options?.refetchInterval,
+    placeholderData: (previousData) => previousData,
+  })
+}
+
 export type { ApiResponse, PaginatedResponse, ErrorResponse, QueryParams }
