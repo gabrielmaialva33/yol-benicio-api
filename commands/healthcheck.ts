@@ -62,7 +62,9 @@ export default class Healthcheck extends BaseCommand {
         status: 'unhealthy',
         missing_variables: missingEnvVars,
       }
-      this.logger.error(`❌ Environment: unhealthy - Missing variables: ${missingEnvVars.join(', ')}`)
+      this.logger.error(
+        `❌ Environment: unhealthy - Missing variables: ${missingEnvVars.join(', ')}`
+      )
       hasFailures = true
     }
 

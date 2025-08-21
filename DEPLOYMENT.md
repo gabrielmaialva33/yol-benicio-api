@@ -5,6 +5,7 @@ This guide covers the complete CI/CD setup and deployment process for the Yol Be
 ## 📋 Overview
 
 The system uses a modern CI/CD pipeline with:
+
 - **GitHub Actions** for automated testing and deployment
 - **Docker** for containerization
 - **PostgreSQL with TimescaleDB** for database
@@ -195,16 +196,19 @@ htop
 ### SSL/TLS Setup
 
 1. **Install Certbot**
+
 ```bash
 sudo apt install certbot python3-certbot-nginx
 ```
 
 2. **Obtain SSL Certificate**
+
 ```bash
 sudo certbot --nginx -d benicio.mahina.cloud
 ```
 
 3. **Auto-renewal**
+
 ```bash
 sudo crontab -e
 # Add: 0 12 * * * /usr/bin/certbot renew --quiet
@@ -266,6 +270,7 @@ tar -xzf backup_files.tar.gz
 ### Common Issues
 
 1. **Container won't start**
+
 ```bash
 # Check logs
 docker-compose logs app
@@ -275,6 +280,7 @@ docker-compose exec app env | grep -E '(DB_|REDIS_|APP_)'
 ```
 
 2. **Database connection issues**
+
 ```bash
 # Test database connectivity
 docker-compose exec app node ace healthcheck
@@ -284,6 +290,7 @@ docker-compose exec postgres pg_isready -U postgres
 ```
 
 3. **Redis connection issues**
+
 ```bash
 # Test Redis connectivity
 docker-compose exec redis redis-cli ping
@@ -293,6 +300,7 @@ docker-compose logs redis
 ```
 
 4. **Migration failures**
+
 ```bash
 # Run migrations manually
 docker-compose exec app node ace migration:run --force
@@ -306,6 +314,7 @@ docker-compose exec app node ace db:seed --force
 ### Performance Issues
 
 1. **High memory usage**
+
 ```bash
 # Check container memory usage
 docker stats
@@ -315,6 +324,7 @@ docker-compose restart
 ```
 
 2. **Slow database queries**
+
 ```bash
 # Enable query logging in PostgreSQL
 docker-compose exec postgres psql -U postgres -c "ALTER SYSTEM SET log_statement = 'all';"
@@ -343,6 +353,7 @@ docker-compose exec -T postgres psql -U postgres -d postgres < latest_backup.sql
 ## 📞 Support
 
 For deployment issues:
+
 1. Check application logs: `docker-compose logs app`
 2. Run health check: `docker-compose exec app node ace healthcheck`
 3. Verify environment variables: `docker-compose exec app env`
@@ -353,12 +364,14 @@ For deployment issues:
 For increased traffic:
 
 1. **Horizontal Scaling**
+
 ```bash
 # Scale application containers
 docker-compose up -d --scale app=3
 ```
 
 2. **Database Optimization**
+
 ```bash
 # Tune PostgreSQL settings in docker-compose.yml
 # Add connection pooling
@@ -366,6 +379,7 @@ docker-compose up -d --scale app=3
 ```
 
 3. **Caching**
+
 ```bash
 # Implement Redis caching strategies
 # Add CDN for static assets
