@@ -62,7 +62,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   | Variables for configuring the limiter package
   |----------------------------------------------------------
   */
-  LIMITER_STORE: Env.schema.enum(['redis', 'database', 'memory'] as const).optional(),
+  LIMITER_STORE: Env.schema.enum.optional(['redis', 'database', 'memory'] as const),
 
   /*
   |----------------------------------------------------------
@@ -95,7 +95,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   | Variables for configuring the drive package
   |----------------------------------------------------------
   */
-  DRIVE_DISK: Env.schema.enum(['fs', 's3', 'spaces', 'r2', 'gcs'] as const).optional(),
+  DRIVE_DISK: Env.schema.enum.optional(['fs', 's3', 'spaces', 'r2', 'gcs'] as const),
 
   // S3
   AWS_ACCESS_KEY_ID: Env.schema.string.optional(),
