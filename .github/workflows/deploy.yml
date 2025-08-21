@@ -53,7 +53,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '22.18.0'
+          check-latest: true
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -182,45 +183,45 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no root@${{ secrets.VPS_HOST }} << 'EOF'
             set -e
-            
+
             echo "🚀 Starting deployment..."
-            
+
             # Navigate to project directory
             cd /root/yol-benicio-api
-            
+
             # Pull latest changes
             git fetch origin
             git reset --hard origin/master
-            
+
             # Login to GitHub Container Registry
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            
+
             # Pull latest image
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            
+
             # Update docker-compose with new image
             export IMAGE_TAG=latest
-            
+
             # Stop and remove old containers
             docker-compose down --remove-orphans
-            
+
             # Start new containers
             docker-compose up -d
-            
+
             # Wait for services to be ready
             echo "⏳ Waiting for services to start..."
             sleep 30
-            
+
             # Run migrations
             docker-compose exec -T app node ace migration:run --force
-            
+
             # Health check
             echo "🔍 Running health check..."
             timeout 60s bash -c 'until curl -f http://localhost:3334/health; do sleep 2; done'
-            
+
             # Cleanup old images
             docker image prune -f
-            
+
             echo "✅ Deployment completed successfully!"
           EOF
         env:
