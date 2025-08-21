@@ -13,6 +13,7 @@ import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 import { throttle } from '#start/limiter'
 
+import './routes/health'
 import '#modules/health/routes/index'
 import '#modules/role/routes/index'
 import '#modules/user/routes/index'
