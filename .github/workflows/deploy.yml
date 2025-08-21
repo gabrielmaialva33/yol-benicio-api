@@ -1,0 +1,252 @@
+name: CI/CD - Yol Benício Legal Management System
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+    types: [opened, synchronize, reopened]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: timescale/timescaledb-ha:pg17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:latest
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create test environment file
+        run: |
+          cat > .env.test << EOF
+          TZ=UTC
+          PORT=3333
+          HOST=127.0.0.1
+          LOG_LEVEL=silent
+          APP_KEY=test-app-key-32-characters-long
+          NODE_ENV=test
+          SESSION_DRIVER=cookie
+          
+          DB_HOST=127.0.0.1
+          DB_PORT=5432
+          DB_USER=postgres
+          DB_PASSWORD=postgres
+          DB_DATABASE=postgres
+          
+          REDIS_HOST=127.0.0.1
+          REDIS_PORT=6379
+          REDIS_PASSWORD=
+          
+          QUEUE_REDIS_HOST=127.0.0.1
+          QUEUE_REDIS_PORT=6379
+          QUEUE_REDIS_PASSWORD=
+          
+          ACCESS_TOKEN_SECRET=test-secret
+          REFRESH_TOKEN_SECRET=test-secret
+          EOF
+
+      - name: Run database migrations
+        run: pnpm exec node ace migration:run --force
+        env:
+          NODE_ENV: test
+
+      - name: Seed database
+        run: pnpm exec node ace db:seed --force
+        env:
+          NODE_ENV: test
+
+      - name: Run lint check
+        run: pnpm lint
+
+      - name: Run type check
+        run: pnpm typecheck
+
+      - name: Run unit tests
+        run: pnpm test unit
+        env:
+          NODE_ENV: test
+
+      - name: Run integration tests
+        run: pnpm test functional
+        env:
+          NODE_ENV: test
+
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [test, build]
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    
+    environment:
+      name: production
+      url: https://benicio.mahina.cloud
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup deployment scripts
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no root@${{ secrets.VPS_HOST }} << 'EOF'
+            set -e
+            
+            echo "🚀 Starting deployment..."
+            
+            # Navigate to project directory
+            cd /root/yol-benicio-api
+            
+            # Pull latest changes
+            git fetch origin
+            git reset --hard origin/master
+            
+            # Login to GitHub Container Registry
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            
+            # Pull latest image
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            
+            # Update docker-compose with new image
+            export IMAGE_TAG=latest
+            
+            # Stop and remove old containers
+            docker-compose down --remove-orphans
+            
+            # Start new containers
+            docker-compose up -d
+            
+            # Wait for services to be ready
+            echo "⏳ Waiting for services to start..."
+            sleep 30
+            
+            # Run migrations
+            docker-compose exec -T app node ace migration:run --force
+            
+            # Health check
+            echo "🔍 Running health check..."
+            timeout 60s bash -c 'until curl -f http://localhost:3334/health; do sleep 2; done'
+            
+            # Cleanup old images
+            docker image prune -f
+            
+            echo "✅ Deployment completed successfully!"
+          EOF
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+
+      - name: Verify deployment
+        run: |
+          sleep 10
+          curl -f https://benicio.mahina.cloud/health || exit 1
+          echo "✅ Production deployment verified!"
+
+  notify:
+    name: Notify Deployment Status
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: always()
+    
+    steps:
+      - name: Notify success
+        if: needs.deploy.result == 'success'
+        run: |
+          echo "🎉 Deployment to production was successful!"
+          # Add Slack/Discord notification here if needed
+          
+      - name: Notify failure
+        if: needs.deploy.result == 'failure'
+        run: |
+          echo "❌ Deployment to production failed!"
+          # Add Slack/Discord notification here if needed
