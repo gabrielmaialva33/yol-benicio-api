@@ -39,10 +39,10 @@ function SidebarHeader({ isCollapsed, toggle }: { isCollapsed: boolean; toggle: 
     >
       <img
         alt="Logo"
-        className={`cursor-pointer transition-all duration-300 ${isCollapsed ? 'w-10 h-8' : 'w-36'}`}
-        height={isCollapsed ? 32 : 48}
+        className={`cursor-pointer transition-all duration-500 ${isCollapsed ? 'w-[42px] h-[35px]' : 'w-[159px] h-[60px]'}`}
+        height={isCollapsed ? 35 : 60}
         src={isCollapsed ? '/icons/logo.svg' : '/logo-yol.svg'}
-        width={isCollapsed ? 40 : 144}
+        width={isCollapsed ? 42 : 159}
       />
       {!isCollapsed && (
         <button
@@ -61,38 +61,22 @@ function SearchInput({ isCollapsed }: { isCollapsed: boolean }) {
   const [searchTerm, setSearchTerm] = useState('')
 
   if (isCollapsed) {
-    return (
-      <div className="px-4 py-3">
-        <div className="flex justify-center">
-          <div className="p-2 rounded-lg hover:bg-slate-700/50 transition-colors duration-200">
-            <img
-              alt="Pesquisar"
-              className="w-5 h-5 text-slate-400"
-              height={20}
-              src="/icons/magnifier.svg"
-              width={20}
-            />
-          </div>
-        </div>
-      </div>
-    )
+    return null
   }
 
   return (
-    <div className="px-6 py-4">
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <img
-            alt="Pesquisar"
-            className="w-5 h-5 text-slate-400"
-            height={20}
-            src="/icons/magnifier.svg"
-            width={20}
-          />
-        </div>
+    <div className="px-10 pr-[60px]">
+      <div className="flex items-center rounded-md bg-[#86878B] px-3 py-[13px] gap-2">
+        <img
+          alt="Pesquisar"
+          className="w-4 h-4 text-white"
+          height={16}
+          src="/icons/magnifier.svg"
+          width={16}
+        />
         <input
           type="text"
-          className="block w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600/50 rounded-xl leading-5 placeholder-slate-400 text-slate-100 focus:outline-none focus:placeholder-slate-300 focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 text-sm"
+          className="text-sm bg-transparent w-full text-white focus:outline-none ml-2 placeholder:text-white"
           placeholder="Buscar..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -225,11 +209,11 @@ const MenuList = (props: {
   }
 
   return (
-    <div className={`${props.isCollapsed ? 'space-y-1' : 'space-y-1'}`}>
+    <div className={`pt-2 ${props.isCollapsed ? 'space-y-1' : ''}`}>
       {!props.isCollapsed && (
-        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-3">
+        <p className="text-sm font-semibold text-[#A1A5B7] mt-4 mb-2">
           {props.title}
-        </h3>
+        </p>
       )}
       <ul className="space-y-1">
         {visibleItems.map((item) => (
