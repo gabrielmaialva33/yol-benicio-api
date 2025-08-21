@@ -175,12 +175,12 @@ export const useApiQuery = <T>(
   }
 ) => {
   const baseUrl = '/api/v1'
-  
+
   return useQuery<T>({
     queryKey: [endpoint, params],
     queryFn: async () => {
       const url = new URL(endpoint, window.location.origin)
-      
+
       if (params) {
         Object.entries(params).forEach(([key, value]) => {
           if (value !== undefined && value !== null && value !== '') {
