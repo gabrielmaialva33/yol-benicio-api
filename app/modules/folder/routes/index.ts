@@ -17,7 +17,7 @@ router
       )
 
     router
-      .get('/folders/stats', [FoldersController, 'stats'])
+      .get('/folders/stats', [() => import('../controllers/folders_controller.js'), 'stats'])
       .as('api.folders.stats')
       .use(
         middleware.permission({
@@ -26,7 +26,10 @@ router
       )
 
     router
-      .get('/folders/dashboard', [FoldersController, 'dashboard'])
+      .get('/folders/dashboard', [
+        () => import('../controllers/folders_controller.js'),
+        'dashboard',
+      ])
       .as('api.folders.dashboard')
       .use(
         middleware.permission({
@@ -35,7 +38,10 @@ router
       )
 
     router
-      .get('/folders/consultation', [FoldersController, 'consultation'])
+      .get('/folders/consultation', [
+        () => import('../controllers/folders_controller.js'),
+        'consultation',
+      ])
       .as('api.folders.consultation')
       .use(
         middleware.permission({
@@ -44,7 +50,10 @@ router
       )
 
     router
-      .get('/folders/recent-activity', [FoldersController, 'recentActivity'])
+      .get('/folders/recent-activity', [
+        () => import('../controllers/folders_controller.js'),
+        'recentActivity',
+      ])
       .as('api.folders.recent_activity')
       .use(
         middleware.permission({
@@ -53,7 +62,7 @@ router
       )
 
     router
-      .get('/folders/:id', [FoldersController, 'show'])
+      .get('/folders/:id', [() => import('../controllers/folders_controller.js'), 'show'])
       .as('api.folders.show')
       .use(
         middleware.permission({
@@ -62,7 +71,7 @@ router
       )
 
     router
-      .post('/folders', [FoldersController, 'store'])
+      .post('/folders', [() => import('../controllers/folders_controller.js'), 'store'])
       .as('api.folders.store')
       .use(
         middleware.permission({
@@ -71,7 +80,7 @@ router
       )
 
     router
-      .put('/folders/:id', [FoldersController, 'update'])
+      .put('/folders/:id', [() => import('../controllers/folders_controller.js'), 'update'])
       .as('api.folders.update')
       .use(
         middleware.permission({
@@ -80,7 +89,10 @@ router
       )
 
     router
-      .patch('/folders/:id/favorite', [FoldersController, 'toggleFavorite'])
+      .patch('/folders/:id/favorite', [
+        () => import('../controllers/folders_controller.js'),
+        'toggleFavorite',
+      ])
       .as('api.folders.toggle_favorite')
       .use(
         middleware.permission({
@@ -89,7 +101,7 @@ router
       )
 
     router
-      .delete('/folders/:id', [FoldersController, 'destroy'])
+      .delete('/folders/:id', [() => import('../controllers/folders_controller.js'), 'destroy'])
       .as('api.folders.destroy')
       .use(
         middleware.permission({
