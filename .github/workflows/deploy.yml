@@ -45,18 +45,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm (pinned)
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.0.0
+          run_install: false
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22.18.0'
           check-latest: true
           cache: 'pnpm'
-
-      - name: Setup pnpm (pinned)
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.0.0
-          run_install: false
 
       - name: Show versions
         run: |
