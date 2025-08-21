@@ -62,73 +62,73 @@ export default await Env.create(new URL('../', import.meta.url), {
   | Variables for configuring the limiter package
   |----------------------------------------------------------
   */
-  LIMITER_STORE: Env.schema.enum(['redis', 'database', 'memory'] as const),
+  LIMITER_STORE: Env.schema.enum(['redis', 'database', 'memory'] as const).optional(),
 
   /*
   |----------------------------------------------------------
   | Variables for configuring ally package
   |----------------------------------------------------------
   */
-  DISCORD_CLIENT_ID: Env.schema.string(),
-  DISCORD_CLIENT_SECRET: Env.schema.string(),
+  DISCORD_CLIENT_ID: Env.schema.string.optional(),
+  DISCORD_CLIENT_SECRET: Env.schema.string.optional(),
 
-  FACEBOOK_CLIENT_ID: Env.schema.string(),
-  FACEBOOK_CLIENT_SECRET: Env.schema.string(),
+  FACEBOOK_CLIENT_ID: Env.schema.string.optional(),
+  FACEBOOK_CLIENT_SECRET: Env.schema.string.optional(),
 
-  GITHUB_CLIENT_ID: Env.schema.string(),
-  GITHUB_CLIENT_SECRET: Env.schema.string(),
+  GITHUB_CLIENT_ID: Env.schema.string.optional(),
+  GITHUB_CLIENT_SECRET: Env.schema.string.optional(),
 
-  GOOGLE_CLIENT_ID: Env.schema.string(),
-  GOOGLE_CLIENT_SECRET: Env.schema.string(),
+  GOOGLE_CLIENT_ID: Env.schema.string.optional(),
+  GOOGLE_CLIENT_SECRET: Env.schema.string.optional(),
 
-  LINKEDIN_CLIENT_ID: Env.schema.string(),
-  LINKEDIN_CLIENT_SECRET: Env.schema.string(),
+  LINKEDIN_CLIENT_ID: Env.schema.string.optional(),
+  LINKEDIN_CLIENT_SECRET: Env.schema.string.optional(),
 
-  SPOTIFY_CLIENT_ID: Env.schema.string(),
-  SPOTIFY_CLIENT_SECRET: Env.schema.string(),
+  SPOTIFY_CLIENT_ID: Env.schema.string.optional(),
+  SPOTIFY_CLIENT_SECRET: Env.schema.string.optional(),
 
-  TWITTER_CLIENT_ID: Env.schema.string(),
-  TWITTER_CLIENT_SECRET: Env.schema.string(),
+  TWITTER_CLIENT_ID: Env.schema.string.optional(),
+  TWITTER_CLIENT_SECRET: Env.schema.string.optional(),
 
   /*
   |----------------------------------------------------------
   | Variables for configuring the drive package
   |----------------------------------------------------------
   */
-  DRIVE_DISK: Env.schema.enum(['fs', 's3', 'spaces', 'r2', 'gcs'] as const),
+  DRIVE_DISK: Env.schema.enum(['fs', 's3', 'spaces', 'r2', 'gcs'] as const).optional(),
 
   // S3
-  AWS_ACCESS_KEY_ID: Env.schema.string(),
-  AWS_SECRET_ACCESS_KEY: Env.schema.string(),
-  AWS_REGION: Env.schema.string(),
-  S3_BUCKET: Env.schema.string(),
+  AWS_ACCESS_KEY_ID: Env.schema.string.optional(),
+  AWS_SECRET_ACCESS_KEY: Env.schema.string.optional(),
+  AWS_REGION: Env.schema.string.optional(),
+  S3_BUCKET: Env.schema.string.optional(),
 
   // Spaces
-  SPACES_KEY: Env.schema.string(),
-  SPACES_SECRET: Env.schema.string(),
-  SPACES_REGION: Env.schema.string(),
-  SPACES_BUCKET: Env.schema.string(),
-  SPACES_ENDPOINT: Env.schema.string(),
+  SPACES_KEY: Env.schema.string.optional(),
+  SPACES_SECRET: Env.schema.string.optional(),
+  SPACES_REGION: Env.schema.string.optional(),
+  SPACES_BUCKET: Env.schema.string.optional(),
+  SPACES_ENDPOINT: Env.schema.string.optional(),
 
   // R2
-  R2_KEY: Env.schema.string(),
-  R2_SECRET: Env.schema.string(),
-  R2_BUCKET: Env.schema.string(),
-  R2_ENDPOINT: Env.schema.string(),
+  R2_KEY: Env.schema.string.optional(),
+  R2_SECRET: Env.schema.string.optional(),
+  R2_BUCKET: Env.schema.string.optional(),
+  R2_ENDPOINT: Env.schema.string.optional(),
 
   // GCS
-  GCS_KEY: Env.schema.string(),
-  GCS_BUCKET: Env.schema.string(),
+  GCS_KEY: Env.schema.string.optional(),
+  GCS_BUCKET: Env.schema.string.optional(),
 
   /*
   |----------------------------------------------------------
   | Variables for configuring the mail package
   |----------------------------------------------------------
   */
-  SMTP_HOST: Env.schema.string(),
-  SMTP_PORT: Env.schema.string(),
-  SMTP_USER: Env.schema.string(),
-  SMTP_PASS: Env.schema.string(),
+  SMTP_HOST: Env.schema.string.optional(),
+  SMTP_PORT: Env.schema.string.optional(),
+  SMTP_USER: Env.schema.string.optional(),
+  SMTP_PASS: Env.schema.string.optional(),
   SMTP_FROM_ADDRESS: Env.schema.string.optional(),
   SMTP_FROM_NAME: Env.schema.string.optional(),
 })
