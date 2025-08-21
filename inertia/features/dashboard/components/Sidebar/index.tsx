@@ -211,9 +211,7 @@ const MenuList = (props: {
   return (
     <div className={`pt-2 ${props.isCollapsed ? 'space-y-1' : ''}`}>
       {!props.isCollapsed && (
-        <p className="text-sm font-semibold text-[#A1A5B7] mt-4 mb-2">
-          {props.title}
-        </p>
+        <p className="text-sm font-semibold text-[#A1A5B7] mt-4 mb-2">{props.title}</p>
       )}
       <ul className="space-y-1">
         {visibleItems.map((item) => (
@@ -326,9 +324,7 @@ export function Sidebar() {
           isCollapsed ? 'items-center mt-[40px]' : 'gap-[25px] mt-[25px]'
         }`}
       >
-        {!isCollapsed && (
-          <SearchInput isCollapsed={isCollapsed} />
-        )}
+        {!isCollapsed && <SearchInput isCollapsed={isCollapsed} />}
         <div
           className={`${
             isCollapsed

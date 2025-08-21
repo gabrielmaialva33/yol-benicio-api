@@ -3,27 +3,24 @@ interface FolderTableSkeletonProps {
   showActions?: boolean
 }
 
-function SkeletonBox({ 
-  width = 'w-full', 
-  height = 'h-4', 
-  className = '' 
-}: { 
+function SkeletonBox({
+  width = 'w-full',
+  height = 'h-4',
+  className = '',
+}: {
   width?: string
   height?: string
-  className?: string 
+  className?: string
 }) {
   return (
-    <div 
+    <div
       className={`bg-gray-200 rounded animate-pulse ${width} ${height} ${className}`}
       aria-hidden="true"
     />
   )
 }
 
-export function FolderTableSkeleton({ 
-  rows = 5, 
-  showActions = true 
-}: FolderTableSkeletonProps) {
+export function FolderTableSkeleton({ rows = 5, showActions = true }: FolderTableSkeletonProps) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       {/* Table Header Skeleton */}
@@ -67,12 +64,12 @@ export function FolderTableSkeleton({
               <div className="col-span-1">
                 <SkeletonBox width="w-4" height="h-4" />
               </div>
-              
+
               {/* Client Number */}
               <div className="col-span-2">
                 <SkeletonBox width="w-24" height="h-4" />
               </div>
-              
+
               {/* Responsible */}
               <div className="col-span-2">
                 <div className="flex items-center gap-2">
@@ -83,7 +80,7 @@ export function FolderTableSkeleton({
                   </div>
                 </div>
               </div>
-              
+
               {/* Date */}
               <div className="col-span-2">
                 <div className="flex flex-col gap-1">
@@ -91,22 +88,22 @@ export function FolderTableSkeleton({
                   <SkeletonBox width="w-12" height="h-2" />
                 </div>
               </div>
-              
+
               {/* Documents count */}
               <div className="col-span-2">
                 <SkeletonBox width="w-8" height="h-4" />
               </div>
-              
+
               {/* Area */}
               <div className="col-span-1">
                 <SkeletonBox width="w-16" height="h-6" className="rounded-full" />
               </div>
-              
+
               {/* Status */}
               <div className="col-span-1">
                 <SkeletonBox width="w-14" height="h-5" className="rounded-full" />
               </div>
-              
+
               {/* Actions */}
               {showActions && (
                 <div className="col-span-1">
@@ -128,7 +125,7 @@ export function FolderTableSkeleton({
             <SkeletonBox width="w-24" height="h-4" />
             <SkeletonBox width="w-16" height="h-4" />
           </div>
-          
+
           <div className="flex items-center gap-2">
             <SkeletonBox width="w-8" height="h-8" className="rounded" />
             <SkeletonBox width="w-8" height="h-8" className="rounded" />

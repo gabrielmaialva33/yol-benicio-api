@@ -10,5 +10,5 @@ export type {
   FormFieldProps,
   SelectFieldProps,
   ToggleSwitchProps,
-  DateFieldProps
+  DateFieldProps,
 } from '@/features/folders/types'

@@ -18,7 +18,7 @@ export function FormField({
   error,
   hint,
   required = false,
-  className = ''
+  className = '',
 }: FormFieldWrapperProps) {
   const fieldId = `field-${name}`
   const errorId = error ? `${fieldId}-error` : undefined
@@ -27,10 +27,7 @@ export function FormField({
 
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
-      <label 
-        htmlFor={fieldId}
-        className="text-sm font-medium text-gray-700"
-      >
+      <label htmlFor={fieldId} className="text-sm font-medium text-gray-700">
         {label}
         {required && (
           <span className="text-red-500 ml-1" aria-label="obrigatório">
@@ -38,28 +35,23 @@ export function FormField({
           </span>
         )}
       </label>
-      
+
       {React.cloneElement(children as React.ReactElement, {
-        id: fieldId,
+        'id': fieldId,
         name,
         'aria-describedby': describedBy || undefined,
         'aria-invalid': error ? 'true' : undefined,
-        'aria-required': required
+        'aria-required': required,
       })}
-      
+
       {hint && (
         <div id={hintId} className="text-xs text-gray-500">
           {hint}
         </div>
       )}
-      
+
       {error && (
-        <div 
-          id={errorId} 
-          className="text-xs text-red-600"
-          role="alert"
-          aria-live="polite"
-        >
+        <div id={errorId} className="text-xs text-red-600" role="alert" aria-live="polite">
           {error}
         </div>
       )}

@@ -22,16 +22,16 @@ export function DateField({
   // Format value for display based on format prop
   const formatDateForDisplay = (dateValue: string) => {
     if (!dateValue) return ''
-    
+
     try {
       const date = new Date(dateValue)
       if (isNaN(date.getTime())) return dateValue
-      
+
       // Convert to Brazilian format if needed
       if (format === 'DD/MM/YYYY') {
         return date.toLocaleDateString('pt-BR')
       }
-      
+
       // Return ISO format for HTML date input
       return date.toISOString().split('T')[0]
     } catch {
@@ -41,7 +41,7 @@ export function DateField({
 
   const handleDateChange = (inputValue: string) => {
     let formattedValue = inputValue
-    
+
     // If user is typing in DD/MM/YYYY format, convert to ISO
     if (format === 'DD/MM/YYYY' && inputValue.includes('/')) {
       try {
@@ -54,7 +54,7 @@ export function DateField({
         formattedValue = inputValue
       }
     }
-    
+
     onChange?.(formattedValue)
   }
 
@@ -87,9 +87,9 @@ export function DateField({
           `}
           {...props}
         />
-        
-        <Calendar 
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" 
+
+        <Calendar
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
           aria-hidden="true"
         />
       </div>

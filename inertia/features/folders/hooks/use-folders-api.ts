@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createApiHooks } from '@/shared/hooks/use-api'
-import type { 
-  FolderDetail, 
-  FolderSummary, 
+import type {
+  FolderDetail,
+  FolderSummary,
   FolderFormData,
-  FolderStats 
+  FolderStats,
 } from '@/features/folders/types'
 import type { ApiResponse, PaginatedResponse, QueryParams } from '@/shared/hooks/use-api'
 
@@ -109,7 +109,7 @@ export function useToggleFolderFavorite() {
         if (!old) return old
         return {
           ...old,
-          data: old.data.map((folder) => 
+          data: old.data.map((folder) =>
             folder.id === data.data.id ? { ...folder, is_favorite: data.data.is_favorite } : folder
           ),
         }
@@ -117,15 +117,18 @@ export function useToggleFolderFavorite() {
 
       // Update individual cache
       queryClient.setQueryData<ApiResponse<FolderSummary>>(['folders', 'get', data.data.id], data)
-      
+
       // Update detail cache if exists
-      queryClient.setQueryData<ApiResponse<FolderDetail>>(['folders', 'detail', data.data.id], (old) => {
-        if (!old) return old
-        return {
-          ...old,
-          data: { ...old.data, is_favorite: data.data.is_favorite }
+      queryClient.setQueryData<ApiResponse<FolderDetail>>(
+        ['folders', 'detail', data.data.id],
+        (old) => {
+          if (!old) return old
+          return {
+            ...old,
+            data: { ...old.data, is_favorite: data.data.is_favorite },
+          }
         }
-      })
+      )
     },
   })
 }

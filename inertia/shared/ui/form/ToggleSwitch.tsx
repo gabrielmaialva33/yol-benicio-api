@@ -14,18 +14,18 @@ export function ToggleSwitch({
     sm: {
       switch: 'h-5 w-9',
       thumb: 'h-4 w-4',
-      translate: 'translate-x-4'
+      translate: 'translate-x-4',
     },
     md: {
       switch: 'h-6 w-11',
       thumb: 'h-5 w-5',
-      translate: 'translate-x-5'
+      translate: 'translate-x-5',
     },
     lg: {
       switch: 'h-7 w-13',
       thumb: 'h-6 w-6',
-      translate: 'translate-x-6'
-    }
+      translate: 'translate-x-6',
+    },
   }
 
   const currentSize = sizeClasses[size]
@@ -73,16 +73,10 @@ export function ToggleSwitch({
           `}
         />
       </button>
-      
+
       <div className="flex flex-col">
-        <span className="text-sm font-medium text-gray-700">
-          {label}
-        </span>
-        {description && (
-          <span className="text-xs text-gray-500">
-            {description}
-          </span>
-        )}
+        <span className="text-sm font-medium text-gray-700">{label}</span>
+        {description && <span className="text-xs text-gray-500">{description}</span>}
       </div>
     </div>
   )

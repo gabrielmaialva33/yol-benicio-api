@@ -104,13 +104,14 @@ async function getDashboardData(): Promise<DashboardDataResponse> {
 }
 
 export function useDashboardData() {
-  const { data, isLoading, isError, error, refetch, isRefetching } = useQuery<DashboardDataResponse>({
-    queryKey: ['dashboard', 'data'],
-    queryFn: getDashboardData,
-    staleTime: 2 * 60 * 1000, // 2 minutes
-    refetchOnWindowFocus: false,
-    retry: 1,
-  })
+  const { data, isLoading, isError, error, refetch, isRefetching } =
+    useQuery<DashboardDataResponse>({
+      queryKey: ['dashboard', 'data'],
+      queryFn: getDashboardData,
+      staleTime: 2 * 60 * 1000, // 2 minutes
+      refetchOnWindowFocus: false,
+      retry: 1,
+    })
 
   return {
     dashboardData: data?.data,

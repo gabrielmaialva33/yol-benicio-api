@@ -28,9 +28,12 @@ export function RequestsCard() {
   })
   const id = useId()
 
-  const averageRequests = requestData?.history?.length > 0 
-    ? Math.round(requestData.history.reduce((sum, req) => sum + req.value, 0) / requestData.history.length) 
-    : 0
+  const averageRequests =
+    requestData?.history?.length > 0
+      ? Math.round(
+          requestData.history.reduce((sum, req) => sum + req.value, 0) / requestData.history.length
+        )
+      : 0
 
   return (
     <Card className="group relative overflow-hidden bg-gradient-to-br from-white to-rose-50/30 border-0 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
@@ -81,7 +84,9 @@ export function RequestsCard() {
             <div className="text-sm font-medium text-gray-600">Novas neste mês</div>
             <div className="flex items-center gap-1 text-rose-600">
               <TrendingUp className="h-4 w-4" />
-              <span className="text-sm font-medium">{Math.round(requestData?.percentage || 0)}%</span>
+              <span className="text-sm font-medium">
+                {Math.round(requestData?.percentage || 0)}%
+              </span>
             </div>
           </div>
 
@@ -105,7 +110,10 @@ export function RequestsCard() {
 
       <CardContent className="h-64 pt-0 relative z-10">
         <ResponsiveContainer height="100%" width="100%">
-          <AreaChart data={requestData?.history || []} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+          <AreaChart
+            data={requestData?.history || []}
+            margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
+          >
             <defs>
               <linearGradient id={id} x1="0" x2="0" y1="0" y2="1">
                 <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.3} />

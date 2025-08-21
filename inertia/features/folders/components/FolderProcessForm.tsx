@@ -57,7 +57,11 @@ interface FolderFormData {
   last_movement: string
 }
 
-export function FolderProcessForm({ folder, onSubmit, isSubmitting = false }: FolderProcessFormProps) {
+export function FolderProcessForm({
+  folder,
+  onSubmit,
+  isSubmitting = false,
+}: FolderProcessFormProps) {
   // Initialize form data from folder
   const [formData, setFormData] = useState<FolderFormData>({
     // Identification
@@ -108,9 +112,9 @@ export function FolderProcessForm({ folder, onSubmit, isSubmitting = false }: Fo
   })
 
   const updateField = (field: keyof FolderFormData, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }))
   }
 
@@ -157,22 +161,13 @@ export function FolderProcessForm({ folder, onSubmit, isSubmitting = false }: Fo
           <SelectField
             label="Instância"
             value={formData.instance}
-            options={[
-              'Primeira Instância',
-              'Segunda Instância',
-              'Tribunais Superiores'
-            ]}
+            options={['Primeira Instância', 'Segunda Instância', 'Tribunais Superiores']}
             onChange={(value) => updateField('instance', value)}
           />
           <SelectField
             label="Natureza"
             value={formData.nature}
-            options={[
-              'Cível',
-              'Criminal',
-              'Trabalhista',
-              'Tributário'
-            ]}
+            options={['Cível', 'Criminal', 'Trabalhista', 'Tributário']}
             onChange={(value) => updateField('nature', value)}
           />
         </div>
@@ -182,23 +177,13 @@ export function FolderProcessForm({ folder, onSubmit, isSubmitting = false }: Fo
           <SelectField
             label="Tipo ação"
             value={formData.action_type}
-            options={[
-              'Ordinária',
-              'Sumária',
-              'Execução',
-              'Cautelar'
-            ]}
+            options={['Ordinária', 'Sumária', 'Execução', 'Cautelar']}
             onChange={(value) => updateField('action_type', value)}
           />
           <SelectField
             label="Fase"
             value={formData.phase}
-            options={[
-              'Conhecimento',
-              'Recursal',
-              'Execução',
-              'Cumprimento de Sentença'
-            ]}
+            options={['Conhecimento', 'Recursal', 'Execução', 'Cumprimento de Sentença']}
             onChange={(value) => updateField('phase', value)}
           />
           <SelectField
@@ -247,24 +232,13 @@ export function FolderProcessForm({ folder, onSubmit, isSubmitting = false }: Fo
           <SelectField
             label="Órgão"
             value={formData.organ}
-            options={[
-              'TJSP',
-              'TJRJ',
-              'TJMG',
-              'TRF',
-              'STJ',
-              'STF'
-            ]}
+            options={['TJSP', 'TJRJ', 'TJMG', 'TRF', 'STJ', 'STF']}
             onChange={(value) => updateField('organ', value)}
           />
           <SelectField
             label="Distribuição"
             value={formData.distribution}
-            options={[
-              'Sorteio',
-              'Dependência',
-              'Prevenção'
-            ]}
+            options={['Sorteio', 'Dependência', 'Prevenção']}
             onChange={(value) => updateField('distribution', value)}
           />
           <div className="flex flex-col gap-1">
@@ -282,12 +256,7 @@ export function FolderProcessForm({ folder, onSubmit, isSubmitting = false }: Fo
           <SelectField
             label="Status"
             value={formData.status}
-            options={[
-              'Ativo',
-              'Suspenso',
-              'Arquivado',
-              'Concluído'
-            ]}
+            options={['Ativo', 'Suspenso', 'Arquivado', 'Concluído']}
             onChange={(value) => updateField('status', value)}
           />
         </div>
@@ -302,11 +271,7 @@ export function FolderProcessForm({ folder, onSubmit, isSubmitting = false }: Fo
           <SelectField
             label="Tipo Pesquisa"
             value={formData.search_type}
-            options={[
-              'Padrão',
-              'Avançada',
-              'Personalizada'
-            ]}
+            options={['Padrão', 'Avançada', 'Personalizada']}
             onChange={(value) => updateField('search_type', value)}
           />
           <FormField
@@ -328,31 +293,19 @@ export function FolderProcessForm({ folder, onSubmit, isSubmitting = false }: Fo
           <SelectField
             label="Área"
             value={formData.area}
-            options={[
-              'Cível',
-              'Trabalhista',
-              'Criminal',
-              'Tributário'
-            ]}
+            options={['Cível', 'Trabalhista', 'Criminal', 'Tributário']}
             onChange={(value) => updateField('area', value)}
           />
           <SelectField
             label="Comarca"
             value={formData.district}
-            options={[
-              'São Paulo',
-              'Rio de Janeiro',
-              'Belo Horizonte'
-            ]}
+            options={['São Paulo', 'Rio de Janeiro', 'Belo Horizonte']}
             onChange={(value) => updateField('district', value)}
           />
           <SelectField
             label="Sócio"
             value={formData.partner}
-            options={[
-              'Dr. João Silva',
-              'Dra. Maria Santos'
-            ]}
+            options={['Dr. João Silva', 'Dra. Maria Santos']}
             onChange={(value) => updateField('partner', value)}
           />
         </div>
@@ -361,29 +314,19 @@ export function FolderProcessForm({ folder, onSubmit, isSubmitting = false }: Fo
           <SelectField
             label="SubÁrea"
             value={formData.sub_area}
-            options={[
-              'Contratos',
-              'Família',
-              'Consumidor'
-            ]}
+            options={['Contratos', 'Família', 'Consumidor']}
             onChange={(value) => updateField('sub_area', value)}
           />
           <SelectField
             label="Foro"
             value={formData.court}
-            options={[
-              'Central',
-              'Regional'
-            ]}
+            options={['Central', 'Regional']}
             onChange={(value) => updateField('court', value)}
           />
           <SelectField
             label="Coordenador"
             value={formData.coordinator}
-            options={[
-              'Carlos Mendes',
-              'Ana Costa'
-            ]}
+            options={['Carlos Mendes', 'Ana Costa']}
             onChange={(value) => updateField('coordinator', value)}
           />
         </div>
@@ -392,30 +335,19 @@ export function FolderProcessForm({ folder, onSubmit, isSubmitting = false }: Fo
           <SelectField
             label="Núcleo"
             value={formData.core}
-            options={[
-              'Norte',
-              'Sul',
-              'Centro'
-            ]}
+            options={['Norte', 'Sul', 'Centro']}
             onChange={(value) => updateField('core', value)}
           />
           <SelectField
             label="Vara"
             value={formData.court_division}
-            options={[
-              '1ª Vara',
-              '2ª Vara',
-              '3ª Vara'
-            ]}
+            options={['1ª Vara', '2ª Vara', '3ª Vara']}
             onChange={(value) => updateField('court_division', value)}
           />
           <SelectField
             label="Advogado"
             value={formData.lawyer}
-            options={[
-              'Dr. Pedro Lima',
-              'Dra. Julia Martins'
-            ]}
+            options={['Dr. Pedro Lima', 'Dra. Julia Martins']}
             onChange={(value) => updateField('lawyer', value)}
           />
         </div>

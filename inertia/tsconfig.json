@@ -21,16 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": [
-    "./**/*.ts",
-    "./**/*.tsx",
-    "./vite_env.d.ts"
-  ],
-  "exclude": [
-    "../**/*",
-    "!./",
-    "../node_modules",
-    "../dist",
-    "../coverage"
-  ]
+  "include": ["./**/*.ts", "./**/*.tsx", "./vite_env.d.ts"],
+  "exclude": ["../**/*", "!./", "../node_modules", "../dist", "../coverage"]
 }

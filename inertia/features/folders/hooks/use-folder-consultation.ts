@@ -80,7 +80,7 @@ export function useFolderConsultation() {
 
   // Helper function to update specific filter
   const updateFilter = (key: keyof FolderFilters, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value }))
+    setFilters((prev) => ({ ...prev, [key]: value }))
   }
 
   // Helper function to change page
@@ -96,7 +96,7 @@ export function useFolderConsultation() {
 
   // Helper function to change sort
   const changeSort = (column: string, direction?: 'asc' | 'desc') => {
-    setSort(prev => ({
+    setSort((prev) => ({
       column,
       direction: direction || (prev.column === column && prev.direction === 'asc' ? 'desc' : 'asc'),
     }))
@@ -104,7 +104,7 @@ export function useFolderConsultation() {
   }
 
   // Calculate if there are active filters
-  const hasActiveFilters = 
+  const hasActiveFilters =
     debouncedFilters.search ||
     debouncedFilters.clientNumber ||
     (debouncedFilters.area && debouncedFilters.area !== 'Total') ||
@@ -122,20 +122,20 @@ export function useFolderConsultation() {
       from: data?.meta.from ?? 0,
       to: data?.meta.to ?? 0,
     },
-    
+
     // Filter state
     filters,
     debouncedFilters,
     hasActiveFilters,
-    
+
     // Sort state
     sort,
-    
+
     // Loading states
     isLoading: isPending || isLoading,
     isRefetching,
     isError,
-    
+
     // Actions
     setFilters,
     updateFilter,
@@ -155,11 +155,11 @@ export function useFolderConsultation() {
  */
 function parseDateRange(dateRange: string) {
   if (!dateRange.trim()) return {}
-  
+
   const parts = dateRange.split(' to ')
   const startDate = parts[0]?.trim()
   const endDate = parts[1]?.trim()
-  
+
   return {
     ...(startDate && { date_from: startDate }),
     ...(endDate && { date_to: endDate }),

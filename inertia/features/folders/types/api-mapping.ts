@@ -21,7 +21,7 @@ export interface BackendFolder {
   client_code?: string
   folder_code?: string
   default_billing_case: boolean
-  
+
   // Court information
   organ?: string
   distribution?: string
@@ -30,29 +30,29 @@ export interface BackendFolder {
   search_type?: string
   code?: string
   judge?: string
-  
+
   // Location
   core?: string
   district?: string
   court?: string
   court_division?: string
-  
+
   // Values
   case_value?: number
   conviction_value?: number
   costs?: number
   fees?: number
-  
+
   // Dates
   distribution_date?: string
   citation_date?: string
   next_hearing?: string
-  
+
   // Detailed information
   observation?: string
   object_detail?: string
   last_movement?: string
-  
+
   // Parties (JSON fields)
   plaintiff?: {
     name: string
@@ -64,15 +64,15 @@ export interface BackendFolder {
     cpf?: string
     cnpj?: string
   }
-  
+
   // Metadata
   metadata?: Record<string, any>
   favorite: boolean
-  
+
   // Timestamps
   created_at: string
   updated_at: string
-  
+
   // Relations
   client?: {
     id: number
@@ -110,7 +110,7 @@ export interface BackendFolder {
 // Map backend folder to frontend FolderDetail
 export const mapBackendToFolderDetail = (backendFolder: BackendFolder): FolderDetail => {
   const createdAt = new Date(backendFolder.created_at)
-  
+
   return {
     // Identification
     id: backendFolder.id.toString(),
@@ -118,7 +118,7 @@ export const mapBackendToFolderDetail = (backendFolder: BackendFolder): FolderDe
     status: mapBackendStatus(backendFolder.status),
     date: createdAt.toLocaleDateString('pt-BR'),
     time: createdAt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-    
+
     // Process Information
     processNumber: backendFolder.process_number || '',
     cnjNumber: backendFolder.cnj_number || '',
@@ -132,7 +132,7 @@ export const mapBackendToFolderDetail = (backendFolder: BackendFolder): FolderDe
     defaultBillingCase: backendFolder.default_billing_case,
     totus: backendFolder.metadata?.totus || false,
     migrated: backendFolder.metadata?.migrated || false,
-    
+
     // Court Information
     organ: backendFolder.organ || '',
     distribution: mapBackendDistribution(backendFolder.distribution),
@@ -141,7 +141,7 @@ export const mapBackendToFolderDetail = (backendFolder: BackendFolder): FolderDe
     searchType: backendFolder.search_type || '',
     code: backendFolder.code || '',
     judge: backendFolder.judge || '',
-    
+
     // Location and Responsibles
     area: backendFolder.area,
     subArea: backendFolder.sub_area || '',
@@ -152,71 +152,71 @@ export const mapBackendToFolderDetail = (backendFolder: BackendFolder): FolderDe
     partner: backendFolder.metadata?.partner || '',
     coordinator: backendFolder.metadata?.coordinator || '',
     lawyer: backendFolder.responsibleLawyer?.name || '',
-    
+
     // Parties
     plaintiff: {
       name: backendFolder.plaintiff?.name || '',
       cpf: backendFolder.plaintiff?.cpf,
       cnpj: backendFolder.plaintiff?.cnpj,
-      type: 'Autor'
+      type: 'Autor',
     },
     defendant: {
       name: backendFolder.defendant?.name || '',
       cpf: backendFolder.defendant?.cpf,
       cnpj: backendFolder.defendant?.cnpj,
-      type: 'Réu'
+      type: 'Réu',
     },
-    
+
     // Detailed Information
     observation: backendFolder.observation || '',
     objectDetail: backendFolder.object_detail || '',
     lastMovement: backendFolder.last_movement || '',
-    
+
     // Values
     caseValue: backendFolder.case_value || 0,
     convictionValue: backendFolder.conviction_value,
     costs: backendFolder.costs,
     fees: backendFolder.fees,
-    
+
     // Important Dates
     distributionDate: backendFolder.distribution_date || '',
     citationDate: backendFolder.citation_date,
     nextHearing: backendFolder.next_hearing,
-    
+
     // Responsible
     responsible: {
       id: backendFolder.responsibleLawyer?.id.toString() || '',
       name: backendFolder.responsibleLawyer?.name || '',
       email: backendFolder.responsibleLawyer?.email || '',
       avatar: backendFolder.responsibleLawyer?.avatar,
-      position: 'Advogado'
+      position: 'Advogado',
     },
-    
+
     // Documents
-    documents: (backendFolder.documents || []).map(doc => ({
+    documents: (backendFolder.documents || []).map((doc) => ({
       id: doc.id.toString(),
       name: doc.name,
       type: mapDocumentType(doc.type),
       uploadDate: new Date(doc.created_at).toLocaleDateString('pt-BR'),
       size: formatFileSize(doc.size),
       url: doc.url,
-      mimeType: doc.mime_type
+      mimeType: doc.mime_type,
     })),
-    
+
     // Movements
-    movements: (backendFolder.movements || []).map(mov => ({
+    movements: (backendFolder.movements || []).map((mov) => ({
       id: mov.id.toString(),
       date: new Date(mov.date).toLocaleDateString('pt-BR'),
       description: mov.description,
       responsible: mov.responsible,
       type: mov.type,
-      internal: mov.internal
+      internal: mov.internal,
     })),
-    
+
     // Metadata
     favorite: backendFolder.favorite,
     createdAt: backendFolder.created_at,
-    updatedAt: backendFolder.updated_at
+    updatedAt: backendFolder.updated_at,
   }
 }
 
@@ -238,7 +238,7 @@ export const mapFrontendToBackend = (formData: FolderFormData): Partial<BackendF
     client_code: formData.clientCode,
     folder_code: formData.folder,
     default_billing_case: formData.defaultBillingCase,
-    
+
     // Court information
     organ: formData.organ,
     distribution: mapFrontendDistribution(formData.distribution),
@@ -247,45 +247,45 @@ export const mapFrontendToBackend = (formData: FolderFormData): Partial<BackendF
     search_type: formData.searchType,
     code: formData.code,
     judge: formData.judge,
-    
+
     // Location
     core: formData.core,
     district: formData.district,
     court: formData.court,
     court_division: formData.courtDivision,
-    
+
     // Values
     case_value: formData.caseValue,
     conviction_value: formData.convictionValue,
     costs: formData.costs,
     fees: formData.fees,
-    
+
     // Dates
     distribution_date: formData.distributionDate,
     citation_date: formData.citationDate,
     next_hearing: formData.nextHearing,
-    
+
     // Detailed information
     observation: formData.observation,
     object_detail: formData.objectDetail,
-    
+
     // Parties
     plaintiff: {
       name: formData.plaintiff.name,
       cpf: formData.plaintiff.cpf,
-      cnpj: formData.plaintiff.cnpj
+      cnpj: formData.plaintiff.cnpj,
     },
     defendant: {
       name: formData.defendant.name,
       cpf: formData.defendant.cpf,
-      cnpj: formData.defendant.cnpj
+      cnpj: formData.defendant.cnpj,
     },
-    
+
     // Metadata
     metadata: {
       partner: formData.partner,
-      coordinator: formData.coordinator
-    }
+      coordinator: formData.coordinator,
+    },
   }
 }
 
@@ -295,17 +295,17 @@ const mapBackendStatus = (status: string): FolderDetail['status'] => {
     active: 'Ativo',
     archived: 'Arquivado',
     suspended: 'Suspenso',
-    closed: 'Encerrado'
+    closed: 'Encerrado',
   }
   return statusMap[status] || 'Ativo'
 }
 
 const mapFrontendStatus = (status: FolderDetail['status']): string => {
   const statusMap: Record<FolderDetail['status'], string> = {
-    'Ativo': 'active',
-    'Arquivado': 'archived',
-    'Suspenso': 'suspended',
-    'Encerrado': 'closed'
+    Ativo: 'active',
+    Arquivado: 'archived',
+    Suspenso: 'suspended',
+    Encerrado: 'closed',
   }
   return statusMap[status] || 'active'
 }
@@ -315,7 +315,7 @@ const mapBackendInstance = (instance?: string): FolderDetail['instance'] => {
   const instanceMap: Record<string, FolderDetail['instance']> = {
     first: 'Primeira Instância',
     second: 'Segunda Instância',
-    superior: 'Tribunais Superiores'
+    superior: 'Tribunais Superiores',
   }
   return instanceMap[instance || ''] || 'Primeira Instância'
 }
@@ -324,7 +324,7 @@ const mapFrontendInstance = (instance: FolderDetail['instance']): string => {
   const instanceMap: Record<FolderDetail['instance'], string> = {
     'Primeira Instância': 'first',
     'Segunda Instância': 'second',
-    'Tribunais Superiores': 'superior'
+    'Tribunais Superiores': 'superior',
   }
   return instanceMap[instance] || 'first'
 }
@@ -336,18 +336,18 @@ const mapBackendNature = (nature?: string): FolderDetail['nature'] => {
     criminal: 'Criminal',
     labor: 'Trabalhista',
     tax: 'Tributário',
-    administrative: 'Administrativo'
+    administrative: 'Administrativo',
   }
   return natureMap[nature || ''] || 'Cível'
 }
 
 const mapFrontendNature = (nature: FolderDetail['nature']): string => {
   const natureMap: Record<FolderDetail['nature'], string> = {
-    'Cível': 'civil',
-    'Criminal': 'criminal',
-    'Trabalhista': 'labor',
-    'Tributário': 'tax',
-    'Administrativo': 'administrative'
+    Cível: 'civil',
+    Criminal: 'criminal',
+    Trabalhista: 'labor',
+    Tributário: 'tax',
+    Administrativo: 'administrative',
   }
   return natureMap[nature] || 'civil'
 }
@@ -358,7 +358,7 @@ const mapBackendPhase = (phase?: string): FolderDetail['phase'] => {
     knowledge: 'Conhecimento',
     execution: 'Execução',
     appeal: 'Recurso',
-    compliance: 'Cumprimento de Sentença'
+    compliance: 'Cumprimento de Sentença',
   }
   return phaseMap[phase || ''] || 'Conhecimento'
 }
@@ -368,7 +368,7 @@ const mapFrontendPhase = (phase: FolderDetail['phase']): string => {
     'Conhecimento': 'knowledge',
     'Execução': 'execution',
     'Recurso': 'appeal',
-    'Cumprimento de Sentença': 'compliance'
+    'Cumprimento de Sentença': 'compliance',
   }
   return phaseMap[phase] || 'knowledge'
 }
@@ -378,16 +378,16 @@ const mapBackendDistribution = (distribution?: string): FolderDetail['distributi
   const distributionMap: Record<string, FolderDetail['distribution']> = {
     random: 'Sorteio',
     dependency: 'Dependência',
-    prevention: 'Prevenção'
+    prevention: 'Prevenção',
   }
   return distributionMap[distribution || ''] || 'Sorteio'
 }
 
 const mapFrontendDistribution = (distribution: FolderDetail['distribution']): string => {
   const distributionMap: Record<FolderDetail['distribution'], string> = {
-    'Sorteio': 'random',
-    'Dependência': 'dependency',
-    'Prevenção': 'prevention'
+    Sorteio: 'random',
+    Dependência: 'dependency',
+    Prevenção: 'prevention',
   }
   return distributionMap[distribution] || 'random'
 }
@@ -400,7 +400,7 @@ const mapDocumentType = (type: string): FolderDetail['documents'][0]['type'] => 
     proxy: 'Procuração',
     decision: 'Decisão',
     sentence: 'Sentença',
-    other: 'Outros'
+    other: 'Outros',
   }
   return typeMap[type] || 'Outros'
 }
@@ -408,18 +408,18 @@ const mapDocumentType = (type: string): FolderDetail['documents'][0]['type'] => 
 // File size formatter
 const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 Bytes'
-  
+
   const k = 1024
   const sizes = ['Bytes', 'KB', 'MB', 'GB']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
-  
+
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
 
 // Map backend folder list to frontend FolderSummary
 export const mapBackendToFolderSummary = (backendFolder: BackendFolder): FolderSummary => {
   const createdAt = new Date(backendFolder.created_at)
-  
+
   return {
     id: backendFolder.id.toString(),
     favorite: backendFolder.favorite,
@@ -429,7 +429,7 @@ export const mapBackendToFolderSummary = (backendFolder: BackendFolder): FolderS
       name: backendFolder.responsibleLawyer?.name || '',
       email: backendFolder.responsibleLawyer?.email || '',
       avatar: backendFolder.responsibleLawyer?.avatar,
-      position: 'Advogado'
+      position: 'Advogado',
     },
     inclusionDate: createdAt.toLocaleDateString('pt-BR'),
     inclusionTime: createdAt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
@@ -438,6 +438,6 @@ export const mapBackendToFolderSummary = (backendFolder: BackendFolder): FolderS
     status: mapBackendStatus(backendFolder.status),
     processNumber: backendFolder.process_number,
     lawyer: backendFolder.responsibleLawyer?.name,
-    lastMovement: backendFolder.last_movement
+    lastMovement: backendFolder.last_movement,
   }
 }

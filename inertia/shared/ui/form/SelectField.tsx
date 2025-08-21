@@ -18,11 +18,9 @@ export function SelectField({
   multiple = false,
   ...props
 }: SelectFieldProps & React.SelectHTMLAttributes<HTMLSelectElement>) {
-  const processedOptions = Array.isArray(options) 
-    ? options.map(option => 
-        typeof option === 'string' 
-          ? { value: option, label: option }
-          : option
+  const processedOptions = Array.isArray(options)
+    ? options.map((option) =>
+        typeof option === 'string' ? { value: option, label: option } : option
       )
     : []
 
@@ -39,7 +37,7 @@ export function SelectField({
         <select
           value={value}
           onChange={(e) => {
-            const selectedValue = multiple 
+            const selectedValue = multiple
               ? Array.from(e.target.selectedOptions, (option) => option.value)
               : e.target.value
             onChange?.(selectedValue as string)
@@ -66,10 +64,10 @@ export function SelectField({
             </option>
           ))}
         </select>
-        
+
         {!multiple && (
-          <ChevronDown 
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" 
+          <ChevronDown
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
             aria-hidden="true"
           />
         )}

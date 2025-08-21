@@ -55,7 +55,7 @@ export function TextareaField({
           `}
           {...props}
         />
-        
+
         {showCharacterCount && (
           <div className="absolute bottom-2 right-2 text-xs text-gray-400 bg-white px-1">
             {characterCount}/{maxLength}
