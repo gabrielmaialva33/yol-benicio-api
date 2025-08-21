@@ -12,7 +12,7 @@ export default class extends BaseSeeder {
       full_name: 'Admin User',
       username: 'admin',
       email: 'admin@benicio.com.br',
-      password: 'password',
+      password: 'benicio123',
       is_deleted: false,
       metadata: {
         email_verified: true,
@@ -22,7 +22,7 @@ export default class extends BaseSeeder {
       },
     })
 
-    console.log('✅ Admin user created: admin@benicio.com.br / password')
+    console.log('✅ Admin user created: admin@benicio.com.br / benicio123')
     console.log('User ID:', adminUser.id)
   }
 }
