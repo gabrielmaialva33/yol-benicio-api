@@ -60,6 +60,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Print environment versions
+        run: |
+          node -v
+          pnpm -v
+          sha256sum pnpm-lock.yaml || shasum -a 256 pnpm-lock.yaml || true
+          pnpm list --depth 0 | head -n 40 || true
+
       - name: Create test environment file
         run: |
           cat > .env.test << EOF
