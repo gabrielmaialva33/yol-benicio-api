@@ -1,7 +1,6 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 import IPermission from '#modules/permission/interfaces/permission_interface'
-import FoldersController from '../controllers/folders_controller.js'
 
 // Folders API routes
 router
