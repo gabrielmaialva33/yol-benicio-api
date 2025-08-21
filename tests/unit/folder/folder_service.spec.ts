@@ -1,3 +1,4 @@
+
 import { test } from '@japa/runner'
 import testUtils from '@adonisjs/core/services/test_utils'
 import { DateTime } from 'luxon'
@@ -11,11 +12,12 @@ import { FolderFactory } from '#database/factories/folder_factory'
 test.group('FolderService', (group) => {
   let folderService: FolderService
 
-  group.setup(async () => {
+    // Remove migration from group setup to avoid lock issues
     await testUtils.db().migrate()
   })
 
-  group.teardown(async () => {
+    // Clean teardown without migration rollback
+    await testUtils.db().truncate()
     // Skip rollback due to database lock issues in tests
   })
 
@@ -23,6 +25,11 @@ test.group('FolderService', (group) => {
     await testUtils.db().truncate()
     folderService = new FolderService()
   })
+  group.each.teardown(async () => {
+    // Clean up after each test
+    await db.manager.closeAll(true)
+  })
+
 
   test('should create a new folder', async ({ assert }) => {
     const client = await ClientFactory.create()

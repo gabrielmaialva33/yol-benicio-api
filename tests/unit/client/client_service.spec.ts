@@ -11,16 +11,22 @@ test.group('ClientService', (group) => {
   let clientService: ClientService
 
   group.setup(async () => {
-    await testUtils.db().migrate()
+    // Remove migration from group setup to avoid lock issues
   })
 
   group.teardown(async () => {
-    // Skip rollback due to database lock issues in tests
+    // Clean teardown without migration rollback
+    await testUtils.db().truncate()
   })
 
   group.each.setup(async () => {
     await testUtils.db().truncate()
     clientService = new ClientService()
+  })
+
+  group.each.teardown(async () => {
+    // Clean up after each test
+    await db.manager.closeAll(true)
   })
 
   test('should create a new individual client', async ({ assert }) => {
