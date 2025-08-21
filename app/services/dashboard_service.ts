@@ -30,14 +30,16 @@ export default class DashboardService {
       .from('vw_dashboard_area_division')
       .select('name', 'value', 'color')
       .orderBy('value', 'desc')
-    
+
     // Return data from database or fallback to reference values
-    return data.length > 0 ? data : [
-      { name: 'Trabalhista', value: 40, color: '#10B981' },
-      { name: 'Penal', value: 35, color: '#3B82F6' },
-      { name: 'Cível', value: 15, color: '#F59E0B' },
-      { name: 'Cível Contencioso', value: 10, color: '#EF4444' },
-    ]
+    return data.length > 0
+      ? data
+      : [
+          { name: 'Trabalhista', value: 40, color: '#10B981' },
+          { name: 'Penal', value: 35, color: '#3B82F6' },
+          { name: 'Cível', value: 15, color: '#F59E0B' },
+          { name: 'Cível Contencioso', value: 10, color: '#EF4444' },
+        ]
   }
 
   /**
@@ -48,13 +50,15 @@ export default class DashboardService {
       .from('mv_dashboard_folder_activity')
       .select('label', 'value', 'color', 'percentage')
       .orderBy('value', 'desc')
-    
+
     // Return data from database or fallback to reference values
-    return data.length > 0 ? data : [
-      { label: 'EM ANDAMENTO', value: 420, color: '#F59E0B', percentage: 50 },
-      { label: 'ATRASADAS', value: 89, color: '#EF4444', percentage: 11 },
-      { label: 'SOLUCIONADAS', value: 212, color: '#10B981', percentage: 25 },
-    ]
+    return data.length > 0
+      ? data
+      : [
+          { label: 'EM ANDAMENTO', value: 420, color: '#F59E0B', percentage: 50 },
+          { label: 'ATRASADAS', value: 89, color: '#EF4444', percentage: 11 },
+          { label: 'SOLUCIONADAS', value: 212, color: '#10B981', percentage: 25 },
+        ]
   }
 
   /**

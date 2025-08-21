@@ -108,7 +108,7 @@ router
       .get('/folders/consultation', async ({ inertia, request }) => {
         const FoldersController = (await import('../controllers/folders_controller.js')).default
         const controller = new FoldersController()
-        
+
         const page = request.input('page', 1)
         const limit = request.input('per_page', 20)
         const status = request.input('status', 'Total')
@@ -127,7 +127,7 @@ router
             per_page: limit,
             total: 0,
             last_page: 1,
-          }
+          },
         }
 
         const filters = {
