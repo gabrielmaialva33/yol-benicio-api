@@ -3,7 +3,7 @@ import app from '@adonisjs/core/services/app'
 import { defineConfig, services } from '@adonisjs/drive'
 
 const driveConfig = defineConfig({
-  default: env.get('DRIVE_DISK'),
+  default: env.get('DRIVE_DISK', 'fs'),
 
   /**
    * The services object can be used to configure multiple file system
