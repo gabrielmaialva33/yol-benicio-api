@@ -1,147 +1,167 @@
-import {
-  useMutation,
-  type UseMutationOptions,
-  useQuery,
-  type UseQueryOptions,
-} from '@tanstack/react-query'
-import { router } from '@inertiajs/react'
-import type { ApiError } from '../types'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-// Base API configuration
-const API_BASE_URL = '/api'
-
-// Helper to build API URLs
-export function buildApiUrl(endpoint: string, params?: Record<string, any>) {
-  const url = endpoint.startsWith('/') ? endpoint : `${API_BASE_URL}/${endpoint}`
-
-  if (params) {
-    const searchParams = new URLSearchParams()
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        searchParams.append(key, String(value))
-      }
-    })
-    return `${url}?${searchParams.toString()}`
-  }
-
-  return url
+interface UseApiOptions {
+  baseUrl: string
+  token?: string
 }
 
-// Fetch wrapper for API calls
-async function apiFetch<T>(
-  endpoint: string,
-  options?: RequestInit & { params?: Record<string, any> }
-): Promise<T> {
-  const { params, ...fetchOptions } = options || {}
-  const url = buildApiUrl(endpoint, params)
-
-  const response = await fetch(url, {
-    ...fetchOptions,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      ...fetchOptions?.headers,
-    },
-  })
-
-  if (!response.ok) {
-    const error: ApiError = {
-      message: 'Request failed',
-      status: response.status,
-    }
-
-    try {
-      const data = await response.json()
-      error.message = data.message || error.message
-      error.errors = data.errors
-    } catch {
-      // Failed to parse error response
-    }
-
-    throw error
-  }
-
-  return response.json()
+interface ApiResponse<T> {
+  data: T
+  message?: string
 }
 
-// Custom hook for GET requests (with object syntax support)
-export function useApiQuery<T>(
-  options: {
-    queryKey: string | string[]
-    queryFn: () => Promise<T>
-    initialData?: T
-  } & Omit<UseQueryOptions<T, ApiError>, 'queryKey' | 'queryFn'>
-): { data: T }
-export function useApiQuery<T>(
-  key: string | string[],
-  endpoint: string,
-  params?: Record<string, any>,
-  options?: Omit<UseQueryOptions<T, ApiError>, 'queryKey' | 'queryFn'>
-): { data: T | undefined }
-export function useApiQuery<T>(
-  keyOrOptions:
-    | string
-    | string[]
-    | {
-        queryKey: string | string[]
-        queryFn: () => Promise<T>
-        initialData?: T
-      },
-  endpoint?: string,
-  params?: Record<string, any>,
-  options?: Omit<UseQueryOptions<T, ApiError>, 'queryKey' | 'queryFn'>
-) {
-  // Object syntax (React Query style)
-  if (
-    typeof keyOrOptions === 'object' &&
-    !Array.isArray(keyOrOptions) &&
-    'queryKey' in keyOrOptions
-  ) {
-    const { queryKey, queryFn, initialData, ...queryOptions } = keyOrOptions
-    const key = Array.isArray(queryKey) ? queryKey : [queryKey]
-
-    return useQuery<T, ApiError>({
-      queryKey: key,
-      queryFn,
-      initialData,
-      ...queryOptions,
-    })
+interface PaginatedResponse<T> {
+  data: T[]
+  meta: {
+    total: number
+    per_page: number
+    current_page: number
+    last_page: number
+    from: number
+    to: number
   }
-
-  // Original signature
-  const queryKey = Array.isArray(keyOrOptions) ? keyOrOptions : [keyOrOptions]
-
-  return useQuery<T, ApiError>({
-    queryKey: [...queryKey, params],
-    queryFn: () => apiFetch<T>(endpoint!, { params }),
-    ...options,
-  })
 }
 
-// Custom hook for POST/PUT/DELETE requests
-export function useApiMutation<TData = any, TVariables = any>(
-  method: 'POST' | 'PUT' | 'PATCH' | 'DELETE',
-  endpoint: string | ((variables: TVariables) => string),
-  options?: UseMutationOptions<TData, ApiError, TVariables>
-) {
-  return useMutation<TData, ApiError, TVariables>({
-    mutationFn: async (variables) => {
-      const url = typeof endpoint === 'function' ? endpoint(variables) : endpoint
+interface ErrorResponse {
+  errors: Array<{
+    message: string
+    field?: string
+  }>
+}
 
-      return apiFetch<TData>(url, {
-        method,
-        body: variables ? JSON.stringify(variables) : undefined,
+interface QueryParams {
+  page?: number
+  per_page?: number
+  sort_by?: string
+  order?: 'asc' | 'desc'
+  search?: string
+  [key: string]: any
+}
+
+export function createApiHooks<T>({ baseUrl, token }: UseApiOptions) {
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
+    ...(token && { Authorization: `Bearer ${token}` }),
+  }
+
+  const buildUrl = (endpoint: string, params?: QueryParams) => {
+    const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl
+    const cleanEnd = endpoint.startsWith('/') ? endpoint : `/${endpoint}`
+    const url = new URL(`${cleanBase}${cleanEnd}`, window.location.origin)
+
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          url.searchParams.append(key, String(value))
+        }
       })
-    },
-    ...options,
-  })
+    }
+
+    return url.toString()
+  }
+
+  const fetcher = async (url: string, options?: RequestInit) => {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        ...headers,
+        ...options?.headers,
+      },
+    })
+
+    if (!response.ok) {
+      let errorMessage = 'Erro desconhecido'
+      try {
+        const error = (await response.json()) as ErrorResponse
+        errorMessage = error.errors[0]?.message || `Erro ${response.status}`
+      } catch {
+        errorMessage = `Erro ${response.status}: ${response.statusText}`
+      }
+      throw new Error(errorMessage)
+    }
+
+    return response.json()
+  }
+
+  // Hook for listing with pagination
+  const useList = (params?: QueryParams) => {
+    return useQuery<PaginatedResponse<T>>({
+      queryKey: [baseUrl, 'list', params],
+      queryFn: () => fetcher(buildUrl('', params)),
+      placeholderData: (previousData) => previousData,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    })
+  }
+
+  // Hook for getting single item
+  const useGet = (id: number | string | undefined) => {
+    return useQuery<ApiResponse<T>>({
+      queryKey: [baseUrl, 'get', id],
+      queryFn: () => fetcher(buildUrl(`/${id}`)),
+      enabled: Boolean(id),
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    })
+  }
+
+  // Hook for creating
+  const useCreate = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation<ApiResponse<T>, Error, Partial<T>>({
+      mutationFn: (data) =>
+        fetcher(buildUrl(''), {
+          method: 'POST',
+          body: JSON.stringify(data),
+        }),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [baseUrl, 'list'] })
+      },
+    })
+  }
+
+  // Hook for updating
+  const useUpdate = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation<ApiResponse<T>, Error, { id: number | string; data: Partial<T> }>({
+      mutationFn: ({ id, data }) =>
+        fetcher(buildUrl(`/${id}`), {
+          method: 'PUT',
+          body: JSON.stringify(data),
+        }),
+      onSuccess: (_, variables) => {
+        queryClient.invalidateQueries({
+          queryKey: [baseUrl, 'get', variables.id],
+        })
+        queryClient.invalidateQueries({ queryKey: [baseUrl, 'list'] })
+      },
+    })
+  }
+
+  // Hook for deleting
+  const useDelete = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation<void, Error, number | string>({
+      mutationFn: (id) =>
+        fetcher(buildUrl(`/${id}`), {
+          method: 'DELETE',
+        }),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [baseUrl, 'list'] })
+      },
+    })
+  }
+
+  return {
+    useList,
+    useGet,
+    useCreate,
+    useUpdate,
+    useDelete,
+  }
 }
 
-// Inertia-specific navigation helpers
-export function navigateTo(url: string, options?: Parameters<typeof router.visit>[1]) {
-  router.visit(url, options)
-}
-
-export function reloadPage() {
-  router.reload()
-}
+export type { ApiResponse, PaginatedResponse, ErrorResponse, QueryParams }
