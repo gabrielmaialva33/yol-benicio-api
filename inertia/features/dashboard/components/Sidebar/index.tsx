@@ -302,12 +302,9 @@ export function Sidebar() {
         isCollapsed ? 'w-16 md:w-24' : 'w-[280px] md:w-[340px]'
       } h-screen py-10 transition-all duration-300 ease-in-out flex flex-col overflow-hidden`}
     >
-      <SidebarHeader isCollapsed={isCollapsed} toggle={toggleSidebar} />
-
-      <SearchInput isCollapsed={isCollapsed} />
-
-      {isCollapsed && (
-        <div className="flex justify-center py-4">
+      <div className="flex flex-col gap-[25px] items-center">
+        <SidebarHeader isCollapsed={isCollapsed} toggle={toggleSidebar} />
+        {isCollapsed && (
           <button
             className="bg-[#373737] text-white rounded-full p-1"
             onClick={toggleSidebar}
@@ -321,8 +318,8 @@ export function Sidebar() {
               width={24}
             />
           </button>
-        </div>
-      )}
+        )}
+      </div>
 
       <nav
         className={`flex-1 flex flex-col overflow-y-auto overflow-x-hidden ${
