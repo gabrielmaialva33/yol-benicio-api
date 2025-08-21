@@ -1,8 +1,7 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 import IPermission from '#modules/permission/interfaces/permission_interface'
-
-const FoldersController = () => import('../controllers/folders_controller.js')
+import FoldersController from '../controllers/folders_controller.js'
 
 // Folders API routes
 router
@@ -106,7 +105,6 @@ router
   .group(() => {
     router
       .get('/folders/consultation', async ({ inertia, request }) => {
-        const FoldersController = (await import('../controllers/folders_controller.js')).default
         const controller = new FoldersController()
 
         const page = request.input('page', 1)
