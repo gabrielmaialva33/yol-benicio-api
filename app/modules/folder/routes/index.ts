@@ -117,8 +117,6 @@ router
   .group(() => {
     router
       .get('/folders/consultation', async ({ inertia, request }) => {
-        const controller = new FoldersController()
-
         const page = request.input('page', 1)
         const limit = request.input('per_page', 20)
         const status = request.input('status', 'Total')
