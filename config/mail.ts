@@ -21,13 +21,13 @@ const mailConfig = defineConfig({
    */
   mailers: {
     smtp: transports.smtp({
-      host: env.get('SMTP_HOST'),
-      port: env.get('SMTP_PORT'),
+      host: env.get('SMTP_HOST') || 'localhost',
+      port: env.get('SMTP_PORT') || '587',
       secure: env.get('SMTP_PORT') === '465',
       auth: {
         type: 'login',
-        user: env.get('SMTP_USER'),
-        pass: env.get('SMTP_PASS'),
+        user: env.get('SMTP_USER') || '',
+        pass: env.get('SMTP_PASS') || '',
       },
     }),
   },
