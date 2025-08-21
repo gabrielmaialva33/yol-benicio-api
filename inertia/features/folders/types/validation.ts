@@ -14,7 +14,7 @@ const cnjNumberRegex = /^\d{20}$/
 const dateString = z.string().refine(
   (date) => {
     const parsed = new Date(date)
-    return !isNaN(parsed.getTime())
+    return !Number.isNaN(parsed.getTime())
   },
   { message: 'Data inválida' }
 )
