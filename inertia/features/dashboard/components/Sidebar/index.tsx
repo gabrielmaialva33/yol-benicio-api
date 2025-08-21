@@ -325,15 +325,15 @@ export function Sidebar() {
       )}
 
       <nav
-        className={`flex-1 flex flex-col overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-transparent ${
-          isCollapsed ? 'items-center px-2' : 'px-4'
+        className={`flex-1 flex flex-col overflow-y-auto overflow-x-hidden ${
+          isCollapsed ? 'items-center mt-[40px]' : 'gap-[25px] mt-[25px]'
         }`}
       >
         <div
           className={`${
             isCollapsed
-              ? 'flex flex-col items-center space-y-2'
-              : 'border-b border-slate-700/50 pb-6 mb-6'
+              ? 'flex flex-col items-center'
+              : 'px-10 pr-[60px] border-b border-[#BABBC1] pb-[25px]'
           }`}
         >
           <MenuList
@@ -344,7 +344,7 @@ export function Sidebar() {
           />
         </div>
         {!isCollapsed && favorites.length > 0 && (
-          <div className="border-t border-slate-700/30 pt-6">
+          <div className="px-10 pr-[60px]">
             <MenuList
               isCollapsed={isCollapsed}
               isDropdown={true}
