@@ -113,7 +113,7 @@ jobs:
           NODE_ENV: test
 
       - name: Seed database
-        run: pnpm exec node ace db:seed --force
+        run: pnpm exec node ace db:seed
         env:
           NODE_ENV: test
 
