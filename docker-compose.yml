@@ -94,7 +94,7 @@ services:
       - app-network
 
   postgres:
-    image: postgres:16
+    image: timescale/timescaledb-ha:pg17
     container_name: base-acl-postgres
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U ${DB_USER} -d ${DB_DATABASE}']
@@ -129,24 +129,6 @@ services:
       - redis-data:/data
     networks:
       - app-network
-
-  postgrest:
-    image: postgrest/postgrest:latest
-    container_name: base-acl-postgrest
-    restart: always
-    ports:
-      - '3000:3000'
-    environment:
-      PGRST_DB_URI: postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_DATABASE}
-      PGRST_DB_SCHEMA: public
-      PGRST_DB_ANON_ROLE: web_anon
-      PGRST_JWT_SECRET: ${APP_KEY}
-      PGRST_SERVER_PORT: 3000
-    depends_on:
-      - postgres
-    networks:
-      - app-network
-
 networks:
   app-network:
     driver: bridge
