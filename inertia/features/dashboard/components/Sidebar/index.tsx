@@ -326,6 +326,9 @@ export function Sidebar() {
           isCollapsed ? 'items-center mt-[40px]' : 'gap-[25px] mt-[25px]'
         }`}
       >
+        {!isCollapsed && (
+          <SearchInput isCollapsed={isCollapsed} />
+        )}
         <div
           className={`${
             isCollapsed
