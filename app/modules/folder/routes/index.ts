@@ -8,7 +8,7 @@ router
   .group(() => {
     // Main CRUD routes
     router
-      .get('/folders', [FoldersController, 'index'])
+      .get('/folders', [() => import('../controllers/folders_controller.js'), 'index'])
       .as('api.folders.index')
       .use(
         middleware.permission({
