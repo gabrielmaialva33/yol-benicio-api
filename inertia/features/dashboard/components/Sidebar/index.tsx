@@ -35,7 +35,7 @@ const MOBILE_BREAKPOINT = 768
 function SidebarHeader({ isCollapsed, toggle }: { isCollapsed: boolean; toggle: () => void }) {
   return (
     <div
-      className={`flex items-center ${isCollapsed ? 'justify-center py-10' : 'justify-between px-10 pr-[17px] py-10'} gap-[78px]`}
+      className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between px-10 pr-[17px]'} gap-[78px]`}
     >
       <img
         alt="Logo"
@@ -298,9 +298,9 @@ export function Sidebar() {
 
   return (
     <aside
-      className={`bg-[#373737] text-white shadow-2xl border-r border-slate-700/50 ${
-        isCollapsed ? 'w-20' : 'w-[340px]'
-      } h-screen transition-all duration-300 ease-in-out flex flex-col overflow-hidden`}
+      className={`bg-[#373737] text-white ${
+        isCollapsed ? 'w-16 md:w-24' : 'w-[280px] md:w-[340px]'
+      } h-screen py-10 transition-all duration-300 ease-in-out flex flex-col overflow-hidden`}
     >
       <SidebarHeader isCollapsed={isCollapsed} toggle={toggleSidebar} />
 
