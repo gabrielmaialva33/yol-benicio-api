@@ -105,7 +105,45 @@ router
 router
   .group(() => {
     router
-      .get('/folders/consultation', ({ inertia }) => inertia.render('folders/consultation'))
+      .get('/folders/consultation', async ({ inertia, request }) => {
+        const FoldersController = (await import('../controllers/folders_controller.js')).default
+        const controller = new FoldersController()
+        
+        const page = request.input('page', 1)
+        const limit = request.input('per_page', 20)
+        const status = request.input('status', 'Total')
+        const area = request.input('area', 'Total')
+        const clientNumber = request.input('clientNumber', '')
+        const search = request.input('search', '')
+        const dateRange = request.input('dateRange', '')
+        const sortBy = request.input('sort_by', 'created_at')
+        const order = request.input('order', 'desc')
+
+        // Mock response for initial load with empty data
+        const folders = {
+          data: [],
+          meta: {
+            current_page: page,
+            per_page: limit,
+            total: 0,
+            last_page: 1,
+          }
+        }
+
+        const filters = {
+          clientNumber,
+          dateRange,
+          area,
+          status,
+          search,
+          page,
+          per_page: limit,
+          sort_by: sortBy,
+          order,
+        }
+
+        return inertia.render('folders/consultation', { folders, filters })
+      })
       .as('folders.consultation')
       .use(
         middleware.permission({
@@ -124,7 +162,7 @@ router
 
     router
       .get('/folders/:id', ({ inertia, params }) =>
-        inertia.render('folders/detail', { folderId: params.id })
+        inertia.render('folders/show', { folderId: params.id })
       )
       .where('id', /^[0-9]+$/)
       .as('folders.show')

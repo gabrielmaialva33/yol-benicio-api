@@ -46,84 +46,73 @@ export interface FolderResponsible {
   position?: string
 }
 
-// Complete folder data structure
+// Complete folder data structure (matching backend snake_case)
 export interface FolderDetail {
   // Identification
-  id: string
-  clientNumber: string
+  id: number
+  client_number: string
   status: FolderStatus
-  date: string
-  time: string
+  created_at: string
+  updated_at: string
 
   // Process Information
-  processNumber: string
-  cnjNumber: string
+  process_number: string
+  cnj_number?: string
   instance: FolderInstance
   nature: FolderNature
-  actionType: string
+  action_type: string
   phase: FolderPhase
-  electronic: boolean
-  clientCode: string
-  folder: string
-  defaultBillingCase: boolean
-  totus: boolean
-  migrated: boolean
+  is_electronic: boolean
+  client_code: string
+  folder_number: string
+  is_default_billing_case: boolean
+  is_totus: boolean
+  is_migrated: boolean
 
   // Court Information
   organ: string
   distribution: FolderDistribution
-  entryDate: string
-  internalCode: string
-  searchType: string
-  code: string
-  judge: string
+  entry_date: string
+  internal_code?: string
+  search_type?: string
+  code?: string
+  judge?: string
 
   // Location and Responsibles
   area: string
-  subArea: string
-  core: string
+  sub_area: string
+  core?: string
   district: string
   court: string
-  courtDivision: string
+  court_division?: string
   partner: string
-  coordinator: string
+  coordinator?: string
   lawyer: string
 
   // Parties
-  plaintiff: FolderParty
-  defendant: FolderParty
+  is_active_pole: boolean
+  is_passive_pole: boolean
 
   // Detailed Information
-  observation: string
-  objectDetail: string
-  lastMovement: string
+  observation?: string
+  object_detail?: string
+  last_movement?: string
 
   // Values
-  caseValue: number
-  convictionValue?: number
+  case_value?: number
+  conviction_value?: number
   costs?: number
   fees?: number
 
   // Important Dates
-  distributionDate: string
-  citationDate?: string
-  nextHearing?: string
-
-  // Responsible for the folder
-  responsible: FolderResponsible
-
-  // Attached Documents
-  documents: FolderDocument[]
-
-  // Movements
-  movements: FolderMovement[]
+  distribution_date?: string
+  citation_date?: string
+  next_hearing?: string
 
   // Metadata
-  favorite?: boolean
-  createdAt: string
-  updatedAt: string
-  createdBy?: User
-  updatedBy?: User
+  is_favorite?: boolean
+  created_by?: number
+  updated_by?: number
 }
 
 // Form data for creating/updating folders
@@ -184,20 +173,18 @@ export interface FolderFormData {
   nextHearing?: string
 }
 
-// Simplified type for listing
+// Simplified type for listing (matching backend structure)
 export interface FolderSummary {
-  id: string
-  favorite: boolean
-  clientNumber: string
-  responsible: FolderResponsible
-  inclusionDate: string
-  inclusionTime: string
-  docs: number
-  area: string
+  id: number
+  is_favorite: boolean
+  client_number: string
+  folder_number: string
+  process_number?: string
   status: FolderStatus
-  processNumber?: string
+  area: string
   lawyer?: string
-  lastMovement?: string
+  created_at: string
+  updated_at: string
 }
 
 // Filters for consultation
@@ -244,21 +231,19 @@ export interface FolderDetailResponse {
 }
 
 // API Response for folder statistics
-export interface FolderStatsResponse {
-  data: {
-    total: number
-    active: number
-    archived: number
-    newThisMonth: number
-    newThisWeek: number
-    byStatus: Record<FolderStatus, number>
-    byArea: Record<string, number>
-    byNature: Record<FolderNature, number>
-    recentActivity: {
-      month: string
-      count: number
-    }[]
-  }
+export interface FolderStats {
+  total: number
+  active: number
+  archived: number
+  new_this_month: number
+  new_this_week: number
+  by_status: Record<FolderStatus, number>
+  by_area: Record<string, number>
+  by_nature: Record<FolderNature, number>
+  recent_activity: {
+    month: string
+    count: number
+  }[]
 }
 
 // Form validation errors
