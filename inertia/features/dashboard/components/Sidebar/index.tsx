@@ -232,18 +232,18 @@ const MenuList = (props: {
         !props.isCollapsed &&
         props.items.length > DROPDOWN_VISIBLE_ITEMS_LIMIT && (
           <button
-            className="flex items-center px-3 py-2 mt-2 text-slate-400 hover:text-white transition-colors duration-200 rounded-lg hover:bg-slate-700/30"
+            className="flex items-center pl-3 mt-2 cursor-pointer"
             onClick={() => setShowAll(!showAll)}
             type="button"
           >
             <img
               alt="Mostrar mais"
-              className={`w-4 h-4 transition-transform duration-200 ${showAll ? 'rotate-180' : ''}`}
+              className={`w-4 h-4 transition-transform ${showAll ? 'rotate-180' : ''}`}
               height={16}
               src="/icons/down.svg"
               width={16}
             />
-            <span className="ml-2 text-sm font-medium">
+            <span className="ml-2 text-sm text-[#A1A5B7] font-semibold">
               {showAll ? 'Mostrar menos' : 'Mostrar mais'}
             </span>
           </button>
@@ -309,16 +309,16 @@ export function Sidebar() {
       {isCollapsed && (
         <div className="flex justify-center py-4">
           <button
-            className="bg-slate-700/50 hover:bg-slate-600/50 text-white rounded-lg p-2 transition-colors duration-200"
+            className="bg-[#373737] text-white rounded-full p-1"
             onClick={toggleSidebar}
             type="button"
           >
             <img
               alt="Expandir Sidebar"
-              className="transition-transform duration-300 rotate-180 w-5 h-5"
-              height={20}
+              className="transition-transform duration-300 rotate-180"
+              height={24}
               src="/icons/left-square.svg"
-              width={20}
+              width={24}
             />
           </button>
         </div>
