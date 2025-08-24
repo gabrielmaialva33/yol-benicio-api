@@ -5,17 +5,14 @@ import Role from '#modules/role/models/role'
 import Permission from '#modules/permission/models/permission'
 import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
+import { uniqueUserData } from '#tests/helpers/test_helpers'
 
 test.group('Me endpoints', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
   test('GET /me should return current user profile', async ({ client, assert }) => {
     // Create user with role
-    const user = await User.create({
-      full_name: 'Test User',
-      email: 'test@example.com',
-      username: 'testuser',
-      password: 'password123',
-    })
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
 
     const role = await Role.firstOrCreate(
       { slug: IRole.Slugs.USER },
@@ -30,20 +27,16 @@ test.group('Me endpoints', (group) => {
     const response = await client.get('/api/v1/me').loginAs(user)
 
     response.assertStatus(200)
-    assert.equal(response.body().email, 'test@example.com')
-    assert.equal(response.body().username, 'testuser')
+    assert.equal(response.body().email, userData.email)
+    assert.equal(response.body().username, userData.username)
     assert.isArray(response.body().roles)
     assert.equal(response.body().roles[0].name, 'User')
   })
 
   test('GET /me/permissions should return user permissions', async ({ client, assert }) => {
     // Create user with role
-    const user = await User.create({
-      full_name: 'Test User',
-      email: 'test@example.com',
-      username: 'testuser',
-      password: 'password123',
-    })
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
 
     const role = await Role.firstOrCreate(
       { slug: IRole.Slugs.USER },
@@ -88,12 +81,8 @@ test.group('Me endpoints', (group) => {
 
   test('GET /me/roles should return user roles', async ({ client, assert }) => {
     // Create user with multiple roles
-    const user = await User.create({
-      full_name: 'Test User',
-      email: 'test@example.com',
-      username: 'testuser',
-      password: 'password123',
-    })
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
 
     const userRole = await Role.firstOrCreate(
       { slug: IRole.Slugs.USER },

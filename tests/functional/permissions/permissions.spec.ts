@@ -7,6 +7,7 @@ import Permission from '#modules/permission/models/permission'
 
 import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
+import { uniqueUserData } from '#tests/helpers/test_helpers'
 
 test.group('Permissions', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
@@ -21,12 +22,8 @@ test.group('Permissions', (group) => {
       }
     )
 
-    const rootUser = await User.create({
-      full_name: 'Root Admin',
-      email: 'root@example.com',
-      username: 'root_admin_permissions_' + Date.now(),
-      password: 'password123',
-    })
+    const userData = uniqueUserData({ full_name: 'Root Admin' })
+    const rootUser = await User.create(userData)
 
     await rootUser.related('roles').attach([rootRole.id])
 
@@ -48,7 +45,7 @@ test.group('Permissions', (group) => {
 
     // Login as root
     const loginResponse = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'root@example.com',
+      uid: userData.email,
       password: 'password123',
     })
 
@@ -84,12 +81,8 @@ test.group('Permissions', (group) => {
       }
     )
 
-    const adminUser = await User.create({
-      full_name: 'Admin User',
-      email: 'admin@example.com',
-      username: 'admin_permissions_list_' + Date.now(),
-      password: 'password123',
-    })
+    const adminData = uniqueUserData({ full_name: 'Admin User' })
+    const adminUser = await User.create(adminData)
 
     await adminUser.related('roles').attach([adminRole.id])
 
@@ -124,8 +117,8 @@ test.group('Permissions', (group) => {
 
     // Login
     const loginResponse = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'admin@example.com',
-      password: 'password123',
+      uid: adminData.email,
+      password: adminData.password,
     })
 
     const token = loginResponse.body().auth.access_token
@@ -152,12 +145,8 @@ test.group('Permissions', (group) => {
       }
     )
 
-    const rootUser = await User.create({
-      full_name: 'Root User',
-      email: 'root2@example.com',
-      username: 'root_sync_' + Date.now(),
-      password: 'password123',
-    })
+    const rootUserData = uniqueUserData({ full_name: 'Root User' })
+    const rootUser = await User.create(rootUserData)
 
     await rootUser.related('roles').attach([rootRole.id])
 
@@ -210,8 +199,8 @@ test.group('Permissions', (group) => {
 
     // Login
     const loginResponse = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'root2@example.com',
-      password: 'password123',
+      uid: rootUserData.email,
+      password: rootUserData.password,
     })
 
     const token = loginResponse.body().auth.access_token
@@ -237,13 +226,8 @@ test.group('Permissions', (group) => {
 
   test('should check user permissions', async ({ client }) => {
     // Create user with specific permissions
-    const user = await User.create({
-      full_name: 'Test User',
-      email: 'testuser@example.com',
-      username: 'test_user_check_' + Date.now(),
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     const userRole = await Role.firstOrCreate(
       { slug: IRole.Slugs.USER },
       {
@@ -298,7 +282,7 @@ test.group('Permissions', (group) => {
 
     // Login
     const loginResponse = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'testuser@example.com',
+      uid: userData.email,
       password: 'password123',
     })
 
@@ -339,13 +323,8 @@ test.group('Permissions', (group) => {
     await redis.default.flushdb()
 
     // Create user without permissions
-    const user = await User.create({
-      full_name: 'Limited User',
-      email: 'limited@example.com',
-      username: 'limited_user_' + Date.now(),
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     const userRole = await Role.firstOrCreate(
       { slug: IRole.Slugs.USER },
       {
@@ -362,7 +341,7 @@ test.group('Permissions', (group) => {
 
     // Login
     const loginResponse = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'limited@example.com',
+      uid: userData.email,
       password: 'password123',
     })
 

@@ -6,6 +6,7 @@ import Permission from '#modules/permission/models/permission'
 import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
 import db from '@adonisjs/lucid/services/db'
+import { uniqueUserData } from '#tests/helpers/test_helpers'
 
 test.group('Users list', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
@@ -39,13 +40,8 @@ test.group('Users list', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await db.table('user_roles').insert({
       user_id: user.id,
       role_id: userRole.id,
@@ -259,13 +255,8 @@ test.group('Users list', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await db.table('user_roles').insert([
       {
         user_id: user.id,

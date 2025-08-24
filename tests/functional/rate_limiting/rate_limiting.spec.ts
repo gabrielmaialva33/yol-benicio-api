@@ -5,6 +5,7 @@ import User from '#modules/user/models/user'
 import Role from '#modules/role/models/role'
 
 import IRole from '#modules/role/interfaces/role_interface'
+import { uniqueUserData, uniqueEmail } from '#tests/helpers/test_helpers'
 
 test.group('Rate Limiting', (group) => {
   group.each.setup(() => {
@@ -14,16 +15,13 @@ test.group('Rate Limiting', (group) => {
 
   test('should rate limit authentication attempts', async ({ client, assert }) => {
     // Create a user
-    await User.create({
-      full_name: 'Test User',
-      email: 'test@example.com',
-      password: 'password123',
-    })
+    const userData = uniqueUserData()
+    await User.create(userData)
 
     // Make 5 failed requests (the limit)
     for (let i = 0; i < 5; i++) {
       const response = await client.post('/api/v1/sessions/sign-in').json({
-        uid: 'test@example.com',
+        uid: userData.email,
         password: 'wrong_password',
       })
 
@@ -33,7 +31,7 @@ test.group('Rate Limiting', (group) => {
 
     // The 6th request should be rate limited
     const rateLimitedResponse = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'test@example.com',
+      uid: userData.email,
       password: 'password123',
     })
 
@@ -67,12 +65,8 @@ test.group('Rate Limiting', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'API User',
-      email: 'api@example.com',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await user.related('roles').sync([userRole.id])
 
     // Test guest rate limit (should be 20 requests per minute)
@@ -110,17 +104,19 @@ test.group('Rate Limiting', (group) => {
   })
 
   test('should block user after exceeding auth attempts', async ({ client, assert }) => {
+    const testEmail = uniqueEmail()
+
     // Make 5 failed attempts
     for (let i = 0; i < 5; i++) {
       await client.post('/api/v1/sessions/sign-in').json({
-        uid: 'blocked@example.com',
+        uid: testEmail,
         password: 'wrong_password',
       })
     }
 
     // 6th attempt should be blocked for 30 minutes
     const blockedResponse = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'blocked@example.com',
+      uid: testEmail,
       password: 'any_password',
     })
 
@@ -143,12 +139,8 @@ test.group('Rate Limiting', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'Upload User',
-      email: 'upload@example.com',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await user.related('roles').sync([userRole.id])
 
     // Create file upload permission

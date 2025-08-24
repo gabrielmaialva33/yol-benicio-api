@@ -12,6 +12,7 @@ import File from '#modules/file/models/file'
 import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
 import testUtils from '@adonisjs/core/services/test_utils'
+import { uniqueUserData } from '#tests/helpers/test_helpers'
 
 test.group('Files upload', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
@@ -45,13 +46,8 @@ test.group('Files upload', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await db.table('user_roles').insert({
       user_id: user.id,
       role_id: userRole.id,
@@ -95,13 +91,8 @@ test.group('Files upload', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await db.table('user_roles').insert({
       user_id: user.id,
       role_id: userRole.id,
@@ -148,13 +139,8 @@ test.group('Files upload', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await db.table('user_roles').insert({
       user_id: user.id,
       role_id: userRole.id,
@@ -186,13 +172,8 @@ test.group('Files upload', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await db.table('user_roles').insert({
       user_id: user.id,
       role_id: userRole.id,
@@ -235,13 +216,8 @@ test.group('Files upload', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await db.table('user_roles').insert({
       user_id: user.id,
       role_id: userRole.id,
@@ -283,13 +259,8 @@ test.group('Files upload', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await db.table('user_roles').insert({
       user_id: user.id,
       role_id: userRole.id,
@@ -342,13 +313,8 @@ test.group('Files upload', (group) => {
       }
     )
 
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: 'password123',
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     await db.table('user_roles').insert({
       user_id: user.id,
       role_id: userRole.id,

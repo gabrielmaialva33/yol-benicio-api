@@ -11,7 +11,7 @@ import db from '@adonisjs/lucid/services/db'
 
 test.group('TaskService', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
-  
+
   let taskService: TaskService
   let user: User
 

@@ -9,7 +9,7 @@ import db from '@adonisjs/lucid/services/db'
 
 test.group('Task Model', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
-  
+
   let user: User
 
   group.each.setup(async () => {

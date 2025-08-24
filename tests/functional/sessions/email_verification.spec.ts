@@ -4,6 +4,7 @@ import User from '#modules/user/models/user'
 import mail from '@adonisjs/mail/services/main'
 import string from '@adonisjs/core/helpers/string'
 import { DateTime } from 'luxon'
+import { uniqueUserData } from '#tests/helpers/test_helpers'
 
 test.group('Email verification', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
@@ -42,18 +43,8 @@ test.group('Email verification', (group) => {
   test('should verify email with valid token', async ({ client, assert }) => {
     // Create user with verification token
     const token = string.generateRandom(32)
-    const user = await User.create({
-      full_name: 'Verify Test',
-      email: 'verifytest@example.com',
-      password: 'password123',
-      metadata: {
-        email_verified: false,
-        email_verified_at: null,
-        email_verification_sent_at: DateTime.now().toISO(),
-        email_verification_token: token,
-      },
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     const response = await client.get(`/api/v1/verify-email?token=${token}`)
 
     response.assertStatus(200)
@@ -129,21 +120,11 @@ test.group('Email verification', (group) => {
     cleanup(() => mail.restore())
 
     // Create unverified user
-    const user = await User.create({
-      full_name: 'Resend Test',
-      email: 'resendtest@example.com',
-      password: 'password123',
-      metadata: {
-        email_verified: false,
-        email_verification_token: string.generateRandom(32),
-        email_verification_sent_at: DateTime.now().toISO(),
-        email_verified_at: null,
-      },
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     // Sign in to get auth token
     const signInResponse = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'resendtest@example.com',
+      uid: userData.email,
       password: 'password123',
     })
 
@@ -174,10 +155,9 @@ test.group('Email verification', (group) => {
 
   test('should not resend if already verified', async ({ client }) => {
     // Create verified user
+    const verifiedUserData = uniqueUserData({ full_name: 'Already Verified Resend' })
     await User.create({
-      full_name: 'Already Verified Resend',
-      email: 'verifiedresend@example.com',
-      password: 'password123',
+      ...verifiedUserData,
       metadata: {
         email_verified: true,
         email_verification_token: null,
@@ -188,8 +168,8 @@ test.group('Email verification', (group) => {
 
     // Sign in to get auth token
     const signInResponse = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'verifiedresend@example.com',
-      password: 'password123',
+      uid: verifiedUserData.email,
+      password: verifiedUserData.password,
     })
 
     signInResponse.assertStatus(200)

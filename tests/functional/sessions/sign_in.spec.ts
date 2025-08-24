@@ -3,22 +3,16 @@ import testUtils from '@adonisjs/core/services/test_utils'
 import User from '#modules/user/models/user'
 import Role from '#modules/role/models/role'
 import IRole from '#modules/role/interfaces/role_interface'
+import { uniqueUserData } from '#tests/helpers/test_helpers'
 
 test.group('Sessions sign in', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
   test('should sign in with valid credentials', async ({ client, assert }) => {
-    const password = 'password123'
-
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: password,
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     const response = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'john@example.com',
-      password: password,
+      uid: userData.email,
+      password: userData.password,
     })
 
     response.assertStatus(200)
@@ -53,17 +47,11 @@ test.group('Sessions sign in', (group) => {
   })
 
   test('should fail with invalid password', async ({ client }) => {
-    const password = 'password123'
-
-    await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: password,
-    })
+    const userData = uniqueUserData()
+    await User.create(userData)
 
     const response = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'john@example.com',
+      uid: userData.email,
       password: 'wrongpassword',
     })
 
@@ -96,15 +84,8 @@ test.group('Sessions sign in', (group) => {
   })
 
   test('should include user roles in response', async ({ client }) => {
-    const password = 'password123'
-
-    const user = await User.create({
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      username: 'johndoe',
-      password: password,
-    })
-
+    const userData = uniqueUserData()
+    const user = await User.create(userData)
     const role = await Role.firstOrCreate(
       { slug: IRole.Slugs.ADMIN },
       {
@@ -117,8 +98,8 @@ test.group('Sessions sign in', (group) => {
     await user.related('roles').sync([role.id])
 
     const response = await client.post('/api/v1/sessions/sign-in').json({
-      uid: 'john@example.com',
-      password: password,
+      uid: userData.email,
+      password: userData.password,
     })
 
     response.assertStatus(200)
