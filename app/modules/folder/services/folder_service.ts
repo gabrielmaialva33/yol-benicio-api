@@ -323,7 +323,54 @@ export default class FolderService {
    * Get folders for consultation with advanced filters
    */
   async getFoldersForConsultation(filters: FolderFilters = {}) {
-    return this.getFolders(1, 50, filters)
+    const query = Folder.query()
+      .preload('client', (clientQuery) => {
+        clientQuery.select('id', 'name', 'document', 'type')
+      })
+      .preload('responsibleLawyer', (userQuery) => {
+        userQuery.select('id', 'full_name', 'email')
+      })
+      .orderBy('created_at', 'desc')
+
+    // Apply filters
+    if (filters.status) {
+      query.where('status', filters.status)
+    }
+
+    if (filters.area) {
+      query.where('area', filters.area)
+    }
+
+    if (filters.client_id) {
+      query.where('client_id', filters.client_id)
+    }
+
+    if (filters.responsible_lawyer_id) {
+      query.where('responsible_lawyer_id', filters.responsible_lawyer_id)
+    }
+
+    if (filters.is_favorite !== undefined) {
+      query.where('is_favorite', filters.is_favorite)
+    }
+
+    if (filters.search) {
+      query.where((searchQuery) => {
+        searchQuery
+          .whereILike('title', `%${filters.search}%`)
+          .orWhereILike('code', `%${filters.search}%`)
+          .orWhereILike('description', `%${filters.search}%`)
+          .orWhereILike('case_number', `%${filters.search}%`)
+          .orWhereILike('opposing_party', `%${filters.search}%`)
+      })
+    }
+
+    if (filters.dateRange) {
+      query
+        .where('created_at', '>=', filters.dateRange.from)
+        .where('created_at', '<=', filters.dateRange.to)
+    }
+
+    return query.limit(50)
   }
 
   /**

@@ -44,7 +44,15 @@ test.group('Email verification', (group) => {
     // Create user with verification token
     const token = string.generateRandom(32)
     const userData = uniqueUserData()
-    const user = await User.create(userData)
+    const user = await User.create({
+      ...userData,
+      metadata: {
+        email_verified: false,
+        email_verification_token: token,
+        email_verification_sent_at: DateTime.now().toISO(),
+        email_verified_at: null,
+      },
+    })
     const response = await client.get(`/api/v1/verify-email?token=${token}`)
 
     response.assertStatus(200)

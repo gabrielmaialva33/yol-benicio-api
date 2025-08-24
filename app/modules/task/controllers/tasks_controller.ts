@@ -50,7 +50,7 @@ export default class TasksController {
    */
   async stats({ response }: HttpContext) {
     try {
-      const stats = await this.taskService.getTasksStats()
+      const stats = await this.taskService.getDashboardStats()
       return response.ok(stats)
     } catch (error) {
       return response.internalServerError({
@@ -178,7 +178,8 @@ export default class TasksController {
         dateRange,
       })
 
-      const stats = await this.taskService.getTasksStats()
+      // Calculate real statistics
+      const stats = await this.taskService.getDashboardStats()
 
       // Format response to match frontend expectations
       return response.ok({

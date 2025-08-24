@@ -59,6 +59,42 @@ export default class TaskService {
   }
 
   /**
+   * Get dashboard statistics (counts and metrics)
+   */
+  async getDashboardStats() {
+    const today = DateTime.now().startOf('day')
+    const todayEnd = DateTime.now().endOf('day')
+
+    // Get total tasks count
+    const totalTasks = await Task.query().count('* as total')
+
+    // Get pending tasks (pending + in_progress)
+    const pendingTasks = await Task.query()
+      .whereIn('status', ['pending', 'in_progress'])
+      .count('* as total')
+
+    // Get completed tasks today
+    const completedToday = await Task.query()
+      .where('status', 'completed')
+      .whereBetween('updated_at', [today.toSQL()!, todayEnd.toSQL()!])
+      .count('* as total')
+
+    // Get overdue tasks (pending/in_progress with due_date in the past)
+    const overdueTasks = await Task.query()
+      .whereIn('status', ['pending', 'in_progress'])
+      .whereNotNull('due_date')
+      .where('due_date', '<', DateTime.now().toSQL()!)
+      .count('* as total')
+
+    return {
+      total_tasks: Number(totalTasks[0]!.$extras.total),
+      pending_tasks: Number(pendingTasks[0]!.$extras.total),
+      completed_today: Number(completedToday[0]!.$extras.total),
+      overdue_tasks: Number(overdueTasks[0]!.$extras.total),
+    }
+  }
+
+  /**
    * Get tasks with pagination and filters
    */
   async getTasks(

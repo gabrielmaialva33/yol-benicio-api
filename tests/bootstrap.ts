@@ -47,6 +47,13 @@ export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
         throw error
       }
 
+      // Truncate all tables before starting tests to ensure clean state
+      try {
+        await testUtils.db().truncate()
+      } catch (error) {
+        // Silent ignore if tables don't exist
+      }
+
       // Run migrations to ensure clean state
       await testUtils.db().migrate()
     },

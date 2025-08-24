@@ -12,7 +12,19 @@ import IPermission from '#modules/permission/interfaces/permission_interface'
 import db from '@adonisjs/lucid/services/db'
 
 test.group('Folders CRUD API', (group) => {
-  group.each.setup(() => testUtils.db().withGlobalTransaction())
+  // Removed global transaction to test data isolation issues
+  // group.each.setup(() => testUtils.db().withGlobalTransaction())
+  
+  group.each.setup(async () => {
+    // Clean up any existing test data before each test
+    await db.rawQuery('TRUNCATE TABLE clients CASCADE')
+    await db.rawQuery('TRUNCATE TABLE folders CASCADE')
+    await db.rawQuery('TRUNCATE TABLE users CASCADE') 
+    await db.rawQuery('TRUNCATE TABLE roles CASCADE')
+    await db.rawQuery('TRUNCATE TABLE permissions CASCADE')
+    await db.rawQuery('TRUNCATE TABLE user_roles CASCADE')
+    await db.rawQuery('TRUNCATE TABLE role_permissions CASCADE')
+  })
 
   let user: any
   let client: any
@@ -50,7 +62,7 @@ test.group('Folders CRUD API', (group) => {
 
     // Create user with admin permissions
     user = await UserFactory.merge({
-      email: `admin-${Date.now()}@test.com`,
+      email: `admin-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@test.com`,
       password: 'secret123',
       metadata: {
         email_verified: true,
@@ -267,8 +279,9 @@ test.group('Folders CRUD API', (group) => {
       message: 'Folder deleted successfully',
     })
 
-    // Verify folder is soft deleted
-    const deletedFolder = await Folder.query()
+    // Verify folder is soft deleted - use raw query to bypass soft delete hooks
+    const deletedFolder = await db
+      .from('folders')
       .where('id', folder.id)
       .where('is_deleted', true)
       .first()
