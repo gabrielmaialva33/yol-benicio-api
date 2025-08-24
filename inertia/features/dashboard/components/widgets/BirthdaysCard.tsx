@@ -10,20 +10,23 @@ interface Birthday {
 // Mock data baseado no design do Figma
 const mockBirthdays: Birthday[] = [
   {
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
+    avatar:
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
     name: 'João Silva',
-    role: 'Advogado Senior'
+    role: 'Advogado Senior',
   },
   {
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face',
+    avatar:
+      'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=40&h=40&fit=crop&crop=face',
     name: 'Maria Santos',
-    role: 'Paralegal'
+    role: 'Paralegal',
   },
   {
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+    avatar:
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
     name: 'Pedro Costa',
-    role: 'Estagiário'
-  }
+    role: 'Estagiário',
+  },
 ]
 
 export function BirthdaysCard() {
@@ -50,7 +53,10 @@ export function BirthdaysCard() {
       <CardContent>
         <div className="space-y-3">
           {birthdays.map((person, index) => (
-            <div key={index} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+            <div
+              key={index}
+              className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"
+            >
               <img
                 src={person.avatar}
                 alt={person.name}

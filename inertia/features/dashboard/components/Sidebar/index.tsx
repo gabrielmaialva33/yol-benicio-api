@@ -34,7 +34,9 @@ const MOBILE_BREAKPOINT = 768
 
 function SidebarHeader({ isCollapsed, toggle }: { isCollapsed: boolean; toggle: () => void }) {
   return (
-    <div className={`flex items-center ${isCollapsed ? 'justify-center px-4' : 'justify-between px-6'} py-6`}>
+    <div
+      className={`flex items-center ${isCollapsed ? 'justify-center px-4' : 'justify-between px-6'} py-6`}
+    >
       <Link href="/dashboard" className="flex items-center">
         <img
           alt="Logo"
@@ -95,19 +97,12 @@ const MenuItemComponent = (props: {
       <div className="flex items-center">
         {props.item.icon && (
           <div className="flex items-center justify-center w-6 h-6 mr-3">
-            <img
-              alt={props.item.text}
-              className="w-5 h-5"
-              src={props.item.icon}
-            />
+            <img alt={props.item.text} className="w-5 h-5" src={props.item.icon} />
           </div>
         )}
         {props.item.color && !props.item.icon && (
           <div className="flex items-center justify-center w-6 h-6 mr-3">
-            <div
-              className="w-3 h-3 rounded-full"
-              style={{ backgroundColor: props.item.color }}
-            />
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: props.item.color }} />
           </div>
         )}
         {!props.isCollapsed && (
@@ -142,9 +137,7 @@ const MenuItemComponent = (props: {
     <div className="w-full">
       <div
         className={`flex items-center justify-between px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 group relative ${
-          isActive
-            ? 'bg-orange-500 text-white shadow-lg'
-            : 'text-white hover:bg-gray-600/50'
+          isActive ? 'bg-orange-500 text-white shadow-lg' : 'text-white hover:bg-gray-600/50'
         } ${props.isCollapsed ? 'justify-center px-3' : ''}`}
         title={props.isCollapsed ? props.item.text : undefined}
       >
@@ -245,21 +238,18 @@ const MenuList = (props: {
           </li>
         ))}
       </ul>
-      {props.isDropdown &&
-        props.items.length > DROPDOWN_VISIBLE_ITEMS_LIMIT && (
-          <button
-            className="flex items-center space-x-2 text-gray-400 hover:text-white text-sm mt-4 transition-colors duration-200"
-            onClick={() => setShowAll(!showAll)}
-            type="button"
-          >
-            <ChevronDown
-              className={`w-4 h-4 transition-transform duration-200 ${
-                showAll ? 'rotate-180' : ''
-              }`}
-            />
-            <span>{showAll ? 'Show less' : 'Show more'}</span>
-          </button>
-        )}
+      {props.isDropdown && props.items.length > DROPDOWN_VISIBLE_ITEMS_LIMIT && (
+        <button
+          className="flex items-center space-x-2 text-gray-400 hover:text-white text-sm mt-4 transition-colors duration-200"
+          onClick={() => setShowAll(!showAll)}
+          type="button"
+        >
+          <ChevronDown
+            className={`w-4 h-4 transition-transform duration-200 ${showAll ? 'rotate-180' : ''}`}
+          />
+          <span>{showAll ? 'Show less' : 'Show more'}</span>
+        </button>
+      )}
     </div>
   )
 }
@@ -315,7 +305,7 @@ export function Sidebar() {
       } h-screen transition-all duration-300 ease-in-out flex flex-col overflow-hidden`}
     >
       <SidebarHeader isCollapsed={isCollapsed} toggle={toggleSidebar} />
-      
+
       {isCollapsed && (
         <div className="flex flex-col items-center space-y-4 px-4">
           <button
@@ -328,9 +318,11 @@ export function Sidebar() {
         </div>
       )}
 
-      <nav className={`flex-1 flex flex-col overflow-y-auto overflow-x-hidden ${isCollapsed ? 'mt-6' : ''}`}>
+      <nav
+        className={`flex-1 flex flex-col overflow-y-auto overflow-x-hidden ${isCollapsed ? 'mt-6' : ''}`}
+      >
         <SearchInput isCollapsed={isCollapsed} />
-        
+
         <div className="space-y-6">
           <MenuList
             isCollapsed={isCollapsed}
@@ -338,7 +330,7 @@ export function Sidebar() {
             title="PAGES"
             currentPath={url}
           />
-          
+
           {favorites.length > 0 && (
             <MenuList
               isCollapsed={isCollapsed}

@@ -23,26 +23,28 @@ export function FolderActivityCard() {
   return (
     <Card className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
       <CardHeader className="pb-4">
-        <CardTitle className="text-sm font-medium text-gray-600 mb-3">Atividade de Pastas</CardTitle>
+        <CardTitle className="text-sm font-medium text-gray-600 mb-3">
+          Atividade de Pastas
+        </CardTitle>
       </CardHeader>
 
       <CardContent className="pt-0 pb-4 space-y-4">
         {mockData.map((activity) => {
           const percentage = (activity.value / maxValue) * 100
-          
+
           return (
             <div key={activity.label}>
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm text-gray-700">{activity.label}</span>
                 <span className="text-sm font-semibold text-gray-900">{activity.value}</span>
               </div>
-              
+
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
                   className="h-2 rounded-full transition-all duration-300"
-                  style={{ 
+                  style={{
                     width: `${percentage}%`,
-                    backgroundColor: activity.color 
+                    backgroundColor: activity.color,
                   }}
                 />
               </div>

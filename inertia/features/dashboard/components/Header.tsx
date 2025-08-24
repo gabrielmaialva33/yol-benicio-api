@@ -70,9 +70,13 @@ export function Header() {
         {/* Page Title and Search */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-6">
           <div className="min-w-0 flex-1">
-            <h1 className="text-xl sm:text-2xl lg:text-[30px] font-semibold text-[#161C24] font-['Inter'] truncate">{title}</h1>
+            <h1 className="text-xl sm:text-2xl lg:text-[30px] font-semibold text-[#161C24] font-['Inter'] truncate">
+              {title}
+            </h1>
             {description && (
-              <p className="text-[#A1A5B7] mt-1 text-sm sm:text-base lg:text-[18px] font-medium">{description}</p>
+              <p className="text-[#A1A5B7] mt-1 text-sm sm:text-base lg:text-[18px] font-medium">
+                {description}
+              </p>
             )}
             {breadcrumbs.length > 0 && (
               <div className="mt-2">
@@ -102,12 +106,12 @@ export function Header() {
           <button className="lg:hidden p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200">
             <MagnifyingGlassIcon className="h-5 w-5" />
           </button>
-          
+
           {/* Quick Settings - Hidden on mobile */}
           <button className="hidden sm:block p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200">
             <Cog6ToothIcon className="h-5 w-5" />
           </button>
-          
+
           {/* Notifications */}
           <div className="relative" ref={notificationsRef}>
             <button
@@ -129,7 +133,7 @@ export function Header() {
             </button>
             {showNotifications && <NotificationsDropdown notifications={notifications.items} />}
           </div>
-          
+
           {/* Messages */}
           <div className="relative" ref={messagesRef}>
             <button

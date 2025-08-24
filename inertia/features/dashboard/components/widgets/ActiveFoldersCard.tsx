@@ -23,18 +23,16 @@ export function ActiveFoldersCard() {
       { month: 'Mar', value: 385 },
       { month: 'Abr', value: 410 },
       { month: 'Mai', value: 420 },
-    ]
+    ],
   }
 
   return (
     <Card className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
       <CardHeader className="pb-4">
         <CardTitle className="text-sm font-medium text-gray-600 mb-3">Pastas ativas</CardTitle>
-        
+
         <div className="flex items-center justify-between">
-          <div className="text-3xl font-bold text-gray-900">
-            {mockData.active.toLocaleString()}
-          </div>
+          <div className="text-3xl font-bold text-gray-900">{mockData.active.toLocaleString()}</div>
           <div className="text-right">
             <div className="text-xs text-gray-500 mb-1">Novas este mês</div>
             <div className="text-sm font-semibold text-green-600">+{mockData.newThisMonth}</div>

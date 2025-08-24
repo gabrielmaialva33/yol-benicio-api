@@ -46,12 +46,7 @@ export function AreaDivisionCard() {
                   paddingAngle={1}
                 >
                   {mockData.map((entry) => (
-                    <Cell
-                      fill={entry.color}
-                      key={entry.name}
-                      stroke="white"
-                      strokeWidth={1}
-                    />
+                    <Cell fill={entry.color} key={entry.name} stroke="white" strokeWidth={1} />
                   ))}
                 </Pie>
               </PieChart>
@@ -62,10 +57,7 @@ export function AreaDivisionCard() {
             {mockData.map((item) => (
               <div className="flex items-center justify-between" key={item.name}>
                 <div className="flex items-center gap-2">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: item.color }}
-                  />
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
                   <span className="text-sm text-gray-700">{item.name}</span>
                 </div>
                 <span className="text-sm font-medium text-gray-900">{item.value}%</span>

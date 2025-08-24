@@ -14,12 +14,8 @@ export function HearingsCard() {
     <Card className="bg-white border border-gray-200 rounded-lg shadow-sm">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold text-gray-900">
-            Audiências e Prazos
-          </CardTitle>
-          <div className="text-sm text-gray-500">
-            2 Jan 2023 - 7 Fev 2023
-          </div>
+          <CardTitle className="text-lg font-semibold text-gray-900">Audiências e Prazos</CardTitle>
+          <div className="text-sm text-gray-500">2 Jan 2023 - 7 Fev 2023</div>
         </div>
       </CardHeader>
 
