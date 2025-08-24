@@ -7,7 +7,8 @@ import Permission from '#modules/permission/models/permission'
 import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
 
-test.group('Permissions', (_group) => {
+test.group('Permissions', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
   test('should create a permission', async ({ client, assert }) => {
     // Create ROOT role and user
     const rootRole = await Role.firstOrCreate(
@@ -374,4 +375,5 @@ test.group('Permissions', (_group) => {
       message: 'Insufficient permissions. Required: permissions.list',
     })
   })
-})
+import IPermission from '#modules/permission/interfaces/permission_interface'
+import testUtils from '@adonisjs/core/services/test_utils'

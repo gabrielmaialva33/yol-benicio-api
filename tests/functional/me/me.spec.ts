@@ -5,7 +5,8 @@ import Permission from '#modules/permission/models/permission'
 import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
 
-test.group('Me endpoints', (_group) => {
+test.group('Me endpoints', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
   test('GET /me should return current user profile', async ({ client, assert }) => {
     // Create user with role
     const user = await User.create({
@@ -130,4 +131,5 @@ test.group('Me endpoints', (_group) => {
       response.assertStatus(401)
     }
   })
-})
+import IPermission from '#modules/permission/interfaces/permission_interface'
+import testUtils from '@adonisjs/core/services/test_utils'

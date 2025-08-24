@@ -11,8 +11,10 @@ import Permission from '#modules/permission/models/permission'
 import File from '#modules/file/models/file'
 import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
+import testUtils from '@adonisjs/core/services/test_utils'
 
-test.group('Files upload', (_group) => {
+test.group('Files upload', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
   // Helper function to create and assign permissions to a role
   async function assignPermissions(role: Role, actions: string[]) {
     const permissions = await Promise.all(

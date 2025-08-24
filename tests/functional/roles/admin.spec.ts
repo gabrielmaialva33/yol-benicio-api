@@ -4,7 +4,8 @@ import Role from '#modules/role/models/role'
 import IRole from '#modules/role/interfaces/role_interface'
 import db from '@adonisjs/lucid/services/db'
 
-test.group('Roles admin', (_group) => {
+test.group('Roles admin', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
   test('should list roles with admin permission', async ({ client }) => {
     const adminRole = await Role.firstOrCreate(
       { slug: IRole.Slugs.ADMIN },
@@ -341,4 +342,5 @@ test.group('Roles admin', (_group) => {
       response.assertStatus(401)
     })
   })
-})
+import db from '@adonisjs/lucid/services/db'
+import testUtils from '@adonisjs/core/services/test_utils'

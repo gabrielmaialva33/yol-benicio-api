@@ -8,7 +8,8 @@ import IPermission from '#modules/permission/interfaces/permission_interface'
 import { DateTime } from 'luxon'
 import db from '@adonisjs/lucid/services/db'
 
-test.group('Tasks Stats', (_group) => {
+test.group('Tasks Stats', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
   // Helper function to create and assign permissions to a role
   async function assignPermissions(role: Role, actions: string[]) {
     const permissions = await Promise.all(
@@ -493,4 +494,5 @@ test.group('Tasks Stats', (_group) => {
 
     response.assertStatus(403)
   })
-})
+import db from '@adonisjs/lucid/services/db'
+import testUtils from '@adonisjs/core/services/test_utils'

@@ -208,4 +208,5 @@ test.group('Email verification', () => {
 
     response.assertStatus(401)
   })
-})
+import User from '#modules/user/models/user'
+import testUtils from '@adonisjs/core/services/test_utils'
