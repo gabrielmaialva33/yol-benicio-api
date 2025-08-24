@@ -1,9 +1,8 @@
 import { test } from '@japa/runner'
-import mail from '@adonisjs/mail/services/main'
+import testUtils from '@adonisjs/core/services/test_utils'import mail from '@adonisjs/mail/services/main'
 import string from '@adonisjs/core/helpers/string'
 import { DateTime } from 'luxon'
 
-import User from '#modules/user/models/user'
 
 test.group('Email verification', () => {
   test('should send verification email on sign up', async ({ client, assert, cleanup }) => {
@@ -208,5 +207,3 @@ test.group('Email verification', () => {
 
     response.assertStatus(401)
   })
-import User from '#modules/user/models/user'
-import testUtils from '@adonisjs/core/services/test_utils'

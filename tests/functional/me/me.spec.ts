@@ -1,9 +1,6 @@
 import { test } from '@japa/runner'
-import User from '#modules/user/models/user'
-import Role from '#modules/role/models/role'
+import testUtils from '@adonisjs/core/services/test_utils'import Role from '#modules/role/models/role'
 import Permission from '#modules/permission/models/permission'
-import IRole from '#modules/role/interfaces/role_interface'
-import IPermission from '#modules/permission/interfaces/permission_interface'
 
 test.group('Me endpoints', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
@@ -131,5 +128,3 @@ test.group('Me endpoints', (group) => {
       response.assertStatus(401)
     }
   })
-import IPermission from '#modules/permission/interfaces/permission_interface'
-import testUtils from '@adonisjs/core/services/test_utils'

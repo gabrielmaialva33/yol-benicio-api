@@ -1,7 +1,5 @@
 import { test } from '@japa/runner'
-import User from '#modules/user/models/user'
-import Role from '#modules/role/models/role'
-import IRole from '#modules/role/interfaces/role_interface'
+import testUtils from '@adonisjs/core/services/test_utils'import Role from '#modules/role/models/role'
 
 test.group('Sessions sign in', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
@@ -131,5 +129,3 @@ test.group('Sessions sign in', (group) => {
       ],
     })
   })
-import IRole from '#modules/role/interfaces/role_interface'
-import testUtils from '@adonisjs/core/services/test_utils'
