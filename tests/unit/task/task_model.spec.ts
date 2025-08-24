@@ -9,7 +9,7 @@ import db from '@adonisjs/lucid/services/db'
 
 test.group('Task Model', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
-
+  
   let user: User
 
   group.each.setup(async () => {
@@ -23,11 +23,12 @@ test.group('Task Model', (group) => {
       }
     )
 
-    // Create test user
+    // Create test user with unique email
+    const timestamp = Date.now()
     user = await User.create({
       full_name: 'Test User',
-      email: 'test@example.com',
-      username: 'testuser',
+      email: `test-${timestamp}@example.com`,
+      username: `testuser-${timestamp}`,
       password: 'password123',
     })
 
@@ -106,7 +107,7 @@ test.group('Task Model', (group) => {
     assert.exists(task.assignee)
     assert.equal(task.assignee!.id, user.id)
     assert.equal(task.assignee!.full_name, 'Test User')
-    assert.equal(task.assignee!.email, 'test@example.com')
+    assert.equal(task.assignee!.email, user.email)
   })
 
   test('should load creator relation', async ({ assert }) => {
@@ -123,7 +124,7 @@ test.group('Task Model', (group) => {
     assert.exists(task.creator)
     assert.equal(task.creator.id, user.id)
     assert.equal(task.creator.full_name, 'Test User')
-    assert.equal(task.creator.email, 'test@example.com')
+    assert.equal(task.creator.email, user.email)
   })
 
   test('should handle task without assignee', async ({ assert }) => {

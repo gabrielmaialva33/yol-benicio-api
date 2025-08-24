@@ -11,7 +11,7 @@ import db from '@adonisjs/lucid/services/db'
 
 test.group('TaskService', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
-
+  
   let taskService: TaskService
   let user: User
 
@@ -30,11 +30,12 @@ test.group('TaskService', (group) => {
       }
     )
 
-    // Create test user
+    // Create test user with unique email
+    const timestamp = Date.now()
     user = await User.create({
       full_name: 'Test User',
-      email: 'test@example.com',
-      username: 'testuser',
+      email: `test-${timestamp}@example.com`,
+      username: `testuser-${timestamp}`,
       password: 'password123',
     })
 
