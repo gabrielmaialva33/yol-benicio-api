@@ -1,6 +1,7 @@
 import { BaseSeeder } from '@adonisjs/lucid/seeders'
 import User from '#modules/user/models/user'
 import { DateTime } from 'luxon'
+import logger from '@adonisjs/core/services/logger'
 
 export default class extends BaseSeeder {
   async run() {
@@ -22,7 +23,7 @@ export default class extends BaseSeeder {
       },
     })
 
-    console.log('✅ Admin user created: admin@benicio.com.br / benicio123')
-    console.log('User ID:', adminUser.id)
+    logger.info('✅ Admin user created: admin@benicio.com.br / benicio123')
+    logger.info('User ID: %s', adminUser.id)
   }
 }
