@@ -4,6 +4,8 @@ import { DateTime } from 'luxon'
 
 export const FolderFactory = factory
   .define(Folder, async ({ faker }) => {
+    // Use multiple sources of randomness for better uniqueness during rapid execution
+    const uniqueId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${faker.string.alphanumeric(5)}`
     const areas = [
       'civil_litigation',
       'labor',
@@ -22,7 +24,7 @@ export const FolderFactory = factory
     const statuses = ['active', 'completed', 'pending', 'cancelled', 'archived'] as const
 
     return {
-      code: faker.string.alphanumeric({ length: 8, casing: 'upper' }),
+      code: `FOLD_${uniqueId}`,
       title: faker.lorem.sentence({ min: 3, max: 8 }),
       description: faker.lorem.paragraph(),
       status: faker.helpers.arrayElement(statuses),

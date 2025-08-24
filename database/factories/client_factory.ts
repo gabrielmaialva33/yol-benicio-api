@@ -5,6 +5,7 @@ import { DateTime } from 'luxon'
 export const ClientFactory = factory
   .define(Client, async ({ faker }) => {
     const type = faker.helpers.arrayElement(['individual', 'company'] as const)
+    const uniqueId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${faker.string.alphanumeric(5)}`
     const states = [
       'AC',
       'AL',
@@ -37,8 +38,8 @@ export const ClientFactory = factory
 
     return {
       name: type === 'individual' ? faker.person.fullName() : faker.company.name(),
-      document: faker.string.alphanumeric(11) + faker.string.numeric(3),
-      email: faker.internet.email(),
+      document: `DOC_${uniqueId}`,
+      email: `client_${uniqueId}@example.com`.toLowerCase(),
       phone: faker.phone.number(),
       street: faker.location.streetAddress(),
       number: faker.location.buildingNumber(),
