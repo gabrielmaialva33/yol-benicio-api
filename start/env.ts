@@ -11,7 +11,7 @@
 
 import { Env } from '@adonisjs/core/env'
 
-export default await Env.create(new URL('../', import.meta.url), {
+const env = await Env.create(new URL('../', import.meta.url), {
   /*
   |----------------------------------------------------------
   | Variables for configuring the application
@@ -132,3 +132,5 @@ export default await Env.create(new URL('../', import.meta.url), {
   SMTP_FROM_ADDRESS: Env.schema.string.optional(),
   SMTP_FROM_NAME: Env.schema.string.optional(),
 })
+
+export default env
