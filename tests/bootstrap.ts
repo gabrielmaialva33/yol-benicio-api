@@ -7,6 +7,7 @@ import testUtils from '@adonisjs/core/services/test_utils'
 import { authApiClient } from '@adonisjs/auth/plugins/api_client'
 import { sessionApiClient } from '@adonisjs/session/plugins/api_client'
 import { shieldApiClient } from '@adonisjs/shield/plugins/api_client'
+import db from '@adonisjs/lucid/services/db'
 
 import env from '#start/env'
 
@@ -37,8 +38,29 @@ export const plugins: Config['plugins'] = [
  * The teardown functions are executed after all the tests
  */
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
-  setup: [() => testUtils.db().truncate(), () => testUtils.db().seed()],
-  teardown: [],
+  setup: [
+    async () => {
+      // Verify database connection is working
+      try {
+        await db.connection().raw('SELECT 1')
+      } catch (error) {
+        throw error
+      }
+
+      // Run migrations to ensure clean state
+      await testUtils.db().migrate()
+    },
+  ],
+  teardown: [
+    async () => {
+      try {
+        // Close all database connections
+        await db.manager.closeAll(true)
+      } catch (error) {
+        // Silent cleanup
+      }
+    },
+  ],
 }
 
 /**
