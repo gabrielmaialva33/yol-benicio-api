@@ -1,5 +1,9 @@
 import { test } from '@japa/runner'
-import testUtils from '@adonisjs/core/services/test_utils'import Role from '#modules/role/models/role'
+import testUtils from '@adonisjs/core/services/test_utils'
+import User from '#modules/user/models/user'
+import Role from '#modules/role/models/role'
+import IRole from '#modules/role/interfaces/role_interface'
+import db from '@adonisjs/lucid/services/db'
 
 test.group('Roles admin', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
