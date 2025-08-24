@@ -12,15 +12,9 @@ import IPermission from '#modules/permission/interfaces/permission_interface'
 import db from '@adonisjs/lucid/services/db'
 
 test.group('Clients CRUD API', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
+
   let user: any
-
-  group.setup(async () => {
-    await testUtils.db().migrate()
-  })
-
-  group.teardown(async () => {
-    // Skip rollback due to database lock issues in tests
-  })
 
   // Helper function to create and assign permissions to a role
   async function assignPermissions(role: Role, actions: string[]) {
@@ -43,8 +37,6 @@ test.group('Clients CRUD API', (group) => {
   }
 
   group.each.setup(async () => {
-    await testUtils.db().truncate()
-
     // Create user role with client permissions
     const userRole = await Role.firstOrCreate(
       { slug: IRole.Slugs.USER },

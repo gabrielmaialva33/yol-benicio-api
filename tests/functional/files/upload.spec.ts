@@ -1,7 +1,6 @@
 import { join } from 'node:path'
 
 import { test } from '@japa/runner'
-import testUtils from '@adonisjs/core/services/test_utils'
 import { cuid } from '@adonisjs/core/helpers'
 import db from '@adonisjs/lucid/services/db'
 import app from '@adonisjs/core/services/app'
@@ -13,9 +12,7 @@ import File from '#modules/file/models/file'
 import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
 
-test.group('Files upload', (group) => {
-  group.each.setup(() => testUtils.db().withGlobalTransaction())
-
+test.group('Files upload', (_group) => {
   // Helper function to create and assign permissions to a role
   async function assignPermissions(role: Role, actions: string[]) {
     const permissions = await Promise.all(

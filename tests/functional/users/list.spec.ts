@@ -1,5 +1,4 @@
 import { test } from '@japa/runner'
-import testUtils from '@adonisjs/core/services/test_utils'
 import User from '#modules/user/models/user'
 import Role from '#modules/role/models/role'
 import Permission from '#modules/permission/models/permission'
@@ -7,9 +6,7 @@ import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
 import db from '@adonisjs/lucid/services/db'
 
-test.group('Users list', (group) => {
-  group.each.setup(() => testUtils.db().withGlobalTransaction())
-
+test.group('Users list', (_group) => {
   // Helper function to create and assign permissions to a role
   async function assignPermissions(role: Role, actions: string[]) {
     const permissions = await Promise.all(

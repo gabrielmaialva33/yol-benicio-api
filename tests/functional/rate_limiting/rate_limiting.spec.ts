@@ -1,5 +1,4 @@
 import { test } from '@japa/runner'
-import testUtils from '@adonisjs/core/services/test_utils'
 import limiter from '@adonisjs/limiter/services/main'
 
 import User from '#modules/user/models/user'
@@ -8,8 +7,6 @@ import Role from '#modules/role/models/role'
 import IRole from '#modules/role/interfaces/role_interface'
 
 test.group('Rate Limiting', (group) => {
-  group.each.setup(() => testUtils.db().withGlobalTransaction())
-
   group.each.setup(() => {
     // Clear rate limiter storage before each test
     return () => limiter.clear()
