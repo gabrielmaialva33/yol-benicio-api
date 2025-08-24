@@ -5,6 +5,7 @@ import Role from '#modules/role/models/role'
 import IRole from '#modules/role/interfaces/role_interface'
 import db from '@adonisjs/lucid/services/db'
 import mail from '@adonisjs/mail/services/main'
+import logger from '@adonisjs/core/services/logger'
 
 test.group('Sessions sign up', (group) => {
   group.each.setup(() => {
@@ -29,8 +30,8 @@ test.group('Sessions sign up', (group) => {
     const response = await client.post('/api/v1/sessions/sign-up').json(userData)
 
     if (response.status() !== 201) {
-      console.log('Response status:', response.status())
-      console.log('Response body:', response.body())
+      logger.error('Response status: %s', response.status())
+      logger.error('Response body: %O', response.body())
     }
 
     response.assertStatus(201)
