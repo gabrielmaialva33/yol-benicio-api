@@ -52,14 +52,14 @@
     "@adonisjs/eslint-config": "2.1.2",
     "@adonisjs/prettier-config": "^1.4.5",
     "@adonisjs/tsconfig": "^1.4.1",
-    "@faker-js/faker": "^9.9.0",
+    "@faker-js/faker": "^10.0.0",
     "@japa/api-client": "^3.1.0",
     "@japa/assert": "^4.1.1",
     "@japa/openapi-assertions": "^0.1.1",
     "@japa/plugin-adonisjs": "^4.0.0",
     "@japa/runner": "^4.4.0",
     "@stylistic/eslint-plugin": "^5.2.3",
-    "@swc/core": "1.13.4",
+    "@swc/core": "1.13.5",
     "@tailwindcss/vite": "^4.1.12",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/luxon": "^3.7.1",
@@ -120,7 +120,7 @@
     "react-error-boundary": "^6.0.0",
     "recharts": "^3.1.2",
     "reflect-metadata": "^0.2.2",
-    "zod": "^4.1.0"
+    "zod": "^4.1.1"
   },
   "hotHook": {
     "boundaries": [
