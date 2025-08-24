@@ -1,7 +1,12 @@
 import { test } from '@japa/runner'
 import testUtils from '@adonisjs/core/services/test_utils'
+
+import User from '#modules/user/models/user'
 import Role from '#modules/role/models/role'
 import Permission from '#modules/permission/models/permission'
+
+import IRole from '#modules/role/interfaces/role_interface'
+import IPermission from '#modules/permission/interfaces/permission_interface'
 
 
 test.group('Permissions', (group) => {
