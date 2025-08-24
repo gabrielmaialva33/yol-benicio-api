@@ -1,13 +1,13 @@
 CREATE
-  DATABASE db;
+  DATABASE benicio_db;
 CREATE
-  DATABASE db_development;
+  DATABASE benicio_db_development;
 CREATE
-  DATABASE db_testing;
+  DATABASE benicio_db_testing;
 
 GRANT ALL PRIVILEGES ON DATABASE
-  db TO postgres;
+  benicio_db TO postgres;
 GRANT ALL PRIVILEGES ON DATABASE
-  db_development TO postgres;
+  benicio_db_development TO postgres;
 GRANT ALL PRIVILEGES ON DATABASE
-  db_testing TO postgres;
+  benicio_db_testing TO postgres;
