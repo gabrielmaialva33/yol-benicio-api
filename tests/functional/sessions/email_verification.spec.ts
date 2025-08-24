@@ -1,10 +1,12 @@
 import { test } from '@japa/runner'
-import testUtils from '@adonisjs/core/services/test_utils'import mail from '@adonisjs/mail/services/main'
+import testUtils from '@adonisjs/core/services/test_utils'
+import User from '#modules/user/models/user'
+import mail from '@adonisjs/mail/services/main'
 import string from '@adonisjs/core/helpers/string'
 import { DateTime } from 'luxon'
 
-
-test.group('Email verification', () => {
+test.group('Email verification', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
   test('should send verification email on sign up', async ({ client, assert, cleanup }) => {
     // Reset mail service before test
     mail.restore()
@@ -207,3 +209,4 @@ test.group('Email verification', () => {
 
     response.assertStatus(401)
   })
+})

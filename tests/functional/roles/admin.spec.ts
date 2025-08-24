@@ -343,3 +343,4 @@ test.group('Roles admin', (group) => {
       response.assertStatus(401)
     })
   })
+})

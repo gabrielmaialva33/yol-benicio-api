@@ -8,7 +8,6 @@ import Permission from '#modules/permission/models/permission'
 import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
 
-
 test.group('Permissions', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
   test('should create a permission', async ({ client, assert }) => {
@@ -377,3 +376,4 @@ test.group('Permissions', (group) => {
       message: 'Insufficient permissions. Required: permissions.list',
     })
   })
+})
