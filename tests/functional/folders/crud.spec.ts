@@ -14,12 +14,12 @@ import db from '@adonisjs/lucid/services/db'
 test.group('Folders CRUD API', (group) => {
   // Removed global transaction to test data isolation issues
   // group.each.setup(() => testUtils.db().withGlobalTransaction())
-  
+
   group.each.setup(async () => {
     // Clean up any existing test data before each test
     await db.rawQuery('TRUNCATE TABLE clients CASCADE')
     await db.rawQuery('TRUNCATE TABLE folders CASCADE')
-    await db.rawQuery('TRUNCATE TABLE users CASCADE') 
+    await db.rawQuery('TRUNCATE TABLE users CASCADE')
     await db.rawQuery('TRUNCATE TABLE roles CASCADE')
     await db.rawQuery('TRUNCATE TABLE permissions CASCADE')
     await db.rawQuery('TRUNCATE TABLE user_roles CASCADE')
