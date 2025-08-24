@@ -10,6 +10,8 @@ import { DateTime } from 'luxon'
 import db from '@adonisjs/lucid/services/db'
 
 test.group('TaskService', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
+
   let taskService: TaskService
   let user: User
 
@@ -17,13 +19,7 @@ test.group('TaskService', (group) => {
     taskService = await app.container.make(TaskService)
   })
 
-  group.teardown(async () => {
-    await testUtils.db().truncate()
-  })
-
   group.each.setup(async () => {
-    await testUtils.db().truncate()
-
     // Create user role
     const userRole = await Role.firstOrCreate(
       { slug: IRole.Slugs.USER },
@@ -46,11 +42,6 @@ test.group('TaskService', (group) => {
       user_id: user.id,
       role_id: userRole.id,
     })
-  })
-
-  group.each.teardown(async () => {
-    // Clean up after each test
-    await db.manager.closeAll(true)
   })
 
   test('should get task statistics', async ({ assert }) => {

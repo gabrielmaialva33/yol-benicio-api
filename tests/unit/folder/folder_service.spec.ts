@@ -1,5 +1,4 @@
 import { test } from '@japa/runner'
-import testUtils from '@adonisjs/core/services/test_utils'
 import { DateTime } from 'luxon'
 import db from '@adonisjs/lucid/services/db'
 import FolderService from '#modules/folder/services/folder_service'
@@ -12,7 +11,6 @@ test.group('FolderService', (group) => {
   let folderService: FolderService
 
   group.each.setup(async () => {
-    await testUtils.db().truncate()
     folderService = new FolderService()
   })
 
@@ -20,8 +18,9 @@ test.group('FolderService', (group) => {
     const client = await ClientFactory.create()
     const user = await UserFactory.create()
 
+    const uniqueCode = `TST_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`
     const folderData = {
-      code: 'TST001',
+      code: uniqueCode,
       title: 'Test Folder',
       description: 'Test folder description',
       area: 'civil_litigation' as const,
@@ -34,7 +33,7 @@ test.group('FolderService', (group) => {
 
     const folder = await folderService.createFolder(folderData)
 
-    assert.equal(folder.code, 'TST001')
+    assert.equal(folder.code, uniqueCode)
     assert.equal(folder.title, 'Test Folder')
     assert.equal(folder.area, 'civil_litigation')
     assert.equal(folder.status, 'active')

@@ -8,25 +8,12 @@ import { ClientFactory } from '#database/factories/client_factory'
 import { FolderFactory } from '#database/factories/folder_factory'
 
 test.group('ClientService', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
+
   let clientService: ClientService
 
-  group.setup(async () => {
-    // Remove migration from group setup to avoid lock issues
-  })
-
-  group.teardown(async () => {
-    // Clean teardown without migration rollback
-    await testUtils.db().truncate()
-  })
-
   group.each.setup(async () => {
-    await testUtils.db().truncate()
     clientService = new ClientService()
-  })
-
-  group.each.teardown(async () => {
-    // Clean up after each test
-    await db.manager.closeAll(true)
   })
 
   test('should create a new individual client', async ({ assert }) => {
