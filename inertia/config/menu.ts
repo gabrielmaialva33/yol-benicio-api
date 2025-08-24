@@ -35,6 +35,70 @@ export const menuItems: MenuItem[] = [
       { text: 'Consulta', path: '/dashboard/folders/consultation' },
     ],
   },
+  {
+    icon: '/icons/clients.svg',
+    text: 'Clientes',
+    path: '/dashboard/clients',
+    requiredPermissions: ['clients:list'],
+    subItems: [
+      { text: 'Cadastrar', path: '/dashboard/clients/register' },
+      { text: 'Consulta', path: '/dashboard/clients/consultation' },
+    ],
+  },
+  {
+    icon: '/icons/calendar.svg',
+    text: 'Agenda',
+    path: '/dashboard/calendar',
+    requiredPermissions: ['calendar:view'],
+    subItems: [
+      { text: 'Compromissos', path: '/dashboard/calendar/appointments' },
+      { text: 'Audiências', path: '/dashboard/calendar/hearings' },
+      { text: 'Prazos', path: '/dashboard/calendar/deadlines' },
+    ],
+  },
+  {
+    icon: '/icons/documents.svg',
+    text: 'Documentos',
+    path: '/dashboard/documents',
+    requiredPermissions: ['documents:list'],
+    subItems: [
+      { text: 'Modelos', path: '/dashboard/documents/templates' },
+      { text: 'Gerados', path: '/dashboard/documents/generated' },
+    ],
+  },
+  {
+    icon: '/icons/finance.svg',
+    text: 'Financeiro',
+    path: '/dashboard/finance',
+    requiredPermissions: ['finance:view'],
+    subItems: [
+      { text: 'Faturamento', path: '/dashboard/finance/billing' },
+      { text: 'Recebimentos', path: '/dashboard/finance/receivables' },
+      { text: 'Relatórios', path: '/dashboard/finance/reports' },
+    ],
+  },
+  {
+    icon: '/icons/reports.svg',
+    text: 'Relatórios',
+    path: '/dashboard/reports',
+    requiredPermissions: ['reports:view'],
+    subItems: [
+      { text: 'Produtividade', path: '/dashboard/reports/productivity' },
+      { text: 'Processos', path: '/dashboard/reports/processes' },
+      { text: 'Financeiro', path: '/dashboard/reports/financial' },
+    ],
+  },
+  {
+    icon: '/icons/settings.svg',
+    text: 'Configurações',
+    path: '/dashboard/settings',
+    requiredPermissions: ['settings:manage'],
+    subItems: [
+      { text: 'Usuários', path: '/dashboard/settings/users' },
+      { text: 'Permissões', path: '/dashboard/settings/permissions' },
+      { text: 'Sistema', path: '/dashboard/settings/system' },
+    ],
+  },
 ]
 
 /**
