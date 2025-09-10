@@ -72,8 +72,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0(react@19.1.1)
       '@inertiajs/react':
-        specifier: ^2.1.4
-        version: 2.1.4(react@19.1.1)
+        specifier: ^2.1.5
+        version: 2.1.5(react@19.1.1)
       '@rlanz/bull-queue':
         specifier: ^3.1.0
         version: 3.1.0(@adonisjs/core@6.19.0(@adonisjs/assembler@7.8.2(typescript@5.9.2))(@vinejs/vine@3.0.1)(argon2@0.44.0)(bcrypt@6.0.0)(edge.js@6.2.1))
@@ -1141,11 +1141,11 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@inertiajs/core@2.1.4':
-    resolution: {integrity: sha512-Mvq9itSwlAatS2zc6I+Pyu2bLnmgEm/fHwDd1AQ8xZUCLBKW5IaE2Y8hKKcuKcACU2Nu68jASq+hP5Inq7WXAQ==}
+  '@inertiajs/core@2.1.5':
+    resolution: {integrity: sha512-bVApSgzooJ7Wl+x1ZFEvkKRcjpuRHN85l4rVzjbjvqSsy2fXSlsGpHAB4wtLE7Dum+6pdweN1lSMXkaqfjHC+Q==}
 
-  '@inertiajs/react@2.1.4':
-    resolution: {integrity: sha512-vgvlMY/rh3sWsZRnJoeE4Sdu5basBu1z4CHk4KWzlmFWYzV+gGxIVRTgsdWn6rbfaUqD03FSG5WYrpYe94WOow==}
+  '@inertiajs/react@2.1.5':
+    resolution: {integrity: sha512-HQd8y3NYvAVnXm4Iuznkp2S9eOFp96N7vEqcJrehLb7bqDWwmMC/4tk6dbR7osrePjjtwqlXZiEDuI3aPDUaKw==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -6731,7 +6731,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@inertiajs/core@2.1.4':
+  '@inertiajs/core@2.1.5':
     dependencies:
       '@types/lodash-es': 4.17.12
       axios: 1.11.0
@@ -6740,9 +6740,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@inertiajs/react@2.1.4(react@19.1.1)':
+  '@inertiajs/react@2.1.5(react@19.1.1)':
     dependencies:
-      '@inertiajs/core': 2.1.4
+      '@inertiajs/core': 2.1.5
       '@types/lodash-es': 4.17.12
       lodash-es: 4.17.21
       react: 19.1.1
