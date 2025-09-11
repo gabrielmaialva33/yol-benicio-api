@@ -14,7 +14,7 @@ import {
   TrendingUp,
   UserPlus,
   X,
-  Search
+  Search,
 } from 'lucide-react'
 import { DateTime } from 'luxon'
 
@@ -63,57 +63,54 @@ const eventTypeConfig = {
     icon: TrendingUp,
     iconBg: 'bg-green-100',
     iconColor: 'text-green-600',
-    borderColor: 'border-green-200'
+    borderColor: 'border-green-200',
   },
   document: {
     icon: FileText,
     iconBg: 'bg-blue-100',
     iconColor: 'text-blue-600',
-    borderColor: 'border-blue-200'
+    borderColor: 'border-blue-200',
   },
   hearing: {
     icon: Gavel,
     iconBg: 'bg-amber-100',
     iconColor: 'text-amber-600',
-    borderColor: 'border-amber-200'
+    borderColor: 'border-amber-200',
   },
   decision: {
     icon: Scale,
     iconBg: 'bg-purple-100',
     iconColor: 'text-purple-600',
-    borderColor: 'border-purple-200'
+    borderColor: 'border-purple-200',
   },
   party: {
     icon: UserPlus,
     iconBg: 'bg-indigo-100',
     iconColor: 'text-indigo-600',
-    borderColor: 'border-indigo-200'
+    borderColor: 'border-indigo-200',
   },
   update: {
     icon: Edit3,
     iconBg: 'bg-gray-100',
     iconColor: 'text-gray-600',
-    borderColor: 'border-gray-200'
+    borderColor: 'border-gray-200',
   },
   deadline: {
     icon: Clock,
     iconBg: 'bg-red-100',
     iconColor: 'text-red-600',
-    borderColor: 'border-red-200'
+    borderColor: 'border-red-200',
   },
   attachment: {
     icon: Paperclip,
     iconBg: 'bg-cyan-100',
     iconColor: 'text-cyan-600',
-    borderColor: 'border-cyan-200'
-  }
+    borderColor: 'border-cyan-200',
+  },
 }
 
 const getEventConfig = (eventType?: string) => {
-  return (
-    eventTypeConfig[eventType as keyof typeof eventTypeConfig] ||
-    eventTypeConfig.update
-  )
+  return eventTypeConfig[eventType as keyof typeof eventTypeConfig] || eventTypeConfig.update
 }
 
 const getStatusIcon = (status?: string) => {
@@ -141,7 +138,7 @@ const getStatusColors = (status?: string) => {
         subtext: 'text-green-700',
         button: 'bg-green-600 hover:bg-green-700',
         iconBg: 'bg-green-100',
-        iconColor: 'text-green-600'
+        iconColor: 'text-green-600',
       }
     case 'warning':
       return {
@@ -151,7 +148,7 @@ const getStatusColors = (status?: string) => {
         subtext: 'text-amber-700',
         button: 'bg-amber-600 hover:bg-amber-700',
         iconBg: 'bg-amber-100',
-        iconColor: 'text-amber-600'
+        iconColor: 'text-amber-600',
       }
     case 'error':
       return {
@@ -161,7 +158,7 @@ const getStatusColors = (status?: string) => {
         subtext: 'text-red-700',
         button: 'bg-red-600 hover:bg-red-700',
         iconBg: 'bg-red-100',
-        iconColor: 'text-red-600'
+        iconColor: 'text-red-600',
       }
     default:
       return null
@@ -172,30 +169,31 @@ const getStatusColors = (status?: string) => {
 const determineEventType = (movement: Movement): string => {
   const type = movement.movement_type?.toLowerCase() || ''
   const desc = movement.description?.toLowerCase() || ''
-  
+
   if (type.includes('faturamento') || desc.includes('faturamento')) return 'billing'
   if (type.includes('audiência') || desc.includes('audiência')) return 'hearing'
-  if (type.includes('decisão') || type.includes('sentença') || desc.includes('decisão')) return 'decision'
+  if (type.includes('decisão') || type.includes('sentença') || desc.includes('decisão'))
+    return 'decision'
   if (type.includes('documento') || desc.includes('documento')) return 'document'
   if (type.includes('prazo') || desc.includes('prazo')) return 'deadline'
   if (type.includes('anexo') || desc.includes('anexo')) return 'attachment'
   if (type.includes('parte') || desc.includes('parte')) return 'party'
-  
+
   return 'update'
 }
 
 export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelineProps) {
   const [searchTerm, setSearchTerm] = useState('')
-  
+
   // Enrich movements with event types and enhanced data
-  const enrichedMovements = movements.map(movement => ({
+  const enrichedMovements = movements.map((movement) => ({
     ...movement,
     eventType: movement.eventType || determineEventType(movement),
     title: movement.title || movement.description,
     addedBy: movement.addedBy || {
       name: movement.responsible,
-      avatar: undefined
-    }
+      avatar: undefined,
+    },
   }))
 
   // Sort movements by date (newest first)
@@ -204,7 +202,7 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
   )
 
   // Filter movements based on search
-  const filteredMovements = sortedMovements.filter(movement => {
+  const filteredMovements = sortedMovements.filter((movement) => {
     const searchLower = searchTerm.toLowerCase()
     return (
       movement.description?.toLowerCase().includes(searchLower) ||
@@ -215,17 +213,17 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
   })
 
   return (
-    <div className='bg-white rounded-2xl shadow-sm border border-gray-100'>
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
       {/* Header with Search */}
-      <div className='px-6 py-4 border-b border-gray-100'>
-        <div className='flex items-center justify-between'>
-          <h2 className='text-lg font-semibold text-gray-900'>Histórico</h2>
-          <div className='relative w-64'>
+      <div className="px-6 py-4 border-b border-gray-100">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">Histórico</h2>
+          <div className="relative w-64">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
-              className='w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B8D9] focus:border-[#00B8D9]'
-              placeholder='Buscar no histórico'
-              type='text'
+              className="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00B8D9] focus:border-[#00B8D9]"
+              placeholder="Buscar no histórico"
+              type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -234,14 +232,14 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
       </div>
 
       {/* Timeline */}
-      <div className='p-6'>
+      <div className="p-6">
         {filteredMovements.length > 0 ? (
-          <div className='relative'>
+          <div className="relative">
             {/* Vertical line */}
-            <div className='absolute left-8 top-0 bottom-0 w-px border-l-2 border-dashed border-gray-300' />
+            <div className="absolute left-8 top-0 bottom-0 w-px border-l-2 border-dashed border-gray-300" />
 
             {/* Events */}
-            <div className='space-y-6'>
+            <div className="space-y-6">
               {filteredMovements.map((event, index) => {
                 const config = getEventConfig(event.eventType)
                 const Icon = config.icon
@@ -250,7 +248,7 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
                 const eventDate = DateTime.fromISO(event.movement_date)
 
                 return (
-                  <div className='flex gap-4' key={event.id}>
+                  <div className="flex gap-4" key={event.id}>
                     {/* Icon */}
                     <div
                       className={`relative z-10 flex h-14 w-14 items-center justify-center rounded-full ${config.iconBg} border-2 ${config.borderColor}`}
@@ -259,32 +257,26 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
                     </div>
 
                     {/* Content */}
-                    <div className='flex-1 pb-6'>
+                    <div className="flex-1 pb-6">
                       {/* Title and Reference */}
-                      <div className='flex items-start justify-between'>
+                      <div className="flex items-start justify-between">
                         <div>
-                          <div className='flex items-center gap-2'>
-                            <h4 className='text-base font-medium text-gray-900'>
-                              {event.title}
-                            </h4>
+                          <div className="flex items-center gap-2">
+                            <h4 className="text-base font-medium text-gray-900">{event.title}</h4>
                             {event.referenceNumber && (
-                              <span className='text-sm text-cyan-600'>
-                                {event.referenceNumber}
-                              </span>
+                              <span className="text-sm text-cyan-600">{event.referenceNumber}</span>
                             )}
                           </div>
 
                           {/* Added by info */}
-                          <div className='mt-1 flex items-center gap-2 text-sm text-gray-500'>
-                            <span>
-                              Adicionado {eventDate.toFormat('dd/MM/yyyy')} por
-                            </span>
-                            <div className='flex items-center gap-1'>
-                              <span className='font-medium'>{event.addedBy.name}</span>
+                          <div className="mt-1 flex items-center gap-2 text-sm text-gray-500">
+                            <span>Adicionado {eventDate.toFormat('dd/MM/yyyy')} por</span>
+                            <div className="flex items-center gap-1">
+                              <span className="font-medium">{event.addedBy.name}</span>
                               {event.addedBy.avatar && (
                                 <img
                                   alt={event.addedBy.name}
-                                  className='h-5 w-5 rounded-full ml-1'
+                                  className="h-5 w-5 rounded-full ml-1"
                                   height={20}
                                   src={event.addedBy.avatar}
                                   width={20}
@@ -300,26 +292,20 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
                         <div
                           className={`mt-3 rounded-lg ${statusColors.bg} border ${statusColors.border} p-4`}
                         >
-                          <div className='flex items-start gap-3'>
+                          <div className="flex items-start gap-3">
                             {StatusIcon && (
                               <div
                                 className={`flex h-8 w-8 items-center justify-center rounded-full ${statusColors.iconBg}`}
                               >
-                                <StatusIcon
-                                  className={`h-5 w-5 ${statusColors.iconColor}`}
-                                />
+                                <StatusIcon className={`h-5 w-5 ${statusColors.iconColor}`} />
                               </div>
                             )}
-                            <div className='flex-1'>
-                              <p
-                                className={`text-sm font-medium ${statusColors.text}`}
-                              >
+                            <div className="flex-1">
+                              <p className={`text-sm font-medium ${statusColors.text}`}>
                                 {event.actionText}
                               </p>
                               {event.actionDescription && (
-                                <p
-                                  className={`mt-1 text-xs ${statusColors.subtext}`}
-                                >
+                                <p className={`mt-1 text-xs ${statusColors.subtext}`}>
                                   {event.actionDescription}
                                 </p>
                               )}
@@ -327,7 +313,7 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
                             {event.status === 'success' && (
                               <button
                                 className={`rounded-lg px-4 py-1.5 text-xs font-medium text-white transition-colors ${statusColors.button}`}
-                                type='button'
+                                type="button"
                               >
                                 Continuar
                               </button>
@@ -335,7 +321,7 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
                             {event.status === 'error' && (
                               <button
                                 className={`rounded-lg px-4 py-1.5 text-xs font-medium text-white transition-colors ${statusColors.button}`}
-                                type='button'
+                                type="button"
                               >
                                 Resolver
                               </button>
@@ -346,19 +332,17 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
 
                       {/* Categories and Action */}
                       {event.category && !statusColors && (
-                        <div className='mt-3 rounded-lg border border-gray-200 p-4 hover:border-gray-300 transition-colors'>
-                          <div className='flex items-center justify-between'>
-                            <div className='flex-1'>
+                        <div className="mt-3 rounded-lg border border-gray-200 p-4 hover:border-gray-300 transition-colors">
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1">
                               {event.subtitle && (
-                                <p className='text-sm font-medium text-gray-900 mb-2'>
+                                <p className="text-sm font-medium text-gray-900 mb-2">
                                   {event.subtitle}
                                 </p>
                               )}
-                              <div className='flex flex-wrap gap-2'>
-                                {event.category.map(cat => {
-                                  const isPositive = cat
-                                    .toLowerCase()
-                                    .includes('favorável')
+                              <div className="flex flex-wrap gap-2">
+                                {event.category.map((cat) => {
+                                  const isPositive = cat.toLowerCase().includes('favorável')
                                   const isWarning =
                                     cat.toLowerCase().includes('audiência') ||
                                     cat.toLowerCase().includes('agendada')
@@ -380,8 +364,8 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
                               </div>
                             </div>
                             <button
-                              className='rounded-lg bg-white border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors'
-                              type='button'
+                              className="rounded-lg bg-white border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                              type="button"
                             >
                               Visualizar
                             </button>
@@ -391,55 +375,43 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
 
                       {/* Movement type badge for simple movements */}
                       {event.movement_type && !event.category && (
-                        <span className='inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-2'>
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-2">
                           {event.movement_type}
                         </span>
                       )}
 
                       {/* Documents */}
                       {event.documents && event.documents.length > 0 && (
-                        <div className='mt-3 space-y-2'>
-                          {event.documents.map(doc => (
+                        <div className="mt-3 space-y-2">
+                          {event.documents.map((doc) => (
                             <div
-                              className='flex items-center justify-between rounded-lg border border-gray-200 p-3 hover:border-gray-300 hover:shadow-sm transition-all'
+                              className="flex items-center justify-between rounded-lg border border-gray-200 p-3 hover:border-gray-300 hover:shadow-sm transition-all"
                               key={doc.id}
                             >
-                              <div className='flex items-center gap-3'>
-                                <div className='flex h-10 w-10 items-center justify-center'>
+                              <div className="flex items-center gap-3">
+                                <div className="flex h-10 w-10 items-center justify-center">
                                   {doc.type === 'pdf' ? (
-                                    <div className='relative h-8 w-6'>
-                                      <div className='absolute inset-0 rounded bg-red-500' />
-                                      <div className='absolute inset-x-1 bottom-1 flex items-center justify-center'>
-                                        <span className='text-[8px] font-bold text-white'>
-                                          PDF
-                                        </span>
+                                    <div className="relative h-8 w-6">
+                                      <div className="absolute inset-0 rounded bg-red-500" />
+                                      <div className="absolute inset-x-1 bottom-1 flex items-center justify-center">
+                                        <span className="text-[8px] font-bold text-white">PDF</span>
                                       </div>
                                     </div>
                                   ) : (
-                                    <FileText className='h-6 w-6 text-blue-500' />
+                                    <FileText className="h-6 w-6 text-blue-500" />
                                   )}
                                 </div>
                                 <div>
-                                  <p className='text-sm font-medium text-gray-900'>
-                                    {doc.name}
-                                  </p>
-                                  <p className='text-xs text-gray-500'>
-                                    {doc.size}
-                                  </p>
+                                  <p className="text-sm font-medium text-gray-900">{doc.name}</p>
+                                  <p className="text-xs text-gray-500">{doc.size}</p>
                                 </div>
                               </div>
-                              <div className='flex gap-2'>
-                                <button
-                                  className='rounded p-1.5 hover:bg-gray-100'
-                                  type='button'
-                                >
-                                  <Eye className='h-4 w-4 text-gray-500' />
+                              <div className="flex gap-2">
+                                <button className="rounded p-1.5 hover:bg-gray-100" type="button">
+                                  <Eye className="h-4 w-4 text-gray-500" />
                                 </button>
-                                <button
-                                  className='rounded p-1.5 hover:bg-gray-100'
-                                  type='button'
-                                >
-                                  <Download className='h-4 w-4 text-gray-500' />
+                                <button className="rounded p-1.5 hover:bg-gray-100" type="button">
+                                  <Download className="h-4 w-4 text-gray-500" />
                                 </button>
                               </div>
                             </div>
@@ -456,10 +428,14 @@ export function ProcessTimeline({ folderId, movements = [] }: ProcessTimelinePro
           <div className="text-center py-12">
             <FileText className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">
-              {searchTerm ? 'Nenhuma movimentação encontrada para sua busca' : 'Nenhuma movimentação encontrada'}
+              {searchTerm
+                ? 'Nenhuma movimentação encontrada para sua busca'
+                : 'Nenhuma movimentação encontrada'}
             </h3>
             <p className="mt-1 text-sm text-gray-500">
-              {searchTerm ? 'Tente outros termos de busca.' : 'Não há movimentações registradas para esta pasta ainda.'}
+              {searchTerm
+                ? 'Tente outros termos de busca.'
+                : 'Não há movimentações registradas para esta pasta ainda.'}
             </p>
             {!searchTerm && (
               <div className="mt-6">

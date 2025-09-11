@@ -50,12 +50,19 @@ function Skeleton({
   )
 }
 
-export function FolderTableSkeleton({ rows = 5, showActions = true, variant = 'table' }: FolderTableSkeletonProps) {
+export function FolderTableSkeleton({
+  rows = 5,
+  showActions = true,
+  variant = 'table',
+}: FolderTableSkeletonProps) {
   if (variant === 'grid') {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {Array.from({ length: rows }, (_, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 space-y-3">
+          <div
+            key={index}
+            className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 space-y-3"
+          >
             <div className="flex items-center justify-between">
               <Skeleton variant="text" width="w-20" height="h-4" />
               <Skeleton variant="circular" width="w-6" height="h-6" />
