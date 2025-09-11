@@ -30,19 +30,27 @@ export function TasksCard() {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [dateRange, setDateRange] = useState<DateRange>({
     from: new Date(2023, 0, 2), // 2 Jan 2023
-    to: new Date(2023, 1, 7),   // 7 Feb 2023
+    to: new Date(2023, 1, 7), // 7 Feb 2023
   })
 
-  const { data: tasksData, isLoading, error } = useApiQuery<TasksResponse>('/api/dashboard/tasks', {
-    from: dateRange.from?.toISOString().split('T')[0],
-    to: dateRange.to?.toISOString().split('T')[0],
-  }, {
-    enabled: true,
-    staleTime: 2 * 60 * 1000 // 2 minutes
-  })
+  const {
+    data: tasksData,
+    isLoading,
+    error,
+  } = useApiQuery<TasksResponse>(
+    '/api/dashboard/tasks',
+    {
+      from: dateRange.from?.toISOString().split('T')[0],
+      to: dateRange.to?.toISOString().split('T')[0],
+    },
+    {
+      enabled: true,
+      staleTime: 2 * 60 * 1000, // 2 minutes
+    }
+  )
 
   const displayTasks = tasksData?.tasks || []
-  
+
   const toggleTask = (id: number) => {
     // In a real app, this would make an API call
     console.log('Toggle task:', id)
@@ -82,12 +90,10 @@ export function TasksCard() {
             >
               <Calendar className="h-4 w-4 text-gray-500" />
             </button>
-            <span className="text-sm text-gray-500">
-              {formatDateRange()}
-            </span>
+            <span className="text-sm text-gray-500">{formatDateRange()}</span>
           </div>
         </div>
-        
+
         {showDatePicker && (
           <div className="mt-4 p-3 bg-gray-50 rounded-lg">
             <p className="text-sm text-gray-600">Date picker functionality would go here</p>

@@ -49,21 +49,17 @@ export function TaskItem({ task, toggleTask }: TaskItemProps) {
           </svg>
         )}
       </button>
-      
+
       <div className="flex-1 min-w-0">
         <div
           className={`font-medium text-sm transition-colors duration-200 ${
-            isCompleted 
-              ? 'line-through text-gray-500' 
-              : 'text-gray-900 group-hover:text-gray-700'
+            isCompleted ? 'line-through text-gray-500' : 'text-gray-900 group-hover:text-gray-700'
           }`}
         >
           {task.title}
         </div>
         {task.folder && (
-          <div className="text-sm text-gray-500 mt-1 truncate">
-            {task.folder.title}
-          </div>
+          <div className="text-sm text-gray-500 mt-1 truncate">{task.folder.title}</div>
         )}
         {task.dueDate && (
           <div className="text-xs text-gray-400 mt-1">
@@ -71,7 +67,7 @@ export function TaskItem({ task, toggleTask }: TaskItemProps) {
           </div>
         )}
       </div>
-      
+
       <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         <button
           className="p-2 bg-white rounded-md hover:bg-gray-50 transition-colors duration-200 shadow-sm border border-gray-200"

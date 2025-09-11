@@ -35,23 +35,32 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
 }
 
 export function BillingCard() {
-  const { data: billing, isLoading, error } = useApiQuery<BillingData>('/api/dashboard/billing', {}, {
-    enabled: true,
-    staleTime: 5 * 60 * 1000
-  })
+  const {
+    data: billing,
+    isLoading,
+    error,
+  } = useApiQuery<BillingData>(
+    '/api/dashboard/billing',
+    {},
+    {
+      enabled: true,
+      staleTime: 5 * 60 * 1000,
+    }
+  )
 
   // Fallback data
   const fallbackData = {
     value: 'R$ 0,00',
     percentage: 0,
-    chart: []
+    chart: [],
   }
 
   const displayData = billing || fallbackData
   // Ensure percentage is a number
-  const percentage = typeof displayData.percentage === 'number' 
-    ? displayData.percentage 
-    : parseFloat(String(displayData.percentage)) || 0
+  const percentage =
+    typeof displayData.percentage === 'number'
+      ? displayData.percentage
+      : parseFloat(String(displayData.percentage)) || 0
   const isPositive = percentage > 0
   const TrendIcon = isPositive ? TrendingUp : TrendingDown
 
@@ -76,25 +85,30 @@ export function BillingCard() {
           <CardTitle className="text-lg font-semibold text-gray-900">Faturamento</CardTitle>
         </div>
         <div className="text-right">
-          <div className={`flex items-center space-x-1 font-semibold ${
-            isPositive ? 'text-green-600' : 'text-red-600'
-          }`}>
+          <div
+            className={`flex items-center space-x-1 font-semibold ${
+              isPositive ? 'text-green-600' : 'text-red-600'
+            }`}
+          >
             <TrendIcon className="w-4 h-4" />
             <span className="text-sm">
-              {isPositive ? '+' : ''}{percentage.toFixed(2)}%
+              {isPositive ? '+' : ''}
+              {percentage.toFixed(2)}%
             </span>
           </div>
           <div className="text-sm text-gray-600">Último mês</div>
         </div>
       </CardHeader>
-      
+
       <CardContent className="pt-0">
-        <div className={`text-[40px] font-bold mb-4 leading-none transition-colors duration-200 ${
-          isLoading ? 'text-gray-400 animate-pulse' : 'text-gray-900'
-        }`}>
+        <div
+          className={`text-[40px] font-bold mb-4 leading-none transition-colors duration-200 ${
+            isLoading ? 'text-gray-400 animate-pulse' : 'text-gray-900'
+          }`}
+        >
           {isLoading ? '...' : displayData.value}
         </div>
-        
+
         {displayData.chart && displayData.chart.length > 0 && (
           <div className="h-16 -mx-6 -mb-6">
             <ResponsiveContainer height="100%" width="100%">

@@ -42,10 +42,18 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
 }
 
 export function AreaDivisionCard() {
-  const { data: areaDivision = [], isLoading, error } = useApiQuery<AreaDivision[]>('/api/dashboard/area-division', {}, {
-    enabled: true,
-    staleTime: 5 * 60 * 1000
-  })
+  const {
+    data: areaDivision = [],
+    isLoading,
+    error,
+  } = useApiQuery<AreaDivision[]>(
+    '/api/dashboard/area-division',
+    {},
+    {
+      enabled: true,
+      staleTime: 5 * 60 * 1000,
+    }
+  )
 
   // Apply Figma color palette and limit segments
   const displayData = areaDivision
@@ -96,11 +104,16 @@ export function AreaDivisionCard() {
                     innerRadius={0}
                     outerRadius={OUTER_RADIUS}
                     label={({ cx, cy, midAngle, innerRadius, outerRadius, value }) => {
-                      if (midAngle === undefined || value === undefined || value < MINIMUM_PERCENTAGE_TO_DISPLAY) {
+                      if (
+                        midAngle === undefined ||
+                        value === undefined ||
+                        value < MINIMUM_PERCENTAGE_TO_DISPLAY
+                      ) {
                         return null
                       }
                       const radian = Math.PI / DEGREES_IN_HALF_CIRCLE
-                      const radius = innerRadius + (outerRadius - innerRadius) * LABEL_POSITION_RATIO
+                      const radius =
+                        innerRadius + (outerRadius - innerRadius) * LABEL_POSITION_RATIO
                       const x = cx + radius * Math.cos(-midAngle * radian)
                       const y = cy + radius * Math.sin(-midAngle * radian)
                       return (
@@ -118,10 +131,10 @@ export function AreaDivisionCard() {
                     labelLine={false}
                   >
                     {displayData.map((entry) => (
-                      <Cell 
-                        fill={entry.color} 
-                        key={entry.name} 
-                        stroke="white" 
+                      <Cell
+                        fill={entry.color}
+                        key={entry.name}
+                        stroke="white"
                         strokeWidth={2}
                         className="hover:opacity-80 transition-opacity cursor-pointer"
                       />
@@ -134,9 +147,9 @@ export function AreaDivisionCard() {
             <div className="space-y-3">
               {displayData.map((item) => (
                 <div className="flex items-center gap-3 group cursor-pointer" key={item.name}>
-                  <div 
-                    className="w-3 h-3 rounded-full transition-transform group-hover:scale-110" 
-                    style={{ backgroundColor: item.color }} 
+                  <div
+                    className="w-3 h-3 rounded-full transition-transform group-hover:scale-110"
+                    style={{ backgroundColor: item.color }}
                   />
                   <span className="text-[13px] font-medium leading-[1.69] text-gray-800 group-hover:text-gray-900 transition-colors">
                     {item.name}
