@@ -30,7 +30,7 @@ graph TD
 
 - **Frontend**: React\@19 + Inertia.js + TypeScript + TailwindCSS
 
-- **Backend**: AdonisJS\@6 + Node.js\@22.18.0
+- **Backend**: AdonisJS\@6 + Node.js\@22.19.0
 
 - **Banco de Dados**: PostgreSQL (via Supabase/local)
 

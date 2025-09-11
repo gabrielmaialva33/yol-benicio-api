@@ -33,7 +33,7 @@ graph TB
 
     subgraph "Backend Layer"
         D[AdonisJS v6]
-        E[Node.js 22.18.0]
+        E[Node.js 22.19.0]
         F[JWT Authentication]
         G[RBAC System]
     end
@@ -72,7 +72,7 @@ graph TB
 | **Frontend** | TypeScript  | 5.x      | Tipagem estática         |
 | **Frontend** | TailwindCSS | 4.x      | Estilização              |
 | **Backend**  | AdonisJS    | 6.x      | Framework web            |
-| **Runtime**  | Node.js     | 22.18.0+ | Ambiente de execução     |
+| **Runtime**  | Node.js     | 22.19.0+ | Ambiente de execução     |
 | **Database** | PostgreSQL  | 15+      | Banco de dados principal |
 | **Cache**    | Redis       | 7+       | Cache e sessões          |
 | **Auth**     | JWT         | -        | Autenticação             |

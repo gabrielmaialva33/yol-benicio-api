@@ -5,7 +5,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/versão-2025.1.0-blue?style=for-the-badge&logo=semantic-release" alt="Versão" />
   <img src="https://img.shields.io/github/license/gabrielmaialva33/yol-benicio-api?color=00b8d3&style=for-the-badge&logo=mit" alt="Licença" />
-  <img src="https://img.shields.io/badge/Node.js-22.18.0-339933?style=for-the-badge&logo=node.js" alt="Node.js" />
+  <img src="https://img.shields.io/badge/Node.js-22.19.0-339933?style=for-the-badge&logo=node.js" alt="Node.js" />
   <img src="https://img.shields.io/badge/AdonisJS-6.0-5A45FF?style=for-the-badge&logo=adonisjs" alt="AdonisJS" />
   <img src="https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react" alt="React" />
   <img src="https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript" />
