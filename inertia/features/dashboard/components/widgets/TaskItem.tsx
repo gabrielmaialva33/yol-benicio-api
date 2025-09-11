@@ -1,22 +1,39 @@
 import type { Task } from '~/shared/types/domain'
+import { MessageCircle, Paperclip } from 'lucide-react'
 
 interface TaskItemProps {
   task: Task
   toggleTask: (id: number) => void
 }
 
+const priorityColors = {
+  low: 'border-gray-400',
+  medium: 'border-yellow-400',
+  high: 'border-red-400',
+}
+
+const priorityBgColors = {
+  low: 'bg-gray-50',
+  medium: 'bg-yellow-50',
+  high: 'bg-red-50',
+}
+
 export function TaskItem({ task, toggleTask }: TaskItemProps) {
   const isCompleted = task.status === 'completed'
+  const priorityColor = priorityColors[task.priority || 'low']
+  const priorityBg = priorityBgColors[task.priority || 'low']
 
   return (
     <div
-      className="flex items-center space-x-3 p-3 border-l-4 rounded-r"
-      key={task.id}
-      style={{ borderColor: task.priority === 'high' ? 'red' : 'gray' }}
+      className={`group flex items-center space-x-3 p-3 border-l-4 rounded-r hover:shadow-sm transition-all duration-200 ${
+        priorityColor
+      } ${priorityBg} hover:bg-opacity-80`}
     >
       <button
-        className={`w-6 h-6 rounded-md flex items-center justify-center ${
-          isCompleted ? 'bg-green-500 border-green-500 text-white' : 'bg-gray-100 border-gray-100'
+        className={`w-6 h-6 rounded-md flex items-center justify-center transition-all duration-200 hover:scale-110 ${
+          isCompleted
+            ? 'bg-green-500 border-green-500 text-white shadow-sm'
+            : 'bg-white border-2 border-gray-300 hover:border-gray-400 hover:shadow-sm'
         }`}
         onClick={() => toggleTask(task.id)}
         type="button"
@@ -32,36 +49,43 @@ export function TaskItem({ task, toggleTask }: TaskItemProps) {
           </svg>
         )}
       </button>
-      <div className="flex-1">
+      
+      <div className="flex-1 min-w-0">
         <div
-          className={`font-medium ${isCompleted ? 'line-through text-gray-500' : 'text-gray-900'}`}
+          className={`font-medium text-sm transition-colors duration-200 ${
+            isCompleted 
+              ? 'line-through text-gray-500' 
+              : 'text-gray-900 group-hover:text-gray-700'
+          }`}
         >
           {task.title}
         </div>
-        <div className="text-sm text-gray-500">{task.folder?.title}</div>
+        {task.folder && (
+          <div className="text-sm text-gray-500 mt-1 truncate">
+            {task.folder.title}
+          </div>
+        )}
+        {task.dueDate && (
+          <div className="text-xs text-gray-400 mt-1">
+            Vencimento: {new Date(task.dueDate).toLocaleDateString('pt-BR')}
+          </div>
+        )}
       </div>
-      <div className="flex space-x-2">
-        <button className="p-2 bg-gray-100 rounded-md hover:bg-gray-200" type="button">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <title>Comentário</title>
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-            />
-          </svg>
+      
+      <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <button
+          className="p-2 bg-white rounded-md hover:bg-gray-50 transition-colors duration-200 shadow-sm border border-gray-200"
+          type="button"
+          title="Comentários"
+        >
+          <MessageCircle className="w-4 h-4 text-gray-500" />
         </button>
-        <button className="p-2 bg-gray-100 rounded-md hover:bg-gray-200" type="button">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <title>Anexo</title>
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-            />
-          </svg>
+        <button
+          className="p-2 bg-white rounded-md hover:bg-gray-50 transition-colors duration-200 shadow-sm border border-gray-200"
+          type="button"
+          title="Anexos"
+        >
+          <Paperclip className="w-4 h-4 text-gray-500" />
         </button>
       </div>
     </div>

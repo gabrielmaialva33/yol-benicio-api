@@ -1,6 +1,7 @@
 interface FolderTableSkeletonProps {
   rows?: number
   showActions?: boolean
+  variant?: 'table' | 'grid'
 }
 
 function SkeletonBox({
@@ -20,7 +21,72 @@ function SkeletonBox({
   )
 }
 
-export function FolderTableSkeleton({ rows = 5, showActions = true }: FolderTableSkeletonProps) {
+function Skeleton({
+  variant = 'text',
+  width,
+  height,
+  className = '',
+}: {
+  variant?: 'text' | 'rectangular' | 'rounded' | 'circular'
+  width?: string | number
+  height?: string | number
+  className?: string
+}) {
+  const variantClasses = {
+    text: 'rounded',
+    rectangular: '',
+    rounded: 'rounded-md',
+    circular: 'rounded-full',
+  }
+
+  const widthClass = typeof width === 'number' ? `w-[${width}px]` : width || 'w-full'
+  const heightClass = typeof height === 'number' ? `h-[${height}px]` : height || 'h-4'
+
+  return (
+    <div
+      className={`bg-gray-200 animate-pulse ${variantClasses[variant]} ${widthClass} ${heightClass} ${className}`}
+      aria-hidden="true"
+    />
+  )
+}
+
+export function FolderTableSkeleton({ rows = 5, showActions = true, variant = 'table' }: FolderTableSkeletonProps) {
+  if (variant === 'grid') {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Array.from({ length: rows }, (_, index) => (
+          <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <Skeleton variant="text" width="w-20" height="h-4" />
+              <Skeleton variant="circular" width="w-6" height="h-6" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton variant="text" width="w-3/4" height="h-5" />
+              <Skeleton variant="text" width="w-1/2" height="h-4" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Skeleton variant="circular" width="w-8" height="h-8" />
+              <div className="flex-1 space-y-1">
+                <Skeleton variant="text" width="w-24" height="h-3" />
+                <Skeleton variant="text" width="w-16" height="h-3" />
+              </div>
+            </div>
+            <div className="flex justify-between items-center">
+              <Skeleton variant="rounded" width="w-16" height="h-6" />
+              <Skeleton variant="rounded" width="w-14" height="h-5" />
+            </div>
+            {showActions && (
+              <div className="flex gap-2 pt-2 border-t">
+                <Skeleton variant="rounded" width="w-full" height="h-8" />
+                <Skeleton variant="rounded" width="w-full" height="h-8" />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       {/* Table Header Skeleton */}
