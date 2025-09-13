@@ -88,4 +88,23 @@ export default class MessageService {
 
     return message
   }
+
+  async getRecentMessages(userId: number, limit: number = 5) {
+    const messages = await Message.query()
+      .where('userId', userId)
+      .preload('sender')
+      .orderBy('createdAt', 'desc')
+      .limit(limit)
+
+    // Format messages for frontend
+    return messages.map(message => ({
+      id: message.id,
+      from: message.sender?.fullName || 'Sistema',
+      subject: message.subject,
+      message: message.body,
+      time: message.createdAt.toRelative() || '',
+      isRead: !!message.readAt,
+      priority: message.priority
+    }))
+  }
 }
