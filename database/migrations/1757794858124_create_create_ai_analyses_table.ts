@@ -8,33 +8,48 @@ export default class extends BaseSchema {
       table.increments('id').primary()
 
       // Foreign keys
-      table.integer('document_id').unsigned().nullable()
-        .references('id').inTable('folder_documents').onDelete('CASCADE')
+      table
+        .integer('document_id')
+        .unsigned()
+        .nullable()
+        .references('id')
+        .inTable('folder_documents')
+        .onDelete('CASCADE')
 
-      table.integer('folder_id').unsigned().nullable()
-        .references('id').inTable('folders').onDelete('CASCADE')
+      table
+        .integer('folder_id')
+        .unsigned()
+        .nullable()
+        .references('id')
+        .inTable('folders')
+        .onDelete('CASCADE')
 
-      table.integer('user_id').unsigned().nullable()
-        .references('id').inTable('users').onDelete('SET NULL')
+      table
+        .integer('user_id')
+        .unsigned()
+        .nullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('SET NULL')
 
       // Analysis details
-      table.enum('analysis_type', [
-        'summary',
-        'entities',
-        'sentiment',
-        'legal_review',
-        'classification',
-        'ocr'
-      ]).notNullable()
+      table
+        .enum('analysis_type', [
+          'summary',
+          'entities',
+          'sentiment',
+          'legal_review',
+          'classification',
+          'ocr',
+        ])
+        .notNullable()
 
       table.string('model', 255).notNullable()
 
-      table.enum('status', [
-        'pending',
-        'processing',
-        'completed',
-        'failed'
-      ]).notNullable().defaultTo('pending')
+      table
+        .enum('status', ['pending', 'processing', 'completed', 'failed'])
+        .notNullable()
+        .defaultTo('pending')
 
       // Results
       table.json('result').notNullable().defaultTo('{}')

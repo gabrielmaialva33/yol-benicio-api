@@ -43,7 +43,9 @@ export default class WebSocketService {
 
     this.io.use(async (socket: AuthenticatedSocket, next) => {
       try {
-        const token = socket.handshake.auth.token || socket.handshake.headers.authorization?.replace('Bearer ', '')
+        const token =
+          socket.handshake.auth.token ||
+          socket.handshake.headers.authorization?.replace('Bearer ', '')
 
         if (!token) {
           return next(new Error('Authentication required'))
@@ -161,11 +163,14 @@ export default class WebSocketService {
     this.io?.to(channel).emit(event, data)
 
     // Publish to Redis for other servers
-    await redis.publish('realtime:broadcast', JSON.stringify({
-      channel,
-      event,
-      data,
-    }))
+    await redis.publish(
+      'realtime:broadcast',
+      JSON.stringify({
+        channel,
+        event,
+        data,
+      })
+    )
   }
 
   /**

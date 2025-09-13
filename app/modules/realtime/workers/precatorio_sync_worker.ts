@@ -57,8 +57,7 @@ export default class PrecatorioSyncWorker {
     // Only sync folders not updated in last 30 minutes
     const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000)
     query.where((q) => {
-      q.whereNull('updated_at')
-        .orWhere('updated_at', '<', thirtyMinutesAgo)
+      q.whereNull('updated_at').orWhere('updated_at', '<', thirtyMinutesAgo)
     })
 
     return query.limit(50)

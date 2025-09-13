@@ -36,7 +36,9 @@ async function testHuggingFaceService() {
 
   try {
     // Test embeddings
-    const embedding = await service.generateEmbeddings('Contrato de prestação de serviços advocatícios')
+    const embedding = await service.generateEmbeddings(
+      'Contrato de prestação de serviços advocatícios'
+    )
     console.log('✅ Embeddings generated:', `Vector with ${embedding.dimensions} dimensions`)
 
     // Test semantic search
@@ -47,14 +49,16 @@ async function testHuggingFaceService() {
     ]
 
     const results = await service.semanticSearch('contrato advogado', documents, 2)
-    console.log('✅ Semantic Search Results:', results.map(r => ({ id: r.id, similarity: r.similarity.toFixed(3) })))
+    console.log(
+      '✅ Semantic Search Results:',
+      results.map((r) => ({ id: r.id, similarity: r.similarity.toFixed(3) }))
+    )
 
     // Test document classification
     const classification = await service.classifyDocument(
       'Por meio desta petição inicial, vem o autor requerer a condenação do réu ao pagamento...'
     )
     console.log('✅ Document Classification:', classification)
-
   } catch (error) {
     console.error('❌ Hugging Face Service Error:', error.message)
   }
@@ -70,17 +74,17 @@ async function testWebSocketIntegration() {
 
 // Run tests
 async function runTests() {
-  console.log('=' .repeat(50))
+  console.log('='.repeat(50))
   console.log('🚀 AI INTEGRATION TEST SUITE')
-  console.log('=' .repeat(50))
+  console.log('='.repeat(50))
 
   await testNvidiaService()
   await testHuggingFaceService()
   await testWebSocketIntegration()
 
-  console.log('\n' + '=' .repeat(50))
+  console.log('\n' + '='.repeat(50))
   console.log('✨ Tests completed!')
-  console.log('=' .repeat(50))
+  console.log('='.repeat(50))
 }
 
 // Execute
