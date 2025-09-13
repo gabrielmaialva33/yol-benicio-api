@@ -5,12 +5,12 @@ export default class FolderFavoriteService {
   async getFavoriteFolders(userId: number) {
     const favorites = await FolderFavorite.query()
       .where('userId', userId)
-      .preload('folder', (query: any) => {
+      .preload('folder', (query) => {
         query.preload('client')
       })
       .orderBy('createdAt', 'desc')
 
-    return favorites.map((favorite: any) => favorite.folder)
+    return favorites.map((favorite) => favorite.folder)
   }
 
   async toggleFavorite(userId: number, folderId: number) {
@@ -72,7 +72,7 @@ export default class FolderFavoriteService {
   async getFavoriteFolderIds(userId: number) {
     const favorites = await FolderFavorite.query().where('userId', userId).select('folderId')
 
-    return favorites.map((favorite: any) => favorite.folderId)
+    return favorites.map((favorite) => favorite.folderId)
   }
 
   async bulkToggleFavorites(userId: number, folderIds: number[]) {
@@ -83,7 +83,7 @@ export default class FolderFavoriteService {
         .where('userId', userId)
         .whereIn('folderId', folderIds)
 
-      const existingFolderIds = existingFavorites.map((f: any) => f.folderId)
+      const existingFolderIds = existingFavorites.map((f) => f.folderId)
       const toAdd = folderIds.filter((id) => !existingFolderIds.includes(id))
       const toRemove = existingFolderIds
 
