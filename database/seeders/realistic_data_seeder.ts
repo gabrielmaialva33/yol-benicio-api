@@ -1794,16 +1794,19 @@ export default class extends BaseSeeder {
 
     if (systemPermissions.length > 0) {
       const userBenicio = await User.findOrFail(users.benicio.id)
-      await userBenicio.related('permissions').attach(
-        systemPermissions.reduce((acc, permission) => {
-          acc[permission.id] = {
-            granted: true,
-            created_at: DateTime.now(),
-            updated_at: DateTime.now(),
-          }
-          return acc
-        }, {})
-      )
+      for (const permission of systemPermissions) {
+        try {
+          await userBenicio.related('permissions').attach({
+            [permission.id]: {
+              granted: true,
+              created_at: DateTime.now(),
+              updated_at: DateTime.now(),
+            }
+          })
+        } catch (error) {
+          // Permission already exists, skip
+        }
+      }
       count += systemPermissions.length
     }
 
@@ -1814,16 +1817,19 @@ export default class extends BaseSeeder {
 
     if (techPermissions.length > 0) {
       const userAndre = await User.findOrFail(users.andre.id)
-      await userAndre.related('permissions').attach(
-        techPermissions.reduce((acc, permission) => {
-          acc[permission.id] = {
-            granted: true,
-            created_at: DateTime.now(),
-            updated_at: DateTime.now(),
-          }
-          return acc
-        }, {})
-      )
+      for (const permission of techPermissions) {
+        try {
+          await userAndre.related('permissions').attach({
+            [permission.id]: {
+              granted: true,
+              created_at: DateTime.now(),
+              updated_at: DateTime.now(),
+            }
+          })
+        } catch (error) {
+          // Permission already exists, skip
+        }
+      }
       count += techPermissions.length
     }
 
@@ -1863,7 +1869,14 @@ export default class extends BaseSeeder {
     ]
 
     for (const limit of rateLimits) {
-      await Database.table('rate_limits').insert(limit)
+      try {
+        await Database.table('rate_limits').insert(limit)
+      } catch (error) {
+        // Rate limit already exists, update it
+        await Database.table('rate_limits')
+          .where('key', limit.key)
+          .update({ points: limit.points, expire: limit.expire })
+      }
     }
 
     return rateLimits
