@@ -59,10 +59,6 @@ export const UserFactory = factory
       'Ana Maria Secretária',
     ]
     user.full_name = faker.helpers.arrayElement(names)
-    user.metadata = {
-      ...user.metadata,
-      oab: null,
-    }
   })
   .state('intern', (user, { faker }) => {
     const names = [
@@ -72,9 +68,5 @@ export const UserFactory = factory
       'Mariana Costa - Estagiária',
     ]
     user.full_name = faker.helpers.arrayElement(names)
-    user.metadata = {
-      ...user.metadata,
-      oab: null,
-    }
   })
   .build()
