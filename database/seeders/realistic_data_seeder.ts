@@ -999,15 +999,15 @@ export default class extends BaseSeeder {
     const hearings = [
       await Hearing.create({
         title: 'Audiência de Instrução - Correios vs Adilson',
-        date: DateTime.fromISO('2025-02-10T14:30:00'),
-        type: 'instruction',
-        location: 'TRT2 - Fórum Ruy Barbosa - Sala 405',
+        description: 'Audiência de instrução e julgamento - TRT2',
+        scheduled_date: DateTime.fromISO('2025-02-10T14:30:00'),
+        type: 'audiencia',
+        status: 'pending',
+        priority: 'high',
         folder_id: folders[4].id,
         assignee_id: users.patricia.id,
         creator_id: users.marcos.id,
-        status: 'scheduled',
-        notes: 'Levar 3 testemunhas. Documentos já juntados aos autos.',
-        reminder: true,
+        notes: 'Levar 3 testemunhas. Documentos já juntados aos autos. Local: TRT2 - Fórum Ruy Barbosa - Sala 405',
         metadata: {
           judge: 'Dr. Fernando Costa',
           witnesses: 3,
@@ -1017,15 +1017,15 @@ export default class extends BaseSeeder {
 
       await Hearing.create({
         title: 'Sessão de Julgamento - Conflito Competência Zurich',
-        date: DateTime.fromISO('2025-01-15T10:00:00'),
-        type: 'trial',
-        location: 'TJRJ - 21ª Câmara Cível - Sessão Virtual',
+        description: 'Sessão de julgamento do conflito de competência',
+        scheduled_date: DateTime.fromISO('2025-01-15T10:00:00'),
+        type: 'prazo_judicial',
+        status: 'pending',
+        priority: 'high',
         folder_id: folders[1].id,
         assignee_id: users.marcos.id,
         creator_id: users.benicio.id,
-        status: 'scheduled',
-        notes: 'Sessão virtual - Preparar sustentação oral em vídeo',
-        reminder: true,
+        notes: 'TJRJ - 21ª Câmara Cível - Sessão Virtual. Preparar sustentação oral em vídeo',
         metadata: {
           session_type: 'virtual',
           video_duration_limit: '15 minutes',
@@ -1034,15 +1034,15 @@ export default class extends BaseSeeder {
 
       await Hearing.create({
         title: 'Leilão Judicial - Conjunto Residencial',
-        date: DateTime.fromISO('2025-01-25T15:00:00'),
-        type: 'other',
-        location: 'Online - www.leiloesjudiciais.com.br',
+        description: 'Leilão judicial do imóvel penhorado',
+        scheduled_date: DateTime.fromISO('2025-01-25T15:00:00'),
+        type: 'prazo_fatal',
+        status: 'pending',
+        priority: 'urgent',
         folder_id: folders[5].id,
         assignee_id: users.patricia.id,
         creator_id: users.admin.id,
-        status: 'scheduled',
-        notes: 'Primeiro leilão - Lance mínimo: 100% da avaliação',
-        reminder: true,
+        notes: 'Online - www.leiloesjudiciais.com.br. Primeiro leilão - Lance mínimo: 100% da avaliação',
         metadata: {
           auction_type: '1st_auction',
           minimum_value: 2650000.0,
@@ -1052,15 +1052,15 @@ export default class extends BaseSeeder {
 
       await Hearing.create({
         title: 'Audiência de Conciliação - Gallo Ferreira',
-        date: DateTime.fromISO('2025-02-05T09:00:00'),
-        type: 'conciliation',
-        location: 'TJSP - CEJUSC Central - Sala 12',
+        description: 'Audiência de conciliação no CEJUSC',
+        scheduled_date: DateTime.fromISO('2025-02-05T09:00:00'),
+        type: 'audiencia',
+        status: 'pending',
+        priority: 'medium',
         folder_id: folders[6].id,
         assignee_id: users.andre.id,
         creator_id: users.andre.id,
-        status: 'scheduled',
-        notes: 'Cliente autoriza acordo até R$ 400.000,00',
-        reminder: true,
+        notes: 'TJSP - CEJUSC Central - Sala 12. Cliente autoriza acordo até R$ 400.000,00',
         metadata: {
           settlement_limit: 400000.0,
           mediator: 'To be assigned',
@@ -1069,15 +1069,15 @@ export default class extends BaseSeeder {
 
       await Hearing.create({
         title: 'Reunião BCB - Esclarecimentos CP 109/2024',
-        date: DateTime.fromISO('2025-02-20T10:00:00'),
-        type: 'other',
-        location: 'Banco Central - Brasília',
+        description: 'Reunião técnica com equipe de regulação do BCB',
+        scheduled_date: DateTime.fromISO('2025-02-20T10:00:00'),
+        type: 'prazo_extrajudicial',
+        status: 'pending',
+        priority: 'high',
         folder_id: folders[0].id,
         assignee_id: users.andre.id,
         creator_id: users.benicio.id,
-        status: 'scheduled',
-        notes: 'Reunião técnica com equipe de regulação do BCB',
-        reminder: true,
+        notes: 'Banco Central - Brasília. Discussão sobre regulação de criptoativos',
         metadata: {
           attendees: ['BCB Team', 'Banco Inter Legal', 'Compliance'],
           agenda: 'Technical clarifications on crypto regulation',
@@ -1092,8 +1092,8 @@ export default class extends BaseSeeder {
     // ============================
     const messages = [
       await Message.create({
-        userId: users.andre.id,
-        senderId: users.benicio.id,
+        user_id: users.andre.id,
+        sender_id: users.benicio.id,
         subject: 'Urgente: Prazo CP 109/2024 BCB',
         body: 'André, precisamos finalizar o parecer sobre a regulamentação de criptoativos até sexta-feira. O Banco Inter está contando com nossa análise detalhada.',
         priority: 'high',
@@ -1104,12 +1104,12 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        userId: users.marcos.id,
-        senderId: users.patricia.id,
+        user_id: users.marcos.id,
+        sender_id: users.patricia.id,
         subject: 'Documentos para audiência Correios',
         body: 'Dr. Marcos, já preparei todos os documentos para a audiência de instrução. Estão na pasta compartilhada. As testemunhas foram notificadas.',
         priority: 'normal',
-        readAt: DateTime.now().minus({ hours: 2 }),
+        read_at: DateTime.now().minus({ hours: 2 }),
         metadata: {
           folder_id: folders[4].id,
           documents_count: 12,
@@ -1117,8 +1117,8 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        userId: users.patricia.id,
-        senderId: users.admin.id,
+        user_id: users.patricia.id,
+        sender_id: users.admin.id,
         subject: 'Avaliação do imóvel - CEF',
         body: 'Dra. Patrícia, o laudo de avaliação chegou. O imóvel foi avaliado em R$ 2.650.000,00. Favor preparar a petição informando o valor.',
         priority: 'normal',
@@ -1129,12 +1129,12 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        userId: users.benicio.id,
-        senderId: null, // System message
+        user_id: users.benicio.id,
+        sender_id: null, // System message
         subject: 'Publicação de Acórdão - TRT24',
         body: 'Foi publicado o acórdão do Incidente de Uniformização sobre uso de veículo próprio. Tese favorável ao empregado foi fixada.',
         priority: 'high',
-        readAt: DateTime.now().minus({ days: 1 }),
+        read_at: DateTime.now().minus({ days: 1 }),
         metadata: {
           folder_id: folders[2].id,
           publication_date: '2023-04-03',
@@ -1142,12 +1142,12 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        userId: users.andre.id,
-        senderId: users.julia.id,
+        user_id: users.andre.id,
+        sender_id: users.julia.id,
         subject: 'Pesquisa jurisprudencial - Open Finance',
         body: 'Dr. André, finalizei a pesquisa sobre precedentes de Open Finance. Encontrei 15 decisões relevantes do STJ e 8 normativos do BCB.',
         priority: 'normal',
-        readAt: DateTime.now().minus({ hours: 5 }),
+        read_at: DateTime.now().minus({ hours: 5 }),
         metadata: {
           folder_id: folders[7].id,
           research_results: 23,
@@ -1162,12 +1162,12 @@ export default class extends BaseSeeder {
     // ============================
     const notifications = [
       await Notification.create({
-        userId: users.andre.id,
+        user_id: users.andre.id,
         type: 'deadline',
         title: 'Prazo se aproximando',
         message: 'Prazo para resposta à CP 109/2024 vence em 7 dias',
-        actionUrl: '/folders/PROC-2024-001',
-        actionText: 'Ver processo',
+        action_url: '/folders/PROC-2024-001',
+        action_text: 'Ver processo',
         metadata: {
           folder_id: folders[0].id,
           days_remaining: 7,
@@ -1175,12 +1175,12 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.patricia.id,
+        user_id: users.patricia.id,
         type: 'hearing',
         title: 'Audiência amanhã',
         message: 'Audiência de instrução - Correios vs Adilson às 14:30',
-        actionUrl: '/hearings/2025-02-10',
-        actionText: 'Ver detalhes',
+        action_url: '/hearings/2025-02-10',
+        action_text: 'Ver detalhes',
         metadata: {
           folder_id: folders[4].id,
           location: 'TRT2 - Sala 405',
@@ -1188,13 +1188,13 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.marcos.id,
+        user_id: users.marcos.id,
         type: 'task',
         title: 'Nova tarefa atribuída',
         message: 'Elaborar memorial para Des. Umpierre - Prazo: 15 dias',
-        actionUrl: '/tasks',
-        actionText: 'Ver tarefa',
-        readAt: DateTime.now().minus({ hours: 1 }),
+        action_url: '/tasks',
+        action_text: 'Ver tarefa',
+        read_at: DateTime.now().minus({ hours: 1 }),
         metadata: {
           folder_id: folders[1].id,
           priority: 'medium',
@@ -1202,13 +1202,13 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.benicio.id,
+        user_id: users.benicio.id,
         type: 'success',
         title: 'Liminar deferida',
         message: 'Liminar de bloqueio de contas deferida no caso Gallo Ferreira',
-        actionUrl: '/folders/PROC-2024-089',
-        actionText: 'Ver processo',
-        readAt: DateTime.now().minus({ days: 2 }),
+        action_url: '/folders/PROC-2024-089',
+        action_text: 'Ver processo',
+        read_at: DateTime.now().minus({ days: 2 }),
         metadata: {
           folder_id: folders[6].id,
           blocked_amount: 487000.0,
@@ -1216,12 +1216,12 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.andre.id,
+        user_id: users.andre.id,
         type: 'info',
         title: 'Novo normativo BCB',
         message: 'Publicada Resolução BCB 5.123/2024 sobre criptoativos',
-        actionUrl: '/regulations',
-        actionText: 'Ler normativo',
+        action_url: '/regulations',
+        action_text: 'Ler normativo',
         metadata: {
           regulation: 'BCB 5.123/2024',
           impact: 'high',
@@ -1229,12 +1229,12 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.patricia.id,
+        user_id: users.patricia.id,
         type: 'warning',
         title: 'Documento pendente',
         message: 'Falta juntar procuração no processo da CEF',
-        actionUrl: '/folders/PROC-2024-067',
-        actionText: 'Resolver',
+        action_url: '/folders/PROC-2024-067',
+        action_text: 'Resolver',
         metadata: {
           folder_id: folders[5].id,
           document_type: 'power_of_attorney',
@@ -1242,12 +1242,12 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.admin.id,
+        user_id: users.admin.id,
         type: 'error',
         title: 'Erro no protocolo',
         message: 'Falha ao protocolar petição - Sistema TJSP indisponível',
-        actionUrl: '/support',
-        actionText: 'Tentar novamente',
+        action_url: '/support',
+        action_text: 'Tentar novamente',
         metadata: {
           error_code: 'TJSP_503',
           retry_after: '30 minutes',
@@ -1262,35 +1262,35 @@ export default class extends BaseSeeder {
     // ============================
     const favorites = [
       await FolderFavorite.create({
-        userId: users.andre.id,
+        user_id: users.andre.id,
         folderId: folders[0].id, // Crypto regulation
       }),
       await FolderFavorite.create({
-        userId: users.andre.id,
+        user_id: users.andre.id,
         folderId: folders[7].id, // Open Finance
       }),
       await FolderFavorite.create({
-        userId: users.marcos.id,
+        user_id: users.marcos.id,
         folderId: folders[1].id, // Zurich case
       }),
       await FolderFavorite.create({
-        userId: users.marcos.id,
+        user_id: users.marcos.id,
         folderId: folders[2].id, // Vehicle usage case
       }),
       await FolderFavorite.create({
-        userId: users.patricia.id,
+        user_id: users.patricia.id,
         folderId: folders[4].id, // Correios case
       }),
       await FolderFavorite.create({
-        userId: users.patricia.id,
+        user_id: users.patricia.id,
         folderId: folders[5].id, // CEF execution
       }),
       await FolderFavorite.create({
-        userId: users.benicio.id,
+        user_id: users.benicio.id,
         folderId: folders[0].id, // Crypto - high priority
       }),
       await FolderFavorite.create({
-        userId: users.benicio.id,
+        user_id: users.benicio.id,
         folderId: folders[3].id, // CARF case
       }),
     ]
