@@ -245,7 +245,9 @@ export default class extends BaseSeeder {
     // 3. Create Clients (Based on real case types)
     // ============================
     const clients = [
-      await Client.create({
+      await Client.firstOrCreate(
+        { document: '00.416.968/0001-01' },
+        {
         name: 'Banco Inter S.A.',
         type: 'company',
         document: '00.416.968/0001-01',
