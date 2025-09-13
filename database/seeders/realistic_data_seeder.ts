@@ -12,7 +12,12 @@ import FolderFavorite from '#modules/folder/models/folder_favorite'
 import FolderProcess from '#modules/folder/models/folder_process'
 import FolderDocument from '#modules/folder/models/folder_document'
 import FolderMovement from '#modules/folder/models/folder_movement'
+import File from '#modules/file/models/file'
+import AuditLog from '#modules/audit/models/audit_log'
 import IRole from '#modules/role/interfaces/role_interface'
+import IPermission from '#modules/permission/interfaces/permission_interface'
+import Database from '@adonisjs/lucid/services/db'
+import hash from '@adonisjs/core/services/hash'
 import { DateTime } from 'luxon'
 
 export default class extends BaseSeeder {
@@ -57,6 +62,12 @@ export default class extends BaseSeeder {
         description: 'Limited access for interns',
       }
     )
+
+    // ============================
+    // 1.5. Create Enhanced Legal-Specific Permissions
+    // ============================
+    console.log('📋 Creating enhanced legal-specific permissions...')
+    await this.createLegalPermissions()
 
     // Grant all permissions to admin role
     const allPermissions = await Permission.all()
