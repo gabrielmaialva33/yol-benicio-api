@@ -23,6 +23,7 @@ import '#modules/client/routes/index'
 import '#modules/folder/routes/index'
 import '#modules/task/routes/index'
 import '#modules/hearing/routes/index'
+import '#modules/ai/routes/index'
 
 router
   .get('/api', async () => {
