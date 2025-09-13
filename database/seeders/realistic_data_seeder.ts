@@ -1813,13 +1813,16 @@ export default class extends BaseSeeder {
       .orWhere('name', 'folders.archive')
 
     if (techPermissions.length > 0) {
-      await Database.table('user_permissions').insert(
-        techPermissions.map((permission) => ({
-          user_id: users.andre.id,
-          permission_id: permission.id,
-          created_at: DateTime.now().toSQL(),
-          updated_at: DateTime.now().toSQL(),
-        }))
+      const userAndre = await User.findOrFail(users.andre.id)
+      await userAndre.related('permissions').attach(
+        techPermissions.reduce((acc, permission) => {
+          acc[permission.id] = {
+            granted: true,
+            created_at: DateTime.now(),
+            updated_at: DateTime.now(),
+          }
+          return acc
+        }, {})
       )
       count += techPermissions.length
     }
