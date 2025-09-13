@@ -12,25 +12,6 @@ export default class MessageService {
     return messages
   }
 
-  async getUnreadCount(userId: number) {
-    const count = await Message.query()
-      .where('userId', userId)
-      .whereNull('readAt')
-      .count('* as total')
-
-    return count[0].$extras.total
-  }
-
-  async getRecentMessages(userId: number, limit: number = 5) {
-    const messages = await Message.query()
-      .where('userId', userId)
-      .preload('sender')
-      .orderBy('createdAt', 'desc')
-      .limit(limit)
-
-    return messages
-  }
-
   async markAsRead(messageId: number, userId: number) {
     const message = await Message.query()
       .where('id', messageId)
@@ -99,7 +80,7 @@ export default class MessageService {
     // Format messages for frontend
     return messages.map(message => ({
       id: message.id,
-      from: message.sender?.fullName || 'Sistema',
+      from: message.sender?.full_name || 'Sistema',
       subject: message.subject,
       message: message.body,
       time: message.createdAt.toRelative() || '',

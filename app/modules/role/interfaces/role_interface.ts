@@ -10,6 +10,9 @@ namespace IRole {
     USER = 'user',
     GUEST = 'guest',
     EDITOR = 'editor',
+    ADVOGADO = 'advogado',
+    SECRETARIA = 'secretaria',
+    ESTAGIARIO = 'estagiario',
   }
 
   export interface RoleHierarchy {
