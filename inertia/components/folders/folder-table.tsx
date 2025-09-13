@@ -19,8 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { DateTime } from 'luxon'
 import { cn } from '@/lib/utils'
 
 interface Client {
@@ -193,7 +192,7 @@ export function FolderTable({ folders, onToggleFavorite, onArchive, isLoading }:
                 </Badge>
               </TableCell>
               <TableCell>
-                {format(new Date(folder.createdAt), 'dd/MM/yyyy', { locale: ptBR })}
+                {DateTime.fromISO(folder.createdAt).toFormat('dd/MM/yyyy')}
               </TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>
