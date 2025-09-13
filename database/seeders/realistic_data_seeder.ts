@@ -1795,7 +1795,7 @@ export default class extends BaseSeeder {
     if (systemPermissions.length > 0) {
       await Database.table('user_permissions').insert(
         systemPermissions.map((permission) => ({
-          userId: users.benicio.id,
+          user_id: users.benicio.id,
           permission_id: permission.id,
           created_at: DateTime.now().toSQL(),
           updated_at: DateTime.now().toSQL(),
@@ -1812,7 +1812,7 @@ export default class extends BaseSeeder {
     if (techPermissions.length > 0) {
       await Database.table('user_permissions').insert(
         techPermissions.map((permission) => ({
-          userId: users.andre.id,
+          user_id: users.andre.id,
           permission_id: permission.id,
           created_at: DateTime.now().toSQL(),
           updated_at: DateTime.now().toSQL(),
