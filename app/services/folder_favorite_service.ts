@@ -16,13 +16,16 @@ export default class FolderFavoriteService {
 
     // Buscar as pastas completas com client preloaded
     const folders = await Folder.query()
-      .whereIn('id', favoriteIds.map(f => f.folderId))
+      .whereIn(
+        'id',
+        favoriteIds.map((f) => f.folderId)
+      )
       .preload('client')
 
     // Ordenar as pastas de acordo com a ordem dos favoritos
-    const orderedFolders = favoriteIds.map(fav =>
-      folders.find(folder => folder.id === fav.folderId)
-    ).filter(Boolean) as Folder[]
+    const orderedFolders = favoriteIds
+      .map((fav) => folders.find((folder) => folder.id === fav.folderId))
+      .filter(Boolean) as Folder[]
 
     return orderedFolders
   }

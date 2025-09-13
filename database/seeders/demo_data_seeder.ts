@@ -34,7 +34,7 @@ export default class extends BaseSeeder {
     // Grant all permissions to admin role
     const allPermissions = await Permission.all()
     if (allPermissions.length > 0) {
-      const permissionIds = allPermissions.map(p => p.id)
+      const permissionIds = allPermissions.map((p) => p.id)
       await adminRole.related('permissions').sync(permissionIds)
     }
 
@@ -145,14 +145,16 @@ export default class extends BaseSeeder {
         {
           type: 'task' as const,
           title: 'Nova tarefa atribuída',
-          message: 'Você tem uma nova tarefa para revisar os documentos do processo 2024.456.789-0.',
+          message:
+            'Você tem uma nova tarefa para revisar os documentos do processo 2024.456.789-0.',
           actionUrl: '/tasks',
           actionText: 'Ver tarefa',
         },
         {
           type: 'hearing' as const,
           title: 'Audiência hoje às 15h',
-          message: 'Audiência do processo 2024.789.012-3 agendada para hoje às 15h no 2º Fórum Cível.',
+          message:
+            'Audiência do processo 2024.789.012-3 agendada para hoje às 15h no 2º Fórum Cível.',
           actionUrl: '/hearings',
           actionText: 'Ver detalhes',
         },
@@ -178,14 +180,16 @@ export default class extends BaseSeeder {
         {
           type: 'info' as const,
           title: 'Nova jurisprudência',
-          message: 'Foi publicada nova jurisprudência relevante para seus casos de direito trabalhista.',
+          message:
+            'Foi publicada nova jurisprudência relevante para seus casos de direito trabalhista.',
           actionUrl: '/jurisprudence',
           actionText: 'Ler mais',
         },
         {
           type: 'error' as const,
           title: 'Falha no upload',
-          message: 'O upload do documento no processo 2024.888.999-0 falhou. Por favor, tente novamente.',
+          message:
+            'O upload do documento no processo 2024.888.999-0 falhou. Por favor, tente novamente.',
           actionUrl: '/folders',
           actionText: 'Tentar novamente',
         },

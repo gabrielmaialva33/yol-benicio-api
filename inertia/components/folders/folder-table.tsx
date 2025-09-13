@@ -191,9 +191,7 @@ export function FolderTable({ folders, onToggleFavorite, onArchive, isLoading }:
                   {folder.status}
                 </Badge>
               </TableCell>
-              <TableCell>
-                {DateTime.fromISO(folder.createdAt).toFormat('dd/MM/yyyy')}
-              </TableCell>
+              <TableCell>{DateTime.fromISO(folder.createdAt).toFormat('dd/MM/yyyy')}</TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

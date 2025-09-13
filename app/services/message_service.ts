@@ -78,14 +78,14 @@ export default class MessageService {
       .limit(limit)
 
     // Format messages for frontend
-    return messages.map(message => ({
+    return messages.map((message) => ({
       id: message.id,
       from: message.sender?.full_name || 'Sistema',
       subject: message.subject,
       message: message.body,
       time: message.createdAt.toRelative() || '',
       isRead: !!message.readAt,
-      priority: message.priority
+      priority: message.priority,
     }))
   }
 
