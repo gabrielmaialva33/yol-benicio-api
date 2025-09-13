@@ -248,186 +248,194 @@ export default class extends BaseSeeder {
       await Client.firstOrCreate(
         { document: '00.416.968/0001-01' },
         {
-        name: 'Banco Inter S.A.',
-        type: 'company',
-        document: '00.416.968/0001-01',
-        email: 'juridico@bancointer.com.br',
-        phone: '(31) 3003-4070',
-        street: 'Av. Barbacena',
-        number: '1219',
-        neighborhood: 'Santo Agostinho',
-        city: 'Belo Horizonte',
-        state: 'MG',
-        postal_code: '30190-131',
-        country: 'Brasil',
-        notes: 'Cliente de grande porte - Setor bancário digital',
-        metadata: {
-          sector: 'Financial Services',
-          size: 'Large Enterprise',
-          since: '2019',
-        },
-      }),
+          name: 'Banco Inter S.A.',
+          type: 'company',
+          document: '00.416.968/0001-01',
+          email: 'juridico@bancointer.com.br',
+          phone: '(31) 3003-4070',
+          street: 'Av. Barbacena',
+          number: '1219',
+          neighborhood: 'Santo Agostinho',
+          city: 'Belo Horizonte',
+          state: 'MG',
+          postal_code: '30190-131',
+          country: 'Brasil',
+          notes: 'Cliente de grande porte - Setor bancário digital',
+          metadata: {
+            sector: 'Financial Services',
+            size: 'Large Enterprise',
+            since: '2019',
+          },
+        }
+      ),
 
       await Client.firstOrCreate(
         { document: '17.197.385/0001-21' },
         {
-        name: 'Zurich Minas Brasil Seguros S.A.',
-        type: 'company',
-        document: '17.197.385/0001-21',
-        email: 'juridico@zurich.com.br',
-        phone: '(11) 3133-0000',
-        street: 'Av. Jornalista Roberto Marinho',
-        number: '85',
-        neighborhood: 'Brooklin',
-        city: 'São Paulo',
-        state: 'SP',
-        postal_code: '04576-010',
-        country: 'Brasil',
-        notes: 'Seguradora multinacional',
-        metadata: {
-          sector: 'Insurance',
-          size: 'Large Enterprise',
-          since: '2020',
-        },
-      }),
+          name: 'Zurich Minas Brasil Seguros S.A.',
+          type: 'company',
+          document: '17.197.385/0001-21',
+          email: 'juridico@zurich.com.br',
+          phone: '(11) 3133-0000',
+          street: 'Av. Jornalista Roberto Marinho',
+          number: '85',
+          neighborhood: 'Brooklin',
+          city: 'São Paulo',
+          state: 'SP',
+          postal_code: '04576-010',
+          country: 'Brasil',
+          notes: 'Seguradora multinacional',
+          metadata: {
+            sector: 'Insurance',
+            size: 'Large Enterprise',
+            since: '2020',
+          },
+        }
+      ),
 
       await Client.firstOrCreate(
         { document: '08.123.456/0001-99' },
         {
-        name: 'Gallo Ferreira Comércio de Frutas Ltda',
-        type: 'company',
-        document: '08.123.456/0001-99',
-        email: 'contato@galloferreira.com.br',
-        phone: '(11) 4123-5678',
-        street: 'CEAGESP - Pavilhão MLP',
-        number: 'Box 123',
-        neighborhood: 'Vila Leopoldina',
-        city: 'São Paulo',
-        state: 'SP',
-        postal_code: '05429-000',
-        country: 'Brasil',
-        notes: 'Distribuidor de frutas - CEAGESP',
-        metadata: {
-          sector: 'Agriculture',
-          size: 'Medium Enterprise',
-          since: '2021',
-        },
-      }),
+          name: 'Gallo Ferreira Comércio de Frutas Ltda',
+          type: 'company',
+          document: '08.123.456/0001-99',
+          email: 'contato@galloferreira.com.br',
+          phone: '(11) 4123-5678',
+          street: 'CEAGESP - Pavilhão MLP',
+          number: 'Box 123',
+          neighborhood: 'Vila Leopoldina',
+          city: 'São Paulo',
+          state: 'SP',
+          postal_code: '05429-000',
+          country: 'Brasil',
+          notes: 'Distribuidor de frutas - CEAGESP',
+          metadata: {
+            sector: 'Agriculture',
+            size: 'Medium Enterprise',
+            since: '2021',
+          },
+        }
+      ),
 
       await Client.firstOrCreate(
         { document: '123.456.789-00' },
         {
-        name: 'Carlos Ulisses Parente',
-        type: 'individual',
-        document: '123.456.789-00',
-        email: 'carlos.parente@email.com',
-        phone: '(21) 98765-4321',
-        street: 'Rua Visconde de Pirajá',
-        number: '550',
-        complement: 'Apto 801',
-        neighborhood: 'Ipanema',
-        city: 'Rio de Janeiro',
-        state: 'RJ',
-        postal_code: '22410-002',
-        country: 'Brasil',
-        notes: 'Caso de conflito de competência - Barra da Tijuca',
-        birthday: DateTime.fromISO('1975-03-15'),
-        metadata: {
-          profession: 'Empresário',
-        },
-      }),
+          name: 'Carlos Ulisses Parente',
+          type: 'individual',
+          document: '123.456.789-00',
+          email: 'carlos.parente@email.com',
+          phone: '(21) 98765-4321',
+          street: 'Rua Visconde de Pirajá',
+          number: '550',
+          complement: 'Apto 801',
+          neighborhood: 'Ipanema',
+          city: 'Rio de Janeiro',
+          state: 'RJ',
+          postal_code: '22410-002',
+          country: 'Brasil',
+          notes: 'Caso de conflito de competência - Barra da Tijuca',
+          birthday: DateTime.fromISO('1975-03-15'),
+          metadata: {
+            profession: 'Empresário',
+          },
+        }
+      ),
 
       await Client.firstOrCreate(
         { document: '15.789.456/0001-23' },
         {
-        name: 'I.B.S. de Souza Muito+ Modas Eireli',
-        type: 'company',
-        document: '15.789.456/0001-23',
-        email: 'contato@muitomais.com.br',
-        phone: '(67) 3321-1234',
-        street: 'Rua 14 de Julho',
-        number: '2345',
-        neighborhood: 'Centro',
-        city: 'Campo Grande',
-        state: 'MS',
-        postal_code: '79002-333',
-        country: 'Brasil',
-        notes: 'Comércio varejista de vestuário',
-        metadata: {
-          sector: 'Retail',
-          size: 'Small Enterprise',
-          since: '2022',
-        },
-      }),
+          name: 'I.B.S. de Souza Muito+ Modas Eireli',
+          type: 'company',
+          document: '15.789.456/0001-23',
+          email: 'contato@muitomais.com.br',
+          phone: '(67) 3321-1234',
+          street: 'Rua 14 de Julho',
+          number: '2345',
+          neighborhood: 'Centro',
+          city: 'Campo Grande',
+          state: 'MS',
+          postal_code: '79002-333',
+          country: 'Brasil',
+          notes: 'Comércio varejista de vestuário',
+          metadata: {
+            sector: 'Retail',
+            size: 'Small Enterprise',
+            since: '2022',
+          },
+        }
+      ),
 
       await Client.firstOrCreate(
         { document: '34.028.316/0001-03' },
         {
-        name: 'Empresa Brasileira de Correios e Telégrafos',
-        type: 'company',
-        document: '34.028.316/0001-03',
-        email: 'juridico@correios.com.br',
-        phone: '(61) 3003-0100',
-        street: 'SBN Quadra 1 Bloco A',
-        number: 'Ed. Sede ECT',
-        neighborhood: 'Asa Norte',
-        city: 'Brasília',
-        state: 'DF',
-        postal_code: '70002-900',
-        country: 'Brasil',
-        notes: 'Empresa pública federal',
-        metadata: {
-          sector: 'Public Services',
-          size: 'Large Enterprise',
-          since: '2018',
-        },
-      }),
+          name: 'Empresa Brasileira de Correios e Telégrafos',
+          type: 'company',
+          document: '34.028.316/0001-03',
+          email: 'juridico@correios.com.br',
+          phone: '(61) 3003-0100',
+          street: 'SBN Quadra 1 Bloco A',
+          number: 'Ed. Sede ECT',
+          neighborhood: 'Asa Norte',
+          city: 'Brasília',
+          state: 'DF',
+          postal_code: '70002-900',
+          country: 'Brasil',
+          notes: 'Empresa pública federal',
+          metadata: {
+            sector: 'Public Services',
+            size: 'Large Enterprise',
+            since: '2018',
+          },
+        }
+      ),
 
       await Client.firstOrCreate(
         { document: '00.360.305/0001-04' },
         {
-        name: 'Caixa Econômica Federal',
-        type: 'company',
-        document: '00.360.305/0001-04',
-        email: 'juridico@caixa.gov.br',
-        phone: '(61) 3206-9000',
-        street: 'SBS Quadra 4 Bloco A',
-        number: 'Lote 3/4',
-        neighborhood: 'Asa Sul',
-        city: 'Brasília',
-        state: 'DF',
-        postal_code: '70092-900',
-        country: 'Brasil',
-        notes: 'Banco público federal',
-        metadata: {
-          sector: 'Banking',
-          size: 'Large Enterprise',
-          since: '2017',
-        },
-      }),
+          name: 'Caixa Econômica Federal',
+          type: 'company',
+          document: '00.360.305/0001-04',
+          email: 'juridico@caixa.gov.br',
+          phone: '(61) 3206-9000',
+          street: 'SBS Quadra 4 Bloco A',
+          number: 'Lote 3/4',
+          neighborhood: 'Asa Sul',
+          city: 'Brasília',
+          state: 'DF',
+          postal_code: '70092-900',
+          country: 'Brasil',
+          notes: 'Banco público federal',
+          metadata: {
+            sector: 'Banking',
+            size: 'Large Enterprise',
+            since: '2017',
+          },
+        }
+      ),
 
       await Client.firstOrCreate(
         { document: '987.654.321-00' },
         {
-        name: 'Vanessa Cavalcanti Bizerra',
-        type: 'individual',
-        document: '987.654.321-00',
-        email: 'vanessa.bizerra@email.com',
-        phone: '(11) 97654-3210',
-        street: 'Alameda Santos',
-        number: '1234',
-        complement: 'Sala 1502',
-        neighborhood: 'Jardim Paulista',
-        city: 'São Paulo',
-        state: 'SP',
-        postal_code: '01419-002',
-        country: 'Brasil',
-        notes: 'Ação trabalhista - Uso de veículo próprio',
-        birthday: DateTime.fromISO('1985-07-22'),
-        metadata: {
-          profession: 'Consultora',
-        },
-      }),
+          name: 'Vanessa Cavalcanti Bizerra',
+          type: 'individual',
+          document: '987.654.321-00',
+          email: 'vanessa.bizerra@email.com',
+          phone: '(11) 97654-3210',
+          street: 'Alameda Santos',
+          number: '1234',
+          complement: 'Sala 1502',
+          neighborhood: 'Jardim Paulista',
+          city: 'São Paulo',
+          state: 'SP',
+          postal_code: '01419-002',
+          country: 'Brasil',
+          notes: 'Ação trabalhista - Uso de veículo próprio',
+          birthday: DateTime.fromISO('1985-07-22'),
+          metadata: {
+            profession: 'Consultora',
+          },
+        }
+      ),
     ]
 
     logger.info(`✅ Created ${clients.length} clients`)
@@ -440,229 +448,237 @@ export default class extends BaseSeeder {
       await Folder.firstOrCreate(
         { code: 'PROC-2024-001' },
         {
-        code: 'PROC-2024-001',
-        title: 'Banco Inter - Regulamentação Criptoativos BC',
-        description:
-          'Assessoria jurídica para adequação às novas normas do Banco Central sobre criptoativos - Consulta Pública 109/2024',
-        status: 'active',
-        area: 'corporate',
-        court: 'Banco Central do Brasil',
-        case_number: 'CP-109/2024',
-        opposing_party: 'Banco Central do Brasil',
-        client_id: clients[0].id, // Banco Inter
-        responsible_lawyer_id: users.andre.id,
-        case_value: 5000000.0,
-        distribution_date: DateTime.fromISO('2024-01-15'),
-        next_hearing: DateTime.fromISO('2025-02-20'),
-        observation: 'Caso crítico - Primeira exchange a buscar autorização completa do BC',
-        object_detail:
-          'Adequação regulatória para operação como VASP (Virtual Asset Service Provider)',
-        metadata: {
-          priority: 'high',
-          complexity: 'high',
-          regulatory: true,
-        },
-      }),
+          code: 'PROC-2024-001',
+          title: 'Banco Inter - Regulamentação Criptoativos BC',
+          description:
+            'Assessoria jurídica para adequação às novas normas do Banco Central sobre criptoativos - Consulta Pública 109/2024',
+          status: 'active',
+          area: 'corporate',
+          court: 'Banco Central do Brasil',
+          case_number: 'CP-109/2024',
+          opposing_party: 'Banco Central do Brasil',
+          client_id: clients[0].id, // Banco Inter
+          responsible_lawyer_id: users.andre.id,
+          case_value: 5000000.0,
+          distribution_date: DateTime.fromISO('2024-01-15'),
+          next_hearing: DateTime.fromISO('2025-02-20'),
+          observation: 'Caso crítico - Primeira exchange a buscar autorização completa do BC',
+          object_detail:
+            'Adequação regulatória para operação como VASP (Virtual Asset Service Provider)',
+          metadata: {
+            priority: 'high',
+            complexity: 'high',
+            regulatory: true,
+          },
+        }
+      ),
 
       // Zurich Seguros - Conflict case
       await Folder.firstOrCreate(
         { code: 'PROC-2024-002' },
         {
-        code: 'PROC-2024-002',
-        title: 'Zurich Seguros vs Carlos Parente - Conflito de Competência',
-        description:
-          'Conflito de competência entre 2ª Vara Cível da Barra da Tijuca e 5ª Vara de Jacarepaguá',
-        status: 'active',
-        area: 'civil_litigation',
-        court: 'TJRJ - Tribunal de Justiça do Rio de Janeiro',
-        case_number: '0838209-36.2024.8.19.0203',
-        opposing_party: 'Carlos Ulisses Parente',
-        client_id: clients[1].id, // Zurich
-        responsible_lawyer_id: users.marcos.id,
-        case_value: 850000.0,
-        conviction_value: 425000.0,
-        costs: 15000.0,
-        fees: 85000.0,
-        distribution_date: DateTime.fromISO('2024-03-10'),
-        citation_date: DateTime.fromISO('2024-03-25'),
-        next_hearing: DateTime.fromISO('2025-01-15'),
-        observation: 'Aguardando decisão do relator Des. Luiz Umpierre',
-        object_detail: 'Ação de cobrança de seguro - Sinistro veicular',
-        metadata: {
-          insurance_type: 'Auto',
-          claim_number: 'ZUR-2024-0098',
-        },
-      }),
+          code: 'PROC-2024-002',
+          title: 'Zurich Seguros vs Carlos Parente - Conflito de Competência',
+          description:
+            'Conflito de competência entre 2ª Vara Cível da Barra da Tijuca e 5ª Vara de Jacarepaguá',
+          status: 'active',
+          area: 'civil_litigation',
+          court: 'TJRJ - Tribunal de Justiça do Rio de Janeiro',
+          case_number: '0838209-36.2024.8.19.0203',
+          opposing_party: 'Carlos Ulisses Parente',
+          client_id: clients[1].id, // Zurich
+          responsible_lawyer_id: users.marcos.id,
+          case_value: 850000.0,
+          conviction_value: 425000.0,
+          costs: 15000.0,
+          fees: 85000.0,
+          distribution_date: DateTime.fromISO('2024-03-10'),
+          citation_date: DateTime.fromISO('2024-03-25'),
+          next_hearing: DateTime.fromISO('2025-01-15'),
+          observation: 'Aguardando decisão do relator Des. Luiz Umpierre',
+          object_detail: 'Ação de cobrança de seguro - Sinistro veicular',
+          metadata: {
+            insurance_type: 'Auto',
+            claim_number: 'ZUR-2024-0098',
+          },
+        }
+      ),
 
       // Labor case - Vehicle usage
       await Folder.firstOrCreate(
         { code: 'PROC-2022-079' },
         {
-        code: 'PROC-2022-079',
-        title: 'Vanessa Bizerra vs I.B.S. Muito+ Modas - Uso Veículo Próprio',
-        description:
-          'Ação trabalhista - Indenização por uso de veículo particular para atividades empresariais',
-        status: 'completed',
-        area: 'labor',
-        court: 'TRT24 - Tribunal Regional do Trabalho 24ª Região',
-        case_number: '0024519-79.2022.5.24.0000',
-        opposing_party: 'Vanessa Cavalcanti Bizerra',
-        client_id: clients[4].id, // I.B.S. Muito+ Modas
-        responsible_lawyer_id: users.marcos.id,
-        case_value: 132690.0,
-        conviction_value: 132690.0,
-        costs: 5000.0,
-        fees: 13269.0,
-        distribution_date: DateTime.fromISO('2022-10-04'),
-        citation_date: DateTime.fromISO('2022-10-20'),
-        observation: 'Tese fixada: Uso de veículo próprio deve ser ressarcido pelo empregador',
-        object_detail:
-          'Ressarcimento por desgaste e depreciação de veículo usado em atividade empresarial',
-        metadata: {
-          result: 'unfavorable',
-          appeal: 'pending',
-        },
-      }),
+          code: 'PROC-2022-079',
+          title: 'Vanessa Bizerra vs I.B.S. Muito+ Modas - Uso Veículo Próprio',
+          description:
+            'Ação trabalhista - Indenização por uso de veículo particular para atividades empresariais',
+          status: 'completed',
+          area: 'labor',
+          court: 'TRT24 - Tribunal Regional do Trabalho 24ª Região',
+          case_number: '0024519-79.2022.5.24.0000',
+          opposing_party: 'Vanessa Cavalcanti Bizerra',
+          client_id: clients[4].id, // I.B.S. Muito+ Modas
+          responsible_lawyer_id: users.marcos.id,
+          case_value: 132690.0,
+          conviction_value: 132690.0,
+          costs: 5000.0,
+          fees: 13269.0,
+          distribution_date: DateTime.fromISO('2022-10-04'),
+          citation_date: DateTime.fromISO('2022-10-20'),
+          observation: 'Tese fixada: Uso de veículo próprio deve ser ressarcido pelo empregador',
+          object_detail:
+            'Ressarcimento por desgaste e depreciação de veículo usado em atividade empresarial',
+          metadata: {
+            result: 'unfavorable',
+            appeal: 'pending',
+          },
+        }
+      ),
 
       // CARF Tax case
       await Folder.firstOrCreate(
         { code: 'PROC-2016-033' },
         {
-        code: 'PROC-2016-033',
-        title: 'Caso CARF - Tráfico de Influência',
-        description: 'Defesa em processo de corrupção e tráfico de influência no CARF',
-        status: 'completed',
-        area: 'criminal',
-        court: 'Justiça Federal - 3ª Região',
-        case_number: '0001234-56.2016.4.03.6100',
-        opposing_party: 'Ministério Público Federal',
-        client_id: clients[0].id,
-        responsible_lawyer_id: users.benicio.id,
-        case_value: 10000000.0,
-        distribution_date: DateTime.fromISO('2016-05-03'),
-        citation_date: DateTime.fromISO('2016-05-20'),
-        observation: 'Caso de alta repercussão - Operação Zelotes',
-        object_detail: 'Defesa contra acusações de tráfico de influência em julgamentos do CARF',
-        metadata: {
-          media_coverage: 'high',
-          operation: 'Zelotes',
-          result: 'acquitted',
-        },
-      }),
+          code: 'PROC-2016-033',
+          title: 'Caso CARF - Tráfico de Influência',
+          description: 'Defesa em processo de corrupção e tráfico de influência no CARF',
+          status: 'completed',
+          area: 'criminal',
+          court: 'Justiça Federal - 3ª Região',
+          case_number: '0001234-56.2016.4.03.6100',
+          opposing_party: 'Ministério Público Federal',
+          client_id: clients[0].id,
+          responsible_lawyer_id: users.benicio.id,
+          case_value: 10000000.0,
+          distribution_date: DateTime.fromISO('2016-05-03'),
+          citation_date: DateTime.fromISO('2016-05-20'),
+          observation: 'Caso de alta repercussão - Operação Zelotes',
+          object_detail: 'Defesa contra acusações de tráfico de influência em julgamentos do CARF',
+          metadata: {
+            media_coverage: 'high',
+            operation: 'Zelotes',
+            result: 'acquitted',
+          },
+        }
+      ),
 
       // Correios labor case
       await Folder.firstOrCreate(
         { code: 'PROC-2023-045' },
         {
-        code: 'PROC-2023-045',
-        title: 'ECT vs Adilson Santos - Ação Trabalhista',
-        description: 'Defesa em reclamação trabalhista - Demissão por justa causa',
-        status: 'active',
-        area: 'labor',
-        court: 'TRT2 - Tribunal Regional do Trabalho 2ª Região',
-        case_number: '1000123-45.2023.5.02.0001',
-        opposing_party: 'Adilson Santos Augusto',
-        client_id: clients[5].id, // Correios
-        responsible_lawyer_id: users.patricia.id,
-        case_value: 245000.0,
-        costs: 8000.0,
-        fees: 24500.0,
-        distribution_date: DateTime.fromISO('2023-06-15'),
-        citation_date: DateTime.fromISO('2023-07-01'),
-        next_hearing: DateTime.fromISO('2025-02-10'),
-        observation: 'Contestação protocolada - Aguardando audiência de instrução',
-        object_detail: 'Reversão de justa causa, verbas rescisórias e danos morais',
-        metadata: {
-          dismissal_reason: 'misconduct',
-          employment_duration: '8 years',
-        },
-      }),
+          code: 'PROC-2023-045',
+          title: 'ECT vs Adilson Santos - Ação Trabalhista',
+          description: 'Defesa em reclamação trabalhista - Demissão por justa causa',
+          status: 'active',
+          area: 'labor',
+          court: 'TRT2 - Tribunal Regional do Trabalho 2ª Região',
+          case_number: '1000123-45.2023.5.02.0001',
+          opposing_party: 'Adilson Santos Augusto',
+          client_id: clients[5].id, // Correios
+          responsible_lawyer_id: users.patricia.id,
+          case_value: 245000.0,
+          costs: 8000.0,
+          fees: 24500.0,
+          distribution_date: DateTime.fromISO('2023-06-15'),
+          citation_date: DateTime.fromISO('2023-07-01'),
+          next_hearing: DateTime.fromISO('2025-02-10'),
+          observation: 'Contestação protocolada - Aguardando audiência de instrução',
+          object_detail: 'Reversão de justa causa, verbas rescisórias e danos morais',
+          metadata: {
+            dismissal_reason: 'misconduct',
+            employment_duration: '8 years',
+          },
+        }
+      ),
 
       // Caixa Econômica - Real estate financing
       await Folder.firstOrCreate(
         { code: 'PROC-2024-067' },
         {
-        code: 'PROC-2024-067',
-        title: 'CEF - Execução Hipotecária Conjunto Residencial',
-        description:
-          'Execução de garantia hipotecária - Inadimplência em financiamento habitacional',
-        status: 'active',
-        area: 'real_estate',
-        court: 'TJSP - 15ª Vara Cível Central',
-        case_number: '1005678-90.2024.8.26.0100',
-        opposing_party: 'Conjunto Residencial Vila Nova',
-        client_id: clients[6].id, // Caixa
-        responsible_lawyer_id: users.patricia.id,
-        case_value: 2500000.0,
-        costs: 25000.0,
-        fees: 125000.0,
-        distribution_date: DateTime.fromISO('2024-02-20'),
-        citation_date: DateTime.fromISO('2024-03-05'),
-        next_hearing: DateTime.fromISO('2025-01-25'),
-        observation: 'Imóvel avaliado - Aguardando leilão judicial',
-        object_detail: 'Execução de cédula de crédito imobiliário - 50 unidades habitacionais',
-        metadata: {
-          property_value: 2500000.0,
-          units: 50,
-          default_months: 18,
-        },
-      }),
+          code: 'PROC-2024-067',
+          title: 'CEF - Execução Hipotecária Conjunto Residencial',
+          description:
+            'Execução de garantia hipotecária - Inadimplência em financiamento habitacional',
+          status: 'active',
+          area: 'real_estate',
+          court: 'TJSP - 15ª Vara Cível Central',
+          case_number: '1005678-90.2024.8.26.0100',
+          opposing_party: 'Conjunto Residencial Vila Nova',
+          client_id: clients[6].id, // Caixa
+          responsible_lawyer_id: users.patricia.id,
+          case_value: 2500000.0,
+          costs: 25000.0,
+          fees: 125000.0,
+          distribution_date: DateTime.fromISO('2024-02-20'),
+          citation_date: DateTime.fromISO('2024-03-05'),
+          next_hearing: DateTime.fromISO('2025-01-25'),
+          observation: 'Imóvel avaliado - Aguardando leilão judicial',
+          object_detail: 'Execução de cédula de crédito imobiliário - 50 unidades habitacionais',
+          metadata: {
+            property_value: 2500000.0,
+            units: 50,
+            default_months: 18,
+          },
+        }
+      ),
 
       // Gallo Ferreira - Commercial dispute
       await Folder.firstOrCreate(
         { code: 'PROC-2024-089' },
         {
-        code: 'PROC-2024-089',
-        title: 'Gallo Ferreira - Disputa Comercial CEAGESP',
-        description: 'Ação de cobrança - Fornecimento de frutas não pago',
-        status: 'active',
-        area: 'civil_litigation',
-        court: 'TJSP - 8ª Vara Cível Central',
-        case_number: '1009876-54.2024.8.26.0100',
-        opposing_party: 'Supermercados União Ltda',
-        client_id: clients[2].id, // Gallo Ferreira
-        responsible_lawyer_id: users.andre.id,
-        case_value: 487000.0,
-        costs: 10000.0,
-        fees: 48700.0,
-        distribution_date: DateTime.fromISO('2024-04-10'),
-        citation_date: DateTime.fromISO('2024-04-25'),
-        next_hearing: DateTime.fromISO('2025-02-05'),
-        observation: 'Liminar deferida - Bloqueio de contas',
-        object_detail: 'Cobrança por fornecimento de frutas - 6 meses de inadimplência',
-        metadata: {
-          product_type: 'Fresh Fruits',
-          total_invoices: 24,
-          unpaid_months: 6,
-        },
-      }),
+          code: 'PROC-2024-089',
+          title: 'Gallo Ferreira - Disputa Comercial CEAGESP',
+          description: 'Ação de cobrança - Fornecimento de frutas não pago',
+          status: 'active',
+          area: 'civil_litigation',
+          court: 'TJSP - 8ª Vara Cível Central',
+          case_number: '1009876-54.2024.8.26.0100',
+          opposing_party: 'Supermercados União Ltda',
+          client_id: clients[2].id, // Gallo Ferreira
+          responsible_lawyer_id: users.andre.id,
+          case_value: 487000.0,
+          costs: 10000.0,
+          fees: 48700.0,
+          distribution_date: DateTime.fromISO('2024-04-10'),
+          citation_date: DateTime.fromISO('2024-04-25'),
+          next_hearing: DateTime.fromISO('2025-02-05'),
+          observation: 'Liminar deferida - Bloqueio de contas',
+          object_detail: 'Cobrança por fornecimento de frutas - 6 meses de inadimplência',
+          metadata: {
+            product_type: 'Fresh Fruits',
+            total_invoices: 24,
+            unpaid_months: 6,
+          },
+        }
+      ),
 
       // Regulatory - Open Finance
       await Folder.firstOrCreate(
         { code: 'PROC-2024-102' },
         {
-        code: 'PROC-2024-102',
-        title: 'Banco Inter - Implementação Open Finance',
-        description: 'Assessoria regulatória para implementação de Open Finance e PIX',
-        status: 'active',
-        area: 'corporate',
-        court: 'Banco Central do Brasil',
-        case_number: 'REG-2024-0156',
-        opposing_party: null,
-        client_id: clients[0].id, // Banco Inter
-        responsible_lawyer_id: users.andre.id,
-        case_value: 3000000.0,
-        fees: 300000.0,
-        distribution_date: DateTime.fromISO('2024-05-01'),
-        observation: 'Projeto estratégico - Fase 3 do Open Finance',
-        object_detail:
-          'Adequação completa aos requisitos do Open Finance e pagamentos instantâneos',
-        metadata: {
-          project_phase: 3,
-          compliance_deadline: '2025-06-30',
-          regulatory_framework: 'BCB Resolution 4.968/2021',
-        },
-      }),
+          code: 'PROC-2024-102',
+          title: 'Banco Inter - Implementação Open Finance',
+          description: 'Assessoria regulatória para implementação de Open Finance e PIX',
+          status: 'active',
+          area: 'corporate',
+          court: 'Banco Central do Brasil',
+          case_number: 'REG-2024-0156',
+          opposing_party: null,
+          client_id: clients[0].id, // Banco Inter
+          responsible_lawyer_id: users.andre.id,
+          case_value: 3000000.0,
+          fees: 300000.0,
+          distribution_date: DateTime.fromISO('2024-05-01'),
+          observation: 'Projeto estratégico - Fase 3 do Open Finance',
+          object_detail:
+            'Adequação completa aos requisitos do Open Finance e pagamentos instantâneos',
+          metadata: {
+            project_phase: 3,
+            compliance_deadline: '2025-06-30',
+            regulatory_framework: 'BCB Resolution 4.968/2021',
+          },
+        }
+      ),
     ]
 
     logger.info(`✅ Created ${folders.length} folders`)
@@ -1007,7 +1023,8 @@ export default class extends BaseSeeder {
         folder_id: folders[4].id,
         assignee_id: users.patricia.id,
         creator_id: users.marcos.id,
-        notes: 'Levar 3 testemunhas. Documentos já juntados aos autos. Local: TRT2 - Fórum Ruy Barbosa - Sala 405',
+        notes:
+          'Levar 3 testemunhas. Documentos já juntados aos autos. Local: TRT2 - Fórum Ruy Barbosa - Sala 405',
         metadata: {
           judge: 'Dr. Fernando Costa',
           witnesses: 3,
@@ -1042,7 +1059,8 @@ export default class extends BaseSeeder {
         folder_id: folders[5].id,
         assignee_id: users.patricia.id,
         creator_id: users.admin.id,
-        notes: 'Online - www.leiloesjudiciais.com.br. Primeiro leilão - Lance mínimo: 100% da avaliação',
+        notes:
+          'Online - www.leiloesjudiciais.com.br. Primeiro leilão - Lance mínimo: 100% da avaliação',
         metadata: {
           auction_type: '1st_auction',
           minimum_value: 2650000.0,
@@ -1168,7 +1186,7 @@ export default class extends BaseSeeder {
         message: 'Prazo para resposta à CP 109/2024 vence em 7 dias',
         action_url: '/folders/PROC-2024-001',
         action_text: 'Ver processo',
-        metadata: {
+        data: {
           folder_id: folders[0].id,
           days_remaining: 7,
         },
@@ -1181,7 +1199,7 @@ export default class extends BaseSeeder {
         message: 'Audiência de instrução - Correios vs Adilson às 14:30',
         action_url: '/hearings/2025-02-10',
         action_text: 'Ver detalhes',
-        metadata: {
+        data: {
           folder_id: folders[4].id,
           location: 'TRT2 - Sala 405',
         },
@@ -1195,7 +1213,7 @@ export default class extends BaseSeeder {
         action_url: '/tasks',
         action_text: 'Ver tarefa',
         read_at: DateTime.now().minus({ hours: 1 }),
-        metadata: {
+        data: {
           folder_id: folders[1].id,
           priority: 'medium',
         },
@@ -1209,7 +1227,7 @@ export default class extends BaseSeeder {
         action_url: '/folders/PROC-2024-089',
         action_text: 'Ver processo',
         read_at: DateTime.now().minus({ days: 2 }),
-        metadata: {
+        data: {
           folder_id: folders[6].id,
           blocked_amount: 487000.0,
         },
@@ -1222,7 +1240,7 @@ export default class extends BaseSeeder {
         message: 'Publicada Resolução BCB 5.123/2024 sobre criptoativos',
         action_url: '/regulations',
         action_text: 'Ler normativo',
-        metadata: {
+        data: {
           regulation: 'BCB 5.123/2024',
           impact: 'high',
         },
@@ -1235,7 +1253,7 @@ export default class extends BaseSeeder {
         message: 'Falta juntar procuração no processo da CEF',
         action_url: '/folders/PROC-2024-067',
         action_text: 'Resolver',
-        metadata: {
+        data: {
           folder_id: folders[5].id,
           document_type: 'power_of_attorney',
         },
@@ -1248,7 +1266,7 @@ export default class extends BaseSeeder {
         message: 'Falha ao protocolar petição - Sistema TJSP indisponível',
         action_url: '/support',
         action_text: 'Tentar novamente',
-        metadata: {
+        data: {
           error_code: 'TJSP_503',
           retry_after: '30 minutes',
         },
@@ -1375,48 +1393,135 @@ export default class extends BaseSeeder {
   private async createLegalPermissions() {
     const legalPermissions = [
       // Folders/Cases - Legal-specific actions
-      { name: 'folders.archive', resource: 'folders', action: 'archive', description: 'Archive folders' },
-      { name: 'folders.unarchive', resource: 'folders', action: 'unarchive', description: 'Unarchive folders' },
-      { name: 'folders.assign', resource: 'folders', action: 'assign', description: 'Assign folders to lawyers' },
-      { name: 'folders.status_change', resource: 'folders', action: 'status_change', description: 'Change folder status' },
+      {
+        name: 'folders.archive',
+        resource: 'folders',
+        action: 'archive',
+        description: 'Archive folders',
+      },
+      {
+        name: 'folders.unarchive',
+        resource: 'folders',
+        action: 'unarchive',
+        description: 'Unarchive folders',
+      },
+      {
+        name: 'folders.assign',
+        resource: 'folders',
+        action: 'assign',
+        description: 'Assign folders to lawyers',
+      },
+      {
+        name: 'folders.status_change',
+        resource: 'folders',
+        action: 'status_change',
+        description: 'Change folder status',
+      },
 
       // Documents - Legal document management
-      { name: 'documents.sign', resource: 'documents', action: 'sign', description: 'Sign documents' },
-      { name: 'documents.version', resource: 'documents', action: 'version', description: 'Version documents' },
-      { name: 'documents.approve', resource: 'documents', action: 'approve', description: 'Approve documents' },
+      {
+        name: 'documents.sign',
+        resource: 'documents',
+        action: 'sign',
+        description: 'Sign documents',
+      },
+      {
+        name: 'documents.version',
+        resource: 'documents',
+        action: 'version',
+        description: 'Version documents',
+      },
+      {
+        name: 'documents.approve',
+        resource: 'documents',
+        action: 'approve',
+        description: 'Approve documents',
+      },
 
       // Hearings - Court appearance management
-      { name: 'hearings.schedule', resource: 'hearings', action: 'schedule', description: 'Schedule hearings' },
-      { name: 'hearings.reschedule', resource: 'hearings', action: 'reschedule', description: 'Reschedule hearings' },
-      { name: 'hearings.cancel', resource: 'hearings', action: 'cancel', description: 'Cancel hearings' },
+      {
+        name: 'hearings.schedule',
+        resource: 'hearings',
+        action: 'schedule',
+        description: 'Schedule hearings',
+      },
+      {
+        name: 'hearings.reschedule',
+        resource: 'hearings',
+        action: 'reschedule',
+        description: 'Reschedule hearings',
+      },
+      {
+        name: 'hearings.cancel',
+        resource: 'hearings',
+        action: 'cancel',
+        description: 'Cancel hearings',
+      },
 
       // Tasks - Legal task management
       { name: 'tasks.assign', resource: 'tasks', action: 'assign', description: 'Assign tasks' },
-      { name: 'tasks.complete', resource: 'tasks', action: 'complete', description: 'Complete tasks' },
+      {
+        name: 'tasks.complete',
+        resource: 'tasks',
+        action: 'complete',
+        description: 'Complete tasks',
+      },
 
       // Messages - Communication
       { name: 'messages.send', resource: 'messages', action: 'send', description: 'Send messages' },
-      { name: 'messages.broadcast', resource: 'messages', action: 'broadcast', description: 'Broadcast messages' },
+      {
+        name: 'messages.broadcast',
+        resource: 'messages',
+        action: 'broadcast',
+        description: 'Broadcast messages',
+      },
 
       // Notifications
-      { name: 'notifications.send', resource: 'notifications', action: 'send', description: 'Send notifications' },
-      { name: 'notifications.manage', resource: 'notifications', action: 'manage', description: 'Manage notifications' },
+      {
+        name: 'notifications.send',
+        resource: 'notifications',
+        action: 'send',
+        description: 'Send notifications',
+      },
+      {
+        name: 'notifications.manage',
+        resource: 'notifications',
+        action: 'manage',
+        description: 'Manage notifications',
+      },
 
       // Dashboard & Analytics
-      { name: 'dashboard.view', resource: 'dashboard', action: 'view', description: 'View dashboard' },
-      { name: 'analytics.view', resource: 'analytics', action: 'view', description: 'View analytics' },
-      { name: 'analytics.export', resource: 'analytics', action: 'export', description: 'Export analytics' },
+      {
+        name: 'dashboard.view',
+        resource: 'dashboard',
+        action: 'view',
+        description: 'View dashboard',
+      },
+      {
+        name: 'analytics.view',
+        resource: 'analytics',
+        action: 'view',
+        description: 'View analytics',
+      },
+      {
+        name: 'analytics.export',
+        resource: 'analytics',
+        action: 'export',
+        description: 'Export analytics',
+      },
 
       // System Administration
       { name: 'system.backup', resource: 'system', action: 'backup', description: 'Backup system' },
-      { name: 'system.maintenance', resource: 'system', action: 'maintenance', description: 'System maintenance' },
+      {
+        name: 'system.maintenance',
+        resource: 'system',
+        action: 'maintenance',
+        description: 'System maintenance',
+      },
     ]
 
     for (const permission of legalPermissions) {
-      await Permission.firstOrCreate(
-        { name: permission.name },
-        permission
-      )
+      await Permission.firstOrCreate({ name: permission.name }, permission)
     }
   }
 
@@ -1442,7 +1547,9 @@ export default class extends BaseSeeder {
           abilities: abilities,
           created_at: DateTime.now().toSQL(),
           updated_at: DateTime.now().toSQL(),
-          last_used_at: DateTime.now().minus({ hours: Math.floor(Math.random() * 24) }).toSQL(),
+          last_used_at: DateTime.now()
+            .minus({ hours: Math.floor(Math.random() * 24) })
+            .toSQL(),
           expires_at: DateTime.now().plus({ days: 30 }).toSQL(),
         })
 
@@ -1459,13 +1566,28 @@ export default class extends BaseSeeder {
   private async createFiles(users: any, clients: any[], folders: any[]) {
     const files = []
 
-    const fileCategories = ['contract', 'petition', 'decision', 'correspondence', 'evidence', 'other']
+    const fileCategories = [
+      'contract',
+      'petition',
+      'decision',
+      'correspondence',
+      'evidence',
+      'other',
+    ]
     const fileTypes = [
       { ext: 'pdf', mime: 'application/pdf', category: 'document' },
-      { ext: 'docx', mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', category: 'document' },
-      { ext: 'xlsx', mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', category: 'spreadsheet' },
+      {
+        ext: 'docx',
+        mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        category: 'document',
+      },
+      {
+        ext: 'xlsx',
+        mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        category: 'spreadsheet',
+      },
       { ext: 'jpg', mime: 'image/jpeg', category: 'image' },
-      { ext: 'png', mime: 'image/png', category: 'image' }
+      { ext: 'png', mime: 'image/png', category: 'image' },
     ]
 
     const sampleFiles = [
@@ -1473,23 +1595,45 @@ export default class extends BaseSeeder {
       { name: 'peticao_inicial_zurich.docx', size: 856234, client_idx: 1, category: 'petition' },
       { name: 'laudo_pericial_sinistro.pdf', size: 3567890, client_idx: 1, category: 'evidence' },
       { name: 'acordao_trt24_veiculos.pdf', size: 1234567, client_idx: 4, category: 'decision' },
-      { name: 'planilha_calculos_trabalhistas.xlsx', size: 456789, client_idx: 4, category: 'other' },
+      {
+        name: 'planilha_calculos_trabalhistas.xlsx',
+        size: 456789,
+        client_idx: 4,
+        category: 'other',
+      },
       { name: 'fotos_acidente_veiculo.jpg', size: 2890123, client_idx: 3, category: 'evidence' },
-      { name: 'carta_citacao_correios.pdf', size: 567890, client_idx: 5, category: 'correspondence' },
+      {
+        name: 'carta_citacao_correios.pdf',
+        size: 567890,
+        client_idx: 5,
+        category: 'correspondence',
+      },
       { name: 'cci_conjunto_residencial.pdf', size: 4567890, client_idx: 6, category: 'contract' },
       { name: 'invoice_frutas_gallo.pdf', size: 345678, client_idx: 2, category: 'other' },
       { name: 'parecer_juridico_crypto.pdf', size: 5678901, client_idx: 0, category: 'other' },
-      { name: 'manifestacao_bcb_openfinance.docx', size: 1890234, client_idx: 0, category: 'correspondence' },
+      {
+        name: 'manifestacao_bcb_openfinance.docx',
+        size: 1890234,
+        client_idx: 0,
+        category: 'correspondence',
+      },
       { name: 'certidao_quitacao_eleitoral.pdf', size: 234567, client_idx: 3, category: 'other' },
-      { name: 'comprovante_residencia_cliente.jpg', size: 1345678, client_idx: 3, category: 'evidence' },
+      {
+        name: 'comprovante_residencia_cliente.jpg',
+        size: 1345678,
+        client_idx: 3,
+        category: 'evidence',
+      },
       { name: 'ata_reuniao_diretoria.docx', size: 890123, client_idx: 0, category: 'other' },
       { name: 'balanco_patrimonial_2024.xlsx', size: 2345678, client_idx: 2, category: 'other' },
     ]
 
     for (let i = 0; i < sampleFiles.length; i++) {
       const fileData = sampleFiles[i]
-      const fileType = fileTypes.find(ft => fileData.name.includes(ft.ext)) || fileTypes[0]
-      const randomUser = Object.values(users)[Math.floor(Math.random() * Object.values(users).length)] as any
+      const fileType = fileTypes.find((ft) => fileData.name.includes(ft.ext)) || fileTypes[0]
+      const randomUser = Object.values(users)[
+        Math.floor(Math.random() * Object.values(users).length)
+      ] as any
 
       const file = await File.create({
         owner_id: randomUser.id,
@@ -1519,71 +1663,128 @@ export default class extends BaseSeeder {
       switch (role.slug) {
         case IRole.Slugs.ADMIN:
           // Admin gets almost all permissions except some system-critical ones
-          rolePermissions = permissions.filter(p =>
-            !['system.backup', 'system.maintenance'].includes(p.name)
+          rolePermissions = permissions.filter(
+            (p) => !['system.backup', 'system.maintenance'].includes(p.name)
           )
           break
 
         case IRole.Slugs.LAWYER:
           // Lawyers get comprehensive access to legal operations
-          rolePermissions = permissions.filter(p =>
+          rolePermissions = permissions.filter((p) =>
             [
               // Core legal operations
-              'folders.create', 'folders.read', 'folders.update', 'folders.list', 'folders.assign', 'folders.status_change',
-              'documents.create', 'documents.read', 'documents.update', 'documents.sign', 'documents.approve', 'documents.version',
-              'tasks.create', 'tasks.read', 'tasks.update', 'tasks.assign', 'tasks.complete', 'tasks.list',
-              'hearings.create', 'hearings.read', 'hearings.update', 'hearings.schedule', 'hearings.reschedule',
-              'clients.create', 'clients.read', 'clients.update', 'clients.list',
-              'messages.read', 'messages.send', 'notifications.read',
-              'files.create', 'files.read', 'files.list',
-              'analytics.view', 'dashboard.view',
+              'folders.create',
+              'folders.read',
+              'folders.update',
+              'folders.list',
+              'folders.assign',
+              'folders.status_change',
+              'documents.create',
+              'documents.read',
+              'documents.update',
+              'documents.sign',
+              'documents.approve',
+              'documents.version',
+              'tasks.create',
+              'tasks.read',
+              'tasks.update',
+              'tasks.assign',
+              'tasks.complete',
+              'tasks.list',
+              'hearings.create',
+              'hearings.read',
+              'hearings.update',
+              'hearings.schedule',
+              'hearings.reschedule',
+              'clients.create',
+              'clients.read',
+              'clients.update',
+              'clients.list',
+              'messages.read',
+              'messages.send',
+              'notifications.read',
+              'files.create',
+              'files.read',
+              'files.list',
+              'analytics.view',
+              'dashboard.view',
               // Own data management
-              'users.read', 'users.update'
+              'users.read',
+              'users.update',
             ].includes(p.name)
           )
           break
 
         case IRole.Slugs.SECRETARY:
           // Secretaries get administrative and support functions
-          rolePermissions = permissions.filter(p =>
+          rolePermissions = permissions.filter((p) =>
             [
               // Administrative support
-              'folders.read', 'folders.list', 'folders.update',
-              'documents.create', 'documents.read', 'documents.update', 'documents.list',
-              'tasks.create', 'tasks.read', 'tasks.update', 'tasks.list',
-              'hearings.create', 'hearings.read', 'hearings.update', 'hearings.schedule', 'hearings.reschedule',
-              'clients.create', 'clients.read', 'clients.update', 'clients.list',
-              'messages.read', 'messages.send', 'notifications.read', 'notifications.send',
-              'files.create', 'files.read', 'files.list',
+              'folders.read',
+              'folders.list',
+              'folders.update',
+              'documents.create',
+              'documents.read',
+              'documents.update',
+              'documents.list',
+              'tasks.create',
+              'tasks.read',
+              'tasks.update',
+              'tasks.list',
+              'hearings.create',
+              'hearings.read',
+              'hearings.update',
+              'hearings.schedule',
+              'hearings.reschedule',
+              'clients.create',
+              'clients.read',
+              'clients.update',
+              'clients.list',
+              'messages.read',
+              'messages.send',
+              'notifications.read',
+              'notifications.send',
+              'files.create',
+              'files.read',
+              'files.list',
               'dashboard.view',
               // Own profile
-              'users.read', 'users.update'
+              'users.read',
+              'users.update',
             ].includes(p.name)
           )
           break
 
         case IRole.Slugs.INTERN:
           // Interns get limited, read-mostly access
-          rolePermissions = permissions.filter(p =>
+          rolePermissions = permissions.filter((p) =>
             [
               // Limited access
-              'folders.read', 'folders.list',
-              'documents.read', 'documents.list',
-              'tasks.read', 'tasks.list',
-              'hearings.read', 'hearings.list',
-              'clients.read', 'clients.list',
-              'messages.read', 'notifications.read',
-              'files.read', 'files.list',
+              'folders.read',
+              'folders.list',
+              'documents.read',
+              'documents.list',
+              'tasks.read',
+              'tasks.list',
+              'hearings.read',
+              'hearings.list',
+              'clients.read',
+              'clients.list',
+              'messages.read',
+              'notifications.read',
+              'files.read',
+              'files.list',
               'dashboard.view',
               // Own profile
-              'users.read', 'users.update'
+              'users.read',
+              'users.update',
             ].includes(p.name)
           )
           break
       }
 
       if (rolePermissions.length > 0) {
-        await role.related('permissions').sync(rolePermissions.map(p => p.id))
+        await role.related('permissions').sync(rolePermissions.map((p) => p.id))
       }
     }
   }
@@ -1595,17 +1796,21 @@ export default class extends BaseSeeder {
     let count = 0
 
     // Give Dr. Benício special system permissions as senior partner
-    const systemPermissions = await Permission.query()
-      .whereIn('name', ['system.backup', 'analytics.export', 'reports.export'])
+    const systemPermissions = await Permission.query().whereIn('name', [
+      'system.backup',
+      'analytics.export',
+      'reports.export',
+    ])
 
     if (systemPermissions.length > 0) {
-      await Database.table('user_permissions')
-        .insert(systemPermissions.map(permission => ({
+      await Database.table('user_permissions').insert(
+        systemPermissions.map((permission) => ({
           user_id: users.benicio.id,
           permission_id: permission.id,
           created_at: DateTime.now().toSQL(),
           updated_at: DateTime.now().toSQL(),
-        })))
+        }))
+      )
       count += systemPermissions.length
     }
 
@@ -1615,13 +1820,14 @@ export default class extends BaseSeeder {
       .orWhere('name', 'folders.archive')
 
     if (techPermissions.length > 0) {
-      await Database.table('user_permissions')
-        .insert(techPermissions.map(permission => ({
+      await Database.table('user_permissions').insert(
+        techPermissions.map((permission) => ({
           user_id: users.andre.id,
           permission_id: permission.id,
           created_at: DateTime.now().toSQL(),
           updated_at: DateTime.now().toSQL(),
-        })))
+        }))
+      )
       count += techPermissions.length
     }
 
@@ -1678,9 +1884,15 @@ export default class extends BaseSeeder {
     const userAgents = [
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
+      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
     ]
-    const ipAddresses = ['192.168.1.100', '192.168.1.101', '10.0.0.50', '172.16.0.10', '203.0.113.45']
+    const ipAddresses = [
+      '192.168.1.100',
+      '192.168.1.101',
+      '10.0.0.50',
+      '172.16.0.10',
+      '203.0.113.45',
+    ]
 
     // Generate realistic audit logs for the past 30 days
     const userList = Object.values(users) as any[]
@@ -1692,7 +1904,7 @@ export default class extends BaseSeeder {
       const randomDate = DateTime.now().minus({
         days: Math.floor(Math.random() * 30),
         hours: Math.floor(Math.random() * 24),
-        minutes: Math.floor(Math.random() * 60)
+        minutes: Math.floor(Math.random() * 60),
       })
 
       const logData = {
@@ -1703,7 +1915,10 @@ export default class extends BaseSeeder {
         resource: randomResource,
         action: randomAction,
         context: 'any',
-        resource_id: randomResource === 'folders' ? folders[Math.floor(Math.random() * folders.length)]?.id : null,
+        resource_id:
+          randomResource === 'folders'
+            ? folders[Math.floor(Math.random() * folders.length)]?.id
+            : null,
         method: ['GET', 'POST', 'PUT', 'DELETE'][Math.floor(Math.random() * 4)],
         url: `/api/${randomResource}`,
         request_data: randomAction === 'create' ? { name: 'Sample data' } : null,
@@ -1712,7 +1927,7 @@ export default class extends BaseSeeder {
         response_code: randomResult === 'granted' ? 200 : 403,
         metadata: {
           duration_ms: Math.floor(Math.random() * 1000) + 50,
-          source: 'web_app'
+          source: 'web_app',
         },
         created_at: randomDate,
         updated_at: randomDate,
@@ -1731,7 +1946,7 @@ export default class extends BaseSeeder {
         result: 'granted' as const,
         url: '/api/folders',
         method: 'POST',
-        metadata: { event: 'New crypto regulation case created', importance: 'high' }
+        metadata: { event: 'New crypto regulation case created', importance: 'high' },
       },
       {
         user_id: users.andre.id,
@@ -1740,7 +1955,7 @@ export default class extends BaseSeeder {
         result: 'granted' as const,
         url: '/api/documents/123/sign',
         method: 'POST',
-        metadata: { event: 'Legal opinion document signed', document_type: 'legal_opinion' }
+        metadata: { event: 'Legal opinion document signed', document_type: 'legal_opinion' },
       },
       {
         user_id: users.patricia.id,
@@ -1749,7 +1964,7 @@ export default class extends BaseSeeder {
         result: 'granted' as const,
         url: '/api/hearings',
         method: 'POST',
-        metadata: { event: 'Court hearing scheduled', court: 'TRT2' }
+        metadata: { event: 'Court hearing scheduled', court: 'TRT2' },
       },
       {
         user_id: null, // System event
@@ -1758,8 +1973,8 @@ export default class extends BaseSeeder {
         result: 'granted' as const,
         url: '/system/backup',
         method: 'POST',
-        metadata: { event: 'Automated system backup', size_mb: 1024 }
-      }
+        metadata: { event: 'Automated system backup', size_mb: 1024 },
+      },
     ]
 
     for (const event of importantEvents) {
