@@ -1278,38 +1278,38 @@ export default class extends BaseSeeder {
     // 12. Create Folder Favorites
     // ============================
     const favorites = [
-      await FolderFavorite.firstOrCreate({
-        userId: users.andre.id,
-        folderId: folders[0].id, // Crypto regulation
-      }),
-      await FolderFavorite.firstOrCreate({
-        userId: users.andre.id,
-        folderId: folders[7].id, // Open Finance
-      }),
-      await FolderFavorite.firstOrCreate({
-        userId: users.marcos.id,
-        folderId: folders[1].id, // Zurich case
-      }),
-      await FolderFavorite.firstOrCreate({
-        userId: users.marcos.id,
-        folderId: folders[2].id, // Vehicle usage case
-      }),
-      await FolderFavorite.firstOrCreate({
-        userId: users.patricia.id,
-        folderId: folders[4].id, // Correios case
-      }),
-      await FolderFavorite.firstOrCreate({
-        userId: users.patricia.id,
-        folderId: folders[5].id, // CEF execution
-      }),
-      await FolderFavorite.firstOrCreate({
-        userId: users.benicio.id,
-        folderId: folders[0].id, // Crypto - high priority
-      }),
-      await FolderFavorite.firstOrCreate({
-        userId: users.benicio.id,
-        folderId: folders[3].id, // CARF case
-      }),
+      await FolderFavorite.firstOrCreate(
+        { userId: users.andre.id, folderId: folders[0].id },
+        { userId: users.andre.id, folderId: folders[0].id }
+      ),
+      await FolderFavorite.firstOrCreate(
+        { userId: users.andre.id, folderId: folders[7].id },
+        { userId: users.andre.id, folderId: folders[7].id }
+      ),
+      await FolderFavorite.firstOrCreate(
+        { userId: users.marcos.id, folderId: folders[1].id },
+        { userId: users.marcos.id, folderId: folders[1].id }
+      ),
+      await FolderFavorite.firstOrCreate(
+        { userId: users.marcos.id, folderId: folders[2].id },
+        { userId: users.marcos.id, folderId: folders[2].id }
+      ),
+      await FolderFavorite.firstOrCreate(
+        { userId: users.patricia.id, folderId: folders[4].id },
+        { userId: users.patricia.id, folderId: folders[4].id }
+      ),
+      await FolderFavorite.firstOrCreate(
+        { userId: users.patricia.id, folderId: folders[5].id },
+        { userId: users.patricia.id, folderId: folders[5].id }
+      ),
+      await FolderFavorite.firstOrCreate(
+        { userId: users.benicio.id, folderId: folders[0].id },
+        { userId: users.benicio.id, folderId: folders[0].id }
+      ),
+      await FolderFavorite.firstOrCreate(
+        { userId: users.benicio.id, folderId: folders[3].id },
+        { userId: users.benicio.id, folderId: folders[3].id }
+      ),
     ]
 
     logger.info(`✅ Created ${favorites.length} folder favorites`)
@@ -1793,13 +1793,16 @@ export default class extends BaseSeeder {
     ])
 
     if (systemPermissions.length > 0) {
-      await Database.table('user_permissions').insert(
-        systemPermissions.map((permission) => ({
-          user_id: users.benicio.id,
-          permission_id: permission.id,
-          created_at: DateTime.now().toSQL(),
-          updated_at: DateTime.now().toSQL(),
-        }))
+      const userBenicio = await User.findOrFail(users.benicio.id)
+      await userBenicio.related('permissions').attach(
+        systemPermissions.reduce((acc, permission) => {
+          acc[permission.id] = {
+            granted: true,
+            created_at: DateTime.now(),
+            updated_at: DateTime.now(),
+          }
+          return acc
+        }, {})
       )
       count += systemPermissions.length
     }
@@ -1968,12 +1971,21 @@ export default class extends BaseSeeder {
 
     for (const event of importantEvents) {
       const auditLog = await AuditLog.create({
-        ...event,
+        user_id: event.user_id,
         session_id: event.user_id ? `sess_${event.user_id}_important` : null,
         ip_address: '192.168.1.100',
         user_agent: userAgents[0],
-        context: 'any',
-        response_code: 200,
+        resource: event.resource,
+        action: event.action,
+        context: event.context || 'system',
+        resource_id: event.resource_id || null,
+        method: event.method || 'POST',
+        url: event.url || '/api/system',
+        request_data: event.request_data || null,
+        result: event.result,
+        reason: event.reason || null,
+        response_code: event.response_code || 200,
+        metadata: event.metadata || null,
         created_at: DateTime.now().minus({ days: Math.floor(Math.random() * 7) }),
         updated_at: DateTime.now().minus({ days: Math.floor(Math.random() * 7) }),
       })
