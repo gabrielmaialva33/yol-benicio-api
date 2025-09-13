@@ -1263,35 +1263,35 @@ export default class extends BaseSeeder {
     const favorites = [
       await FolderFavorite.create({
         user_id: users.andre.id,
-        folderId: folders[0].id, // Crypto regulation
+        folder_id: folders[0].id, // Crypto regulation
       }),
       await FolderFavorite.create({
         user_id: users.andre.id,
-        folderId: folders[7].id, // Open Finance
+        folder_id: folders[7].id, // Open Finance
       }),
       await FolderFavorite.create({
         user_id: users.marcos.id,
-        folderId: folders[1].id, // Zurich case
+        folder_id: folders[1].id, // Zurich case
       }),
       await FolderFavorite.create({
         user_id: users.marcos.id,
-        folderId: folders[2].id, // Vehicle usage case
+        folder_id: folders[2].id, // Vehicle usage case
       }),
       await FolderFavorite.create({
         user_id: users.patricia.id,
-        folderId: folders[4].id, // Correios case
+        folder_id: folders[4].id, // Correios case
       }),
       await FolderFavorite.create({
         user_id: users.patricia.id,
-        folderId: folders[5].id, // CEF execution
+        folder_id: folders[5].id, // CEF execution
       }),
       await FolderFavorite.create({
         user_id: users.benicio.id,
-        folderId: folders[0].id, // Crypto - high priority
+        folder_id: folders[0].id, // Crypto - high priority
       }),
       await FolderFavorite.create({
         user_id: users.benicio.id,
-        folderId: folders[3].id, // CARF case
+        folder_id: folders[3].id, // CARF case
       }),
     ]
 
