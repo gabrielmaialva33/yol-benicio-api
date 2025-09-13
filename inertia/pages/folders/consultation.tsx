@@ -3,11 +3,11 @@ import { Head, router } from '@inertiajs/react'
 import type { PageProps } from '@adonisjs/inertia/types'
 import type { Folder, FolderArea, FolderStatus } from '~/shared/types'
 import DashboardLayout from '../dashboard/layout'
-import { AppliedFilters } from '~/features/folders/components/AppliedFilters'
-import { FolderFilters } from '~/features/folders/components/FolderFilters'
-import { FolderTable } from '~/features/folders/components/FolderTable'
-import { FolderTabs } from '~/features/folders/components/FolderTabs'
-import { Pagination } from '~/features/folders/components/Pagination'
+import { FolderFilters } from '@/components/folders/folder-filters'
+import { FolderTable } from '@/components/folders/folder-table'
+import { FolderTabs } from '@/components/folders/folder-tabs'
+import { Pagination } from '@/components/folders/pagination'
+import { useFavoriteFolders } from '@/hooks/use-favorite-folders'
 
 interface FolderConsultationProps extends PageProps {
   folders: {
@@ -34,6 +34,8 @@ interface FolderConsultationProps extends PageProps {
 
 export default function FolderConsultation({ folders, filters }: FolderConsultationProps) {
   const [selectedFolders, setSelectedFolders] = useState<string[]>([])
+  const [activeTab, setActiveTab] = useState('all')
+  const { toggleFavorite, isFavorite } = useFavoriteFolders()
 
   const pagination = {
     page: folders.meta.current_page,
@@ -54,6 +56,11 @@ export default function FolderConsultation({ folders, filters }: FolderConsultat
     status: filters.status,
     search: filters.search,
   }
+
+  const foldersWithFavorites = folders.data.map((folder) => ({
+    ...folder,
+    isFavorite: isFavorite(folder.id),
+  }))
 
   const handleFiltersChange = (newFilters: Partial<typeof currentFilters>) => {
     router.get(
@@ -114,62 +121,51 @@ export default function FolderConsultation({ folders, filters }: FolderConsultat
     )
   }
 
+  const handleToggleFavorite = async (folderId: number) => {
+    await toggleFavorite(folderId)
+  }
+
+  const tabCounts = {
+    all: folders.meta.total,
+    active: folders.data.filter((f) => f.status === 'Ativo').length,
+    archived: folders.data.filter((f) => f.status === 'Arquivado').length,
+    suspended: folders.data.filter((f) => f.status === 'Suspenso').length,
+  }
+
   return (
     <DashboardLayout title="Consulta de Pastas">
       <Head title="Consulta de Pastas" />
 
-      <div className="p-4 sm:p-6 lg:p-8 bg-[#F1F1F2] min-h-full">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
+      <div className="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-full">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
           <div className="px-4 sm:px-6 lg:px-8 pt-6 lg:pt-8 pb-4">
-            <FolderTabs filters={currentFilters} setFilters={handleFiltersChange} />
+            <h1 className="text-2xl font-bold text-gray-900 mb-6">Consulta de Pastas</h1>
+
+            <FolderTabs activeTab={activeTab} onTabChange={setActiveTab} counts={tabCounts} />
           </div>
 
-          <div className="px-2 pb-6 lg:pb-8">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-6 gap-4">
-              <div className="flex-1 min-w-0">
-                <FolderFilters
-                  filters={currentFilters}
-                  isLoading={false}
-                  setFilters={handleFiltersChange}
-                />
-              </div>
-              <div className="flex items-center space-x-3 px-4 sm:px-6 shrink-0">
-                <button
-                  className="px-3 sm:px-4 py-2 h-10 text-xs sm:text-sm font-bold text-[#00B8D9] bg-white border border-[#00B8D9]/48 rounded-[20px] hover:bg-[#00B8D9]/5 disabled:opacity-50 transition-colors whitespace-nowrap"
-                  disabled={selectedFolders.length === 0}
-                  type="button"
-                >
-                  Baixar
-                </button>
-                <button
-                  className="px-3 sm:px-4 py-2 h-10 text-xs sm:text-sm font-bold text-[#00B8D9] bg-white border border-[#00B8D9]/48 rounded-[20px] hover:bg-[#00B8D9]/5 transition-colors whitespace-nowrap"
-                  type="button"
-                >
-                  Adicionar colunas
-                </button>
-              </div>
-            </div>
-
-            <div className="px-4 sm:px-6">
-              <AppliedFilters
-                filters={currentFilters}
-                resultCount={pagination.total}
-                setFilters={handleFiltersChange}
-              />
+          <div className="px-4 sm:px-6 lg:px-8 pb-6 lg:pb-8">
+            <div className="mb-6">
+              <FolderFilters filters={currentFilters} onFilterChange={handleFiltersChange} />
             </div>
 
             <div className="mt-6">
               <FolderTable
-                folders={folders.data}
-                selectedFolders={selectedFolders}
-                setSelectedFolders={setSelectedFolders}
-                setSort={handleSortChange}
-                sort={sort}
+                folders={foldersWithFavorites}
+                onToggleFavorite={handleToggleFavorite}
+                isLoading={false}
               />
             </div>
 
-            <div className="px-4 sm:px-6 mt-6">
-              <Pagination {...pagination} setLimit={handleLimitChange} setPage={handlePageChange} />
+            <div className="mt-6">
+              <Pagination
+                page={pagination.page}
+                totalPages={pagination.totalPages}
+                total={pagination.total}
+                limit={pagination.limit}
+                onPageChange={handlePageChange}
+                onLimitChange={handleLimitChange}
+              />
             </div>
           </div>
         </div>

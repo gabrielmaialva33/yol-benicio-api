@@ -1,8 +1,14 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import DashboardService from '#services/dashboard_service'
+import FolderFavoriteService from '#services/folder_favorite_service'
+import NotificationService from '#services/notification_service'
+import MessageService from '#services/message_service'
 
 export default class DashboardController {
   private dashboardService = new DashboardService()
+  private folderFavoriteService = new FolderFavoriteService()
+  private notificationService = new NotificationService()
+  private messageService = new MessageService()
 
   /**
    * Display dashboard page
@@ -10,19 +16,31 @@ export default class DashboardController {
   async index({ inertia, auth }: HttpContext) {
     // Get current user
     await auth.check()
+    const user = auth.user!
 
     // Fetch real data from database
     const widgets = await this.dashboardService.getDashboardData()
 
+    // Fetch favorite folders
+    const favoriteFolders = await this.folderFavoriteService.getFavoriteFolders(user.id)
+
+    // Fetch notifications
+    const notificationCount = await this.notificationService.getUnreadCount(user.id)
+    const recentNotifications = await this.notificationService.getRecentNotifications(user.id, 5)
+
+    // Fetch messages
+    const messageCount = await this.messageService.getUnreadCount(user.id)
+    const recentMessages = await this.messageService.getRecentMessages(user.id, 5)
+
     const dashboardData = {
-      favoriteFolders: [],
+      favoriteFolders,
       notifications: {
-        unread: 0,
-        items: [],
+        unread: notificationCount,
+        items: recentNotifications,
       },
       messages: {
-        unread: 0,
-        items: [],
+        unread: messageCount,
+        items: recentMessages,
       },
       widgets,
     }

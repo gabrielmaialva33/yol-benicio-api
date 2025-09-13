@@ -62,6 +62,10 @@ router.post('/logout', [AuthController, 'logout']).as('auth.logout').use(middlew
 
 // Dashboard routes (protected)
 const DashboardController = () => import('#controllers/dashboard_controller')
+const MessagesController = () => import('#controllers/messages_controller')
+const NotificationsController = () => import('#controllers/notifications_controller')
+const FolderFavoritesController = () => import('#controllers/folder_favorites_controller')
+
 router
   .group(() => {
     router.get('/dashboard', [DashboardController, 'index']).as('dashboard.index')
@@ -90,6 +94,71 @@ router
       .get('/api/dashboard/birthdays', [DashboardController, 'getBirthdays'])
       .as('api.dashboard.birthdays')
     router.get('/api/dashboard/tasks', [DashboardController, 'getTasks']).as('api.dashboard.tasks')
+
+    // Messages API endpoints
+    router.get('/api/messages', [MessagesController, 'index']).as('api.messages.index')
+    router.get('/api/messages/recent', [MessagesController, 'recent']).as('api.messages.recent')
+    router
+      .get('/api/messages/unread-count', [MessagesController, 'unreadCount'])
+      .as('api.messages.unread-count')
+    router.post('/api/messages', [MessagesController, 'store']).as('api.messages.store')
+    router.get('/api/messages/:id', [MessagesController, 'show']).as('api.messages.show')
+    router
+      .put('/api/messages/:id/read', [MessagesController, 'markAsRead'])
+      .as('api.messages.markAsRead')
+    router
+      .put('/api/messages/read-all', [MessagesController, 'markAllAsRead'])
+      .as('api.messages.markAllAsRead')
+    router.delete('/api/messages/:id', [MessagesController, 'destroy']).as('api.messages.destroy')
+
+    // Notifications API endpoints
+    router
+      .get('/api/notifications', [NotificationsController, 'index'])
+      .as('api.notifications.index')
+    router
+      .get('/api/notifications/recent', [NotificationsController, 'recent'])
+      .as('api.notifications.recent')
+    router
+      .get('/api/notifications/unread-count', [NotificationsController, 'unreadCount'])
+      .as('api.notifications.unread-count')
+    router
+      .post('/api/notifications', [NotificationsController, 'store'])
+      .as('api.notifications.store')
+    router
+      .get('/api/notifications/type/:type', [NotificationsController, 'byType'])
+      .as('api.notifications.byType')
+    router
+      .get('/api/notifications/:id', [NotificationsController, 'show'])
+      .as('api.notifications.show')
+    router
+      .put('/api/notifications/:id/read', [NotificationsController, 'markAsRead'])
+      .as('api.notifications.markAsRead')
+    router
+      .put('/api/notifications/read-all', [NotificationsController, 'markAllAsRead'])
+      .as('api.notifications.markAllAsRead')
+    router
+      .delete('/api/notifications/:id', [NotificationsController, 'destroy'])
+      .as('api.notifications.destroy')
+
+    // Folder Favorites API endpoints
+    router
+      .get('/api/dashboard/favorite-folders', [FolderFavoritesController, 'index'])
+      .as('api.favorites.index')
+    router
+      .post('/api/folders/:id/favorite', [FolderFavoritesController, 'toggle'])
+      .as('api.favorites.toggle')
+    router
+      .post('/api/folders/:id/favorite/add', [FolderFavoritesController, 'store'])
+      .as('api.favorites.store')
+    router
+      .delete('/api/folders/:id/favorite', [FolderFavoritesController, 'destroy'])
+      .as('api.favorites.destroy')
+    router
+      .get('/api/folders/:id/favorite/check', [FolderFavoritesController, 'check'])
+      .as('api.favorites.check')
+    router
+      .post('/api/folders/favorites/bulk', [FolderFavoritesController, 'bulkToggle'])
+      .as('api.favorites.bulkToggle')
   })
   .use(middleware.auth())
 
