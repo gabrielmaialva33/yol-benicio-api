@@ -7,7 +7,7 @@ import { FolderFilters } from '@/components/folders/folder-filters'
 import { FolderTable } from '@/components/folders/folder-table'
 import { FolderTabs } from '@/components/folders/folder-tabs'
 import { Pagination } from '@/components/folders/pagination'
-import { useFavoriteFolders } from '@/hooks/use-favorite-folders'
+import { useFavoriteFolders } from '@/hooks/use_favorite_folders'
 
 interface FolderConsultationProps extends PageProps {
   folders: {

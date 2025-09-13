@@ -1628,8 +1628,7 @@ export default class extends BaseSeeder {
       { name: 'balanco_patrimonial_2024.xlsx', size: 2345678, client_idx: 2, category: 'other' },
     ]
 
-    for (let i = 0; i < sampleFiles.length; i++) {
-      const fileData = sampleFiles[i]
+    for (const fileData of sampleFiles) {
       const fileType = fileTypes.find((ft) => fileData.name.includes(ft.ext)) || fileTypes[0]
       const randomUser = Object.values(users)[
         Math.floor(Math.random() * Object.values(users).length)

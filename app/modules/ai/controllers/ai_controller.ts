@@ -20,14 +20,17 @@ export default class AiController {
    */
   async analyzeDocument({ request, response, auth }: HttpContext) {
     try {
-      const { document_id, analysis_type, options } =
-        await request.validateUsing(analyzeDocumentValidator)
+      const {
+        document_id: documentId,
+        analysis_type: analysisType,
+        options,
+      } = await request.validateUsing(analyzeDocumentValidator)
 
       // Check document access
-      await FolderDocument.query().where('id', document_id).firstOrFail()
+      await FolderDocument.query().where('id', documentId).firstOrFail()
 
       // Create analysis record
-      const analysis = await this.nvidiaService.analyzeDocument(document_id, analysis_type, options)
+      const analysis = await this.nvidiaService.analyzeDocument(documentId, analysisType, options)
 
       // Set user who requested
       analysis.user_id = auth.user!.id
@@ -51,10 +54,13 @@ export default class AiController {
    */
   async generateDocument({ request, response, auth }: HttpContext) {
     try {
-      const { template_type, variables, options } =
-        await request.validateUsing(generateDocumentValidator)
+      const {
+        template_type: templateType,
+        variables,
+        options,
+      } = await request.validateUsing(generateDocumentValidator)
 
-      const content = await this.nvidiaService.generateDocument(template_type, variables, options)
+      const content = await this.nvidiaService.generateDocument(templateType, variables, options)
 
       // Save generated document
       const analysis = await AiAnalysis.create({
@@ -63,7 +69,7 @@ export default class AiController {
         model: options?.model || 'meta/llama-3.1-70b-instruct',
         status: 'completed',
         result: {
-          template_type,
+          template_type: templateType,
           generated_content: content,
           variables,
         },
@@ -90,11 +96,15 @@ export default class AiController {
    */
   async semanticSearch({ request, response }: HttpContext) {
     try {
-      const { query, folder_id, limit } = await request.validateUsing(semanticSearchValidator)
+      const {
+        query,
+        folder_id: folderId,
+        limit,
+      } = await request.validateUsing(semanticSearchValidator)
 
       // Get documents from folder
       const documents = await FolderDocument.query()
-        .where('folder_id', folder_id || 0)
+        .where('folder_id', folderId || 0)
         .select('id', 'description')
 
       // Prepare documents for search
@@ -125,12 +135,12 @@ export default class AiController {
    */
   async extractEntities({ request, response }: HttpContext) {
     try {
-      const { text, document_id } = request.body()
+      const { text, document_id: documentId } = request.body()
 
       let entities
 
-      if (document_id) {
-        const document = await FolderDocument.findOrFail(document_id)
+      if (documentId) {
+        const document = await FolderDocument.findOrFail(documentId)
         entities = await this.nvidiaService.extractEntities(document.description || '')
       } else if (text) {
         entities = await this.nvidiaService.extractEntities(text)
@@ -158,12 +168,12 @@ export default class AiController {
    */
   async classifyDocument({ request, response }: HttpContext) {
     try {
-      const { text, document_id } = request.body()
+      const { text, document_id: documentId } = request.body()
 
       let classification
 
-      if (document_id) {
-        const document = await FolderDocument.findOrFail(document_id)
+      if (documentId) {
+        const document = await FolderDocument.findOrFail(documentId)
         classification = await this.huggingFaceService.classifyDocument(document.description || '')
       } else if (text) {
         classification = await this.huggingFaceService.classifyDocument(text)
@@ -269,10 +279,10 @@ export default class AiController {
    */
   async analyzePrecatorio({ request, response, auth }: HttpContext) {
     try {
-      const { folder_id } = request.body()
+      const { folder_id: folderId } = request.body()
 
       const folder = await Folder.query()
-        .where('id', folder_id)
+        .where('id', folderId)
         .whereJsonSuperset('metadata', { type: 'precatorio' })
         .firstOrFail()
 
@@ -280,7 +290,7 @@ export default class AiController {
 
       // Save analysis
       await AiAnalysis.create({
-        folder_id,
+        folder_id: folderId,
         user_id: auth.user!.id,
         analysis_type: 'legal_review',
         model: 'meta/llama-3.1-70b-instruct',
