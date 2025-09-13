@@ -24,9 +24,8 @@ export default class AiController {
         await request.validateUsing(analyzeDocumentValidator)
 
       // Check document access
-      const document = await FolderDocument.query()
+      await FolderDocument.query()
         .where('id', document_id)
-        .preload('folder')
         .firstOrFail()
 
       // Create analysis record
@@ -97,14 +96,14 @@ export default class AiController {
 
       // Get documents from folder
       const documents = await FolderDocument.query()
-        .where('folder_id', folder_id)
-        .select('id', 'title', 'description')
+        .where('folder_id', folder_id || 0)
+        .select('id', 'description')
 
       // Prepare documents for search
       const searchDocs = documents.map((doc) => ({
         id: doc.id,
-        content: `${doc.title} ${doc.description || ''}`,
-        metadata: { title: doc.title },
+        content: doc.description || '',
+        metadata: { id: doc.id },
       }))
 
       // Perform semantic search
