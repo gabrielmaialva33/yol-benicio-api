@@ -138,10 +138,10 @@ export default class HuggingFaceService {
     try {
       const response = await this.hf.imageToText({
         model: this.ocrModel,
-        data: Buffer.from(imageBase64, 'base64'),
+        data: Buffer.from(imageBase64, 'base64') as any,
       })
 
-      return response.generated_text
+      return (response as any).generated_text || ''
     } catch (error) {
       logger.error('OCR processing failed:', error)
       throw error
