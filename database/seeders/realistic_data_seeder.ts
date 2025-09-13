@@ -23,7 +23,7 @@ import { DateTime } from 'luxon'
 
 export default class extends BaseSeeder {
   async run() {
-    console.log('🚀 Starting realistic data seeder based on Benício Advogados cases...')
+    logger.info('🚀 Starting realistic data seeder based on Benício Advogados cases...')
 
     // ============================
     // 1. Create Roles
