@@ -24,9 +24,7 @@ export default class AiController {
         await request.validateUsing(analyzeDocumentValidator)
 
       // Check document access
-      await FolderDocument.query()
-        .where('id', document_id)
-        .firstOrFail()
+      await FolderDocument.query().where('id', document_id).firstOrFail()
 
       // Create analysis record
       const analysis = await this.nvidiaService.analyzeDocument(document_id, analysis_type, options)
