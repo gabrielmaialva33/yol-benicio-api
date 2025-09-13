@@ -9,17 +9,9 @@ import Task from '#modules/task/models/task'
 import Hearing from '#modules/hearing/models/hearing'
 import logger from '@adonisjs/core/services/logger'
 import { DateTime } from 'luxon'
-import axios from 'axios'
 
 export default class PrecatoriosRealDataSeeder extends BaseSeeder {
   // API Keys e Endpoints
-  private readonly DATAJUD_API_KEY = 'cDZHYzlZa0JadVREZDJCe' // Chave pública do DataJud
-  private readonly DATAJUD_ENDPOINT_TJSP =
-    'https://api-publica.datajud.cnj.jus.br/api_publica_tjsp/_search'
-  private readonly DATAJUD_ENDPOINT_TJMG =
-    'https://api-publica.datajud.cnj.jus.br/api_publica_tjmg/_search'
-  private readonly DATAJUD_ENDPOINT_TJRJ =
-    'https://api-publica.datajud.cnj.jus.br/api_publica_tjrj/_search'
 
   async run() {
     logger.info('🏛️ Iniciando seed com dados reais de precatórios...')
@@ -80,6 +72,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           password: 'benicio123',
           metadata: {
             email_verified: true,
+            email_verification_token: null,
+            email_verification_sent_at: null,
             email_verified_at: DateTime.now().toISO(),
           },
         }
@@ -93,6 +87,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           password: 'benicio123',
           metadata: {
             email_verified: true,
+            email_verification_token: null,
+            email_verification_sent_at: null,
             email_verified_at: DateTime.now().toISO(),
           },
         }
@@ -106,6 +102,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           password: 'benicio123',
           metadata: {
             email_verified: true,
+            email_verification_token: null,
+            email_verification_sent_at: null,
             email_verified_at: DateTime.now().toISO(),
           },
         }
@@ -437,7 +435,7 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           code: precatorio.numero_precatorio,
           title: `Precatório ${precatorio.natureza} - ${precatorio.beneficiario}`,
           description: `Precatório ${precatorio.numero_precatorio} - Processo originário: ${precatorio.numero_processo}`,
-          status: this.mapStatusToFolderStatus(precatorio.status),
+          status: this.mapStatusToFolderStatus(precatorio.status) as 'active' | 'completed' | 'pending' | 'cancelled' | 'archived',
           area: precatorio.natureza.includes('Trabalhista') ? 'labor' : 'administrative',
           court: precatorio.tribunal,
           case_number: precatorio.numero_processo,

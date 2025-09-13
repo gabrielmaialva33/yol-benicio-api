@@ -1,5 +1,5 @@
 import { HfInference } from '@huggingface/inference'
-import env from '@adonisjs/core/services/env'
+import env from '#start/env'
 import logger from '@adonisjs/core/services/logger'
 import redis from '@adonisjs/redis/services/main'
 
@@ -48,10 +48,12 @@ export default class HuggingFaceService {
         inputs: text,
       })
 
+      const embeddings = Array.isArray(response) ? response.flat().filter((x): x is number => typeof x === 'number') : Array.from(response as any).filter((x): x is number => typeof x === 'number')
+
       const result: EmbeddingResult = {
-        embeddings: Array.isArray(response) ? response.flat() : Array.from(response as any),
+        embeddings,
         model: this.embeddingModel,
-        dimensions: Array.isArray(response) ? response.flat().length : (response as any).length,
+        dimensions: embeddings.length,
       }
 
       // Cache for 24 hours
@@ -98,7 +100,7 @@ export default class HuggingFaceService {
   /**
    * Portuguese NLP analysis using BERTimbau
    */
-  async analyzePortugueseText(text: string, task: 'ner' | 'classification' | 'qa' = 'ner') {
+  async analyzePortugueseText(text: string, task: 'ner' | 'classification' | 'qa' = 'ner'): Promise<any> {
     try {
       switch (task) {
         case 'ner':

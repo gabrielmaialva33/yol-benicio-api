@@ -2,7 +2,7 @@ import app from '@adonisjs/core/services/app'
 import Ws from '#services/ws'
 import logger from '@adonisjs/core/services/logger'
 import jwt from 'jsonwebtoken'
-import env from '@adonisjs/core/services/env'
+import env from '#start/env'
 import User from '#modules/user/models/user'
 import redis from '@adonisjs/redis/services/main'
 
@@ -23,7 +23,7 @@ app.ready(() => {
         return next(new Error('Authentication required'))
       }
 
-      const payload = jwt.verify(token, env.get('ACCESS_TOKEN_SECRET')) as any
+      const payload = jwt.verify(token, env.get('ACCESS_TOKEN_SECRET', '')) as any
       const user = await User.find(payload.userId)
 
       if (!user) {
@@ -82,7 +82,7 @@ app.ready(() => {
   })
 
   // Setup Redis pub/sub for cross-server communication
-  const subscriber = redis.duplicate()
+  const subscriber = redis
 
   subscriber.subscribe('realtime:broadcast', (message: string) => {
     try {

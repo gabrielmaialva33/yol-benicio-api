@@ -208,8 +208,6 @@ export default class AiController {
 
       const query = AiAnalysis.query()
         .where('user_id', auth.user!.id)
-        .preload('document')
-        .preload('folder')
         .orderBy('created_at', 'desc')
 
       if (type) {

@@ -52,15 +52,10 @@ export const semanticSearchValidator = vine.compile(
  * Validator for entity extraction
  */
 export const extractEntitiesValidator = vine.compile(
-  vine
-    .object({
-      text: vine.string().trim().minLength(10).optional(),
-      document_id: vine.number().positive().optional(),
-    })
-    .refine((data) => {
-      // Either text or document_id must be provided
-      return !!(data.text || data.document_id)
-    }, 'Either text or document_id must be provided')
+  vine.object({
+    text: vine.string().trim().minLength(10).optional(),
+    document_id: vine.number().positive().optional(),
+  })
 )
 
 /**

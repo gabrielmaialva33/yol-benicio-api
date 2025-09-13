@@ -15,7 +15,6 @@ import FolderMovement from '#modules/folder/models/folder_movement'
 import File from '#modules/file/models/file'
 import AuditLog from '#modules/audit/models/audit_log'
 import IRole from '#modules/role/interfaces/role_interface'
-import IPermission from '#modules/permission/interfaces/permission_interface'
 import Database from '@adonisjs/lucid/services/db'
 import hash from '@adonisjs/core/services/hash'
 import logger from '@adonisjs/core/services/logger'
@@ -1110,8 +1109,8 @@ export default class extends BaseSeeder {
     // ============================
     const messages = [
       await Message.create({
-        user_id: users.andre.id,
-        sender_id: users.benicio.id,
+        userId: users.andre.id,
+        senderId: users.benicio.id,
         subject: 'Urgente: Prazo CP 109/2024 BCB',
         body: 'André, precisamos finalizar o parecer sobre a regulamentação de criptoativos até sexta-feira. O Banco Inter está contando com nossa análise detalhada.',
         priority: 'high',
@@ -1122,12 +1121,12 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        user_id: users.marcos.id,
-        sender_id: users.patricia.id,
+        userId: users.marcos.id,
+        senderId: users.patricia.id,
         subject: 'Documentos para audiência Correios',
         body: 'Dr. Marcos, já preparei todos os documentos para a audiência de instrução. Estão na pasta compartilhada. As testemunhas foram notificadas.',
         priority: 'normal',
-        read_at: DateTime.now().minus({ hours: 2 }),
+        readAt: DateTime.now().minus({ hours: 2 }),
         metadata: {
           folder_id: folders[4].id,
           documents_count: 12,
@@ -1135,8 +1134,8 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        user_id: users.patricia.id,
-        sender_id: users.admin.id,
+        userId: users.patricia.id,
+        senderId: users.admin.id,
         subject: 'Avaliação do imóvel - CEF',
         body: 'Dra. Patrícia, o laudo de avaliação chegou. O imóvel foi avaliado em R$ 2.650.000,00. Favor preparar a petição informando o valor.',
         priority: 'normal',
@@ -1147,12 +1146,12 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        user_id: users.benicio.id,
-        sender_id: null, // System message
+        userId: users.benicio.id,
+        senderId: null, // System message
         subject: 'Publicação de Acórdão - TRT24',
         body: 'Foi publicado o acórdão do Incidente de Uniformização sobre uso de veículo próprio. Tese favorável ao empregado foi fixada.',
         priority: 'high',
-        read_at: DateTime.now().minus({ days: 1 }),
+        readAt: DateTime.now().minus({ days: 1 }),
         metadata: {
           folder_id: folders[2].id,
           publication_date: '2023-04-03',
@@ -1160,12 +1159,12 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        user_id: users.andre.id,
-        sender_id: users.julia.id,
+        userId: users.andre.id,
+        senderId: users.julia.id,
         subject: 'Pesquisa jurisprudencial - Open Finance',
         body: 'Dr. André, finalizei a pesquisa sobre precedentes de Open Finance. Encontrei 15 decisões relevantes do STJ e 8 normativos do BCB.',
         priority: 'normal',
-        read_at: DateTime.now().minus({ hours: 5 }),
+        readAt: DateTime.now().minus({ hours: 5 }),
         metadata: {
           folder_id: folders[7].id,
           research_results: 23,
@@ -1180,12 +1179,12 @@ export default class extends BaseSeeder {
     // ============================
     const notifications = [
       await Notification.create({
-        user_id: users.andre.id,
+        userId: users.andre.id,
         type: 'deadline',
         title: 'Prazo se aproximando',
         message: 'Prazo para resposta à CP 109/2024 vence em 7 dias',
-        action_url: '/folders/PROC-2024-001',
-        action_text: 'Ver processo',
+        actionUrl: '/folders/PROC-2024-001',
+        actionText: 'Ver processo',
         data: {
           folder_id: folders[0].id,
           days_remaining: 7,
@@ -1193,12 +1192,12 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        user_id: users.patricia.id,
+        userId: users.patricia.id,
         type: 'hearing',
         title: 'Audiência amanhã',
         message: 'Audiência de instrução - Correios vs Adilson às 14:30',
-        action_url: '/hearings/2025-02-10',
-        action_text: 'Ver detalhes',
+        actionUrl: '/hearings/2025-02-10',
+        actionText: 'Ver detalhes',
         data: {
           folder_id: folders[4].id,
           location: 'TRT2 - Sala 405',
@@ -1206,13 +1205,13 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        user_id: users.marcos.id,
+        userId: users.marcos.id,
         type: 'task',
         title: 'Nova tarefa atribuída',
         message: 'Elaborar memorial para Des. Umpierre - Prazo: 15 dias',
-        action_url: '/tasks',
-        action_text: 'Ver tarefa',
-        read_at: DateTime.now().minus({ hours: 1 }),
+        actionUrl: '/tasks',
+        actionText: 'Ver tarefa',
+        readAt: DateTime.now().minus({ hours: 1 }),
         data: {
           folder_id: folders[1].id,
           priority: 'medium',
@@ -1220,13 +1219,13 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        user_id: users.benicio.id,
+        userId: users.benicio.id,
         type: 'success',
         title: 'Liminar deferida',
         message: 'Liminar de bloqueio de contas deferida no caso Gallo Ferreira',
-        action_url: '/folders/PROC-2024-089',
-        action_text: 'Ver processo',
-        read_at: DateTime.now().minus({ days: 2 }),
+        actionUrl: '/folders/PROC-2024-089',
+        actionText: 'Ver processo',
+        readAt: DateTime.now().minus({ days: 2 }),
         data: {
           folder_id: folders[6].id,
           blocked_amount: 487000.0,
@@ -1234,12 +1233,12 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        user_id: users.andre.id,
+        userId: users.andre.id,
         type: 'info',
         title: 'Novo normativo BCB',
         message: 'Publicada Resolução BCB 5.123/2024 sobre criptoativos',
-        action_url: '/regulations',
-        action_text: 'Ler normativo',
+        actionUrl: '/regulations',
+        actionText: 'Ler normativo',
         data: {
           regulation: 'BCB 5.123/2024',
           impact: 'high',
@@ -1247,12 +1246,12 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        user_id: users.patricia.id,
+        userId: users.patricia.id,
         type: 'warning',
         title: 'Documento pendente',
         message: 'Falta juntar procuração no processo da CEF',
-        action_url: '/folders/PROC-2024-067',
-        action_text: 'Resolver',
+        actionUrl: '/folders/PROC-2024-067',
+        actionText: 'Resolver',
         data: {
           folder_id: folders[5].id,
           document_type: 'power_of_attorney',
@@ -1260,12 +1259,12 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        user_id: users.admin.id,
+        userId: users.admin.id,
         type: 'error',
         title: 'Erro no protocolo',
         message: 'Falha ao protocolar petição - Sistema TJSP indisponível',
-        action_url: '/support',
-        action_text: 'Tentar novamente',
+        actionUrl: '/support',
+        actionText: 'Tentar novamente',
         data: {
           error_code: 'TJSP_503',
           retry_after: '30 minutes',
@@ -1280,36 +1279,36 @@ export default class extends BaseSeeder {
     // ============================
     const favorites = [
       await FolderFavorite.create({
-        user_id: users.andre.id,
-        folder_id: folders[0].id, // Crypto regulation
+        userId: users.andre.id,
+        folderId: folders[0].id, // Crypto regulation
       }),
       await FolderFavorite.create({
-        user_id: users.andre.id,
-        folder_id: folders[7].id, // Open Finance
+        userId: users.andre.id,
+        folderId: folders[7].id, // Open Finance
       }),
       await FolderFavorite.create({
-        user_id: users.marcos.id,
-        folder_id: folders[1].id, // Zurich case
+        userId: users.marcos.id,
+        folderId: folders[1].id, // Zurich case
       }),
       await FolderFavorite.create({
-        user_id: users.marcos.id,
-        folder_id: folders[2].id, // Vehicle usage case
+        userId: users.marcos.id,
+        folderId: folders[2].id, // Vehicle usage case
       }),
       await FolderFavorite.create({
-        user_id: users.patricia.id,
-        folder_id: folders[4].id, // Correios case
+        userId: users.patricia.id,
+        folderId: folders[4].id, // Correios case
       }),
       await FolderFavorite.create({
-        user_id: users.patricia.id,
-        folder_id: folders[5].id, // CEF execution
+        userId: users.patricia.id,
+        folderId: folders[5].id, // CEF execution
       }),
       await FolderFavorite.create({
-        user_id: users.benicio.id,
-        folder_id: folders[0].id, // Crypto - high priority
+        userId: users.benicio.id,
+        folderId: folders[0].id, // Crypto - high priority
       }),
       await FolderFavorite.create({
-        user_id: users.benicio.id,
-        folder_id: folders[3].id, // CARF case
+        userId: users.benicio.id,
+        folderId: folders[3].id, // CARF case
       }),
     ]
 
@@ -1326,7 +1325,7 @@ export default class extends BaseSeeder {
     // 14. Create Files
     // ============================
     logger.info('📁 Creating file records...')
-    const files = await this.createFiles(users, clients, folders)
+    const files = await this.createFiles(users, clients)
     logger.info(`✅ Created ${files.length} file records`)
 
     // ============================
@@ -1563,17 +1562,9 @@ export default class extends BaseSeeder {
   /**
    * Create file records for document management
    */
-  private async createFiles(users: any, clients: any[], folders: any[]) {
+  private async createFiles(users: any, clients: any[]) {
     const files = []
 
-    const fileCategories = [
-      'contract',
-      'petition',
-      'decision',
-      'correspondence',
-      'evidence',
-      'other',
-    ]
     const fileTypes = [
       { ext: 'pdf', mime: 'application/pdf', category: 'document' },
       {
@@ -1804,7 +1795,7 @@ export default class extends BaseSeeder {
     if (systemPermissions.length > 0) {
       await Database.table('user_permissions').insert(
         systemPermissions.map((permission) => ({
-          user_id: users.benicio.id,
+          userId: users.benicio.id,
           permission_id: permission.id,
           created_at: DateTime.now().toSQL(),
           updated_at: DateTime.now().toSQL(),
@@ -1821,7 +1812,7 @@ export default class extends BaseSeeder {
     if (techPermissions.length > 0) {
       await Database.table('user_permissions').insert(
         techPermissions.map((permission) => ({
-          user_id: users.andre.id,
+          userId: users.andre.id,
           permission_id: permission.id,
           created_at: DateTime.now().toSQL(),
           updated_at: DateTime.now().toSQL(),
@@ -1879,7 +1870,6 @@ export default class extends BaseSeeder {
     const auditLogs = []
     const actions = ['create', 'read', 'update', 'delete', 'list']
     const resources = ['folders', 'documents', 'users', 'clients', 'tasks', 'hearings']
-    const results = ['granted', 'denied'] as const
     const userAgents = [
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
@@ -1907,7 +1897,7 @@ export default class extends BaseSeeder {
       })
 
       const logData = {
-        user_id: randomUser.id,
+        userId: randomUser.id,
         session_id: `sess_${randomUser.id}_${Math.random().toString(36).substr(2, 9)}`,
         ip_address: ipAddresses[Math.floor(Math.random() * ipAddresses.length)],
         user_agent: userAgents[Math.floor(Math.random() * userAgents.length)],
@@ -1921,7 +1911,7 @@ export default class extends BaseSeeder {
         method: ['GET', 'POST', 'PUT', 'DELETE'][Math.floor(Math.random() * 4)],
         url: `/api/${randomResource}`,
         request_data: randomAction === 'create' ? { name: 'Sample data' } : null,
-        result: randomResult,
+        result: randomResult as 'granted' | 'denied',
         reason: randomResult === 'denied' ? 'Insufficient permissions' : null,
         response_code: randomResult === 'granted' ? 200 : 403,
         metadata: {
@@ -1939,7 +1929,7 @@ export default class extends BaseSeeder {
     // Add some specific important audit events
     const importantEvents = [
       {
-        user_id: users.benicio.id,
+        userId: users.benicio.id,
         resource: 'folders',
         action: 'create',
         result: 'granted' as const,
@@ -1948,7 +1938,7 @@ export default class extends BaseSeeder {
         metadata: { event: 'New crypto regulation case created', importance: 'high' },
       },
       {
-        user_id: users.andre.id,
+        userId: users.andre.id,
         resource: 'documents',
         action: 'sign',
         result: 'granted' as const,
@@ -1957,7 +1947,7 @@ export default class extends BaseSeeder {
         metadata: { event: 'Legal opinion document signed', document_type: 'legal_opinion' },
       },
       {
-        user_id: users.patricia.id,
+        userId: users.patricia.id,
         resource: 'hearings',
         action: 'schedule',
         result: 'granted' as const,
@@ -1966,7 +1956,7 @@ export default class extends BaseSeeder {
         metadata: { event: 'Court hearing scheduled', court: 'TRT2' },
       },
       {
-        user_id: null, // System event
+        userId: null, // System event
         resource: 'system',
         action: 'backup',
         result: 'granted' as const,
@@ -1979,7 +1969,7 @@ export default class extends BaseSeeder {
     for (const event of importantEvents) {
       const auditLog = await AuditLog.create({
         ...event,
-        session_id: event.user_id ? `sess_${event.user_id}_important` : null,
+        session_id: event.userId ? `sess_${event.userId}_important` : null,
         ip_address: '192.168.1.100',
         user_agent: userAgents[0],
         context: 'any',

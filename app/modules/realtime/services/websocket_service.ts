@@ -1,10 +1,8 @@
 import Ws from '#services/ws'
 import redis from '@adonisjs/redis/services/main'
-import logger from '@adonisjs/core/services/logger'
 
 export default class WebSocketService {
   private connectedUsers: Map<number, Set<string>> = new Map()
-  private subscriptions: Map<string, Set<string>> = new Map()
 
   /**
    * Get WebSocket server instance
@@ -59,23 +57,6 @@ export default class WebSocketService {
     await this.broadcast('precatorios:updates', 'precatorio:updated', data)
   }
 
-  /**
-   * Check if user has access to folder
-   */
-  private async checkFolderAccess(folderId: number, userId: number): Promise<boolean> {
-    // TODO: Implement proper permission check
-    // For now, return true if user exists
-    return true
-  }
-
-  /**
-   * Check if user has access to process
-   */
-  private async checkProcessAccess(processId: number, userId: number): Promise<boolean> {
-    // TODO: Implement proper permission check
-    // For now, return true if user exists
-    return true
-  }
 
   /**
    * Get connected users count

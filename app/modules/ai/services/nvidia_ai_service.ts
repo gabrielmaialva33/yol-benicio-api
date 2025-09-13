@@ -1,4 +1,4 @@
-import env from '@adonisjs/core/services/env'
+import env from '#start/env'
 import logger from '@adonisjs/core/services/logger'
 import redis from '@adonisjs/redis/services/main'
 import FolderDocument from '#modules/folder/models/folder_document'
@@ -236,7 +236,7 @@ export default class NvidiaAiService {
       `,
     }
 
-    return prompts[analysisType] || prompts.summary
+    return prompts[analysisType as keyof typeof prompts] || prompts.summary
   }
 
   /**
@@ -279,7 +279,7 @@ export default class NvidiaAiService {
       `,
     }
 
-    return templates[templateType] || templates.petition
+    return templates[templateType as keyof typeof templates] || templates.petition
   }
 
   /**
@@ -318,6 +318,7 @@ export default class NvidiaAiService {
       throw new Error(`NVIDIA API error: ${response.status} - ${error}`)
     }
 
-    return response.json()
+    const data = await response.json() as NvidiaApiResponse
+    return data
   }
 }

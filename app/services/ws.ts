@@ -1,6 +1,6 @@
 import { Server } from 'socket.io'
 import server from '@adonisjs/core/services/server'
-import env from '@adonisjs/core/services/env'
+import env from '#start/env'
 import logger from '@adonisjs/core/services/logger'
 
 class Ws {

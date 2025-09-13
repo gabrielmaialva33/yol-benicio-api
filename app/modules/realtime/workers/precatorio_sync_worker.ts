@@ -1,14 +1,10 @@
-import { Job } from '@rlanz/bull-queue'
+import type { Job } from '@rlanz/bull-queue'
+import { DateTime } from 'luxon'
 import logger from '@adonisjs/core/services/logger'
 import Folder from '#modules/folder/models/folder'
 import FolderMovement from '#modules/folder/models/folder_movement'
 import WebSocketService from '../services/websocket_service.js'
 
-interface PrecatorioSyncData {
-  folderId?: number
-  clientId?: number
-  forceUpdate?: boolean
-}
 
 export default class PrecatorioSyncWorker {
   public static readonly key = 'precatorio:sync'
@@ -17,11 +13,11 @@ export default class PrecatorioSyncWorker {
   /**
    * Process the job
    */
-  async handle(job: Job<PrecatorioSyncData>) {
-    const { folderId, clientId, forceUpdate } = job.data
+  async handle(job: Job) {
+    const { folderId, clientId, forceUpdate } = (job as any).data
 
     try {
-      logger.info(`Starting precatorio sync job ${job.id}`)
+      logger.info(`Starting precatorio sync job ${(job as any).id}`)
 
       // Get folders to sync
       const folders = await this.getFoldersToSync(folderId, clientId)
@@ -30,10 +26,10 @@ export default class PrecatorioSyncWorker {
         await this.syncPrecatorio(folder, forceUpdate || false)
       }
 
-      logger.info(`Completed precatorio sync job ${job.id}`)
+      logger.info(`Completed precatorio sync job ${(job as any).id}`)
       return { success: true, foldersUpdated: folders.length }
     } catch (error) {
-      logger.error(`Failed precatorio sync job ${job.id}:`, error)
+      logger.error(`Failed precatorio sync job ${(job as any).id}:`, error)
       throw error
     }
   }
@@ -91,10 +87,10 @@ export default class PrecatorioSyncWorker {
         if (updates.statusChanged) {
           await FolderMovement.create({
             folder_id: folder.id,
-            title: 'Atualização de Status do Precatório',
             description: updates.statusDescription,
-            date: new Date(),
-            type: 'status_update',
+            movement_date: DateTime.now(),
+            movement_type: 'status_update',
+            responsible: 'Sistema',
             metadata: updates.data,
           })
         }
@@ -124,7 +120,7 @@ export default class PrecatorioSyncWorker {
   /**
    * Check precatorio status from API
    */
-  private async checkPrecatorioStatus(precatorioNumber: string) {
+  private async checkPrecatorioStatus(_precatorioNumber: string) {
     // Simulate API response with random updates
     const hasChanges = Math.random() > 0.7 // 30% chance of changes
 
@@ -164,8 +160,8 @@ export default class PrecatorioSyncWorker {
   /**
    * Failed hook
    */
-  async failed(job: Job<PrecatorioSyncData>, error: Error) {
-    logger.error(`Job ${job.id} failed after ${job.attemptsMade} attempts:`, error)
+  async failed(job: Job, error: Error) {
+    logger.error(`Job ${(job as any).id} failed after ${(job as any).attemptsMade} attempts:`, error)
 
     // Notify administrators
     // await this.notifyAdmins(job, error)
