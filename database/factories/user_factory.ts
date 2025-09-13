@@ -18,17 +18,10 @@ export const UserFactory = factory
         email_verified: faker.datatype.boolean(0.8),
         email_verification_token: null,
         email_verification_sent_at: null,
-        email_verified_at: faker.datatype.boolean(0.8) ? faker.date.past() : null,
-        phone: faker.phone.number('+55 (##) #####-####'),
+        email_verified_at: faker.datatype.boolean(0.8) ? faker.date.past().toISOString() : null,
+        phone: faker.phone.number(),
         cpf: faker.helpers.replaceSymbols('###.###.###-##'),
         oab: faker.datatype.boolean(0.3) ? faker.helpers.replaceSymbols('SP######') : null,
-        position: faker.helpers.arrayElement([
-          'Advogado',
-          'Secretária',
-          'Estagiário',
-          'Paralegal',
-          'Sócio',
-        ]),
       },
     }
   })
@@ -40,8 +33,7 @@ export const UserFactory = factory
     user.metadata = {
       ...user.metadata,
       email_verified: true,
-      email_verified_at: new Date(),
-      position: 'Administrador',
+      email_verified_at: new Date().toISOString(),
     }
   })
   .state('lawyer', (user, { faker }) => {
@@ -58,10 +50,9 @@ export const UserFactory = factory
     user.full_name = faker.helpers.arrayElement(names)
     user.metadata = {
       ...user.metadata,
-      position: 'Advogado',
       oab: faker.helpers.replaceSymbols('SP######'),
       email_verified: true,
-      email_verified_at: faker.date.past(),
+      email_verified_at: faker.date.past().toISOString(),
     }
   })
   .state('secretary', (user, { faker }) => {
@@ -74,7 +65,6 @@ export const UserFactory = factory
     user.full_name = faker.helpers.arrayElement(names)
     user.metadata = {
       ...user.metadata,
-      position: 'Secretária',
       oab: null,
     }
   })
@@ -88,7 +78,6 @@ export const UserFactory = factory
     user.full_name = faker.helpers.arrayElement(names)
     user.metadata = {
       ...user.metadata,
-      position: 'Estagiário',
       oab: null,
     }
   })

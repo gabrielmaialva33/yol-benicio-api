@@ -5,6 +5,7 @@ import Permission from '#modules/permission/models/permission'
 import Message from '#modules/message/models/message'
 import Notification from '#modules/notification/models/notification'
 import FolderFavorite from '#modules/folder/models/folder_favorite'
+import IRole from '#modules/role/interfaces/role_interface'
 import { UserFactory } from '../factories/user_factory.js'
 import { ClientFactory } from '../factories/client_factory.js'
 import { FolderFactory } from '../factories/folder_factory.js'
@@ -21,11 +22,11 @@ export default class extends BaseSeeder {
     }
 
     // Ensure admin role exists and has all permissions
-    let adminRole = await Role.findBy('slug', 'admin')
+    let adminRole = await Role.findBy('slug', IRole.Slugs.ADMIN)
     if (!adminRole) {
       adminRole = await Role.create({
-        name: 'admin',
-        slug: 'admin',
+        name: 'Administrador',
+        slug: IRole.Slugs.ADMIN,
         description: 'Acesso total ao sistema',
       })
     }
