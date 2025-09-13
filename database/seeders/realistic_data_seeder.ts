@@ -1109,7 +1109,7 @@ export default class extends BaseSeeder {
     // ============================
     const messages = [
       await Message.create({
-        userId: users.andre.id,
+        user_id: users.andre.id,
         senderId: users.benicio.id,
         subject: 'Urgente: Prazo CP 109/2024 BCB',
         body: 'André, precisamos finalizar o parecer sobre a regulamentação de criptoativos até sexta-feira. O Banco Inter está contando com nossa análise detalhada.',
@@ -1121,7 +1121,7 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        userId: users.marcos.id,
+        user_id: users.marcos.id,
         senderId: users.patricia.id,
         subject: 'Documentos para audiência Correios',
         body: 'Dr. Marcos, já preparei todos os documentos para a audiência de instrução. Estão na pasta compartilhada. As testemunhas foram notificadas.',
@@ -1134,7 +1134,7 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        userId: users.patricia.id,
+        user_id: users.patricia.id,
         senderId: users.admin.id,
         subject: 'Avaliação do imóvel - CEF',
         body: 'Dra. Patrícia, o laudo de avaliação chegou. O imóvel foi avaliado em R$ 2.650.000,00. Favor preparar a petição informando o valor.',
@@ -1146,7 +1146,7 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        userId: users.benicio.id,
+        user_id: users.benicio.id,
         senderId: null, // System message
         subject: 'Publicação de Acórdão - TRT24',
         body: 'Foi publicado o acórdão do Incidente de Uniformização sobre uso de veículo próprio. Tese favorável ao empregado foi fixada.',
@@ -1159,7 +1159,7 @@ export default class extends BaseSeeder {
       }),
 
       await Message.create({
-        userId: users.andre.id,
+        user_id: users.andre.id,
         senderId: users.julia.id,
         subject: 'Pesquisa jurisprudencial - Open Finance',
         body: 'Dr. André, finalizei a pesquisa sobre precedentes de Open Finance. Encontrei 15 decisões relevantes do STJ e 8 normativos do BCB.',
@@ -1179,7 +1179,7 @@ export default class extends BaseSeeder {
     // ============================
     const notifications = [
       await Notification.create({
-        userId: users.andre.id,
+        user_id: users.andre.id,
         type: 'deadline',
         title: 'Prazo se aproximando',
         message: 'Prazo para resposta à CP 109/2024 vence em 7 dias',
@@ -1192,7 +1192,7 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.patricia.id,
+        user_id: users.patricia.id,
         type: 'hearing',
         title: 'Audiência amanhã',
         message: 'Audiência de instrução - Correios vs Adilson às 14:30',
@@ -1205,7 +1205,7 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.marcos.id,
+        user_id: users.marcos.id,
         type: 'task',
         title: 'Nova tarefa atribuída',
         message: 'Elaborar memorial para Des. Umpierre - Prazo: 15 dias',
@@ -1219,7 +1219,7 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.benicio.id,
+        user_id: users.benicio.id,
         type: 'success',
         title: 'Liminar deferida',
         message: 'Liminar de bloqueio de contas deferida no caso Gallo Ferreira',
@@ -1233,7 +1233,7 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.andre.id,
+        user_id: users.andre.id,
         type: 'info',
         title: 'Novo normativo BCB',
         message: 'Publicada Resolução BCB 5.123/2024 sobre criptoativos',
@@ -1246,7 +1246,7 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.patricia.id,
+        user_id: users.patricia.id,
         type: 'warning',
         title: 'Documento pendente',
         message: 'Falta juntar procuração no processo da CEF',
@@ -1259,7 +1259,7 @@ export default class extends BaseSeeder {
       }),
 
       await Notification.create({
-        userId: users.admin.id,
+        user_id: users.admin.id,
         type: 'error',
         title: 'Erro no protocolo',
         message: 'Falha ao protocolar petição - Sistema TJSP indisponível',
@@ -1278,35 +1278,35 @@ export default class extends BaseSeeder {
     // 12. Create Folder Favorites
     // ============================
     const favorites = [
-      await FolderFavorite.create({
+      await FolderFavorite.firstOrCreate({
         userId: users.andre.id,
         folderId: folders[0].id, // Crypto regulation
       }),
-      await FolderFavorite.create({
+      await FolderFavorite.firstOrCreate({
         userId: users.andre.id,
         folderId: folders[7].id, // Open Finance
       }),
-      await FolderFavorite.create({
+      await FolderFavorite.firstOrCreate({
         userId: users.marcos.id,
         folderId: folders[1].id, // Zurich case
       }),
-      await FolderFavorite.create({
+      await FolderFavorite.firstOrCreate({
         userId: users.marcos.id,
         folderId: folders[2].id, // Vehicle usage case
       }),
-      await FolderFavorite.create({
+      await FolderFavorite.firstOrCreate({
         userId: users.patricia.id,
         folderId: folders[4].id, // Correios case
       }),
-      await FolderFavorite.create({
+      await FolderFavorite.firstOrCreate({
         userId: users.patricia.id,
         folderId: folders[5].id, // CEF execution
       }),
-      await FolderFavorite.create({
+      await FolderFavorite.firstOrCreate({
         userId: users.benicio.id,
         folderId: folders[0].id, // Crypto - high priority
       }),
-      await FolderFavorite.create({
+      await FolderFavorite.firstOrCreate({
         userId: users.benicio.id,
         folderId: folders[3].id, // CARF case
       }),
@@ -1929,7 +1929,7 @@ export default class extends BaseSeeder {
     // Add some specific important audit events
     const importantEvents = [
       {
-        userId: users.benicio.id,
+        user_id: users.benicio.id,
         resource: 'folders',
         action: 'create',
         result: 'granted' as const,
@@ -1938,7 +1938,7 @@ export default class extends BaseSeeder {
         metadata: { event: 'New crypto regulation case created', importance: 'high' },
       },
       {
-        userId: users.andre.id,
+        user_id: users.andre.id,
         resource: 'documents',
         action: 'sign',
         result: 'granted' as const,
@@ -1947,7 +1947,7 @@ export default class extends BaseSeeder {
         metadata: { event: 'Legal opinion document signed', document_type: 'legal_opinion' },
       },
       {
-        userId: users.patricia.id,
+        user_id: users.patricia.id,
         resource: 'hearings',
         action: 'schedule',
         result: 'granted' as const,
@@ -1969,7 +1969,7 @@ export default class extends BaseSeeder {
     for (const event of importantEvents) {
       const auditLog = await AuditLog.create({
         ...event,
-        session_id: event.userId ? `sess_${event.userId}_important` : null,
+        session_id: event.user_id ? `sess_${event.user_id}_important` : null,
         ip_address: '192.168.1.100',
         user_agent: userAgents[0],
         context: 'any',
