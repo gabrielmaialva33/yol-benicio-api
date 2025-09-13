@@ -291,7 +291,9 @@ export default class extends BaseSeeder {
         },
       }),
 
-      await Client.create({
+      await Client.firstOrCreate(
+        { document: '08.123.456/0001-99' },
+        {
         name: 'Gallo Ferreira Comércio de Frutas Ltda',
         type: 'company',
         document: '08.123.456/0001-99',
@@ -312,7 +314,9 @@ export default class extends BaseSeeder {
         },
       }),
 
-      await Client.create({
+      await Client.firstOrCreate(
+        { document: '123.456.789-00' },
+        {
         name: 'Carlos Ulisses Parente',
         type: 'individual',
         document: '123.456.789-00',
@@ -333,7 +337,9 @@ export default class extends BaseSeeder {
         },
       }),
 
-      await Client.create({
+      await Client.firstOrCreate(
+        { document: '15.789.456/0001-23' },
+        {
         name: 'I.B.S. de Souza Muito+ Modas Eireli',
         type: 'company',
         document: '15.789.456/0001-23',
@@ -354,7 +360,9 @@ export default class extends BaseSeeder {
         },
       }),
 
-      await Client.create({
+      await Client.firstOrCreate(
+        { document: '34.028.316/0001-03' },
+        {
         name: 'Empresa Brasileira de Correios e Telégrafos',
         type: 'company',
         document: '34.028.316/0001-03',
@@ -375,7 +383,9 @@ export default class extends BaseSeeder {
         },
       }),
 
-      await Client.create({
+      await Client.firstOrCreate(
+        { document: '00.360.305/0001-04' },
+        {
         name: 'Caixa Econômica Federal',
         type: 'company',
         document: '00.360.305/0001-04',
@@ -396,7 +406,9 @@ export default class extends BaseSeeder {
         },
       }),
 
-      await Client.create({
+      await Client.firstOrCreate(
+        { document: '987.654.321-00' },
+        {
         name: 'Vanessa Cavalcanti Bizerra',
         type: 'individual',
         document: '987.654.321-00',
@@ -425,7 +437,9 @@ export default class extends BaseSeeder {
     // ============================
     const folders = [
       // Banco Inter - Crypto regulation case
-      await Folder.create({
+      await Folder.firstOrCreate(
+        { code: 'PROC-2024-001' },
+        {
         code: 'PROC-2024-001',
         title: 'Banco Inter - Regulamentação Criptoativos BC',
         description:
@@ -451,7 +465,9 @@ export default class extends BaseSeeder {
       }),
 
       // Zurich Seguros - Conflict case
-      await Folder.create({
+      await Folder.firstOrCreate(
+        { code: 'PROC-2024-002' },
+        {
         code: 'PROC-2024-002',
         title: 'Zurich Seguros vs Carlos Parente - Conflito de Competência',
         description:
@@ -479,7 +495,9 @@ export default class extends BaseSeeder {
       }),
 
       // Labor case - Vehicle usage
-      await Folder.create({
+      await Folder.firstOrCreate(
+        { code: 'PROC-2022-079' },
+        {
         code: 'PROC-2022-079',
         title: 'Vanessa Bizerra vs I.B.S. Muito+ Modas - Uso Veículo Próprio',
         description:
@@ -507,7 +525,9 @@ export default class extends BaseSeeder {
       }),
 
       // CARF Tax case
-      await Folder.create({
+      await Folder.firstOrCreate(
+        { code: 'PROC-2016-033' },
+        {
         code: 'PROC-2016-033',
         title: 'Caso CARF - Tráfico de Influência',
         description: 'Defesa em processo de corrupção e tráfico de influência no CARF',
@@ -531,7 +551,9 @@ export default class extends BaseSeeder {
       }),
 
       // Correios labor case
-      await Folder.create({
+      await Folder.firstOrCreate(
+        { code: 'PROC-2023-045' },
+        {
         code: 'PROC-2023-045',
         title: 'ECT vs Adilson Santos - Ação Trabalhista',
         description: 'Defesa em reclamação trabalhista - Demissão por justa causa',
@@ -557,7 +579,9 @@ export default class extends BaseSeeder {
       }),
 
       // Caixa Econômica - Real estate financing
-      await Folder.create({
+      await Folder.firstOrCreate(
+        { code: 'PROC-2024-067' },
+        {
         code: 'PROC-2024-067',
         title: 'CEF - Execução Hipotecária Conjunto Residencial',
         description:
@@ -585,7 +609,9 @@ export default class extends BaseSeeder {
       }),
 
       // Gallo Ferreira - Commercial dispute
-      await Folder.create({
+      await Folder.firstOrCreate(
+        { code: 'PROC-2024-089' },
+        {
         code: 'PROC-2024-089',
         title: 'Gallo Ferreira - Disputa Comercial CEAGESP',
         description: 'Ação de cobrança - Fornecimento de frutas não pago',
@@ -612,7 +638,9 @@ export default class extends BaseSeeder {
       }),
 
       // Regulatory - Open Finance
-      await Folder.create({
+      await Folder.firstOrCreate(
+        { code: 'PROC-2024-102' },
+        {
         code: 'PROC-2024-102',
         title: 'Banco Inter - Implementação Open Finance',
         description: 'Assessoria regulatória para implementação de Open Finance e PIX',
@@ -940,7 +968,6 @@ export default class extends BaseSeeder {
         status: 'completed',
         priority: 'medium',
         due_date: DateTime.now().minus({ days: 5 }),
-        completed_at: DateTime.now().minus({ days: 3 }),
         folder_id: folders[7].id,
         assignee_id: users.andre.id,
         creator_id: users.benicio.id,
@@ -955,7 +982,6 @@ export default class extends BaseSeeder {
         status: 'completed',
         priority: 'high',
         due_date: DateTime.now().minus({ days: 30 }),
-        completed_at: DateTime.now().minus({ days: 28 }),
         folder_id: folders[2].id,
         assignee_id: users.marcos.id,
         creator_id: users.marcos.id,
