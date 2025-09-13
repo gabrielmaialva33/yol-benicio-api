@@ -414,7 +414,7 @@ export default class extends BaseSeeder {
       }),
     ]
 
-    console.log(`✅ Created ${clients.length} clients`)
+    logger.info(`✅ Created ${clients.length} clients`)
 
     // ============================
     // 4. Create Folders (Real cases based on research)
