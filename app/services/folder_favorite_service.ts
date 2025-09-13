@@ -6,7 +6,7 @@ export default class FolderFavoriteService {
   async getFavoriteFolders(userId: number): Promise<Folder[]> {
     const favorites = await FolderFavorite.query()
       .where('userId', userId)
-      .preload('folder' as any)
+      .preload('folder')
       .orderBy('createdAt', 'desc')
 
     return favorites.map((favorite) => favorite.folder)
