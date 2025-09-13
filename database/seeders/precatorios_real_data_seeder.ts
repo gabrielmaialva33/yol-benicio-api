@@ -14,9 +14,12 @@ import axios from 'axios'
 export default class PrecatoriosRealDataSeeder extends BaseSeeder {
   // API Keys e Endpoints
   private readonly DATAJUD_API_KEY = 'cDZHYzlZa0JadVREZDJCe' // Chave pública do DataJud
-  private readonly DATAJUD_ENDPOINT_TJSP = 'https://api-publica.datajud.cnj.jus.br/api_publica_tjsp/_search'
-  private readonly DATAJUD_ENDPOINT_TJMG = 'https://api-publica.datajud.cnj.jus.br/api_publica_tjmg/_search'
-  private readonly DATAJUD_ENDPOINT_TJRJ = 'https://api-publica.datajud.cnj.jus.br/api_publica_tjrj/_search'
+  private readonly DATAJUD_ENDPOINT_TJSP =
+    'https://api-publica.datajud.cnj.jus.br/api_publica_tjsp/_search'
+  private readonly DATAJUD_ENDPOINT_TJMG =
+    'https://api-publica.datajud.cnj.jus.br/api_publica_tjmg/_search'
+  private readonly DATAJUD_ENDPOINT_TJRJ =
+    'https://api-publica.datajud.cnj.jus.br/api_publica_tjrj/_search'
 
   async run() {
     logger.info('🏛️ Iniciando seed com dados reais de precatórios...')
@@ -58,7 +61,6 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
       logger.info(`- Movimentações: ${folders.length * 2}`)
       logger.info(`- Tarefas criadas: ${folders.length}`)
       logger.info(`- Audiências agendadas: ${Math.floor(folders.length / 2)}`)
-
     } catch (error) {
       logger.error('❌ Erro ao executar seed de precatórios:', error)
       throw error
@@ -79,7 +81,7 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           metadata: {
             email_verified: true,
             email_verified_at: DateTime.now().toISO(),
-          }
+          },
         }
       ),
       advogado: await User.firstOrCreate(
@@ -92,7 +94,7 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           metadata: {
             email_verified: true,
             email_verified_at: DateTime.now().toISO(),
-          }
+          },
         }
       ),
       auxiliar: await User.firstOrCreate(
@@ -105,9 +107,9 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           metadata: {
             email_verified: true,
             email_verified_at: DateTime.now().toISO(),
-          }
+          },
         }
-      )
+      ),
     }
 
     return users
@@ -137,8 +139,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           metadata: {
             tipo_ente: 'Estado',
             regime_precatorios: 'Regime Especial',
-            valor_rpv: 11733.90
-          }
+            valor_rpv: 11733.9,
+          },
         }
       ),
 
@@ -162,8 +164,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           metadata: {
             tipo_ente: 'Município',
             regime_precatorios: 'Regime Especial',
-            valor_rpv: 6622.00
-          }
+            valor_rpv: 6622.0,
+          },
         }
       ),
 
@@ -187,8 +189,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           metadata: {
             tipo_ente: 'Estado',
             regime_precatorios: 'Regime Geral',
-            valor_rpv: 19200.00
-          }
+            valor_rpv: 19200.0,
+          },
         }
       ),
 
@@ -212,8 +214,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           metadata: {
             tipo_ente: 'Estado',
             regime_precatorios: 'Regime Especial',
-            valor_rpv: 18571.00
-          }
+            valor_rpv: 18571.0,
+          },
         }
       ),
 
@@ -237,8 +239,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           metadata: {
             tipo_ente: 'Autarquia Federal',
             regime_precatorios: 'Regime Geral',
-            valor_rpv: 73369.00
-          }
+            valor_rpv: 73369.0,
+          },
         }
       ),
 
@@ -262,10 +264,10 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           metadata: {
             tipo_ente: 'Município',
             regime_precatorios: 'Regime Geral',
-            valor_rpv: 9600.00
-          }
+            valor_rpv: 9600.0,
+          },
         }
-      )
+      ),
     ]
 
     return clients
@@ -285,8 +287,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         natureza: 'Alimentar',
         beneficiario: 'João Silva Santos',
         cpf_beneficiario: '123.456.789-00',
-        valor_principal: 125000.00,
-        valor_atualizado: 145000.00,
+        valor_principal: 125000.0,
+        valor_atualizado: 145000.0,
         data_requisicao: '2020-03-15',
         data_atualizacao: '2024-01-10',
         ordem_cronologica: 1,
@@ -297,8 +299,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         movimentacoes: [
           { data: '2020-03-15', descricao: 'Ofício requisitório expedido' },
           { data: '2020-04-10', descricao: 'Precatório autuado no Tribunal' },
-          { data: '2024-01-10', descricao: 'Valores atualizados' }
-        ]
+          { data: '2024-01-10', descricao: 'Valores atualizados' },
+        ],
       },
       {
         numero_processo: '0005678-90.2019.8.26.0100',
@@ -307,8 +309,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         natureza: 'Comum',
         beneficiario: 'Construtora ABC Ltda',
         cpf_beneficiario: '12.345.678/0001-90',
-        valor_principal: 2500000.00,
-        valor_atualizado: 2850000.00,
+        valor_principal: 2500000.0,
+        valor_atualizado: 2850000.0,
         data_requisicao: '2019-06-20',
         data_atualizacao: '2024-01-15',
         ordem_cronologica: 45,
@@ -318,8 +320,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         movimentacoes: [
           { data: '2019-06-20', descricao: 'Ofício requisitório protocolado' },
           { data: '2019-07-15', descricao: 'Documentação complementar solicitada' },
-          { data: '2024-01-15', descricao: 'Em análise pela procuradoria' }
-        ]
+          { data: '2024-01-15', descricao: 'Em análise pela procuradoria' },
+        ],
       },
       {
         numero_processo: '0009876-54.2021.8.13.0024',
@@ -328,8 +330,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         natureza: 'Alimentar',
         beneficiario: 'Maria Aparecida Oliveira',
         cpf_beneficiario: '987.654.321-00',
-        valor_principal: 85000.00,
-        valor_atualizado: 92000.00,
+        valor_principal: 85000.0,
+        valor_atualizado: 92000.0,
         data_requisicao: '2021-08-10',
         data_atualizacao: '2024-02-01',
         ordem_cronologica: 12,
@@ -340,8 +342,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         movimentacoes: [
           { data: '2021-08-10', descricao: 'Requisição expedida' },
           { data: '2023-12-15', descricao: 'Primeiro pagamento parcial realizado' },
-          { data: '2024-02-01', descricao: 'Aguardando pagamento do saldo' }
-        ]
+          { data: '2024-02-01', descricao: 'Aguardando pagamento do saldo' },
+        ],
       },
       {
         numero_processo: '0003456-78.2018.8.19.0001',
@@ -350,8 +352,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         natureza: 'Alimentar',
         beneficiario: 'José Carlos Pereira',
         cpf_beneficiario: '456.789.123-00',
-        valor_principal: 320000.00,
-        valor_atualizado: 380000.00,
+        valor_principal: 320000.0,
+        valor_atualizado: 380000.0,
         data_requisicao: '2018-11-25',
         data_atualizacao: '2024-01-20',
         ordem_cronologica: 8,
@@ -362,8 +364,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         movimentacoes: [
           { data: '2018-11-25', descricao: 'Ofício requisitório expedido' },
           { data: '2019-01-10', descricao: 'Incluído na ordem cronológica' },
-          { data: '2024-01-20', descricao: 'Atualização monetária realizada' }
-        ]
+          { data: '2024-01-20', descricao: 'Atualização monetária realizada' },
+        ],
       },
       {
         numero_processo: '0007890-12.2020.8.26.0032',
@@ -372,8 +374,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         natureza: 'Comum',
         beneficiario: 'Hospital São Lucas S/A',
         cpf_beneficiario: '98.765.432/0001-10',
-        valor_principal: 4500000.00,
-        valor_atualizado: 4950000.00,
+        valor_principal: 4500000.0,
+        valor_atualizado: 4950000.0,
         data_requisicao: '2020-09-30',
         data_atualizacao: '2024-02-05',
         ordem_cronologica: 120,
@@ -383,8 +385,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         movimentacoes: [
           { data: '2020-09-30', descricao: 'Precatório expedido' },
           { data: '2021-01-15', descricao: 'Inscrito para pagamento' },
-          { data: '2024-02-05', descricao: 'Aguardando previsão orçamentária' }
-        ]
+          { data: '2024-02-05', descricao: 'Aguardando previsão orçamentária' },
+        ],
       },
       {
         numero_processo: '0002468-13.2022.5.02.0001',
@@ -393,8 +395,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         natureza: 'Alimentar Trabalhista',
         beneficiario: 'Ana Paula Mendes',
         cpf_beneficiario: '789.123.456-00',
-        valor_principal: 68000.00,
-        valor_atualizado: 72000.00,
+        valor_principal: 68000.0,
+        valor_atualizado: 72000.0,
         data_requisicao: '2022-05-10',
         data_atualizacao: '2024-01-25',
         ordem_cronologica: 3,
@@ -404,9 +406,9 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         movimentacoes: [
           { data: '2022-05-10', descricao: 'RPV convertida em precatório' },
           { data: '2023-08-20', descricao: 'Documentação complementar apresentada' },
-          { data: '2024-01-25', descricao: 'Em processamento para pagamento' }
-        ]
-      }
+          { data: '2024-01-25', descricao: 'Em processamento para pagamento' },
+        ],
+      },
     ]
 
     return precatoriosData
@@ -456,8 +458,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
             idade_beneficiario: precatorio.idade_beneficiario,
             doenca_grave: precatorio.doenca_grave || false,
             cpf_beneficiario: precatorio.cpf_beneficiario,
-            ultima_atualizacao: precatorio.data_atualizacao
-          }
+            ultima_atualizacao: precatorio.data_atualizacao,
+          },
         }
       )
 
@@ -475,7 +477,7 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
       'Em processamento': 'active',
       'Aguardando dotação orçamentária': 'pending',
       'Pago': 'completed',
-      'Cancelado': 'cancelled'
+      'Cancelado': 'cancelled',
     }
 
     return statusMap[status] || 'pending'
@@ -531,7 +533,7 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           distribution: 'lottery',
           entry_date: DateTime.fromISO(precatorio.data_requisicao),
           internal_code: precatorio.numero_precatorio,
-          judge: 'Presidente do Tribunal'
+          judge: 'Presidente do Tribunal',
         }
       )
     }
@@ -556,8 +558,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         is_signed: true,
         metadata: {
           tipo_documento: 'oficio_requisitorio',
-          assinado_digitalmente: true
-        }
+          assinado_digitalmente: true,
+        },
       })
 
       // Certidão de Trânsito em Julgado
@@ -575,8 +577,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         is_signed: true,
         metadata: {
           tipo_documento: 'certidao',
-          data_transito: folder.distribution_date
-        }
+          data_transito: folder.distribution_date,
+        },
       })
 
       // Memória de Cálculo
@@ -595,8 +597,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         metadata: {
           tipo_documento: 'calculo',
           valor_principal: folder.case_value,
-          valor_atualizado: folder.conviction_value
-        }
+          valor_atualizado: folder.conviction_value,
+        },
       })
     }
   }
@@ -616,8 +618,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         observations: `Precatório ${folder.code} incluído na ordem cronológica`,
         metadata: {
           tipo_movimento: 'autuacao',
-          numero_precatorio: folder.code
-        }
+          numero_precatorio: folder.code,
+        },
       })
 
       // Atualização de valores
@@ -632,8 +634,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         metadata: {
           tipo_movimento: 'atualizacao_valores',
           valor_anterior: folder.case_value,
-          valor_novo: folder.conviction_value
-        }
+          valor_novo: folder.conviction_value,
+        },
       })
     }
   }
@@ -656,8 +658,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         metadata: {
           tipo_tarefa: 'acompanhamento_pagamento',
           numero_precatorio: folder.code,
-          ano_orcamento: metadata.ano_orcamento
-        }
+          ano_orcamento: metadata.ano_orcamento,
+        },
       })
 
       // Se tem prioridade, criar tarefa adicional
@@ -674,8 +676,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           metadata: {
             tipo_tarefa: 'verificacao_prioridade',
             idade_beneficiario: metadata.idade_beneficiario,
-            doenca_grave: metadata.doenca_grave
-          }
+            doenca_grave: metadata.doenca_grave,
+          },
         })
       }
     }
@@ -702,8 +704,8 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
         metadata: {
           tipo_audiencia: 'conciliacao_precatorio',
           valor_acordo_proposto: folder.conviction_value * 0.6,
-          percentual_desagio: 40
-        }
+          percentual_desagio: 40,
+        },
       })
     }
   }
