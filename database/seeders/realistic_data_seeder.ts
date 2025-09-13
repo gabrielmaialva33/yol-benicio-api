@@ -1873,9 +1873,10 @@ export default class extends BaseSeeder {
         await Database.table('rate_limits').insert(limit)
       } catch (error) {
         // Rate limit already exists, update it
-        await Database.table('rate_limits')
-          .where('key', limit.key)
-          .update({ points: limit.points, expire: limit.expire })
+        await Database.rawQuery(
+          'UPDATE rate_limits SET points = ?, expire = ? WHERE key = ?',
+          [limit.points, limit.expire, limit.key]
+        )
       }
     }
 
@@ -1916,7 +1917,7 @@ export default class extends BaseSeeder {
       })
 
       const logData = {
-        userId: randomUser.id,
+        user_id: randomUser.id,
         session_id: `sess_${randomUser.id}_${Math.random().toString(36).substr(2, 9)}`,
         ip_address: ipAddresses[Math.floor(Math.random() * ipAddresses.length)],
         user_agent: userAgents[Math.floor(Math.random() * userAgents.length)],
