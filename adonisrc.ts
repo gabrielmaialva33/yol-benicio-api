@@ -54,7 +54,6 @@ export default defineConfig({
     () => import('@adonisjs/inertia/inertia_provider'),
     () => import('@adonisjs/core/providers/edge_provider'),
     () => import('@adonisjs/static/static_provider'),
-    () => import('#providers/websocket_provider'),
   ],
 
   /*
