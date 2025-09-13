@@ -1,0 +1,31 @@
+# Role Translations
+roles:
+  # Slugs/Identifiers
+  admin: 'Administrator'
+  administrator: 'Administrator'
+  lawyer: 'Lawyer'
+  secretary: 'Secretary'
+  intern: 'Intern'
+  user: 'User'
+  guest: 'Guest'
+  editor: 'Editor'
+  root: 'Super Administrator'
+
+  # Descriptions
+  descriptions:
+    admin: 'Full system access'
+    administrator: 'Full system access'
+    lawyer: 'Access to lawyer functionalities'
+    secretary: 'Access to administrative functionalities'
+    intern: 'Limited access for interns'
+    user: 'Basic user access'
+    guest: 'Guest access'
+    editor: 'Content editing access'
+    root: 'Complete unrestricted access'
+
+  # Related messages
+  messages:
+    assigned: 'Role successfully assigned'
+    removed: 'Role successfully removed'
+    unauthorized: 'You do not have permission for this role'
+    invalid: 'Invalid role'

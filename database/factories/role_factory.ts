@@ -5,10 +5,10 @@ import IRole from '#modules/role/interfaces/role_interface'
 export const RoleFactory = factory
   .define(Role, async ({ faker }) => {
     const roles = [
-      { name: 'Administrador', slug: IRole.Slugs.ADMIN },
-      { name: 'Advogado', slug: IRole.Slugs.ADVOGADO },
-      { name: 'Secretária', slug: IRole.Slugs.SECRETARIA },
-      { name: 'Estagiário', slug: IRole.Slugs.ESTAGIARIO },
+      { name: 'Administrator', slug: IRole.Slugs.ADMIN },
+      { name: 'Lawyer', slug: IRole.Slugs.LAWYER },
+      { name: 'Secretary', slug: IRole.Slugs.SECRETARY },
+      { name: 'Intern', slug: IRole.Slugs.INTERN },
     ]
 
     const role = faker.helpers.arrayElement(roles)
@@ -16,27 +16,27 @@ export const RoleFactory = factory
     return {
       name: role.name,
       slug: role.slug,
-      description: `Papel de ${role.name} no sistema`,
+      description: `${role.name} role in the system`,
     }
   })
   .state('admin', (role) => {
-    role.name = 'Administrador'
+    role.name = 'Administrator'
     role.slug = IRole.Slugs.ADMIN
-    role.description = 'Acesso total ao sistema'
+    role.description = 'Full system access'
   })
   .state('lawyer', (role) => {
-    role.name = 'Advogado'
-    role.slug = IRole.Slugs.ADVOGADO
-    role.description = 'Acesso às funcionalidades de advogado'
+    role.name = 'Lawyer'
+    role.slug = IRole.Slugs.LAWYER
+    role.description = 'Access to lawyer functionalities'
   })
   .state('secretary', (role) => {
-    role.name = 'Secretária'
-    role.slug = IRole.Slugs.SECRETARIA
-    role.description = 'Acesso às funcionalidades administrativas'
+    role.name = 'Secretary'
+    role.slug = IRole.Slugs.SECRETARY
+    role.description = 'Access to administrative functionalities'
   })
   .state('intern', (role) => {
-    role.name = 'Estagiário'
-    role.slug = IRole.Slugs.ESTAGIARIO
-    role.description = 'Acesso limitado para estagiários'
+    role.name = 'Intern'
+    role.slug = IRole.Slugs.INTERN
+    role.description = 'Limited access for interns'
   })
   .build()

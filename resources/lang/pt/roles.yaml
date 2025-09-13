@@ -1,0 +1,31 @@
+# Traduções de Roles/Funções
+roles:
+  # Slugs/Identificadores
+  admin: 'Administrador'
+  administrator: 'Administrador'
+  lawyer: 'Advogado'
+  secretary: 'Secretária'
+  intern: 'Estagiário'
+  user: 'Usuário'
+  guest: 'Visitante'
+  editor: 'Editor'
+  root: 'Super Administrador'
+
+  # Descrições
+  descriptions:
+    admin: 'Acesso total ao sistema'
+    administrator: 'Acesso total ao sistema'
+    lawyer: 'Acesso às funcionalidades de advogado'
+    secretary: 'Acesso às funcionalidades administrativas'
+    intern: 'Acesso limitado para estagiários'
+    user: 'Acesso básico do usuário'
+    guest: 'Acesso para visitantes'
+    editor: 'Acesso para edição de conteúdo'
+    root: 'Acesso completo sem restrições'
+
+  # Mensagens relacionadas
+  messages:
+    assigned: 'Função atribuída com sucesso'
+    removed: 'Função removida com sucesso'
+    unauthorized: 'Você não tem permissão para esta função'
+    invalid: 'Função inválida'
