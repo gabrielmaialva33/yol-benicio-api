@@ -88,7 +88,7 @@ export default class AiController {
   /**
    * Perform semantic search
    */
-  async semanticSearch({ request, response, auth }: HttpContext) {
+  async semanticSearch({ request, response }: HttpContext) {
     try {
       const { query, folder_id, limit } = await request.validateUsing(semanticSearchValidator)
 
@@ -123,7 +123,7 @@ export default class AiController {
   /**
    * Extract entities from text
    */
-  async extractEntities({ request, response, auth }: HttpContext) {
+  async extractEntities({ request, response }: HttpContext) {
     try {
       const { text, document_id } = request.body()
 
@@ -164,9 +164,7 @@ export default class AiController {
 
       if (document_id) {
         const document = await FolderDocument.findOrFail(document_id)
-        classification = await this.huggingFaceService.classifyDocument(
-          document.description || document.title
-        )
+        classification = await this.huggingFaceService.classifyDocument(document.description || '')
       } else if (text) {
         classification = await this.huggingFaceService.classifyDocument(text)
       } else {
