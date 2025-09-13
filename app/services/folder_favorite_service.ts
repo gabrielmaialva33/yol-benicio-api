@@ -4,12 +4,27 @@ import db from '@adonisjs/lucid/services/db'
 
 export default class FolderFavoriteService {
   async getFavoriteFolders(userId: number): Promise<Folder[]> {
-    const favorites = await FolderFavorite.query()
+    // Buscar os IDs das pastas favoritas
+    const favoriteIds = await FolderFavorite.query()
       .where('userId', userId)
-      .preload('folder')
       .orderBy('createdAt', 'desc')
+      .select('folderId')
 
-    return favorites.map((favorite) => favorite.folder)
+    if (favoriteIds.length === 0) {
+      return []
+    }
+
+    // Buscar as pastas completas com client preloaded
+    const folders = await Folder.query()
+      .whereIn('id', favoriteIds.map(f => f.folderId))
+      .preload('client')
+
+    // Ordenar as pastas de acordo com a ordem dos favoritos
+    const orderedFolders = favoriteIds.map(fav =>
+      folders.find(folder => folder.id === fav.folderId)
+    ).filter(Boolean) as Folder[]
+
+    return orderedFolders
   }
 
   async toggleFavorite(userId: number, folderId: number) {
