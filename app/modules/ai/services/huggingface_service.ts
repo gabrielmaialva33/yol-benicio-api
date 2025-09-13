@@ -199,8 +199,8 @@ export default class HuggingFaceService {
       })
 
       return {
-        type: response.labels[0],
-        confidence: response.scores[0],
+        type: (response as any).labels?.[0] || 'unknown',
+        confidence: (response as any).scores?.[0] || 0,
       }
     } catch (error) {
       logger.error('Document classification failed:', error)
