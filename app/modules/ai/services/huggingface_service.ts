@@ -1,5 +1,5 @@
 import { HfInference } from '@huggingface/inference'
-import env from '@adonisjs/core/env'
+import env from '@adonisjs/core/services/env'
 import logger from '@adonisjs/core/services/logger'
 import redis from '@adonisjs/redis/services/main'
 
@@ -49,9 +49,9 @@ export default class HuggingFaceService {
       })
 
       const result: EmbeddingResult = {
-        embeddings: Array.from(response as Float32Array),
+        embeddings: Array.isArray(response) ? response.flat() : Array.from(response as any),
         model: this.embeddingModel,
-        dimensions: (response as Float32Array).length,
+        dimensions: Array.isArray(response) ? response.flat().length : (response as any).length,
       }
 
       // Cache for 24 hours
