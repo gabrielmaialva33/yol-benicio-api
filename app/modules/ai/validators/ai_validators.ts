@@ -7,12 +7,14 @@ export const analyzeDocumentValidator = vine.compile(
   vine.object({
     document_id: vine.number().positive(),
     analysis_type: vine.enum(['summary', 'entities', 'sentiment', 'legal_review']),
-    options: vine.object({
-      model: vine.string().optional(),
-      maxTokens: vine.number().range([100, 4000]).optional(),
-      temperature: vine.number().range([0, 1]).optional(),
-      language: vine.enum(['pt-BR', 'en-US', 'es-ES']).optional(),
-    }).optional(),
+    options: vine
+      .object({
+        model: vine.string().optional(),
+        maxTokens: vine.number().range([100, 4000]).optional(),
+        temperature: vine.number().range([0, 1]).optional(),
+        language: vine.enum(['pt-BR', 'en-US', 'es-ES']).optional(),
+      })
+      .optional(),
   })
 )
 
@@ -23,12 +25,14 @@ export const generateDocumentValidator = vine.compile(
   vine.object({
     template_type: vine.enum(['petition', 'contract', 'notification', 'appeal', 'motion']),
     variables: vine.record(vine.any()),
-    options: vine.object({
-      model: vine.string().optional(),
-      maxTokens: vine.number().range([500, 8000]).optional(),
-      temperature: vine.number().range([0, 1]).optional(),
-      language: vine.enum(['pt-BR', 'en-US', 'es-ES']).optional(),
-    }).optional(),
+    options: vine
+      .object({
+        model: vine.string().optional(),
+        maxTokens: vine.number().range([500, 8000]).optional(),
+        temperature: vine.number().range([0, 1]).optional(),
+        language: vine.enum(['pt-BR', 'en-US', 'es-ES']).optional(),
+      })
+      .optional(),
   })
 )
 
@@ -48,13 +52,15 @@ export const semanticSearchValidator = vine.compile(
  * Validator for entity extraction
  */
 export const extractEntitiesValidator = vine.compile(
-  vine.object({
-    text: vine.string().trim().minLength(10).optional(),
-    document_id: vine.number().positive().optional(),
-  }).refine((data) => {
-    // Either text or document_id must be provided
-    return !!(data.text || data.document_id)
-  }, 'Either text or document_id must be provided')
+  vine
+    .object({
+      text: vine.string().trim().minLength(10).optional(),
+      document_id: vine.number().positive().optional(),
+    })
+    .refine((data) => {
+      // Either text or document_id must be provided
+      return !!(data.text || data.document_id)
+    }, 'Either text or document_id must be provided')
 )
 
 /**
@@ -64,9 +70,9 @@ export const reviewContractValidator = vine.compile(
   vine.object({
     content: vine.string().trim().minLength(100),
     contract_type: vine.string().optional(),
-    focus_areas: vine.array(
-      vine.enum(['risks', 'compliance', 'clarity', 'completeness', 'fairness'])
-    ).optional(),
+    focus_areas: vine
+      .array(vine.enum(['risks', 'compliance', 'clarity', 'completeness', 'fairness']))
+      .optional(),
   })
 )
 

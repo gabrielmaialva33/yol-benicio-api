@@ -6,32 +6,50 @@ router
   .group(() => {
     // Document analysis
     router
-      .post('/ai/analyze-document', [() => import('../controllers/ai_controller.js'), 'analyzeDocument'])
+      .post('/ai/analyze-document', [
+        () => import('../controllers/ai_controller.js'),
+        'analyzeDocument',
+      ])
       .as('api.ai.analyze_document')
 
     // Document generation
     router
-      .post('/ai/generate-document', [() => import('../controllers/ai_controller.js'), 'generateDocument'])
+      .post('/ai/generate-document', [
+        () => import('../controllers/ai_controller.js'),
+        'generateDocument',
+      ])
       .as('api.ai.generate_document')
 
     // Semantic search
     router
-      .post('/ai/semantic-search', [() => import('../controllers/ai_controller.js'), 'semanticSearch'])
+      .post('/ai/semantic-search', [
+        () => import('../controllers/ai_controller.js'),
+        'semanticSearch',
+      ])
       .as('api.ai.semantic_search')
 
     // Entity extraction
     router
-      .post('/ai/extract-entities', [() => import('../controllers/ai_controller.js'), 'extractEntities'])
+      .post('/ai/extract-entities', [
+        () => import('../controllers/ai_controller.js'),
+        'extractEntities',
+      ])
       .as('api.ai.extract_entities')
 
     // Document classification
     router
-      .post('/ai/classify-document', [() => import('../controllers/ai_controller.js'), 'classifyDocument'])
+      .post('/ai/classify-document', [
+        () => import('../controllers/ai_controller.js'),
+        'classifyDocument',
+      ])
       .as('api.ai.classify_document')
 
     // Precatorio analysis
     router
-      .post('/ai/analyze-precatorio', [() => import('../controllers/ai_controller.js'), 'analyzePrecatorio'])
+      .post('/ai/analyze-precatorio', [
+        () => import('../controllers/ai_controller.js'),
+        'analyzePrecatorio',
+      ])
       .as('api.ai.analyze_precatorio')
 
     // Analysis history

@@ -26,7 +26,13 @@ export default class AiAnalysis extends BaseModel {
   declare user_id: number | null
 
   @column()
-  declare analysis_type: 'summary' | 'entities' | 'sentiment' | 'legal_review' | 'classification' | 'ocr'
+  declare analysis_type:
+    | 'summary'
+    | 'entities'
+    | 'sentiment'
+    | 'legal_review'
+    | 'classification'
+    | 'ocr'
 
   @column()
   declare model: string
@@ -50,7 +56,7 @@ export default class AiAnalysis extends BaseModel {
   declare result: Record<string, any>
 
   @column({
-    prepare: (value: any) => value ? JSON.stringify(value) : null,
+    prepare: (value: any) => (value ? JSON.stringify(value) : null),
     consume: (value: any) => {
       if (!value) return null
       if (typeof value === 'string') {
@@ -72,7 +78,7 @@ export default class AiAnalysis extends BaseModel {
   declare processing_time_ms: number | null
 
   @column({
-    prepare: (value: any) => value ? JSON.stringify(value) : null,
+    prepare: (value: any) => (value ? JSON.stringify(value) : null),
     consume: (value: any) => {
       if (!value) return {}
       if (typeof value === 'string') {
@@ -128,7 +134,11 @@ export default class AiAnalysis extends BaseModel {
    */
   static async beforeSave(analysis: AiAnalysis) {
     // Update status to completed when result is set
-    if (analysis.result && Object.keys(analysis.result).length > 0 && analysis.status === 'processing') {
+    if (
+      analysis.result &&
+      Object.keys(analysis.result).length > 0 &&
+      analysis.status === 'processing'
+    ) {
       analysis.status = 'completed'
       analysis.completed_at = DateTime.now()
     }

@@ -2,7 +2,11 @@ import type { HttpContext } from '@adonisjs/core/http'
 import NvidiaAiService from '../services/nvidia_ai_service.js'
 import HuggingFaceService from '../services/huggingface_service.js'
 import AiAnalysis from '../models/ai_analysis.js'
-import { analyzeDocumentValidator, generateDocumentValidator, semanticSearchValidator } from '../validators/ai_validators.js'
+import {
+  analyzeDocumentValidator,
+  generateDocumentValidator,
+  semanticSearchValidator,
+} from '../validators/ai_validators.js'
 import logger from '@adonisjs/core/services/logger'
 import FolderDocument from '#modules/folder/models/folder_document'
 import Folder from '#modules/folder/models/folder'
@@ -16,7 +20,8 @@ export default class AiController {
    */
   async analyzeDocument({ request, response, auth }: HttpContext) {
     try {
-      const { document_id, analysis_type, options } = await request.validateUsing(analyzeDocumentValidator)
+      const { document_id, analysis_type, options } =
+        await request.validateUsing(analyzeDocumentValidator)
 
       // Check document access
       const document = await FolderDocument.query()
@@ -25,11 +30,7 @@ export default class AiController {
         .firstOrFail()
 
       // Create analysis record
-      const analysis = await this.nvidiaService.analyzeDocument(
-        document_id,
-        analysis_type,
-        options
-      )
+      const analysis = await this.nvidiaService.analyzeDocument(document_id, analysis_type, options)
 
       // Set user who requested
       analysis.user_id = auth.user!.id
@@ -53,13 +54,10 @@ export default class AiController {
    */
   async generateDocument({ request, response, auth }: HttpContext) {
     try {
-      const { template_type, variables, options } = await request.validateUsing(generateDocumentValidator)
+      const { template_type, variables, options } =
+        await request.validateUsing(generateDocumentValidator)
 
-      const content = await this.nvidiaService.generateDocument(
-        template_type,
-        variables,
-        options
-      )
+      const content = await this.nvidiaService.generateDocument(template_type, variables, options)
 
       // Save generated document
       const analysis = await AiAnalysis.create({
@@ -103,18 +101,14 @@ export default class AiController {
         .select('id', 'title', 'description')
 
       // Prepare documents for search
-      const searchDocs = documents.map(doc => ({
+      const searchDocs = documents.map((doc) => ({
         id: doc.id,
         content: `${doc.title} ${doc.description || ''}`,
         metadata: { title: doc.title },
       }))
 
       // Perform semantic search
-      const results = await this.huggingFaceService.semanticSearch(
-        query,
-        searchDocs,
-        limit || 5
-      )
+      const results = await this.huggingFaceService.semanticSearch(query, searchDocs, limit || 5)
 
       return response.ok({
         message: 'Search completed successfully',

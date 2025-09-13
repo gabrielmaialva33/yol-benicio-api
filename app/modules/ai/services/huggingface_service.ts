@@ -78,7 +78,7 @@ export default class HuggingFaceService {
 
       // Generate embeddings for all documents (with caching)
       const documentEmbeddings = await Promise.all(
-        documents.map(doc => this.generateEmbeddings(doc.content))
+        documents.map((doc) => this.generateEmbeddings(doc.content))
       )
 
       // Calculate cosine similarity
@@ -88,9 +88,7 @@ export default class HuggingFaceService {
       }))
 
       // Sort by similarity and return top K
-      return similarities
-        .sort((a, b) => b.similarity - a.similarity)
-        .slice(0, topK)
+      return similarities.sort((a, b) => b.similarity - a.similarity).slice(0, topK)
     } catch (error) {
       logger.error('Semantic search failed:', error)
       throw error
@@ -259,8 +257,8 @@ export default class HuggingFaceService {
       // Parse the response to extract phrases
       const phrases = response.generated_text
         .split(',')
-        .map(phrase => phrase.trim())
-        .filter(phrase => phrase.length > 0)
+        .map((phrase) => phrase.trim())
+        .filter((phrase) => phrase.length > 0)
 
       return phrases
     } catch (error) {
@@ -308,9 +306,7 @@ export default class HuggingFaceService {
 
       for (let i = 0; i < texts.length; i += batchSize) {
         const batch = texts.slice(i, i + batchSize)
-        const batchResults = await Promise.all(
-          batch.map(text => this.generateEmbeddings(text))
-        )
+        const batchResults = await Promise.all(batch.map((text) => this.generateEmbeddings(text)))
         results.push(...batchResults)
       }
 

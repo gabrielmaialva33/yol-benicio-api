@@ -1,4 +1,4 @@
-import env from '@adonisjs/core/env'
+import env from '@adonisjs/core/services/env'
 import logger from '@adonisjs/core/services/logger'
 import redis from '@adonisjs/redis/services/main'
 import FolderDocument from '#modules/folder/models/folder_document'
@@ -57,10 +57,7 @@ export default class NvidiaAiService {
       }
 
       // Fetch document
-      const document = await FolderDocument.query()
-        .where('id', documentId)
-        .preload('folder')
-        .firstOrFail()
+      const document = await FolderDocument.query().where('id', documentId).firstOrFail()
 
       // Prepare prompt based on analysis type
       const prompt = this.buildPrompt(document, analysisType, options.language || 'pt-BR')
@@ -201,18 +198,14 @@ export default class NvidiaAiService {
   /**
    * Build prompt based on analysis type
    */
-  private buildPrompt(
-    document: FolderDocument,
-    analysisType: string,
-    language: string
-  ): string {
+  private buildPrompt(document: FolderDocument, analysisType: string, language: string): string {
     const prompts = {
       summary: `
         Faça um resumo executivo do seguinte documento jurídico em ${language}.
         Destaque os pontos principais, partes envolvidas, e conclusões.
         Limite o resumo a 500 palavras.
 
-        Documento: ${document.description || document.title}
+        Documento: ${document.description || ''}
       `,
       entities: `
         Extraia todas as entidades relevantes do documento:
@@ -222,14 +215,14 @@ export default class NvidiaAiService {
         - Números de processo
         - Órgãos e instituições
 
-        Documento: ${document.description || document.title}
+        Documento: ${document.description || ''}
       `,
       sentiment: `
         Analise o sentimento e tom do documento jurídico.
         Identifique se é favorável, neutro ou desfavorável ao cliente.
         Justifique sua análise.
 
-        Documento: ${document.description || document.title}
+        Documento: ${document.description || ''}
       `,
       legal_review: `
         Faça uma revisão jurídica completa do documento.
@@ -239,7 +232,7 @@ export default class NvidiaAiService {
         3. Oportunidades
         4. Recomendações de ação
 
-        Documento: ${document.description || document.title}
+        Documento: ${document.description || ''}
       `,
     }
 
@@ -249,10 +242,7 @@ export default class NvidiaAiService {
   /**
    * Build prompt for document generation
    */
-  private buildGenerationPrompt(
-    templateType: string,
-    variables: Record<string, any>
-  ): string {
+  private buildGenerationPrompt(templateType: string, variables: Record<string, any>): string {
     const templates = {
       petition: `
         Gere uma petição inicial com base nos seguintes dados:
