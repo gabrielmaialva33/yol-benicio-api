@@ -268,7 +268,9 @@ export default class extends BaseSeeder {
         },
       }),
 
-      await Client.create({
+      await Client.firstOrCreate(
+        { document: '17.197.385/0001-21' },
+        {
         name: 'Zurich Minas Brasil Seguros S.A.',
         type: 'company',
         document: '17.197.385/0001-21',
