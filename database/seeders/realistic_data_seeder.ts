@@ -18,6 +18,7 @@ import IRole from '#modules/role/interfaces/role_interface'
 import IPermission from '#modules/permission/interfaces/permission_interface'
 import Database from '@adonisjs/lucid/services/db'
 import hash from '@adonisjs/core/services/hash'
+import logger from '@adonisjs/core/services/logger'
 import { DateTime } from 'luxon'
 
 export default class extends BaseSeeder {
@@ -1267,6 +1268,48 @@ export default class extends BaseSeeder {
     console.log(`✅ Created ${favorites.length} folder favorites`)
 
     // ============================
+    // 13. Create Auth Access Tokens
+    // ============================
+    console.log('🔑 Creating authentication tokens...')
+    const tokens = await this.createAuthTokens(users)
+    console.log(`✅ Created ${tokens.length} auth tokens`)
+
+    // ============================
+    // 14. Create Files
+    // ============================
+    console.log('📁 Creating file records...')
+    const files = await this.createFiles(users, clients, folders)
+    console.log(`✅ Created ${files.length} file records`)
+
+    // ============================
+    // 15. Create Role Permissions (Enhanced)
+    // ============================
+    console.log('🔒 Setting up role permissions...')
+    await this.setupRolePermissions([adminRole, lawyerRole, secretaryRole, internRole])
+    console.log(`✅ Role permissions configured`)
+
+    // ============================
+    // 16. Create User Permissions (Specific)
+    // ============================
+    console.log('👤 Creating specific user permissions...')
+    const userPermissions = await this.createUserPermissions(users)
+    console.log(`✅ Created ${userPermissions} user-specific permissions`)
+
+    // ============================
+    // 17. Create Rate Limits
+    // ============================
+    console.log('⚡ Creating rate limit records...')
+    const rateLimits = await this.createRateLimits()
+    console.log(`✅ Created ${rateLimits.length} rate limit records`)
+
+    // ============================
+    // 18. Create Audit Logs
+    // ============================
+    console.log('📜 Creating audit logs...')
+    const auditLogs = await this.createAuditLogs(users, folders)
+    console.log(`✅ Created ${auditLogs.length} audit log entries`)
+
+    // ============================
     // Summary
     // ============================
     console.log('\n=================================')
@@ -1283,11 +1326,426 @@ export default class extends BaseSeeder {
     console.log(`- Messages: ${messages.length}`)
     console.log(`- Notifications: ${notifications.length}`)
     console.log(`- Favorites: ${favorites.length}`)
+    console.log(`- Auth Tokens: ${tokens.length}`)
+    console.log(`- Files: ${files.length}`)
+    console.log(`- User Permissions: ${userPermissions}`)
+    console.log(`- Rate Limits: ${rateLimits.length}`)
+    console.log(`- Audit Logs: ${auditLogs.length}`)
     console.log('=================================\n')
 
     console.log('📝 Sample credentials:')
     console.log('Admin: admin@benicio.com.br / benicio123')
     console.log('Lawyer: andre.camara@benicio.com.br / benicio123')
     console.log('Secretary: mariana.costa@benicio.com.br / benicio123')
+  }
+
+  /**
+   * Create enhanced legal-specific permissions
+   */
+  private async createLegalPermissions() {
+    const legalPermissions = [
+      // Folders/Cases - Legal-specific actions
+      { name: 'folders.archive', resource: 'folders', action: 'archive', description: 'Archive folders' },
+      { name: 'folders.unarchive', resource: 'folders', action: 'unarchive', description: 'Unarchive folders' },
+      { name: 'folders.assign', resource: 'folders', action: 'assign', description: 'Assign folders to lawyers' },
+      { name: 'folders.status_change', resource: 'folders', action: 'status_change', description: 'Change folder status' },
+
+      // Documents - Legal document management
+      { name: 'documents.sign', resource: 'documents', action: 'sign', description: 'Sign documents' },
+      { name: 'documents.version', resource: 'documents', action: 'version', description: 'Version documents' },
+      { name: 'documents.approve', resource: 'documents', action: 'approve', description: 'Approve documents' },
+
+      // Hearings - Court appearance management
+      { name: 'hearings.schedule', resource: 'hearings', action: 'schedule', description: 'Schedule hearings' },
+      { name: 'hearings.reschedule', resource: 'hearings', action: 'reschedule', description: 'Reschedule hearings' },
+      { name: 'hearings.cancel', resource: 'hearings', action: 'cancel', description: 'Cancel hearings' },
+
+      // Tasks - Legal task management
+      { name: 'tasks.assign', resource: 'tasks', action: 'assign', description: 'Assign tasks' },
+      { name: 'tasks.complete', resource: 'tasks', action: 'complete', description: 'Complete tasks' },
+
+      // Messages - Communication
+      { name: 'messages.send', resource: 'messages', action: 'send', description: 'Send messages' },
+      { name: 'messages.broadcast', resource: 'messages', action: 'broadcast', description: 'Broadcast messages' },
+
+      // Notifications
+      { name: 'notifications.send', resource: 'notifications', action: 'send', description: 'Send notifications' },
+      { name: 'notifications.manage', resource: 'notifications', action: 'manage', description: 'Manage notifications' },
+
+      // Dashboard & Analytics
+      { name: 'dashboard.view', resource: 'dashboard', action: 'view', description: 'View dashboard' },
+      { name: 'analytics.view', resource: 'analytics', action: 'view', description: 'View analytics' },
+      { name: 'analytics.export', resource: 'analytics', action: 'export', description: 'Export analytics' },
+
+      // System Administration
+      { name: 'system.backup', resource: 'system', action: 'backup', description: 'Backup system' },
+      { name: 'system.maintenance', resource: 'system', action: 'maintenance', description: 'System maintenance' },
+    ]
+
+    for (const permission of legalPermissions) {
+      await Permission.firstOrCreate(
+        { name: permission.name },
+        permission
+      )
+    }
+  }
+
+  /**
+   * Create authentication tokens for users
+   */
+  private async createAuthTokens(users: any) {
+    const tokens = []
+    const tokenTypes = ['access_token', 'refresh_token']
+    const abilities = JSON.stringify(['*'])
+
+    for (const [key, user] of Object.entries(users)) {
+      if (key === 'admin') continue // Skip admin tokens for security
+
+      for (const type of tokenTypes) {
+        const tokenHash = await hash.make(`${key}_${type}_${Date.now()}`)
+
+        await Database.table('auth_access_tokens').insert({
+          tokenable_id: (user as any).id,
+          type: type,
+          name: `${key}_${type}`,
+          hash: tokenHash,
+          abilities: abilities,
+          created_at: DateTime.now().toSQL(),
+          updated_at: DateTime.now().toSQL(),
+          last_used_at: DateTime.now().minus({ hours: Math.floor(Math.random() * 24) }).toSQL(),
+          expires_at: DateTime.now().plus({ days: 30 }).toSQL(),
+        })
+
+        tokens.push({ user: key, type, hash: tokenHash })
+      }
+    }
+
+    return tokens
+  }
+
+  /**
+   * Create file records for document management
+   */
+  private async createFiles(users: any, clients: any[], folders: any[]) {
+    const files = []
+
+    const fileCategories = ['contract', 'petition', 'decision', 'correspondence', 'evidence', 'other']
+    const fileTypes = [
+      { ext: 'pdf', mime: 'application/pdf', category: 'document' },
+      { ext: 'docx', mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', category: 'document' },
+      { ext: 'xlsx', mime: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', category: 'spreadsheet' },
+      { ext: 'jpg', mime: 'image/jpeg', category: 'image' },
+      { ext: 'png', mime: 'image/png', category: 'image' }
+    ]
+
+    const sampleFiles = [
+      { name: 'contrato_bancario_inter.pdf', size: 2456789, client_idx: 0, category: 'contract' },
+      { name: 'peticao_inicial_zurich.docx', size: 856234, client_idx: 1, category: 'petition' },
+      { name: 'laudo_pericial_sinistro.pdf', size: 3567890, client_idx: 1, category: 'evidence' },
+      { name: 'acordao_trt24_veiculos.pdf', size: 1234567, client_idx: 4, category: 'decision' },
+      { name: 'planilha_calculos_trabalhistas.xlsx', size: 456789, client_idx: 4, category: 'other' },
+      { name: 'fotos_acidente_veiculo.jpg', size: 2890123, client_idx: 3, category: 'evidence' },
+      { name: 'carta_citacao_correios.pdf', size: 567890, client_idx: 5, category: 'correspondence' },
+      { name: 'cci_conjunto_residencial.pdf', size: 4567890, client_idx: 6, category: 'contract' },
+      { name: 'invoice_frutas_gallo.pdf', size: 345678, client_idx: 2, category: 'other' },
+      { name: 'parecer_juridico_crypto.pdf', size: 5678901, client_idx: 0, category: 'other' },
+      { name: 'manifestacao_bcb_openfinance.docx', size: 1890234, client_idx: 0, category: 'correspondence' },
+      { name: 'certidao_quitacao_eleitoral.pdf', size: 234567, client_idx: 3, category: 'other' },
+      { name: 'comprovante_residencia_cliente.jpg', size: 1345678, client_idx: 3, category: 'evidence' },
+      { name: 'ata_reuniao_diretoria.docx', size: 890123, client_idx: 0, category: 'other' },
+      { name: 'balanco_patrimonial_2024.xlsx', size: 2345678, client_idx: 2, category: 'other' },
+    ]
+
+    for (let i = 0; i < sampleFiles.length; i++) {
+      const fileData = sampleFiles[i]
+      const fileType = fileTypes.find(ft => fileData.name.includes(ft.ext)) || fileTypes[0]
+      const randomUser = Object.values(users)[Math.floor(Math.random() * Object.values(users).length)] as any
+
+      const file = await File.create({
+        owner_id: randomUser.id,
+        client_name: clients[fileData.client_idx].name,
+        file_name: fileData.name,
+        file_size: fileData.size,
+        file_type: fileType.mime,
+        file_category: fileData.category,
+        url: `/files/${DateTime.now().toFormat('yyyy/MM')}/${fileData.name}`,
+      })
+
+      files.push(file)
+    }
+
+    return files
+  }
+
+  /**
+   * Setup role permissions with legal-specific assignments
+   */
+  private async setupRolePermissions(roles: any[]) {
+    const permissions = await Permission.all()
+
+    for (const role of roles) {
+      let rolePermissions: any[] = []
+
+      switch (role.slug) {
+        case IRole.Slugs.ADMIN:
+          // Admin gets almost all permissions except some system-critical ones
+          rolePermissions = permissions.filter(p =>
+            !['system.backup', 'system.maintenance'].includes(p.name)
+          )
+          break
+
+        case IRole.Slugs.LAWYER:
+          // Lawyers get comprehensive access to legal operations
+          rolePermissions = permissions.filter(p =>
+            [
+              // Core legal operations
+              'folders.create', 'folders.read', 'folders.update', 'folders.list', 'folders.assign', 'folders.status_change',
+              'documents.create', 'documents.read', 'documents.update', 'documents.sign', 'documents.approve', 'documents.version',
+              'tasks.create', 'tasks.read', 'tasks.update', 'tasks.assign', 'tasks.complete', 'tasks.list',
+              'hearings.create', 'hearings.read', 'hearings.update', 'hearings.schedule', 'hearings.reschedule',
+              'clients.create', 'clients.read', 'clients.update', 'clients.list',
+              'messages.read', 'messages.send', 'notifications.read',
+              'files.create', 'files.read', 'files.list',
+              'analytics.view', 'dashboard.view',
+              // Own data management
+              'users.read', 'users.update'
+            ].includes(p.name)
+          )
+          break
+
+        case IRole.Slugs.SECRETARY:
+          // Secretaries get administrative and support functions
+          rolePermissions = permissions.filter(p =>
+            [
+              // Administrative support
+              'folders.read', 'folders.list', 'folders.update',
+              'documents.create', 'documents.read', 'documents.update', 'documents.list',
+              'tasks.create', 'tasks.read', 'tasks.update', 'tasks.list',
+              'hearings.create', 'hearings.read', 'hearings.update', 'hearings.schedule', 'hearings.reschedule',
+              'clients.create', 'clients.read', 'clients.update', 'clients.list',
+              'messages.read', 'messages.send', 'notifications.read', 'notifications.send',
+              'files.create', 'files.read', 'files.list',
+              'dashboard.view',
+              // Own profile
+              'users.read', 'users.update'
+            ].includes(p.name)
+          )
+          break
+
+        case IRole.Slugs.INTERN:
+          // Interns get limited, read-mostly access
+          rolePermissions = permissions.filter(p =>
+            [
+              // Limited access
+              'folders.read', 'folders.list',
+              'documents.read', 'documents.list',
+              'tasks.read', 'tasks.list',
+              'hearings.read', 'hearings.list',
+              'clients.read', 'clients.list',
+              'messages.read', 'notifications.read',
+              'files.read', 'files.list',
+              'dashboard.view',
+              // Own profile
+              'users.read', 'users.update'
+            ].includes(p.name)
+          )
+          break
+      }
+
+      if (rolePermissions.length > 0) {
+        await role.related('permissions').sync(rolePermissions.map(p => p.id))
+      }
+    }
+  }
+
+  /**
+   * Create specific user permissions for edge cases
+   */
+  private async createUserPermissions(users: any) {
+    let count = 0
+
+    // Give Dr. Benício special system permissions as senior partner
+    const systemPermissions = await Permission.query()
+      .whereIn('name', ['system.backup', 'analytics.export', 'reports.export'])
+
+    if (systemPermissions.length > 0) {
+      await Database.table('user_permissions')
+        .insert(systemPermissions.map(permission => ({
+          user_id: users.benicio.id,
+          permission_id: permission.id,
+          created_at: DateTime.now().toSQL(),
+          updated_at: DateTime.now().toSQL(),
+        })))
+      count += systemPermissions.length
+    }
+
+    // Give André special crypto/tech permissions
+    const techPermissions = await Permission.query()
+      .where('resource', 'analytics')
+      .orWhere('name', 'folders.archive')
+
+    if (techPermissions.length > 0) {
+      await Database.table('user_permissions')
+        .insert(techPermissions.map(permission => ({
+          user_id: users.andre.id,
+          permission_id: permission.id,
+          created_at: DateTime.now().toSQL(),
+          updated_at: DateTime.now().toSQL(),
+        })))
+      count += techPermissions.length
+    }
+
+    return count
+  }
+
+  /**
+   * Create rate limiting records
+   */
+  private async createRateLimits() {
+    const now = DateTime.now().toUnixInteger()
+    const rateLimits = [
+      // API rate limits per user
+      { key: 'api:global', points: 1000, expire: now + 3600 }, // 1000 requests per hour globally
+      { key: 'api:user:1', points: 100, expire: now + 3600 }, // 100 requests per hour per user
+      { key: 'api:user:2', points: 150, expire: now + 3600 },
+      { key: 'api:user:3', points: 120, expire: now + 3600 },
+
+      // Login attempts
+      { key: 'login:ip:192.168.1.100', points: 5, expire: now + 900 }, // 5 login attempts per 15 min
+      { key: 'login:ip:192.168.1.101', points: 3, expire: now + 900 },
+      { key: 'login:ip:10.0.0.50', points: 2, expire: now + 900 },
+
+      // File upload limits
+      { key: 'upload:user:1', points: 50, expire: now + 3600 }, // 50 uploads per hour
+      { key: 'upload:user:2', points: 30, expire: now + 3600 },
+      { key: 'upload:user:3', points: 25, expire: now + 3600 },
+
+      // Search rate limits
+      { key: 'search:user:1', points: 200, expire: now + 3600 }, // 200 searches per hour
+      { key: 'search:user:2', points: 100, expire: now + 3600 },
+
+      // Email sending limits
+      { key: 'email:system', points: 500, expire: now + 3600 }, // 500 emails per hour system-wide
+      { key: 'email:user:1', points: 20, expire: now + 3600 }, // 20 emails per user per hour
+      { key: 'email:user:2', points: 15, expire: now + 3600 },
+    ]
+
+    for (const limit of rateLimits) {
+      await Database.table('rate_limits').insert(limit)
+    }
+
+    return rateLimits
+  }
+
+  /**
+   * Create comprehensive audit logs showing system activity
+   */
+  private async createAuditLogs(users: any, folders: any[]) {
+    const auditLogs = []
+    const actions = ['create', 'read', 'update', 'delete', 'list']
+    const resources = ['folders', 'documents', 'users', 'clients', 'tasks', 'hearings']
+    const results = ['granted', 'denied'] as const
+    const userAgents = [
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
+    ]
+    const ipAddresses = ['192.168.1.100', '192.168.1.101', '10.0.0.50', '172.16.0.10', '203.0.113.45']
+
+    // Generate realistic audit logs for the past 30 days
+    const userList = Object.values(users) as any[]
+    for (let i = 0; i < 150; i++) {
+      const randomUser = userList[Math.floor(Math.random() * userList.length)]
+      const randomAction = actions[Math.floor(Math.random() * actions.length)]
+      const randomResource = resources[Math.floor(Math.random() * resources.length)]
+      const randomResult = Math.random() > 0.1 ? 'granted' : 'denied' // 90% success rate
+      const randomDate = DateTime.now().minus({
+        days: Math.floor(Math.random() * 30),
+        hours: Math.floor(Math.random() * 24),
+        minutes: Math.floor(Math.random() * 60)
+      })
+
+      const logData = {
+        user_id: randomUser.id,
+        session_id: `sess_${randomUser.id}_${Math.random().toString(36).substr(2, 9)}`,
+        ip_address: ipAddresses[Math.floor(Math.random() * ipAddresses.length)],
+        user_agent: userAgents[Math.floor(Math.random() * userAgents.length)],
+        resource: randomResource,
+        action: randomAction,
+        context: 'any',
+        resource_id: randomResource === 'folders' ? folders[Math.floor(Math.random() * folders.length)]?.id : null,
+        method: ['GET', 'POST', 'PUT', 'DELETE'][Math.floor(Math.random() * 4)],
+        url: `/api/${randomResource}`,
+        request_data: randomAction === 'create' ? { name: 'Sample data' } : null,
+        result: randomResult,
+        reason: randomResult === 'denied' ? 'Insufficient permissions' : null,
+        response_code: randomResult === 'granted' ? 200 : 403,
+        metadata: {
+          duration_ms: Math.floor(Math.random() * 1000) + 50,
+          source: 'web_app'
+        },
+        created_at: randomDate,
+        updated_at: randomDate,
+      }
+
+      const auditLog = await AuditLog.create(logData)
+      auditLogs.push(auditLog)
+    }
+
+    // Add some specific important audit events
+    const importantEvents = [
+      {
+        user_id: users.benicio.id,
+        resource: 'folders',
+        action: 'create',
+        result: 'granted' as const,
+        url: '/api/folders',
+        method: 'POST',
+        metadata: { event: 'New crypto regulation case created', importance: 'high' }
+      },
+      {
+        user_id: users.andre.id,
+        resource: 'documents',
+        action: 'sign',
+        result: 'granted' as const,
+        url: '/api/documents/123/sign',
+        method: 'POST',
+        metadata: { event: 'Legal opinion document signed', document_type: 'legal_opinion' }
+      },
+      {
+        user_id: users.patricia.id,
+        resource: 'hearings',
+        action: 'schedule',
+        result: 'granted' as const,
+        url: '/api/hearings',
+        method: 'POST',
+        metadata: { event: 'Court hearing scheduled', court: 'TRT2' }
+      },
+      {
+        user_id: null, // System event
+        resource: 'system',
+        action: 'backup',
+        result: 'granted' as const,
+        url: '/system/backup',
+        method: 'POST',
+        metadata: { event: 'Automated system backup', size_mb: 1024 }
+      }
+    ]
+
+    for (const event of importantEvents) {
+      const auditLog = await AuditLog.create({
+        ...event,
+        session_id: event.user_id ? `sess_${event.user_id}_important` : null,
+        ip_address: '192.168.1.100',
+        user_agent: userAgents[0],
+        context: 'any',
+        response_code: 200,
+        created_at: DateTime.now().minus({ days: Math.floor(Math.random() * 7) }),
+        updated_at: DateTime.now().minus({ days: Math.floor(Math.random() * 7) }),
+      })
+      auditLogs.push(auditLog)
+    }
+
+    return auditLogs
   }
 }
