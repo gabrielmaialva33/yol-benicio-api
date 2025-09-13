@@ -87,7 +87,7 @@ export default class extends BaseSeeder {
           email: 'admin@benicio.com.br',
           username: 'admin',
           password: 'benicio123',
-          data: {
+          metadata: {
             email_verified: true,
             email_verification_token: null,
             email_verification_sent_at: null,
@@ -104,7 +104,7 @@ export default class extends BaseSeeder {
           email: 'benedicto.benicio@benicio.com.br',
           username: 'benedicto.benicio',
           password: 'benicio123',
-          data: {
+          metadata: {
             email_verified: true,
             email_verification_token: null,
             email_verification_sent_at: null,
@@ -121,7 +121,7 @@ export default class extends BaseSeeder {
           email: 'andre.camara@benicio.com.br',
           username: 'andre.camara',
           password: 'benicio123',
-          data: {
+          metadata: {
             email_verified: true,
             email_verification_token: null,
             email_verification_sent_at: null,
@@ -137,7 +137,7 @@ export default class extends BaseSeeder {
           email: 'marcos.lemos@benicio.com.br',
           username: 'marcos.lemos',
           password: 'benicio123',
-          data: {
+          metadata: {
             email_verified: true,
             email_verification_token: null,
             email_verification_sent_at: null,
@@ -154,7 +154,7 @@ export default class extends BaseSeeder {
           email: 'patricia.silva@benicio.com.br',
           username: 'patricia.silva',
           password: 'benicio123',
-          data: {
+          metadata: {
             email_verified: true,
             email_verification_token: null,
             email_verification_sent_at: null,
@@ -171,7 +171,7 @@ export default class extends BaseSeeder {
           email: 'mariana.costa@benicio.com.br',
           username: 'mariana.costa',
           password: 'benicio123',
-          data: {
+          metadata: {
             email_verified: true,
             email_verification_token: null,
             email_verification_sent_at: null,
@@ -187,7 +187,7 @@ export default class extends BaseSeeder {
           email: 'fernanda.santos@benicio.com.br',
           username: 'fernanda.santos',
           password: 'benicio123',
-          data: {
+          metadata: {
             email_verified: true,
             email_verification_token: null,
             email_verification_sent_at: null,
@@ -204,7 +204,7 @@ export default class extends BaseSeeder {
           email: 'pedro.henrique@benicio.com.br',
           username: 'pedro.henrique',
           password: 'benicio123',
-          data: {
+          metadata: {
             email_verified: true,
             email_verification_token: null,
             email_verification_sent_at: null,
@@ -220,7 +220,7 @@ export default class extends BaseSeeder {
           email: 'julia.martins@benicio.com.br',
           username: 'julia.martins',
           password: 'benicio123',
-          data: {
+          metadata: {
             email_verified: true,
             email_verification_token: null,
             email_verification_sent_at: null,
@@ -261,7 +261,7 @@ export default class extends BaseSeeder {
         postal_code: '30190-131',
         country: 'Brasil',
         notes: 'Cliente de grande porte - Setor bancário digital',
-        data: {
+        metadata: {
           sector: 'Financial Services',
           size: 'Large Enterprise',
           since: '2019',
@@ -284,7 +284,7 @@ export default class extends BaseSeeder {
         postal_code: '04576-010',
         country: 'Brasil',
         notes: 'Seguradora multinacional',
-        data: {
+        metadata: {
           sector: 'Insurance',
           size: 'Large Enterprise',
           since: '2020',
@@ -307,7 +307,7 @@ export default class extends BaseSeeder {
         postal_code: '05429-000',
         country: 'Brasil',
         notes: 'Distribuidor de frutas - CEAGESP',
-        data: {
+        metadata: {
           sector: 'Agriculture',
           size: 'Medium Enterprise',
           since: '2021',
@@ -332,7 +332,7 @@ export default class extends BaseSeeder {
         country: 'Brasil',
         notes: 'Caso de conflito de competência - Barra da Tijuca',
         birthday: DateTime.fromISO('1975-03-15'),
-        data: {
+        metadata: {
           profession: 'Empresário',
         },
       }),
@@ -353,7 +353,7 @@ export default class extends BaseSeeder {
         postal_code: '79002-333',
         country: 'Brasil',
         notes: 'Comércio varejista de vestuário',
-        data: {
+        metadata: {
           sector: 'Retail',
           size: 'Small Enterprise',
           since: '2022',
@@ -376,7 +376,7 @@ export default class extends BaseSeeder {
         postal_code: '70002-900',
         country: 'Brasil',
         notes: 'Empresa pública federal',
-        data: {
+        metadata: {
           sector: 'Public Services',
           size: 'Large Enterprise',
           since: '2018',
@@ -399,7 +399,7 @@ export default class extends BaseSeeder {
         postal_code: '70092-900',
         country: 'Brasil',
         notes: 'Banco público federal',
-        data: {
+        metadata: {
           sector: 'Banking',
           size: 'Large Enterprise',
           since: '2017',
@@ -424,7 +424,7 @@ export default class extends BaseSeeder {
         country: 'Brasil',
         notes: 'Ação trabalhista - Uso de veículo próprio',
         birthday: DateTime.fromISO('1985-07-22'),
-        data: {
+        metadata: {
           profession: 'Consultora',
         },
       }),
@@ -457,7 +457,7 @@ export default class extends BaseSeeder {
         observation: 'Caso crítico - Primeira exchange a buscar autorização completa do BC',
         object_detail:
           'Adequação regulatória para operação como VASP (Virtual Asset Service Provider)',
-        data: {
+        metadata: {
           priority: 'high',
           complexity: 'high',
           regulatory: true,
@@ -488,7 +488,7 @@ export default class extends BaseSeeder {
         next_hearing: DateTime.fromISO('2025-01-15'),
         observation: 'Aguardando decisão do relator Des. Luiz Umpierre',
         object_detail: 'Ação de cobrança de seguro - Sinistro veicular',
-        data: {
+        metadata: {
           insurance_type: 'Auto',
           claim_number: 'ZUR-2024-0098',
         },
@@ -518,7 +518,7 @@ export default class extends BaseSeeder {
         observation: 'Tese fixada: Uso de veículo próprio deve ser ressarcido pelo empregador',
         object_detail:
           'Ressarcimento por desgaste e depreciação de veículo usado em atividade empresarial',
-        data: {
+        metadata: {
           result: 'unfavorable',
           appeal: 'pending',
         },
@@ -543,7 +543,7 @@ export default class extends BaseSeeder {
         citation_date: DateTime.fromISO('2016-05-20'),
         observation: 'Caso de alta repercussão - Operação Zelotes',
         object_detail: 'Defesa contra acusações de tráfico de influência em julgamentos do CARF',
-        data: {
+        metadata: {
           media_coverage: 'high',
           operation: 'Zelotes',
           result: 'acquitted',
@@ -572,7 +572,7 @@ export default class extends BaseSeeder {
         next_hearing: DateTime.fromISO('2025-02-10'),
         observation: 'Contestação protocolada - Aguardando audiência de instrução',
         object_detail: 'Reversão de justa causa, verbas rescisórias e danos morais',
-        data: {
+        metadata: {
           dismissal_reason: 'misconduct',
           employment_duration: '8 years',
         },
@@ -601,7 +601,7 @@ export default class extends BaseSeeder {
         next_hearing: DateTime.fromISO('2025-01-25'),
         observation: 'Imóvel avaliado - Aguardando leilão judicial',
         object_detail: 'Execução de cédula de crédito imobiliário - 50 unidades habitacionais',
-        data: {
+        metadata: {
           property_value: 2500000.0,
           units: 50,
           default_months: 18,
@@ -630,7 +630,7 @@ export default class extends BaseSeeder {
         next_hearing: DateTime.fromISO('2025-02-05'),
         observation: 'Liminar deferida - Bloqueio de contas',
         object_detail: 'Cobrança por fornecimento de frutas - 6 meses de inadimplência',
-        data: {
+        metadata: {
           product_type: 'Fresh Fruits',
           total_invoices: 24,
           unpaid_months: 6,
@@ -657,7 +657,7 @@ export default class extends BaseSeeder {
         observation: 'Projeto estratégico - Fase 3 do Open Finance',
         object_detail:
           'Adequação completa aos requisitos do Open Finance e pagamentos instantâneos',
-        data: {
+        metadata: {
           project_phase: 3,
           compliance_deadline: '2025-06-30',
           regulatory_framework: 'BCB Resolution 4.968/2021',
@@ -738,7 +738,7 @@ export default class extends BaseSeeder {
         uploaded_by: users.andre.id,
         version: 3,
         is_signed: true,
-        data: {
+        metadata: {
           pages: 127,
           confidential: true,
           document_type: 'legal_opinion',
@@ -757,7 +757,7 @@ export default class extends BaseSeeder {
         uploaded_by: users.marcos.id,
         version: 1,
         is_signed: true,
-        data: {
+        metadata: {
           policy_number: 'ZUR-AUTO-2023-98765',
           coverage: 'Comprehensive',
         },
@@ -775,7 +775,7 @@ export default class extends BaseSeeder {
         uploaded_by: users.marcos.id,
         version: 1,
         is_signed: true,
-        data: {
+        metadata: {
           expert: 'Eng. Roberto Silva - CREA/RJ 123456',
           conclusion: 'Total loss',
           document_type: 'expert_report',
@@ -794,7 +794,7 @@ export default class extends BaseSeeder {
         uploaded_by: users.marcos.id,
         version: 1,
         is_signed: true,
-        data: {
+        metadata: {
           decision: 'Favorable to employee',
           votes: '8-0',
         },
@@ -812,7 +812,7 @@ export default class extends BaseSeeder {
         uploaded_by: users.benicio.id,
         version: 1,
         is_signed: true,
-        data: {
+        metadata: {
           pages: 89,
           confidential: true,
         },
@@ -830,7 +830,7 @@ export default class extends BaseSeeder {
         uploaded_by: users.patricia.id,
         version: 1,
         is_signed: true,
-        data: {
+        metadata: {
           contract_value: 2500000.0,
           units: 50,
           interest_rate: '8.5% a.a.',
@@ -852,7 +852,7 @@ export default class extends BaseSeeder {
         responsible: 'Dr. André Câmara',
         created_by: users.andre.id,
         observations: 'Parecer técnico completo com 127 páginas',
-        data: {
+        metadata: {
           protocol_number: 'BCB-2024-789456',
         },
       }),
@@ -865,7 +865,7 @@ export default class extends BaseSeeder {
         responsible: 'Des. Luiz Umpierre de Mello Serra',
         created_by: users.marcos.id,
         observations: 'Aguardando decisão sobre conflito de competência',
-        data: {
+        metadata: {
           expected_decision: '30 days',
         },
       }),
@@ -878,7 +878,7 @@ export default class extends BaseSeeder {
         responsible: 'Tribunal Pleno TRT24',
         created_by: users.marcos.id,
         observations: 'Tese favorável ao empregado - precedente importante',
-        data: {
+        metadata: {
           dj_edition: '2023/067',
         },
       }),
@@ -891,7 +891,7 @@ export default class extends BaseSeeder {
         responsible: 'Perito Judicial',
         created_by: users.patricia.id,
         observations: 'Valor de avaliação acima do débito',
-        data: {
+        metadata: {
           appraised_value: 2650000.0,
         },
       }),
@@ -912,7 +912,7 @@ export default class extends BaseSeeder {
         folder_id: folders[0].id,
         assignee_id: users.andre.id,
         creator_id: users.benicio.id,
-        data: {
+        metadata: {
           estimated_hours: 40,
           complexity: 'high',
         },
@@ -927,7 +927,7 @@ export default class extends BaseSeeder {
         folder_id: folders[4].id,
         assignee_id: users.patricia.id,
         creator_id: users.marcos.id,
-        data: {
+        metadata: {
           location: 'TRT2 - Fórum Ruy Barbosa',
           time: '14:30',
         },
@@ -942,7 +942,7 @@ export default class extends BaseSeeder {
         folder_id: folders[1].id,
         assignee_id: users.marcos.id,
         creator_id: users.benicio.id,
-        data: {
+        metadata: {
           pages_limit: 20,
         },
       }),
@@ -956,7 +956,7 @@ export default class extends BaseSeeder {
         folder_id: folders[5].id,
         assignee_id: users.patricia.id,
         creator_id: users.admin.id,
-        data: {
+        metadata: {
           auction_platform: 'www.leiloesjudiciais.com.br',
           minimum_bid: 1750000.0,
         },
@@ -971,7 +971,7 @@ export default class extends BaseSeeder {
         folder_id: folders[7].id,
         assignee_id: users.andre.id,
         creator_id: users.benicio.id,
-        data: {
+        metadata: {
           contracts_reviewed: 15,
         },
       }),
@@ -985,7 +985,7 @@ export default class extends BaseSeeder {
         folder_id: folders[2].id,
         assignee_id: users.marcos.id,
         creator_id: users.marcos.id,
-        data: {
+        metadata: {
           protocol_number: 'TRT24-EMB-2023-4567',
         },
       }),
@@ -1008,7 +1008,7 @@ export default class extends BaseSeeder {
         assignee_id: users.patricia.id,
         creator_id: users.marcos.id,
         notes: 'Levar 3 testemunhas. Documentos já juntados aos autos. Local: TRT2 - Fórum Ruy Barbosa - Sala 405',
-        data: {
+        metadata: {
           judge: 'Dr. Fernando Costa',
           witnesses: 3,
           estimated_duration: '2 hours',
@@ -1026,7 +1026,7 @@ export default class extends BaseSeeder {
         assignee_id: users.marcos.id,
         creator_id: users.benicio.id,
         notes: 'TJRJ - 21ª Câmara Cível - Sessão Virtual. Preparar sustentação oral em vídeo',
-        data: {
+        metadata: {
           session_type: 'virtual',
           video_duration_limit: '15 minutes',
         },
@@ -1043,7 +1043,7 @@ export default class extends BaseSeeder {
         assignee_id: users.patricia.id,
         creator_id: users.admin.id,
         notes: 'Online - www.leiloesjudiciais.com.br. Primeiro leilão - Lance mínimo: 100% da avaliação',
-        data: {
+        metadata: {
           auction_type: '1st_auction',
           minimum_value: 2650000.0,
           platform_fee: '5%',
@@ -1061,7 +1061,7 @@ export default class extends BaseSeeder {
         assignee_id: users.andre.id,
         creator_id: users.andre.id,
         notes: 'TJSP - CEJUSC Central - Sala 12. Cliente autoriza acordo até R$ 400.000,00',
-        data: {
+        metadata: {
           settlement_limit: 400000.0,
           mediator: 'To be assigned',
         },
@@ -1078,7 +1078,7 @@ export default class extends BaseSeeder {
         assignee_id: users.andre.id,
         creator_id: users.benicio.id,
         notes: 'Banco Central - Brasília. Discussão sobre regulação de criptoativos',
-        data: {
+        metadata: {
           attendees: ['BCB Team', 'Banco Inter Legal', 'Compliance'],
           agenda: 'Technical clarifications on crypto regulation',
         },
@@ -1097,7 +1097,7 @@ export default class extends BaseSeeder {
         subject: 'Urgente: Prazo CP 109/2024 BCB',
         body: 'André, precisamos finalizar o parecer sobre a regulamentação de criptoativos até sexta-feira. O Banco Inter está contando com nossa análise detalhada.',
         priority: 'high',
-        data: {
+        metadata: {
           folder_id: folders[0].id,
           deadline: '2025-01-17',
         },
@@ -1110,7 +1110,7 @@ export default class extends BaseSeeder {
         body: 'Dr. Marcos, já preparei todos os documentos para a audiência de instrução. Estão na pasta compartilhada. As testemunhas foram notificadas.',
         priority: 'normal',
         read_at: DateTime.now().minus({ hours: 2 }),
-        data: {
+        metadata: {
           folder_id: folders[4].id,
           documents_count: 12,
         },
@@ -1122,7 +1122,7 @@ export default class extends BaseSeeder {
         subject: 'Avaliação do imóvel - CEF',
         body: 'Dra. Patrícia, o laudo de avaliação chegou. O imóvel foi avaliado em R$ 2.650.000,00. Favor preparar a petição informando o valor.',
         priority: 'normal',
-        data: {
+        metadata: {
           folder_id: folders[5].id,
           appraisal_value: 2650000.0,
         },
@@ -1135,7 +1135,7 @@ export default class extends BaseSeeder {
         body: 'Foi publicado o acórdão do Incidente de Uniformização sobre uso de veículo próprio. Tese favorável ao empregado foi fixada.',
         priority: 'high',
         read_at: DateTime.now().minus({ days: 1 }),
-        data: {
+        metadata: {
           folder_id: folders[2].id,
           publication_date: '2023-04-03',
         },
@@ -1148,7 +1148,7 @@ export default class extends BaseSeeder {
         body: 'Dr. André, finalizei a pesquisa sobre precedentes de Open Finance. Encontrei 15 decisões relevantes do STJ e 8 normativos do BCB.',
         priority: 'normal',
         read_at: DateTime.now().minus({ hours: 5 }),
-        data: {
+        metadata: {
           folder_id: folders[7].id,
           research_results: 23,
         },
@@ -1168,7 +1168,7 @@ export default class extends BaseSeeder {
         message: 'Prazo para resposta à CP 109/2024 vence em 7 dias',
         action_url: '/folders/PROC-2024-001',
         action_text: 'Ver processo',
-        data: {
+        metadata: {
           folder_id: folders[0].id,
           days_remaining: 7,
         },
@@ -1181,7 +1181,7 @@ export default class extends BaseSeeder {
         message: 'Audiência de instrução - Correios vs Adilson às 14:30',
         action_url: '/hearings/2025-02-10',
         action_text: 'Ver detalhes',
-        data: {
+        metadata: {
           folder_id: folders[4].id,
           location: 'TRT2 - Sala 405',
         },
@@ -1195,7 +1195,7 @@ export default class extends BaseSeeder {
         action_url: '/tasks',
         action_text: 'Ver tarefa',
         read_at: DateTime.now().minus({ hours: 1 }),
-        data: {
+        metadata: {
           folder_id: folders[1].id,
           priority: 'medium',
         },
@@ -1209,7 +1209,7 @@ export default class extends BaseSeeder {
         action_url: '/folders/PROC-2024-089',
         action_text: 'Ver processo',
         read_at: DateTime.now().minus({ days: 2 }),
-        data: {
+        metadata: {
           folder_id: folders[6].id,
           blocked_amount: 487000.0,
         },
@@ -1222,7 +1222,7 @@ export default class extends BaseSeeder {
         message: 'Publicada Resolução BCB 5.123/2024 sobre criptoativos',
         action_url: '/regulations',
         action_text: 'Ler normativo',
-        data: {
+        metadata: {
           regulation: 'BCB 5.123/2024',
           impact: 'high',
         },
@@ -1235,7 +1235,7 @@ export default class extends BaseSeeder {
         message: 'Falta juntar procuração no processo da CEF',
         action_url: '/folders/PROC-2024-067',
         action_text: 'Resolver',
-        data: {
+        metadata: {
           folder_id: folders[5].id,
           document_type: 'power_of_attorney',
         },
@@ -1248,7 +1248,7 @@ export default class extends BaseSeeder {
         message: 'Falha ao protocolar petição - Sistema TJSP indisponível',
         action_url: '/support',
         action_text: 'Tentar novamente',
-        data: {
+        metadata: {
           error_code: 'TJSP_503',
           retry_after: '30 minutes',
         },
@@ -1710,7 +1710,7 @@ export default class extends BaseSeeder {
         result: randomResult,
         reason: randomResult === 'denied' ? 'Insufficient permissions' : null,
         response_code: randomResult === 'granted' ? 200 : 403,
-        data: {
+        metadata: {
           duration_ms: Math.floor(Math.random() * 1000) + 50,
           source: 'web_app'
         },
@@ -1731,7 +1731,7 @@ export default class extends BaseSeeder {
         result: 'granted' as const,
         url: '/api/folders',
         method: 'POST',
-        data: { event: 'New crypto regulation case created', importance: 'high' }
+        metadata: { event: 'New crypto regulation case created', importance: 'high' }
       },
       {
         user_id: users.andre.id,
@@ -1740,7 +1740,7 @@ export default class extends BaseSeeder {
         result: 'granted' as const,
         url: '/api/documents/123/sign',
         method: 'POST',
-        data: { event: 'Legal opinion document signed', document_type: 'legal_opinion' }
+        metadata: { event: 'Legal opinion document signed', document_type: 'legal_opinion' }
       },
       {
         user_id: users.patricia.id,
@@ -1749,7 +1749,7 @@ export default class extends BaseSeeder {
         result: 'granted' as const,
         url: '/api/hearings',
         method: 'POST',
-        data: { event: 'Court hearing scheduled', court: 'TRT2' }
+        metadata: { event: 'Court hearing scheduled', court: 'TRT2' }
       },
       {
         user_id: null, // System event
@@ -1758,7 +1758,7 @@ export default class extends BaseSeeder {
         result: 'granted' as const,
         url: '/system/backup',
         method: 'POST',
-        data: { event: 'Automated system backup', size_mb: 1024 }
+        metadata: { event: 'Automated system backup', size_mb: 1024 }
       }
     ]
 
