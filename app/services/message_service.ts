@@ -107,4 +107,13 @@ export default class MessageService {
       priority: message.priority
     }))
   }
+
+  async getUnreadCount(userId: number): Promise<number> {
+    const result = await Message.query()
+      .where('userId', userId)
+      .whereNull('readAt')
+      .count('* as total')
+
+    return Number(result[0].$extras.total)
+  }
 }
