@@ -29,7 +29,7 @@ export const menuItems: MenuItem[] = [
     icon: '/icons/folders.svg',
     text: 'Pastas',
     path: '/dashboard/folders',
-    requiredPermissions: ['folders:list'],
+    requiredRoles: ['Administrator'],
     subItems: [
       { text: 'Cadastrar', path: '/dashboard/folders/register' },
       { text: 'Consulta', path: '/dashboard/folders/consultation' },
@@ -39,7 +39,7 @@ export const menuItems: MenuItem[] = [
     icon: '/icons/clients.svg',
     text: 'Clientes',
     path: '/dashboard/clients',
-    requiredPermissions: ['clients:list'],
+    requiredRoles: ['Administrator'],
     subItems: [
       { text: 'Cadastrar', path: '/dashboard/clients/register' },
       { text: 'Consulta', path: '/dashboard/clients/consultation' },
@@ -49,7 +49,7 @@ export const menuItems: MenuItem[] = [
     icon: '/icons/calendar.svg',
     text: 'Agenda',
     path: '/dashboard/calendar',
-    requiredPermissions: ['calendar:view'],
+    requiredRoles: ['Administrator'],
     subItems: [
       { text: 'Compromissos', path: '/dashboard/calendar/appointments' },
       { text: 'Audiências', path: '/dashboard/calendar/hearings' },
@@ -60,7 +60,7 @@ export const menuItems: MenuItem[] = [
     icon: '/icons/documents.svg',
     text: 'Documentos',
     path: '/dashboard/documents',
-    requiredPermissions: ['documents:list'],
+    requiredPermissions: ['documents.sign'],
     subItems: [
       { text: 'Modelos', path: '/dashboard/documents/templates' },
       { text: 'Gerados', path: '/dashboard/documents/generated' },
@@ -70,7 +70,7 @@ export const menuItems: MenuItem[] = [
     icon: '/icons/finance.svg',
     text: 'Financeiro',
     path: '/dashboard/finance',
-    requiredPermissions: ['finance:view'],
+    requiredRoles: ['Administrator'],
     subItems: [
       { text: 'Faturamento', path: '/dashboard/finance/billing' },
       { text: 'Recebimentos', path: '/dashboard/finance/receivables' },
@@ -81,7 +81,7 @@ export const menuItems: MenuItem[] = [
     icon: '/icons/reports.svg',
     text: 'Relatórios',
     path: '/dashboard/reports',
-    requiredPermissions: ['reports:view'],
+    requiredPermissions: ['reports.read'],
     subItems: [
       { text: 'Produtividade', path: '/dashboard/reports/productivity' },
       { text: 'Processos', path: '/dashboard/reports/processes' },
@@ -92,7 +92,7 @@ export const menuItems: MenuItem[] = [
     icon: '/icons/settings.svg',
     text: 'Configurações',
     path: '/dashboard/settings',
-    requiredPermissions: ['settings:manage'],
+    requiredPermissions: ['settings.read'],
     subItems: [
       { text: 'Usuários', path: '/dashboard/settings/users' },
       { text: 'Permissões', path: '/dashboard/settings/permissions' },
