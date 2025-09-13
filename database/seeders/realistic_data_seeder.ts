@@ -67,7 +67,7 @@ export default class extends BaseSeeder {
     // ============================
     // 1.5. Create Enhanced Legal-Specific Permissions
     // ============================
-    console.log('📋 Creating enhanced legal-specific permissions...')
+    logger.info('📋 Creating enhanced legal-specific permissions...')
     await this.createLegalPermissions()
 
     // Grant all permissions to admin role
@@ -633,7 +633,7 @@ export default class extends BaseSeeder {
       }),
     ]
 
-    console.log(`✅ Created ${folders.length} folders`)
+    logger.info(`✅ Created ${folders.length} folders`)
 
     // ============================
     // 5. Create Folder Processes
@@ -688,7 +688,7 @@ export default class extends BaseSeeder {
       }),
     ]
 
-    console.log(`✅ Created ${processes.length} folder processes`)
+    logger.info(`✅ Created ${processes.length} folder processes`)
 
     // ============================
     // 6. Create Folder Documents
@@ -806,7 +806,7 @@ export default class extends BaseSeeder {
       }),
     ]
 
-    console.log(`✅ Created ${documents.length} folder documents`)
+    logger.info(`✅ Created ${documents.length} folder documents`)
 
     // ============================
     // 7. Create Folder Movements
@@ -865,7 +865,7 @@ export default class extends BaseSeeder {
       }),
     ]
 
-    console.log(`✅ Created ${movements.length} folder movements`)
+    logger.info(`✅ Created ${movements.length} folder movements`)
 
     // ============================
     // 8. Create Tasks
@@ -961,7 +961,7 @@ export default class extends BaseSeeder {
       }),
     ]
 
-    console.log(`✅ Created ${tasks.length} tasks`)
+    logger.info(`✅ Created ${tasks.length} tasks`)
 
     // ============================
     // 9. Create Hearings
@@ -1055,7 +1055,7 @@ export default class extends BaseSeeder {
       }),
     ]
 
-    console.log(`✅ Created ${hearings.length} hearings`)
+    logger.info(`✅ Created ${hearings.length} hearings`)
 
     // ============================
     // 10. Create Messages
@@ -1125,7 +1125,7 @@ export default class extends BaseSeeder {
       }),
     ]
 
-    console.log(`✅ Created ${messages.length} messages`)
+    logger.info(`✅ Created ${messages.length} messages`)
 
     // ============================
     // 11. Create Notifications
@@ -1225,7 +1225,7 @@ export default class extends BaseSeeder {
       }),
     ]
 
-    console.log(`✅ Created ${notifications.length} notifications`)
+    logger.info(`✅ Created ${notifications.length} notifications`)
 
     // ============================
     // 12. Create Folder Favorites
@@ -1265,78 +1265,78 @@ export default class extends BaseSeeder {
       }),
     ]
 
-    console.log(`✅ Created ${favorites.length} folder favorites`)
+    logger.info(`✅ Created ${favorites.length} folder favorites`)
 
     // ============================
     // 13. Create Auth Access Tokens
     // ============================
-    console.log('🔑 Creating authentication tokens...')
+    logger.info('🔑 Creating authentication tokens...')
     const tokens = await this.createAuthTokens(users)
-    console.log(`✅ Created ${tokens.length} auth tokens`)
+    logger.info(`✅ Created ${tokens.length} auth tokens`)
 
     // ============================
     // 14. Create Files
     // ============================
-    console.log('📁 Creating file records...')
+    logger.info('📁 Creating file records...')
     const files = await this.createFiles(users, clients, folders)
-    console.log(`✅ Created ${files.length} file records`)
+    logger.info(`✅ Created ${files.length} file records`)
 
     // ============================
     // 15. Create Role Permissions (Enhanced)
     // ============================
-    console.log('🔒 Setting up role permissions...')
+    logger.info('🔒 Setting up role permissions...')
     await this.setupRolePermissions([adminRole, lawyerRole, secretaryRole, internRole])
-    console.log(`✅ Role permissions configured`)
+    logger.info(`✅ Role permissions configured`)
 
     // ============================
     // 16. Create User Permissions (Specific)
     // ============================
-    console.log('👤 Creating specific user permissions...')
+    logger.info('👤 Creating specific user permissions...')
     const userPermissions = await this.createUserPermissions(users)
-    console.log(`✅ Created ${userPermissions} user-specific permissions`)
+    logger.info(`✅ Created ${userPermissions} user-specific permissions`)
 
     // ============================
     // 17. Create Rate Limits
     // ============================
-    console.log('⚡ Creating rate limit records...')
+    logger.info('⚡ Creating rate limit records...')
     const rateLimits = await this.createRateLimits()
-    console.log(`✅ Created ${rateLimits.length} rate limit records`)
+    logger.info(`✅ Created ${rateLimits.length} rate limit records`)
 
     // ============================
     // 18. Create Audit Logs
     // ============================
-    console.log('📜 Creating audit logs...')
+    logger.info('📜 Creating audit logs...')
     const auditLogs = await this.createAuditLogs(users, folders)
-    console.log(`✅ Created ${auditLogs.length} audit log entries`)
+    logger.info(`✅ Created ${auditLogs.length} audit log entries`)
 
     // ============================
     // Summary
     // ============================
-    console.log('\n=================================')
-    console.log('✅ Realistic data seeding completed successfully!')
-    console.log('=================================')
-    console.log(`- Users: ${Object.keys(users).length}`)
-    console.log(`- Clients: ${clients.length}`)
-    console.log(`- Folders: ${folders.length}`)
-    console.log(`- Processes: ${processes.length}`)
-    console.log(`- Documents: ${documents.length}`)
-    console.log(`- Movements: ${movements.length}`)
-    console.log(`- Tasks: ${tasks.length}`)
-    console.log(`- Hearings: ${hearings.length}`)
-    console.log(`- Messages: ${messages.length}`)
-    console.log(`- Notifications: ${notifications.length}`)
-    console.log(`- Favorites: ${favorites.length}`)
-    console.log(`- Auth Tokens: ${tokens.length}`)
-    console.log(`- Files: ${files.length}`)
-    console.log(`- User Permissions: ${userPermissions}`)
-    console.log(`- Rate Limits: ${rateLimits.length}`)
-    console.log(`- Audit Logs: ${auditLogs.length}`)
-    console.log('=================================\n')
+    logger.info('\n=================================')
+    logger.info('✅ Realistic data seeding completed successfully!')
+    logger.info('=================================')
+    logger.info(`- Users: ${Object.keys(users).length}`)
+    logger.info(`- Clients: ${clients.length}`)
+    logger.info(`- Folders: ${folders.length}`)
+    logger.info(`- Processes: ${processes.length}`)
+    logger.info(`- Documents: ${documents.length}`)
+    logger.info(`- Movements: ${movements.length}`)
+    logger.info(`- Tasks: ${tasks.length}`)
+    logger.info(`- Hearings: ${hearings.length}`)
+    logger.info(`- Messages: ${messages.length}`)
+    logger.info(`- Notifications: ${notifications.length}`)
+    logger.info(`- Favorites: ${favorites.length}`)
+    logger.info(`- Auth Tokens: ${tokens.length}`)
+    logger.info(`- Files: ${files.length}`)
+    logger.info(`- User Permissions: ${userPermissions}`)
+    logger.info(`- Rate Limits: ${rateLimits.length}`)
+    logger.info(`- Audit Logs: ${auditLogs.length}`)
+    logger.info('=================================\n')
 
-    console.log('📝 Sample credentials:')
-    console.log('Admin: admin@benicio.com.br / benicio123')
-    console.log('Lawyer: andre.camara@benicio.com.br / benicio123')
-    console.log('Secretary: mariana.costa@benicio.com.br / benicio123')
+    logger.info('📝 Sample credentials:')
+    logger.info('Admin: admin@benicio.com.br / benicio123')
+    logger.info('Lawyer: andre.camara@benicio.com.br / benicio123')
+    logger.info('Secretary: mariana.costa@benicio.com.br / benicio123')
   }
 
   /**
