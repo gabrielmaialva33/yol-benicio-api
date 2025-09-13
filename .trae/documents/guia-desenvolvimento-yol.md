@@ -10,7 +10,7 @@ Este guia fornece todas as informações necessárias para desenvolvedores que t
 
 | Ferramenta     | Versão Mínima | Propósito              |
 | -------------- | ------------- | ---------------------- |
-| **Node.js**    | 22.18.0+      | Runtime JavaScript     |
+| **Node.js**    | 22.19.0+      | Runtime JavaScript     |
 | **pnpm**       | 8.0+          | Gerenciador de pacotes |
 | **PostgreSQL** | 15+           | Banco de dados         |
 | **Redis**      | 7+            | Cache e sessões        |

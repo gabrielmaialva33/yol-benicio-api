@@ -1,106 +1,130 @@
 import { useState } from 'react'
+import { useApiQuery } from '~/shared/hooks/use_api'
 import { Card, CardContent, CardHeader, CardTitle } from '~/shared/ui/primitives/Card'
-import { Calendar, MoreHorizontal } from 'lucide-react'
+import { Calendar, CheckSquare } from 'lucide-react'
+import { TaskItem } from './TaskItem'
 
-// Mock data baseado no design do Figma
-const mockTasks = [
-  {
-    id: 1,
-    title: 'Acompanhamento do processo 7845',
-    completed: true,
-    date: '2 Jan 2023 - 7 Fev 2023',
-  },
-  {
-    id: 2,
-    title: 'Finalização da venda 48576',
-    completed: false,
-    date: '',
-  },
-  {
-    id: 3,
-    title: 'Auditoria do processo 7845',
-    completed: false,
-    date: '',
-  },
-  {
-    id: 4,
-    title: 'Finalização do salário 9845',
-    completed: false,
-    date: '',
-  },
-  {
-    id: 5,
-    title: 'Finalização da pasta 48576',
-    completed: false,
-    date: '',
-  },
-]
+interface Task {
+  id: number
+  title: string
+  status: 'pending' | 'completed' | 'in_progress'
+  priority: 'low' | 'medium' | 'high'
+  dueDate?: string
+  folder?: {
+    id: number
+    title: string
+  }
+}
+
+interface DateRange {
+  from: Date | null
+  to: Date | null
+}
+
+interface TasksResponse {
+  tasks: Task[]
+  dateRange: DateRange
+}
 
 export function TasksCard() {
   const [showDatePicker, setShowDatePicker] = useState(false)
-  const [tasks, setTasks] = useState(mockTasks)
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: new Date(2023, 0, 2), // 2 Jan 2023
+    to: new Date(2023, 1, 7), // 7 Feb 2023
+  })
+
+  const {
+    data: tasksData,
+    isLoading,
+    error,
+  } = useApiQuery<TasksResponse>(
+    '/api/dashboard/tasks',
+    {
+      from: dateRange.from?.toISOString().split('T')[0],
+      to: dateRange.to?.toISOString().split('T')[0],
+    },
+    {
+      enabled: true,
+      staleTime: 2 * 60 * 1000, // 2 minutes
+    }
+  )
+
+  const displayTasks = tasksData?.tasks || []
 
   const toggleTask = (id: number) => {
-    setTasks(tasks.map((task) => (task.id === id ? { ...task, completed: !task.completed } : task)))
+    // In a real app, this would make an API call
+    console.log('Toggle task:', id)
+  }
+
+  const formatDateRange = () => {
+    if (!dateRange.from || !dateRange.to) return ''
+    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' }
+    return `${dateRange.from.toLocaleDateString('pt-BR', options)} - ${dateRange.to.toLocaleDateString('pt-BR', options)}`
+  }
+
+  if (error) {
+    return (
+      <Card className="bg-white border border-gray-200 rounded-lg shadow-sm">
+        <CardContent className="p-6">
+          <div className="text-center text-red-600">
+            <p>Erro ao carregar tarefas</p>
+            <p className="text-sm text-gray-500 mt-1">{error.message}</p>
+          </div>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (
-    <Card className="bg-white border border-gray-200 rounded-lg shadow-sm">
+    <Card className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold text-gray-900">Suas tarefas</CardTitle>
+          <div className="flex items-center gap-2">
+            <CheckSquare className="h-5 w-5 text-blue-600" />
+            <CardTitle className="text-lg font-semibold text-gray-900">Suas tarefas</CardTitle>
+          </div>
           <div className="flex items-center gap-2">
             <button
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
               onClick={() => setShowDatePicker(!showDatePicker)}
             >
               <Calendar className="h-4 w-4 text-gray-500" />
             </button>
-            <span className="text-sm text-gray-500">2 Jan 2023 - 7 Fev 2023</span>
+            <span className="text-sm text-gray-500">{formatDateRange()}</span>
           </div>
         </div>
+
+        {showDatePicker && (
+          <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+            <p className="text-sm text-gray-600">Date picker functionality would go here</p>
+          </div>
+        )}
       </CardHeader>
 
       <CardContent className="pt-0">
-        <div className="space-y-3">
-          {tasks.map((task) => (
-            <div key={task.id} className="flex items-center gap-3 py-2">
-              <button
-                onClick={() => toggleTask(task.id)}
-                className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
-                  task.completed
-                    ? 'bg-green-500 border-green-500'
-                    : 'border-gray-300 hover:border-gray-400'
-                }`}
-              >
-                {task.completed && (
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                      fillRule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                )}
-              </button>
-
-              <div className="flex-1">
-                <div
-                  className={`text-sm font-medium ${
-                    task.completed ? 'line-through text-gray-500' : 'text-gray-900'
-                  }`}
-                >
-                  {task.title}
+        {isLoading ? (
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex items-center gap-3 py-2 animate-pulse">
+                <div className="w-5 h-5 bg-gray-200 rounded"></div>
+                <div className="flex-1">
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-1"></div>
+                  <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                 </div>
-                {task.date && <div className="text-xs text-gray-400 mt-1">{task.date}</div>}
               </div>
-
-              <button className="p-1 hover:bg-gray-100 rounded transition-colors">
-                <MoreHorizontal className="h-4 w-4 text-gray-400" />
-              </button>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : displayTasks.length === 0 ? (
+          <div className="text-center text-gray-500 py-8">
+            <p>Nenhuma tarefa encontrada no período</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {displayTasks.slice(0, 5).map((task) => (
+              <TaskItem key={task.id} task={task} toggleTask={toggleTask} />
+            ))}
+          </div>
+        )}
       </CardContent>
     </Card>
   )
