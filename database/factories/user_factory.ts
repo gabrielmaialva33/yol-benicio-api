@@ -19,9 +19,6 @@ export const UserFactory = factory
         email_verification_token: null,
         email_verification_sent_at: null,
         email_verified_at: faker.datatype.boolean(0.8) ? faker.date.past().toISOString() : null,
-        phone: faker.phone.number(),
-        cpf: faker.helpers.replaceSymbols('###.###.###-##'),
-        oab: faker.datatype.boolean(0.3) ? faker.helpers.replaceSymbols('SP######') : null,
       },
     }
   })
@@ -50,7 +47,6 @@ export const UserFactory = factory
     user.full_name = faker.helpers.arrayElement(names)
     user.metadata = {
       ...user.metadata,
-      oab: faker.helpers.replaceSymbols('SP######'),
       email_verified: true,
       email_verified_at: faker.date.past().toISOString(),
     }
