@@ -1,8 +1,9 @@
 import FolderFavorite from '#modules/folder/models/folder_favorite'
+import Folder from '#modules/folder/models/folder'
 import db from '@adonisjs/lucid/services/db'
 
 export default class FolderFavoriteService {
-  async getFavoriteFolders(userId: number) {
+  async getFavoriteFolders(userId: number): Promise<Folder[]> {
     const favorites = await FolderFavorite.query()
       .where('userId', userId)
       .preload('folder')
