@@ -1,440 +1,1023 @@
-### Yol Benício API HTTP Requests
-### Base URL: http://localhost:3333
+### Yol Benício Legal Management API - HTTP Requests Collection
 ###
-### Authentication: Most endpoints require JWT Bearer token
-### Include header: Authorization: Bearer <token>
+### This file contains example requests for all API endpoints.
+### Use with VS Code REST Client extension or similar tools.
 ###
-### API Conventions:
-### - Content-Type: application/json (except file uploads)
-### - Timestamps: ISO 8601 format
-### - Database fields: snake_case naming
-### - Pagination: ?page=1&per_page=10 (Users). Alguns endpoints admin usam perPage.
-### - Sorting: ?sort_by=field&order=asc|desc (Users). Alguns endpoints admin usam sortBy.
-### - Search: ?search=term
-
-### Variables (replace with actual values)
+### Variables - Configure these for your environment
 @baseUrl = http://localhost:3333
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc1MjE5MDY4NywiZXhwIjoxNzUyMTkxNTg3fQ.mN5_LyaxP1nZ46wWjRFVVB26E-0FD9vXJ7J5JlkE8AE
-@userId = 3
-@roleId = 3
+@contentType = application/json
+@accept = application/json
+
+### Authentication Token - Replace with your actual token after login
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 ###############################################################################
-### HEALTH ENDPOINTS
+# AUTHENTICATION ENDPOINTS
 ###############################################################################
 
-### Get API Information
-GET {{baseUrl}}/api
-Accept: application/json
-
-### Health Check
-GET {{baseUrl}}/api/v1/health
-Accept: application/json
-
-###############################################################################
-### AUTHENTICATION ENDPOINTS
-###############################################################################
-
-### Sign In (Login)
-# Returns access_token and refresh_token
+### Sign In (Get JWT Token)
+# @name signIn
 POST {{baseUrl}}/api/v1/sessions/sign-in
-Content-Type: application/json
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
 {
-  "uid": "john@example.com",
-  "password": "password123"
+  "email": "admin@yolbenicio.com",
+  "password": "SecurePass123!"
 }
 
-### Sign In with Username
-POST {{baseUrl}}/api/v1/sessions/sign-in
-Content-Type: application/json
-
-{
-  "uid": "johndoe",
-  "password": "password123"
-}
-
-### Sign Up (Register)
-# Creates new user account and returns tokens
+### Sign Up (Register New User)
+# @name signUp
 POST {{baseUrl}}/api/v1/sessions/sign-up
-Content-Type: application/json
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
 {
-  "full_name": "John Doe",
-  "email": "john@example.com",
-  "username": "johndoe",
-  "password": "password123",
-  "password_confirmation": "password123"
+  "full_name": "João Silva",
+  "email": "joao.silva@example.com",
+  "username": "joaosilva",
+  "password": "SecurePass123!"
 }
 
-### Sign Up (Minimal - without username)
-POST {{baseUrl}}/api/v1/sessions/sign-up
-Content-Type: application/json
+### Web Login (Session-based)
+# @name webLogin
+POST {{baseUrl}}/login
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
 {
-  "full_name": "Jane Smith",
-  "email": "jane@example.com",
-  "password": "password123",
-  "password_confirmation": "password123"
+  "email": "admin@yolbenicio.com",
+  "password": "SecurePass123!"
 }
+
+### Logout
+# @name logout
+POST {{baseUrl}}/logout
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Verify Email
+# @name verifyEmail
+GET {{baseUrl}}/api/v1/verify-email?token=verification_token_here
+Accept: {{accept}}
+
+### Resend Verification Email
+# @name resendVerificationEmail
+POST {{baseUrl}}/api/v1/resend-verification-email
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
 
 ###############################################################################
-### PROFILE ENDPOINTS (Requires Authentication)
+# USER PROFILE ENDPOINTS
 ###############################################################################
 
 ### Get Current User Profile
+# @name getCurrentUser
 GET {{baseUrl}}/api/v1/me
-Authorization: Bearer {{token}}
-Accept: application/json
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
 
 ### Get Current User Permissions
+# @name getCurrentUserPermissions
 GET {{baseUrl}}/api/v1/me/permissions
-Authorization: Bearer {{token}}
-Accept: application/json
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
 
 ### Get Current User Roles
+# @name getCurrentUserRoles
 GET {{baseUrl}}/api/v1/me/roles
-Authorization: Bearer {{token}}
-Accept: application/json
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
 
 ###############################################################################
-### EMAIL VERIFICATION ENDPOINTS
+# USER MANAGEMENT ENDPOINTS (Admin)
 ###############################################################################
 
-### Verify Email
-# This endpoint is typically opened from a link in an email
-GET {{baseUrl}}/api/v1/verify-email?token=VERIFICATION_TOKEN
-Accept: application/json
-
-### Resend Verification Email (Requires Authentication)
-POST {{baseUrl}}/api/v1/resend-verification-email
-Authorization: Bearer {{token}}
-Accept: application/json
-
-###############################################################################
-### USER MANAGEMENT ENDPOINTS (Requires Authentication)
-###############################################################################
-
-### List Users
-# Paginated list with search and sorting
-GET {{baseUrl}}/api/v1/users
-Authorization: Bearer {{token}}
-Accept: application/json
-
-### List Users with Pagination
-GET {{baseUrl}}/api/v1/users?page=1&per_page=20
-Authorization: Bearer {{token}}
-Accept: application/json
-
-### List Users with Sorting
-GET {{baseUrl}}/api/v1/users?sort_by=created_at&order=desc
-Authorization: Bearer {{token}}
-Accept: application/json
-
-### Search Users
-GET {{baseUrl}}/api/v1/users?search=john
-Authorization: Bearer {{token}}
-Accept: application/json
+### List Users (Paginated)
+# @name listUsers
+GET {{baseUrl}}/api/v1/users?page=1&per_page=20&search=joão&sort_by=created_at&order=desc
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
 
 ### Get User by ID
-GET {{baseUrl}}/api/v1/users/{{userId}}
-Authorization: Bearer {{token}}
-Accept: application/json
+# @name getUserById
+GET {{baseUrl}}/api/v1/users/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
 
-### Create User (Requires USER role)
+### Create User
+# @name createUser
 POST {{baseUrl}}/api/v1/users
-Authorization: Bearer {{token}}
-Content-Type: application/json
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
 {
-  "full_name": "New User",
-  "email": "newuser@example.com",
-  "username": "newuser",
-  "password": "password123",
-  "password_confirmation": "password123"
+  "full_name": "Maria Santos",
+  "email": "maria.santos@example.com",
+  "username": "mariasantos",
+  "password": "SecurePass123!",
+  "roles": [2, 3]
 }
 
 ### Update User
-# Note: email and username cannot be changed
-PUT {{baseUrl}}/api/v1/users/{{userId}}
-Authorization: Bearer {{token}}
-Content-Type: application/json
+# @name updateUser
+PUT {{baseUrl}}/api/v1/users/1
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
 {
-  "full_name": "John Updated Doe"
+  "full_name": "Maria Santos Silva",
+  "email": "maria.silva@example.com",
+  "is_active": true
 }
 
-### Update User Password
-PUT {{baseUrl}}/api/v1/users/{{userId}}
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "password": "newpassword123",
-  "password_confirmation": "newpassword123"
-}
-
-### Delete User (Soft Delete)
-DELETE {{baseUrl}}/api/v1/users/{{userId}}
-Authorization: Bearer {{token}}
+### Delete User
+# @name deleteUser
+DELETE {{baseUrl}}/api/v1/users/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
 
 ###############################################################################
-### ROLE MANAGEMENT ENDPOINTS (Requires ADMIN or ROOT role)
+# ROLE & PERMISSION MANAGEMENT (Admin)
 ###############################################################################
 
 ### List Roles
+# @name listRoles
 GET {{baseUrl}}/api/v1/admin/roles
-Authorization: Bearer {{token}}
-Accept: application/json
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
 
-### List Roles with Pagination
-GET {{baseUrl}}/api/v1/admin/roles?page=1&perPage=10
-Authorization: Bearer {{token}}
-Accept: application/json
-
-### Attach Roles to User
+### Attach Role to User
+# @name attachRole
 PUT {{baseUrl}}/api/v1/admin/roles/attach
-Authorization: Bearer {{token}}
-Content-Type: application/json
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
 {
   "user_id": 1,
-  "role_ids": [
-    1,
-    2,
-    3
-  ]
+  "role_id": 2
 }
-
-### Attach Single Role to User
-PUT {{baseUrl}}/api/v1/admin/roles/attach
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "user_id": 2,
-  "role_ids": [
-    2
-  ]
-}
-
-###############################################################################
-### PERMISSION MANAGEMENT ENDPOINTS (Requires ADMIN or ROOT role)
-###############################################################################
 
 ### List Permissions
+# @name listPermissions
 GET {{baseUrl}}/api/v1/admin/permissions
-Authorization: Bearer {{token}}
-Accept: application/json
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
 
 ### Create Permission
+# @name createPermission
 POST {{baseUrl}}/api/v1/admin/permissions
-Authorization: Bearer {{token}}
-Content-Type: application/json
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
 {
-  "resource": "posts",
-  "action": "create",
-  "description": "Allow creating posts"
+  "name": "reports.generate",
+  "description": "Can generate reports",
+  "resource": "reports",
+  "action": "generate"
 }
 
 ### Sync Role Permissions
+# @name syncRolePermissions
 PUT {{baseUrl}}/api/v1/admin/roles/permissions/sync
-Authorization: Bearer {{token}}
-Content-Type: application/json
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
 {
   "role_id": 2,
-  "permission_ids": [
-    1,
-    2,
-    3
-  ]
+  "permission_ids": [1, 2, 3, 4, 5]
 }
-
-### Attach Permissions to Role
-PUT {{baseUrl}}/api/v1/admin/roles/permissions/attach
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "role_id": 2,
-  "permission_ids": [
-    4,
-    5
-  ]
-}
-
-### Detach Permissions from Role
-PUT {{baseUrl}}/api/v1/admin/roles/permissions/detach
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "role_id": 2,
-  "permission_ids": [
-    1
-  ]
-}
-
-### Sync User Direct Permissions
-PUT {{baseUrl}}/api/v1/admin/users/permissions/sync
-Authorization: Bearer {{token}}
-Content-Type: application/json
-
-{
-  "user_id": 3,
-  "permissions": [
-    {
-      "permission_id": 10,
-      "granted": true
-    },
-    {
-      "permission_id": 11,
-      "granted": false,
-      "expires_at": "2025-12-31T23:59:59.000Z"
-    }
-  ]
-}
-
-### Get User's Direct Permissions
-GET {{baseUrl}}/api/v1/admin/users/{{userId}}/permissions
-Authorization: Bearer {{token}}
-Accept: application/json
 
 ### Check User Permissions
-POST {{baseUrl}}/api/v1/admin/users/{{userId}}/permissions/check
-Authorization: Bearer {{token}}
-Content-Type: application/json
+# @name checkUserPermissions
+POST {{baseUrl}}/api/v1/admin/users/1/permissions/check
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
 {
-  "permissions": [
-    "users.create",
-    "files.delete"
-  ],
-  "require_all": false
+  "permissions": ["users.read", "folders.create"]
 }
 
 ###############################################################################
-### FILE MANAGEMENT ENDPOINTS (Requires Authentication)
+# CLIENT MANAGEMENT ENDPOINTS
 ###############################################################################
 
-### Upload File
-# Maximum size: 5MB
-# Allowed extensions: jpeg, jpg, png, pdf, doc, docx, txt, csv, xls, xlsx, mp3, mp4, zip
-# File is automatically categorized: image, document, video, audio, file
+### List Clients
+# @name listClients
+GET {{baseUrl}}/api/v1/clients?page=1&per_page=20&type=individual&status=active
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Search Clients
+# @name searchClients
+GET {{baseUrl}}/api/v1/clients/search?q=maria
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Client Stats
+# @name getClientStats
+GET {{baseUrl}}/api/v1/clients/stats
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Recent Clients
+# @name getRecentClients
+GET {{baseUrl}}/api/v1/clients/recent
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Client by ID
+# @name getClientById
+GET {{baseUrl}}/api/v1/clients/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Create Client
+# @name createClient
+POST {{baseUrl}}/api/v1/clients
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "name": "Maria Oliveira Santos",
+  "email": "maria.oliveira@example.com",
+  "phone": "(11) 98765-4321",
+  "document": "123.456.789-00",
+  "type": "individual",
+  "status": "active",
+  "address": {
+    "street": "Rua das Flores",
+    "number": "123",
+    "complement": "Apto 45",
+    "neighborhood": "Jardim Primavera",
+    "city": "São Paulo",
+    "state": "SP",
+    "zip_code": "01234-567"
+  }
+}
+
+### Update Client
+# @name updateClient
+PUT {{baseUrl}}/api/v1/clients/1
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "name": "Maria Oliveira Santos Silva",
+  "phone": "(11) 98765-9999",
+  "status": "inactive"
+}
+
+### Delete Client
+# @name deleteClient
+DELETE {{baseUrl}}/api/v1/clients/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+###############################################################################
+# FOLDER MANAGEMENT ENDPOINTS
+###############################################################################
+
+### List Folders
+# @name listFolders
+GET {{baseUrl}}/api/v1/folders?page=1&per_page=20&status=active&type=civil&priority=high
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Folder Stats
+# @name getFolderStats
+GET {{baseUrl}}/api/v1/folders/stats
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Dashboard Folder Data
+# @name getDashboardFolderData
+GET {{baseUrl}}/api/v1/folders/dashboard
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Consultation Folders
+# @name getConsultationFolders
+GET {{baseUrl}}/api/v1/folders/consultation
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Recent Folder Activity
+# @name getRecentFolderActivity
+GET {{baseUrl}}/api/v1/folders/recent-activity
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Folder by ID
+# @name getFolderById
+GET {{baseUrl}}/api/v1/folders/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Create Folder
+# @name createFolder
+POST {{baseUrl}}/api/v1/folders
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "number": "PROC-2024-001",
+  "title": "Processo Trabalhista - João Silva vs Empresa XYZ",
+  "client_id": 1,
+  "responsible_id": 2,
+  "type": "labor",
+  "status": "active",
+  "priority": "high",
+  "value": 50000.00,
+  "description": "Ação trabalhista referente a horas extras não pagas",
+  "tags": ["urgente", "trabalhista", "horas-extras"]
+}
+
+### Update Folder
+# @name updateFolder
+PUT {{baseUrl}}/api/v1/folders/1
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "title": "Processo Trabalhista - João Silva vs Empresa XYZ (Atualizado)",
+  "status": "suspended",
+  "priority": "medium",
+  "value": 55000.00
+}
+
+### Toggle Folder Favorite
+# @name toggleFolderFavorite
+PATCH {{baseUrl}}/api/v1/folders/1/favorite
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Delete Folder
+# @name deleteFolder
+DELETE {{baseUrl}}/api/v1/folders/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Favorite Folders
+# @name getFavoriteFolders
+GET {{baseUrl}}/api/dashboard/favorite-folders
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Add Folder to Favorites
+# @name addFolderToFavorites
+POST {{baseUrl}}/api/folders/1/favorite/add
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Remove Folder from Favorites
+# @name removeFolderFromFavorites
+DELETE {{baseUrl}}/api/folders/1/favorite
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Check if Folder is Favorite
+# @name checkFolderFavorite
+GET {{baseUrl}}/api/folders/1/favorite/check
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Bulk Toggle Favorites
+# @name bulkToggleFavorites
+POST {{baseUrl}}/api/folders/favorites/bulk
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "folder_ids": [1, 2, 3, 4, 5],
+  "action": "add"
+}
+
+###############################################################################
+# TASK MANAGEMENT ENDPOINTS
+###############################################################################
+
+### List Tasks
+# @name listTasks
+GET {{baseUrl}}/api/v1/tasks?page=1&per_page=20&status=pending&priority=high&assigned_to=1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Dashboard Task Data
+# @name getDashboardTaskData
+GET {{baseUrl}}/api/v1/tasks/dashboard
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Task Stats
+# @name getTaskStats
+GET {{baseUrl}}/api/v1/tasks/stats
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Task by ID
+# @name getTaskById
+GET {{baseUrl}}/api/v1/tasks/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Create Task
+# @name createTask
+POST {{baseUrl}}/api/v1/tasks
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "title": "Preparar petição inicial",
+  "description": "Elaborar petição inicial para o processo trabalhista",
+  "folder_id": 1,
+  "assigned_to": 2,
+  "status": "pending",
+  "priority": "high",
+  "due_date": "2024-12-31T23:59:59Z",
+  "tags": ["petição", "urgente", "trabalhista"]
+}
+
+### Update Task
+# @name updateTask
+PUT {{baseUrl}}/api/v1/tasks/1
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "title": "Preparar petição inicial (Revisada)",
+  "status": "in_progress",
+  "priority": "urgent",
+  "due_date": "2024-12-30T23:59:59Z"
+}
+
+### Update Task Status
+# @name updateTaskStatus
+PATCH {{baseUrl}}/api/v1/tasks/1/status
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "status": "completed"
+}
+
+### Delete Task
+# @name deleteTask
+DELETE {{baseUrl}}/api/v1/tasks/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+###############################################################################
+# HEARING MANAGEMENT ENDPOINTS
+###############################################################################
+
+### List Hearings
+# @name listHearings
+GET {{baseUrl}}/api/v1/hearings?page=1&per_page=20&status=scheduled&type=conciliation&from_date=2024-01-01&to_date=2024-12-31
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Hearing Stats
+# @name getHearingStats
+GET {{baseUrl}}/api/v1/hearings/stats
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Dashboard Hearing Data
+# @name getDashboardHearingData
+GET {{baseUrl}}/api/v1/hearings/dashboard
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Hearing by ID
+# @name getHearingById
+GET {{baseUrl}}/api/v1/hearings/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Create Hearing
+# @name createHearing
+POST {{baseUrl}}/api/v1/hearings
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "title": "Audiência de Conciliação - Processo 2024-001",
+  "folder_id": 1,
+  "type": "conciliation",
+  "location": "Fórum Central - Sala 301",
+  "scheduled_at": "2024-12-15T14:00:00Z",
+  "duration_minutes": 60,
+  "participants": [
+    {
+      "name": "João Silva",
+      "role": "Autor",
+      "email": "joao@example.com"
+    },
+    {
+      "name": "Empresa XYZ",
+      "role": "Réu",
+      "email": "juridico@xyz.com"
+    }
+  ],
+  "notes": "Levar todos os documentos originais"
+}
+
+### Update Hearing
+# @name updateHearing
+PUT {{baseUrl}}/api/v1/hearings/1
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "location": "Fórum Central - Sala 405",
+  "scheduled_at": "2024-12-15T15:00:00Z",
+  "status": "postponed"
+}
+
+### Update Hearing Status
+# @name updateHearingStatus
+PATCH {{baseUrl}}/api/v1/hearings/1/status
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "status": "completed"
+}
+
+### Delete Hearing
+# @name deleteHearing
+DELETE {{baseUrl}}/api/v1/hearings/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+###############################################################################
+# FILE MANAGEMENT ENDPOINTS
+###############################################################################
+
+### Upload Files
+# @name uploadFiles
 POST {{baseUrl}}/api/v1/files/upload
-Authorization: Bearer {{token}}
+Authorization: Bearer {{authToken}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="document.pdf"
+Content-Disposition: form-data; name="files"; filename="document1.pdf"
 Content-Type: application/pdf
 
-< ./document.pdf
-------WebKitFormBoundary7MA4YWxkTrZu0gW--
-
-### Upload Image
-POST {{baseUrl}}/api/v1/files/upload
-Authorization: Bearer {{token}}
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
-
+[Binary PDF content here]
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="photo.jpg"
-Content-Type: image/jpeg
+Content-Disposition: form-data; name="files"; filename="document2.pdf"
+Content-Type: application/pdf
 
-< ./photo.jpg
+[Binary PDF content here]
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="folder_id"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="category"
+
+document
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###############################################################################
-### EXAMPLE RESPONSES
+# AI ENDPOINTS
 ###############################################################################
 
-### Success Response - User Object
-# {
-#   "id": 1,
-#   "full_name": "John Doe",
-#   "email": "john@example.com",
-#   "username": "johndoe",
-#   "created_at": "2024-01-01T00:00:00.000Z",
-#   "updated_at": "2024-01-01T00:00:00.000Z",
-#   "roles": [
-#     {
-#       "id": 1,
-#       "name": "User",
-#       "description": "Regular user role",
-#       "slug": "user",
-#       "created_at": "2024-01-01T00:00:00.000Z",
-#       "updated_at": "2024-01-01T00:00:00.000Z"
-#     }
-#   ]
-# }
+### Analyze Document
+# @name analyzeDocument
+POST {{baseUrl}}/api/v1/ai/analyze-document
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
-### Success Response - Auth Response
-# {
-#   "id": 1,
-#   "full_name": "John Doe",
-#   "email": "john@example.com",
-#   "username": "johndoe",
-#   "created_at": "2024-01-01T00:00:00.000Z",
-#   "updated_at": "2024-01-01T00:00:00.000Z",
-#   "roles": [...],
-#   "auth": {
-#     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-#     "refresh_token": "refresh_token_string"
-#   }
-# }
+{
+  "document_text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Este é um contrato de prestação de serviços...",
+  "analysis_type": "summary"
+}
 
-### Success Response - Paginated List
-# {
-#   "meta": {
-#     "total": 100,
-#     "per_page": 10,
-#     "current_page": 1,
-#     "last_page": 10,
-#     "first_page": 1,
-#     "first_page_url": "/?page=1",
-#     "last_page_url": "/?page=10",
-#     "next_page_url": "/?page=2",
-#     "previous_page_url": null
-#   },
-#   "data": [...]
-# }
+### Generate Document
+# @name generateDocument
+POST {{baseUrl}}/api/v1/ai/generate-document
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
-### Success Response - File Upload
-# {
-#   "url": "https://storage.example.com/files/abc123.pdf",
-#   "clientName": "document.pdf",
-#   "fileCategory": "document",
-#   "fileType": "application/pdf",
-#   "size": 12345,
-#   "extname": "pdf"
-# }
+{
+  "document_type": "petition",
+  "context": "Processo trabalhista sobre horas extras não pagas",
+  "template": "initial_petition"
+}
 
-### Error Response - Validation Error
-# {
-#   "errors": [
-#     {
-#       "message": "The email field must be a valid email",
-#       "field": "email",
-#       "rule": "email"
-#     }
-#   ]
-# }
+### Semantic Search
+# @name semanticSearch
+POST {{baseUrl}}/api/v1/ai/semantic-search
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
 
-### Error Response - Unauthorized
-# {
-#   "errors": [
-#     {
-#       "message": "Unauthorized"
-#     }
-#   ]
-# }
+{
+  "query": "processos sobre direitos trabalhistas",
+  "limit": 10
+}
 
-### Error Response - Not Found
-# {
-#   "errors": [
-#     {
-#       "message": "Resource not found"
-#     }
-#   ]
-# }
+### Extract Entities
+# @name extractEntities
+POST {{baseUrl}}/api/v1/ai/extract-entities
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "text": "João Silva, CPF 123.456.789-00, residente na Rua das Flores, 123, São Paulo-SP"
+}
+
+### Classify Document
+# @name classifyDocument
+POST {{baseUrl}}/api/v1/ai/classify-document
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "document_text": "Contrato de prestação de serviços..."
+}
+
+### Analyze Precatorio
+# @name analyzePrecatorio
+POST {{baseUrl}}/api/v1/ai/analyze-precatorio
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "precatorio_data": {
+    "number": "PREC-2024-001",
+    "value": 100000.00,
+    "description": "Precatório referente ao processo..."
+  }
+}
+
+### Get AI Analysis History
+# @name getAIAnalysisHistory
+GET {{baseUrl}}/api/v1/ai/history
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get AI Usage Stats
+# @name getAIUsageStats
+GET {{baseUrl}}/api/v1/ai/usage-stats
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+###############################################################################
+# DASHBOARD ENDPOINTS
+###############################################################################
+
+### Get Dashboard Page
+# @name getDashboardPage
+GET {{baseUrl}}/dashboard
+Authorization: Bearer {{authToken}}
+Accept: text/html
+
+### Get Complete Dashboard Data
+# @name getCompleteDashboardData
+GET {{baseUrl}}/api/dashboard
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Active Folders Widget
+# @name getActiveFoldersWidget
+GET {{baseUrl}}/api/dashboard/active-folders
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Area Division Widget
+# @name getAreaDivisionWidget
+GET {{baseUrl}}/api/dashboard/area-division
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Folder Activity Widget
+# @name getFolderActivityWidget
+GET {{baseUrl}}/api/dashboard/folder-activity
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Requests Widget
+# @name getRequestsWidget
+GET {{baseUrl}}/api/dashboard/requests
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Billing Widget
+# @name getBillingWidget
+GET {{baseUrl}}/api/dashboard/billing
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Hearings Widget
+# @name getHearingsWidget
+GET {{baseUrl}}/api/dashboard/hearings
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Birthdays Widget
+# @name getBirthdaysWidget
+GET {{baseUrl}}/api/dashboard/birthdays
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Tasks Widget
+# @name getTasksWidget
+GET {{baseUrl}}/api/dashboard/tasks
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+###############################################################################
+# MESSAGE ENDPOINTS
+###############################################################################
+
+### List Messages
+# @name listMessages
+GET {{baseUrl}}/api/messages?page=1&per_page=20&folder=inbox
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Recent Messages
+# @name getRecentMessages
+GET {{baseUrl}}/api/messages/recent
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Unread Message Count
+# @name getUnreadMessageCount
+GET {{baseUrl}}/api/messages/unread-count
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Send Message
+# @name sendMessage
+POST {{baseUrl}}/api/messages
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "to_user_id": 2,
+  "subject": "Reunião sobre processo 2024-001",
+  "content": "Precisamos discutir os próximos passos do processo...",
+  "attachments": []
+}
+
+### Get Message by ID
+# @name getMessageById
+GET {{baseUrl}}/api/messages/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Mark Message as Read
+# @name markMessageAsRead
+PUT {{baseUrl}}/api/messages/1/read
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Mark All Messages as Read
+# @name markAllMessagesAsRead
+PUT {{baseUrl}}/api/messages/read-all
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Delete Message
+# @name deleteMessage
+DELETE {{baseUrl}}/api/messages/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+###############################################################################
+# NOTIFICATION ENDPOINTS
+###############################################################################
+
+### List Notifications
+# @name listNotifications
+GET {{baseUrl}}/api/notifications?page=1&per_page=20&unread_only=true
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Recent Notifications
+# @name getRecentNotifications
+GET {{baseUrl}}/api/notifications/recent
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Unread Notification Count
+# @name getUnreadNotificationCount
+GET {{baseUrl}}/api/notifications/unread-count
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Create Notification
+# @name createNotification
+POST {{baseUrl}}/api/notifications
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "type": "task",
+  "title": "Nova tarefa atribuída",
+  "message": "Você tem uma nova tarefa: Preparar petição inicial",
+  "data": {
+    "task_id": 1,
+    "folder_id": 1
+  }
+}
+
+### Get Notifications by Type
+# @name getNotificationsByType
+GET {{baseUrl}}/api/notifications/type/task
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Get Notification by ID
+# @name getNotificationById
+GET {{baseUrl}}/api/notifications/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Mark Notification as Read
+# @name markNotificationAsRead
+PUT {{baseUrl}}/api/notifications/1/read
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Mark All Notifications as Read
+# @name markAllNotificationsAsRead
+PUT {{baseUrl}}/api/notifications/read-all
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Delete Notification
+# @name deleteNotification
+DELETE {{baseUrl}}/api/notifications/1
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+###############################################################################
+# HEALTH CHECK ENDPOINTS
+###############################################################################
+
+### Basic Health Check
+# @name healthCheck
+GET {{baseUrl}}/health
+Accept: {{accept}}
+
+### Readiness Probe
+# @name readinessProbe
+GET {{baseUrl}}/health/ready
+Accept: {{accept}}
+
+### Liveness Probe
+# @name livenessProbe
+GET {{baseUrl}}/health/live
+Accept: {{accept}}
+
+### Comprehensive Health Check
+# @name comprehensiveHealthCheck
+GET {{baseUrl}}/api/v1/health
+Accept: {{accept}}
+
+###############################################################################
+# PUBLIC ENDPOINTS
+###############################################################################
+
+### Get API Info
+# @name getApiInfo
+GET {{baseUrl}}/
+Accept: {{accept}}
+
+### Get API Metadata
+# @name getApiMetadata
+GET {{baseUrl}}/api
+Accept: {{accept}}
+
+### Get API Documentation (Redoc)
+# @name getApiDocumentation
+GET {{baseUrl}}/docs
+Accept: text/html
+
+### Get OpenAPI Specification
+# @name getOpenApiSpec
+GET {{baseUrl}}/openapi.yaml
+Accept: application/yaml
+
+###############################################################################
+# TESTING & DEBUGGING
+###############################################################################
+
+### Test Authentication Required Endpoint (Should return 401)
+# @name testUnauthorized
+GET {{baseUrl}}/api/v1/users
+Accept: {{accept}}
+
+### Test Invalid Token (Should return 401)
+# @name testInvalidToken
+GET {{baseUrl}}/api/v1/users
+Authorization: Bearer invalid_token_here
+Accept: {{accept}}
+
+### Test Permission Required Endpoint (Should return 403)
+# @name testForbidden
+GET {{baseUrl}}/api/v1/admin/permissions
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Test Not Found (Should return 404)
+# @name testNotFound
+GET {{baseUrl}}/api/v1/users/999999
+Authorization: Bearer {{authToken}}
+Accept: {{accept}}
+
+### Test Validation Error (Should return 422)
+# @name testValidationError
+POST {{baseUrl}}/api/v1/users
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "full_name": "",
+  "email": "invalid-email",
+  "username": "",
+  "password": "123"
+}
+
+### Test Rate Limiting (Run multiple times quickly)
+# @name testRateLimit
+POST {{baseUrl}}/api/v1/sessions/sign-in
+Content-Type: {{contentType}}
+Accept: {{accept}}
+
+{
+  "email": "test@example.com",
+  "password": "password"
+}
+
+###############################################################################
+# NOTES & TIPS
+###############################################################################
+#
+# 1. Install REST Client Extension:
+#    - VS Code: Install "REST Client" extension by Huachao Mao
+#    - IntelliJ IDEA: Built-in HTTP Client support
+#    - Sublime Text: Install "HTTP Client" package
+#
+# 2. Usage:
+#    - Click "Send Request" above each request to execute
+#    - Use Ctrl+Alt+R (Cmd+Alt+R on Mac) to send current request
+#    - Named requests (@name) can be referenced for chaining
+#
+# 3. Authentication Flow:
+#    a. Execute the "signIn" request first
+#    b. Copy the access_token from response
+#    c. Replace @authToken variable at the top of this file
+#    d. All authenticated requests will now work
+#
+# 4. Environment Variables:
+#    - Create a .env file or settings.json for different environments
+#    - Override @baseUrl for production/staging testing
+#
+# 5. File Uploads:
+#    - For file upload endpoints, replace [Binary content] with actual files
+#    - Most clients support selecting files through UI
+#
+# 6. Testing Tips:
+#    - Use the test endpoints at the bottom to verify error handling
+#    - Check rate limiting by running the same request multiple times
+#    - Test pagination by changing page and per_page parameters
+#
+# 7. Common Issues:
+#    - 401 Unauthorized: Token expired or invalid - re-authenticate
+#    - 403 Forbidden: User lacks required permissions
+#    - 422 Validation Error: Check request body format
+#    - 429 Too Many Requests: Rate limit exceeded - wait before retrying
+#
+###############################################################################
