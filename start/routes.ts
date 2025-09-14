@@ -64,8 +64,10 @@ router.post('/logout', [AuthController, 'logout']).as('auth.logout').use(middlew
 // Dashboard routes (protected)
 const DashboardController = () => import('#modules/dashboard/controllers/dashboard_controller')
 const MessagesController = () => import('#modules/message/controllers/messages_controller')
-const NotificationsController = () => import('#modules/notification/controllers/notifications_controller')
-const FolderFavoritesController = () => import('#modules/folder/controllers/folder_favorites_controller')
+const NotificationsController = () =>
+  import('#modules/notification/controllers/notifications_controller')
+const FolderFavoritesController = () =>
+  import('#modules/folder/controllers/folder_favorites_controller')
 
 router
   .group(() => {
