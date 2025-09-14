@@ -28,6 +28,129 @@ info:
     - **Usage**: Include `Authorization: Bearer <token>` in headers
     - **Lifetime**: Access token: 1 hour, Refresh token: 3 days
 
+    #### Postman Integration
+
+    To automatically capture and store authentication tokens in Postman, add the following Post-Script to your login request:
+
+    ```javascript
+    // Postman Post-Script to capture tokens from response
+
+    // Check if request was successful
+    if (pm.response.code === 200 || pm.response.code === 201) {
+
+        // Get response body as JSON
+        const responseJson = pm.response.json();
+
+        // Capture tokens from auth object
+        if (responseJson.auth) {
+            // Capture access token
+            if (responseJson.auth.access_token) {
+                pm.environment.set("accessToken", responseJson.auth.access_token);
+                pm.environment.set("bearerToken", responseJson.auth.access_token);
+                pm.collectionVariables.set("accessToken", responseJson.auth.access_token);
+                pm.collectionVariables.set("bearerToken", responseJson.auth.access_token);
+                console.log("Access Token saved:", responseJson.auth.access_token);
+            }
+
+            // Capture refresh token
+            if (responseJson.auth.refresh_token) {
+                pm.environment.set("refreshToken", responseJson.auth.refresh_token);
+                pm.collectionVariables.set("refreshToken", responseJson.auth.refresh_token);
+                console.log("Refresh Token saved:", responseJson.auth.refresh_token);
+            }
+        }
+
+        // Capture user information
+        if (responseJson.id) {
+            pm.environment.set("userId", responseJson.id);
+        }
+
+        if (responseJson.email) {
+            pm.environment.set("userEmail", responseJson.email);
+        }
+
+        if (responseJson.username) {
+            pm.environment.set("username", responseJson.username);
+        }
+
+        if (responseJson.full_name) {
+            pm.environment.set("userFullName", responseJson.full_name);
+        }
+
+        // Capture roles/permissions information
+        if (responseJson.roles && responseJson.roles.length > 0) {
+            // Save first role
+            pm.environment.set("userRole", responseJson.roles[0].name);
+            pm.environment.set("userRoleSlug", responseJson.roles[0].slug);
+
+            // Save all roles as JSON string
+            const roleNames = responseJson.roles.map(role => role.name).join(', ');
+            pm.environment.set("userRoles", roleNames);
+        }
+
+        // Capture metadata
+        if (responseJson.metadata) {
+            pm.environment.set("emailVerified", responseJson.metadata.email_verified);
+
+            if (responseJson.metadata.email_verified_at) {
+                pm.environment.set("emailVerifiedAt", responseJson.metadata.email_verified_at);
+            }
+        }
+
+        console.log("Login successful!");
+        console.log("User:", responseJson.full_name);
+        console.log("Email:", responseJson.email);
+        console.log("Role:", responseJson.roles[0]?.name);
+        console.log("Bearer Token configured!");
+
+    } else {
+        console.error("Authentication failed. Status:", pm.response.code);
+        console.error("Response:", pm.response.text());
+    }
+
+    // Tests to validate response
+    pm.test("Login successful", function () {
+        pm.response.to.have.status(200);
+    });
+
+    pm.test("Tokens received", function () {
+        const responseJson = pm.response.json();
+        pm.expect(responseJson).to.have.property('auth');
+        pm.expect(responseJson.auth).to.have.property('access_token');
+        pm.expect(responseJson.auth).to.have.property('refresh_token');
+    });
+
+    pm.test("User information received", function () {
+        const responseJson = pm.response.json();
+        pm.expect(responseJson).to.have.property('id');
+        pm.expect(responseJson).to.have.property('email');
+        pm.expect(responseJson).to.have.property('roles');
+    });
+
+    pm.test("Bearer Token configured", function () {
+        pm.expect(pm.environment.get("bearerToken")).to.not.be.undefined;
+        pm.expect(pm.environment.get("accessToken")).to.not.be.undefined;
+    });
+    ```
+
+    **Environment Variables Set by Script:**
+    - `accessToken` / `bearerToken`: JWT access token for API authentication
+    - `refreshToken`: JWT refresh token for token renewal
+    - `userId`: User's unique identifier
+    - `userEmail`: User's email address
+    - `username`: User's username
+    - `userFullName`: User's full name
+    - `userRole` / `userRoleSlug`: Primary user role
+    - `userRoles`: Comma-separated list of all user roles
+    - `emailVerified`: Email verification status
+    - `emailVerifiedAt`: Email verification timestamp
+
+    **Usage in Subsequent Requests:**
+    After running the login request with this script, use `{{bearerToken}}` in the Authorization header:
+    ```
+    Authorization: Bearer {{bearerToken}}
+    ```
+
     ### 2. Session Authentication (Web Access)
     - **Login**: POST to `/login` with credentials
     - **Session**: Cookie-based session management
