@@ -1,70 +1,134 @@
 openapi: 3.1.0
 info:
-  title: Yol Benício API
-  version: 1.0.0
+  title: Yol Benício Legal Management API
+  version: 2.0.0
   description: |
-    ## Welcome to Yol Benício API
+    ## Welcome to Yol Benício Legal Management System API
 
-    A comprehensive legal management system API built with AdonisJS v6. This API provides robust functionality for managing legal processes, clients, schedules, billing and user access control.
+    A comprehensive legal management system API built with AdonisJS v6. This API provides robust functionality for managing legal processes, clients, folders, hearings, tasks, schedules, billing and user access control.
 
     ### Key Features
 
-    - **JWT Authentication**: Secure token-based authentication with refresh tokens
-    - **Role-Based Access Control**: Fine-grained permissions with multiple user roles
-    - **User Management**: Complete CRUD operations for user accounts
-    - **File Management**: Secure file upload with automatic categorization
-    - **Health Monitoring**: Built-in health check endpoints
+    - **JWT & Session Authentication**: Dual authentication system for API and web access
+    - **Role-Based Access Control (RBAC)**: Fine-grained permissions with role inheritance
+    - **Legal Process Management**: Complete folder, hearing, and task management
+    - **Client Management**: Comprehensive client data and relationship management
+    - **AI Integration**: Document analysis, generation, and semantic search capabilities
+    - **Real-time Features**: Dashboard widgets, messages, and notifications
+    - **File Management**: Secure file upload with cloud storage support
+    - **Health Monitoring**: Built-in health check and readiness endpoints
 
     ## Authentication
 
-    The API uses JWT Bearer authentication. To access protected endpoints:
+    The API supports two authentication methods:
 
-    1. **Login**: POST to `/api/v1/sessions/sign-in` with your credentials
-    2. **Get Token**: Extract the `access_token` from the response
-    3. **Use Token**: Include `Authorization: Bearer <token>` in all requests
+    ### 1. JWT Authentication (API Access)
+    - **Login**: POST to `/api/v1/sessions/sign-in` with credentials
+    - **Token**: Extract `access_token` from response
+    - **Usage**: Include `Authorization: Bearer <token>` in headers
+    - **Lifetime**: Access token: 1 hour, Refresh token: 3 days
 
-    ### Token Management
+    ### 2. Session Authentication (Web Access)
+    - **Login**: POST to `/login` with credentials
+    - **Session**: Cookie-based session management
+    - **Usage**: Automatically handled by browser
 
-    - **Access Token Lifetime**: 1 hour
-    - **Refresh Token Lifetime**: 3 days
-    - **Token Format**: JWT Bearer token
+    ## Permission System
+
+    The API uses a sophisticated RBAC system with the following format:
+    - **Pattern**: `resource.action` (e.g., `users.read`, `folders.create`)
+    - **Resources**: users, roles, permissions, clients, folders, tasks, hearings, files
+    - **Actions**: list, read, create, update, delete
+    - **Special Roles**: ROOT (full access), ADMIN (administrative access)
+
+    ## Rate Limiting
+
+    Different rate limits apply to different endpoint groups:
+    - **Auth Endpoints**: 5 requests per minute
+    - **Upload Endpoints**: 10 requests per hour
+    - **API Endpoints**: 60 requests per minute
+    - **Public Endpoints**: 30 requests per minute
 
     ## API Conventions
 
     ### Request Format
-    - **Content-Type**: `application/json` for all requests (except file uploads)
-    - **Pagination**: Use `?page=1&per_page=10` query parameters (Users endpoints). Some admin endpoints (e.g., Roles) use `perPage`.
-    - **Sorting**: Use `?sort_by=field&order=asc` or `?sort_by=field&order=desc` (Users endpoints). Some admin endpoints (e.g., Roles) use `sortBy`.
-    - **Searching**: Use `?search=term` for text search
+    - **Content-Type**: `application/json` (except file uploads: `multipart/form-data`)
+    - **Pagination**: `?page=1&per_page=20` or `?page=1&perPage=20`
+    - **Sorting**: `?sort_by=field&order=asc|desc` or `?sortBy=field&order=asc|desc`
+    - **Searching**: `?search=term` for text search
+    - **Filtering**: `?status=active&type=legal` for field filters
 
     ### Response Format
     - **Success**: HTTP 2xx with JSON body
     - **Errors**: HTTP 4xx/5xx with standardized error format
-    - **Timestamps**: ISO 8601 format
+    - **Timestamps**: ISO 8601 format (e.g., `2024-01-01T00:00:00.000Z`)
     - **Database Fields**: snake_case naming convention
+    - **Pagination Meta**: Included in list responses
 
-    ### Common Headers
-    ```
-    Authorization: Bearer <token>
-    Content-Type: application/json
-    Accept: application/json
+    ### Error Response Format
+    ```json
+    {
+      "errors": [
+        {
+          "message": "Error description",
+          "field": "field_name",
+          "rule": "validation_rule"
+        }
+      ]
+    }
     ```
 
   contact:
-    name: API Support
-    email: support@example.com
+    name: Yol Benício Support
+    email: support@yolbenicio.com
   license:
-    name: MIT
-    url: https://opensource.org/licenses/MIT
+    name: Proprietary
+    url: https://yolbenicio.com/license
 
 servers:
-  - url: http://127.0.0.1:3333
-    description: Local development server
-  - url: https://api.yourdomain.com
+  - url: https://api.yolbenicio.com
     description: Production server
+  - url: https://staging-api.yolbenicio.com
+    description: Staging server
+  - url: http://localhost:3333
+    description: Local development server
+  - url: http://127.0.0.1:3333
+    description: Alternative local server
 
 security:
   - bearerAuth: []
+
+tags:
+  - name: Authentication
+    description: User authentication and session management
+  - name: Users
+    description: User account management
+  - name: Profile
+    description: Current user profile and settings
+  - name: Roles
+    description: Role management (Admin only)
+  - name: Permissions
+    description: Permission management (Admin only)
+  - name: Clients
+    description: Client management
+  - name: Folders
+    description: Legal folder/case management
+  - name: Tasks
+    description: Task and to-do management
+  - name: Hearings
+    description: Hearing and appointment management
+  - name: Files
+    description: File upload and management
+  - name: AI
+    description: AI-powered document analysis and generation
+  - name: Dashboard
+    description: Dashboard widgets and analytics
+  - name: Messages
+    description: Internal messaging system
+  - name: Notifications
+    description: System notifications
+  - name: Health
+    description: System health monitoring
 
 components:
   securitySchemes:
@@ -73,6 +137,57 @@ components:
       scheme: bearer
       bearerFormat: JWT
       description: JWT authentication token
+
+  parameters:
+    pageParam:
+      in: query
+      name: page
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for pagination
+
+    perPageParam:
+      in: query
+      name: per_page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      description: Items per page
+
+    searchParam:
+      in: query
+      name: search
+      schema:
+        type: string
+      description: Search term
+
+    sortByParam:
+      in: query
+      name: sort_by
+      schema:
+        type: string
+      description: Field to sort by
+
+    orderParam:
+      in: query
+      name: order
+      schema:
+        type: string
+        enum: [asc, desc]
+        default: asc
+      description: Sort order
+
+    idParam:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+      description: Resource ID
 
   schemas:
     User:
@@ -83,26 +198,26 @@ components:
           example: 1
         full_name:
           type: string
-          example: 'John Doe'
+          example: 'João Silva'
         email:
           type: string
           format: email
-          example: 'john@example.com'
+          example: 'joao@yolbenicio.com'
         username:
           type: string
-          example: 'johndoe'
+          example: 'joaosilva'
+        email_verified_at:
+          type: ['string', 'null']
+          format: date-time
+        is_active:
+          type: boolean
+          example: true
         created_at:
           type: string
           format: date-time
-          example: '2024-01-01T00:00:00.000Z'
         updated_at:
           type: string
           format: date-time
-          example: '2024-01-01T00:00:00.000Z'
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
 
     Role:
       type: object
@@ -112,403 +227,329 @@ components:
           example: 1
         name:
           type: string
-          example: 'User'
+          example: 'admin'
         description:
           type: string
-          example: 'Regular user role'
-        slug:
-          type: string
-          enum: [root, admin, user, guest]
-          example: 'user'
+          example: 'System Administrator'
+        is_active:
+          type: boolean
+          example: true
         created_at:
           type: string
           format: date-time
-        updated_at:
-          type: string
-          format: date-time
 
-    AuthResponse:
+    Permission:
       type: object
       properties:
         id:
           type: integer
-        full_name:
+          example: 1
+        name:
           type: string
+          example: 'users.read'
+        description:
+          type: string
+          example: 'Can read user data'
+        resource:
+          type: string
+          example: 'users'
+        action:
+          type: string
+          example: 'read'
+
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: 'Maria Santos'
         email:
           type: string
           format: email
-        username:
+        phone:
           type: string
+          example: '(11) 98765-4321'
+        document:
+          type: string
+          example: '123.456.789-00'
+        type:
+          type: string
+          enum: [individual, company]
+        status:
+          type: string
+          enum: [active, inactive]
+        address:
+          type: object
+          properties:
+            street:
+              type: string
+            number:
+              type: string
+            complement:
+              type: string
+            neighborhood:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip_code:
+              type: string
         created_at:
           type: string
           format: date-time
-        updated_at:
+
+    Folder:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        number:
           type: string
-          format: date-time
-        roles:
+          example: 'PROC-2024-001'
+        title:
+          type: string
+          example: 'Processo Trabalhista - João Silva'
+        client_id:
+          type: integer
+        responsible_id:
+          type: integer
+        type:
+          type: string
+          enum: [civil, criminal, labor, tax, administrative]
+        status:
+          type: string
+          enum: [active, archived, suspended, concluded]
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+        value:
+          type: number
+          format: float
+          example: 50000.00
+        description:
+          type: string
+        tags:
           type: array
           items:
-            $ref: '#/components/schemas/Role'
-        auth:
+            type: string
+        metadata:
           type: object
-          properties:
-            access_token:
-              type: string
-              example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-            refresh_token:
-              type: string
-              example: 'refresh_token_string'
+        is_favorite:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          example: 'Preparar petição inicial'
+        description:
+          type: string
+        folder_id:
+          type: ['integer', 'null']
+        assigned_to:
+          type: integer
+        created_by:
+          type: integer
+        status:
+          type: string
+          enum: [pending, in_progress, completed, cancelled]
+        priority:
+          type: string
+          enum: [low, medium, high, urgent]
+        due_date:
+          type: string
+          format: date-time
+        completed_at:
+          type: ['string', 'null']
+          format: date-time
+        tags:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+
+    Hearing:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          example: 'Audiência de Conciliação'
+        folder_id:
+          type: integer
+        type:
+          type: string
+          enum: [conciliation, instruction, judgment, other]
+        location:
+          type: string
+          example: 'Fórum Central - Sala 301'
+        scheduled_at:
+          type: string
+          format: date-time
+        duration_minutes:
+          type: integer
+          example: 60
+        status:
+          type: string
+          enum: [scheduled, completed, cancelled, postponed]
+        participants:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              role:
+                type: string
+              email:
+                type: string
+        notes:
+          type: string
+        reminder_sent:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+        from_user_id:
+          type: integer
+        to_user_id:
+          type: integer
+        subject:
+          type: string
+        content:
+          type: string
+        is_read:
+          type: boolean
+        read_at:
+          type: ['string', 'null']
+          format: date-time
+        attachments:
+          type: array
+          items:
+            type: object
+        created_at:
+          type: string
+          format: date-time
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        type:
+          type: string
+          enum: [info, warning, error, success, task, hearing, deadline]
+        title:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+        is_read:
+          type: boolean
+        read_at:
+          type: ['string', 'null']
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+
+    AIAnalysis:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [document_analysis, entity_extraction, classification, semantic_search, generation]
+        input:
+          type: object
+        output:
+          type: object
+        model:
+          type: string
+        tokens_used:
+          type: integer
+        processing_time_ms:
+          type: integer
+        status:
+          type: string
+          enum: [pending, processing, completed, failed]
+        error:
+          type: ['string', 'null']
+        created_at:
+          type: string
+          format: date-time
+
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 100
+        per_page:
+          type: integer
+          example: 20
+        current_page:
+          type: integer
+          example: 1
+        last_page:
+          type: integer
+          example: 5
+        first_page:
+          type: integer
+          example: 1
+        first_page_url:
+          type: string
+        last_page_url:
+          type: string
+        next_page_url:
+          type: ['string', 'null']
+        previous_page_url:
+          type: ['string', 'null']
 
     Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Validation error'
+        field:
+          type: string
+          example: 'email'
+        rule:
+          type: string
+          example: 'required'
+
+    ErrorResponse:
       type: object
       properties:
         errors:
           type: array
           items:
-            type: object
-            properties:
-              message:
-                type: string
-                example: 'Validation error'
-              field:
-                type: string
-                example: 'email'
-              rule:
-                type: string
-                example: 'email'
-
-    Pagination:
-      type: object
-      properties:
-        meta:
-          type: object
-          properties:
-            total:
-              type: integer
-              example: 100
-            per_page:
-              type: integer
-              example: 10
-            current_page:
-              type: integer
-              example: 1
-            last_page:
-              type: integer
-              example: 10
-            first_page:
-              type: integer
-              example: 1
-            first_page_url:
-              type: string
-              example: '/?page=1'
-            last_page_url:
-              type: string
-              example: '/?page=10'
-            next_page_url:
-              type: string
-              example: '/?page=2'
-            previous_page_url:
-              type: string
-              example: null
-
-    FileUploadResponse:
-      type: object
-      properties:
-        url:
-          type: string
-          example: 'https://storage.example.com/files/abc123.pdf'
-        clientName:
-          type: string
-          example: 'document.pdf'
-        fileCategory:
-          type: string
-          enum: [image, document, video, audio, file]
-          example: 'document'
-        fileType:
-          type: string
-          example: 'application/pdf'
-        size:
-          type: integer
-          example: 12345
-        extname:
-          type: string
-          example: 'pdf'
-
-    # Dashboard Schemas
-    DashboardActiveFolders:
-      type: object
-      properties:
-        active:
-          type: integer
-          description: Number of active folders
-          example: 420
-        newThisMonth:
-          type: integer
-          description: Number of new folders created this month
-          example: 98
-        history:
-          type: array
-          description: Historical data for the last months
-          items:
-            type: object
-            properties:
-              month:
-                type: string
-                description: Month abbreviation
-                example: 'Jan'
-              value:
-                type: integer
-                description: Number of folders in that month
-                example: 380
-
-    DashboardAreaDivision:
-      type: array
-      description: Legal area division statistics
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-            description: Area name
-            example: 'Trabalhista'
-          value:
-            type: integer
-            description: Percentage value
-            example: 40
-          color:
-            type: string
-            description: Chart color in hex format
-            example: '#10B981'
-
-    DashboardFolderActivity:
-      type: array
-      description: Folder activity statistics
-      items:
-        type: object
-        properties:
-          label:
-            type: string
-            description: Activity status label
-            example: 'EM ANDAMENTO'
-          value:
-            type: integer
-            description: Number of folders in this status
-            example: 420
-          color:
-            type: string
-            description: Chart color in hex format
-            example: '#F59E0B'
-          percentage:
-            type: integer
-            description: Percentage of total folders
-            example: 50
-
-    DashboardRequests:
-      type: object
-      properties:
-        new:
-          type: integer
-          description: Number of new requests
-          example: 6
-        percentage:
-          type: integer
-          description: Growth percentage compared to previous period
-          example: 62
-        history:
-          type: array
-          description: Historical data for requests
-          items:
-            type: object
-            properties:
-              month:
-                type: string
-                description: Month abbreviation
-                example: 'Jan'
-              value:
-                type: integer
-                description: Number of requests in that month
-                example: 17
-
-    DashboardBilling:
-      type: object
-      properties:
-        value:
-          type: string
-          description: Formatted billing value in Brazilian currency
-          example: 'R$ 89.980'
-        percentage:
-          type: string
-          description: Growth percentage as string
-          example: '8.2'
-        chart:
-          type: array
-          description: Chart data for billing visualization
-          items:
-            type: object
-            properties:
-              pv:
-                type: integer
-                description: Present value for chart point
-                example: 80000
-
-    DashboardHearings:
-      type: array
-      description: Hearings and deadlines statistics
-      items:
-        type: object
-        properties:
-          label:
-            type: string
-            description: Type of hearing or deadline
-            example: 'Audiências'
-          percentage:
-            type: integer
-            description: Completion percentage
-            example: 75
-          total:
-            type: integer
-            description: Total number of items
-            example: 12
-          completed:
-            type: integer
-            description: Number of completed items
-            example: 9
-          color:
-            type: string
-            description: Chart color in hex format
-            example: '#10B981'
-          date:
-            type: string
-            format: date-time
-            description: Next scheduled date
-            example: '2024-01-15T10:00:00.000Z'
-
-    DashboardBirthdays:
-      type: array
-      description: Today's birthdays
-      items:
-        type: object
-        properties:
-          avatar:
-            type: string
-            format: uri
-            description: Avatar URL
-            example: 'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortCurly'
-          name:
-            type: string
-            description: Person's full name
-            example: 'Maria Silva'
-          email:
-            type: string
-            format: email
-            description: Person's email address
-            example: 'maria.silva@benicio.com.br'
-
-    DashboardTasks:
-      type: array
-      description: Recent tasks list
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-            description: Task ID
-            example: 1
-          title:
-            type: string
-            description: Task title
-            example: 'Agendamento do processo 7845'
-          category:
-            type: string
-            description: Task category
-            example: 'Física'
-          completed:
-            type: boolean
-            description: Whether the task is completed
-            example: true
-
-    DashboardData:
-      type: object
-      description: Complete dashboard data with all widgets
-      properties:
-        activeFolders:
-          $ref: '#/components/schemas/DashboardActiveFolders'
-        areaDivision:
-          $ref: '#/components/schemas/DashboardAreaDivision'
-        folderActivity:
-          $ref: '#/components/schemas/DashboardFolderActivity'
-        requests:
-          $ref: '#/components/schemas/DashboardRequests'
-        billing:
-          $ref: '#/components/schemas/DashboardBilling'
-        hearings:
-          $ref: '#/components/schemas/DashboardHearings'
-        birthdays:
-          $ref: '#/components/schemas/DashboardBirthdays'
-        tasks:
-          $ref: '#/components/schemas/DashboardTasks'
-
-  parameters:
-    pathId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: Resource ID
-
-    pageParam:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-        minimum: 1
-      description: Page number for pagination
-
-    perPageParam:
-      name: perPage
-      in: query
-      schema:
-        type: integer
-        default: 10
-        minimum: 1
-        maximum: 100
-      description: Number of items per page
-
-    per_pageParam:
-      name: per_page
-      in: query
-      schema:
-        type: integer
-        default: 10
-        minimum: 1
-        maximum: 100
-      description: Number of items per page (snake_case)
-
-    sort_byParam:
-      name: sort_by
-      in: query
-      schema:
-        type: string
-        default: id
-      description: Field to sort by (snake_case)
-
-    orderParam:
-      name: order
-      in: query
-      schema:
-        type: string
-        enum: [asc, desc]
-        default: asc
-      description: Sort order
-
-    searchParam:
-      name: search
-      in: query
-      schema:
-        type: string
-      description: Search term for filtering results
+            $ref: '#/components/schemas/Error'
 
   responses:
     UnauthorizedError:
@@ -516,27 +557,27 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/ErrorResponse'
           example:
             errors:
-              - message: 'Unauthorized'
+              - message: 'Unauthorized access'
 
     ForbiddenError:
       description: Insufficient permissions
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/ErrorResponse'
           example:
             errors:
-              - message: 'Forbidden'
+              - message: 'Insufficient permissions'
 
     NotFoundError:
       description: Resource not found
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: '#/components/schemas/ErrorResponse'
           example:
             errors:
               - message: 'Resource not found'
@@ -546,368 +587,21 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
-
-    InternalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: 'Internal server error'
-
-tags:
-  - name: Health
-    description: System health monitoring endpoints
-  - name: Authentication
-    description: User authentication and session management
-  - name: Users
-    description: User management operations
-  - name: Roles
-    description: Role management operations (admin only)
-  - name: Files
-    description: File upload and management
-  - name: Profile
-    description: Current user profile operations
-  - name: Permissions
-    description: Permission management operations (admin only)
-  - name: Dashboard
-    description: Dashboard widgets and analytics data endpoints
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            errors:
+              - message: 'The email field must be a valid email'
+                field: 'email'
+                rule: 'email'
 
 paths:
-  /api:
-    get:
-      operationId: getApiInfo
-      summary: Get API information
-      description: Returns basic information about the API
-      tags:
-        - Health
-      security: []
-      responses:
-        '200':
-          description: API information
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    example: 'yol-benicio-api'
-                  description:
-                    type: string
-                    example: 'Yol Benício Legal Management System - API built with AdonisJS.'
-                  version:
-                    type: string
-                    example: '0.0.1'
-                  author:
-                    type: string
-                    example: 'Gabriel M.'
-                  contributors:
-                    type: array
-                    items:
-                      type: string
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  /api/v1/health:
-    get:
-      operationId: healthCheck
-      summary: Health check
-      description: Check the health status of the API and its services
-      tags:
-        - Health
-      security: []
-      responses:
-        '200':
-          description: Service is healthy
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  healthy:
-                    type: boolean
-                    example: true
-                  services:
-                    type: object
-                    properties:
-                      database:
-                        type: object
-                        properties:
-                          healthy:
-                            type: boolean
-                            example: true
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '503':
-          description: Service unhealthy
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  healthy:
-                    type: boolean
-                    example: false
-                  services:
-                    type: object
-
-  /api/dashboard:
-    get:
-      operationId: getDashboardData
-      summary: Get complete dashboard data
-      description: |
-        Retrieve all dashboard widgets data in a single request. This endpoint combines all dashboard statistics including active folders, area division, folder activity, requests, billing, hearings, birthdays, and tasks.
-
-        **Use Case**: Primary endpoint for loading the complete dashboard view with all widgets at once.
-
-        **Performance**: Optimized with parallel data fetching using Promise.all()
-      tags:
-        - Dashboard
-      responses:
-        '200':
-          description: Dashboard data retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DashboardData'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
-  /api/dashboard/active-folders:
-    get:
-      operationId: getDashboardActiveFolders
-      summary: Get active folders statistics
-      description: |
-        Retrieve statistics about active legal folders including current count, new folders this month, and historical data.
-
-        **Metrics**:
-        - Total active folders count
-        - New folders created this month
-        - Monthly history for trend analysis
-
-        **Data Source**: Real-time data from folders table
-      tags:
-        - Dashboard
-      responses:
-        '200':
-          description: Active folders statistics retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DashboardActiveFolders'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
-  /api/dashboard/area-division:
-    get:
-      operationId: getDashboardAreaDivision
-      summary: Get legal area division statistics
-      description: |
-        Retrieve the distribution of legal cases across different practice areas.
-
-        **Areas Covered**:
-        - Trabalhista (Labor Law)
-        - Penal (Criminal Law)
-        - Cível (Civil Law)
-        - Cível Contencioso (Civil Litigation)
-
-        **Data Source**: Materialized view `vw_dashboard_area_division`
-      tags:
-        - Dashboard
-      responses:
-        '200':
-          description: Area division statistics retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DashboardAreaDivision'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
-  /api/dashboard/folder-activity:
-    get:
-      operationId: getDashboardFolderActivity
-      summary: Get folder activity statistics
-      description: |
-        Retrieve statistics about folder status distribution and activity levels.
-
-        **Status Categories**:
-        - EM ANDAMENTO (In Progress)
-        - ATRASADAS (Delayed)
-        - SOLUCIONADAS (Resolved)
-
-        **Data Source**: Materialized view `mv_dashboard_folder_activity`
-      tags:
-        - Dashboard
-      responses:
-        '200':
-          description: Folder activity statistics retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DashboardFolderActivity'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
-  /api/dashboard/requests:
-    get:
-      operationId: getDashboardRequests
-      summary: Get requests statistics
-      description: |
-        Retrieve statistics about client requests and service inquiries.
-
-        **Metrics**:
-        - New requests count
-        - Growth percentage compared to previous period
-        - Monthly history for trend analysis
-
-        **Data Source**: Materialized view `mv_dashboard_requests`
-      tags:
-        - Dashboard
-      responses:
-        '200':
-          description: Requests statistics retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DashboardRequests'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
-  /api/dashboard/billing:
-    get:
-      operationId: getDashboardBilling
-      summary: Get billing statistics
-      description: |
-        Retrieve financial and billing statistics including revenue totals and growth metrics.
-
-        **Metrics**:
-        - Current period total billing
-        - Growth percentage
-        - Historical chart data for trend visualization
-
-        **Currency**: Values formatted in Brazilian Real (R$)
-        **Data Source**: Materialized view `mv_dashboard_billing`
-      tags:
-        - Dashboard
-      responses:
-        '200':
-          description: Billing statistics retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DashboardBilling'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
-  /api/dashboard/hearings:
-    get:
-      operationId: getDashboardHearings
-      summary: Get hearings and deadlines statistics
-      description: |
-        Retrieve statistics about upcoming hearings and legal deadlines.
-
-        **Categories**:
-        - Audiências (Court Hearings)
-        - Prazos processuais (Procedural Deadlines)
-        - Prazos administrativos (Administrative Deadlines)
-
-        **Metrics**: Completion percentages, totals, and next scheduled dates
-      tags:
-        - Dashboard
-      responses:
-        '200':
-          description: Hearings statistics retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DashboardHearings'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
-  /api/dashboard/birthdays:
-    get:
-      operationId: getDashboardBirthdays
-      summary: Get today's birthdays
-      description: |
-        Retrieve a list of team members and clients celebrating birthdays today.
-
-        **Purpose**: Team engagement and client relationship management
-        **Data**: Avatar, name, and email for each birthday person
-        **Update Frequency**: Daily
-      tags:
-        - Dashboard
-      responses:
-        '200':
-          description: Today's birthdays retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DashboardBirthdays'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
-  /api/dashboard/tasks:
-    get:
-      operationId: getDashboardTasks
-      summary: Get tasks statistics
-      description: |
-        Retrieve recent tasks and task completion statistics for dashboard display.
-
-        **Data**: List of most recent tasks with completion status
-        **Limit**: 5 most recent tasks
-        **Source**: Real-time data from tasks table with fallback to reference data
-        **Task States**: Completed/Incomplete status tracking
-      tags:
-        - Dashboard
-      responses:
-        '200':
-          description: Tasks statistics retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DashboardTasks'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-
+  # Authentication Endpoints
   /api/v1/sessions/sign-in:
     post:
       operationId: signIn
-      summary: User login
-      description: Authenticate a user and receive JWT tokens
-      tags:
-        - Authentication
+      tags: [Authentication]
+      summary: User sign in
+      description: Authenticate user and receive JWT tokens
       security: []
       requestBody:
         required: true
@@ -915,48 +609,106 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-                - uid
-                - password
+              required: [email, password]
               properties:
-                uid:
+                email:
                   type: string
-                  description: Email or username
-                  example: 'john@example.com'
+                  format: email
+                  example: 'user@example.com'
                 password:
                   type: string
                   format: password
-                  minLength: 6
-                  example: 'password123'
+                  example: 'SecurePass123!'
       responses:
         '200':
-          description: Login successful
+          description: Successful authentication
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthResponse'
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  access_token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIs...'
+                  refresh_token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIs...'
         '401':
-          description: Invalid credentials
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                errors:
-                  - message: 'Invalid credentials'
+          $ref: '#/components/responses/UnauthorizedError'
         '422':
           $ref: '#/components/responses/ValidationError'
 
-  /api/v1/me:
-    get:
-      operationId: getProfile
-      summary: Get current user profile
-      description: Retrieve the profile of the currently authenticated user
-      tags:
-        - Profile
+  /api/v1/sessions/sign-up:
+    post:
+      operationId: signUp
+      tags: [Authentication]
+      summary: User registration
+      description: Create a new user account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [full_name, email, username, password]
+              properties:
+                full_name:
+                  type: string
+                  example: 'João Silva'
+                email:
+                  type: string
+                  format: email
+                  example: 'joao@example.com'
+                username:
+                  type: string
+                  example: 'joaosilva'
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+                  example: 'SecurePass123!'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  access_token:
+                    type: string
+                  refresh_token:
+                    type: string
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /logout:
+    post:
+      operationId: logout
+      tags: [Authentication]
+      summary: User logout
+      description: Invalidate current session/token
       responses:
         '200':
-          description: Profile retrieved successfully
+          description: Successfully logged out
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  # User Profile Endpoints
+  /api/v1/me:
+    get:
+      operationId: getCurrentUser
+      tags: [Profile]
+      summary: Get current user profile
+      description: Returns the authenticated user's profile information
+      responses:
+        '200':
+          description: User profile
           content:
             application/json:
               schema:
@@ -966,180 +718,84 @@ paths:
 
   /api/v1/me/permissions:
     get:
-      operationId: getMyPermissions
+      operationId: getCurrentUserPermissions
+      tags: [Profile]
       summary: Get current user permissions
-      description: Retrieve the permissions of the currently authenticated user
-      tags:
-        - Profile
+      description: Returns all permissions assigned to the authenticated user
       responses:
         '200':
-          description: Permissions retrieved successfully
+          description: User permissions list
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  permissions:
-                    type: array
-                    items:
-                      type: string
-                      example: 'users.create'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Permission'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
   /api/v1/me/roles:
     get:
-      operationId: getMyRoles
+      operationId: getCurrentUserRoles
+      tags: [Profile]
       summary: Get current user roles
-      description: Retrieve the roles of the currently authenticated user
-      tags:
-        - Profile
+      description: Returns all roles assigned to the authenticated user
       responses:
         '200':
-          description: Roles retrieved successfully
+          description: User roles list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Role'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  # User Management Endpoints
+  /api/v1/users:
+    get:
+      operationId: listUsers
+      tags: [Users]
+      summary: List users
+      description: Get paginated list of users (requires users.list permission)
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/perPageParam'
+        - $ref: '#/components/parameters/searchParam'
+        - $ref: '#/components/parameters/sortByParam'
+        - $ref: '#/components/parameters/orderParam'
+      responses:
+        '200':
+          description: Users list with pagination
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  roles:
+                  data:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Role'
+                      $ref: '#/components/schemas/User'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-
-  /api/v1/sessions/sign-up:
-    post:
-      operationId: signUp
-      summary: User registration
-      description: Create a new user account
-      tags:
-        - Authentication
-      security: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - full_name
-                - email
-                - password
-                - password_confirmation
-              properties:
-                full_name:
-                  type: string
-                  example: 'John Doe'
-                email:
-                  type: string
-                  format: email
-                  example: 'john@example.com'
-                username:
-                  type: string
-                  example: 'johndoe'
-                  description: Optional username
-                password:
-                  type: string
-                  format: password
-                  minLength: 6
-                  example: 'password123'
-                password_confirmation:
-                  type: string
-                  format: password
-                  example: 'password123'
-      responses:
-        '201':
-          description: Registration successful
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthResponse'
-        '422':
-          $ref: '#/components/responses/ValidationError'
-
-  /api/v1/verify-email:
-    get:
-      operationId: verifyEmail
-      summary: Verify user email
-      description: Verify a user's email address using a token from the verification link.
-      tags:
-        - Authentication
-      security: []
-      parameters:
-        - name: token
-          in: query
-          required: true
-          schema:
-            type: string
-          description: The email verification token
-      responses:
-        '200':
-          description: Email verified successfully
-        '400':
-          description: Invalid or expired token
-
-  /api/v1/resend-verification-email:
-    post:
-      operationId: resendVerificationEmail
-      summary: Resend verification email
-      description: Resends the email verification link to the authenticated user.
-      tags:
-        - Authentication
-      responses:
-        '200':
-          description: Verification email sent successfully
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-
-  /api/v1/users:
-    get:
-      operationId: listUsers
-      summary: List users
-      description: Get a paginated list of users with optional search and sorting
-      tags:
-        - Users
-      parameters:
-        - $ref: '#/components/parameters/pageParam'
-        - $ref: '#/components/parameters/per_pageParam'
-        - $ref: '#/components/parameters/sort_byParam'
-        - $ref: '#/components/parameters/orderParam'
-        - $ref: '#/components/parameters/searchParam'
-      responses:
-        '200':
-          description: User list retrieved successfully
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/Pagination'
-                  - type: object
-                    properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/User'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
 
     post:
       operationId: createUser
+      tags: [Users]
       summary: Create user
-      description: Create a new user account (requires USER role)
-      tags:
-        - Users
+      description: Create a new user account (requires users.create permission)
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required:
-                - full_name
-                - email
-                - password
-                - password_confirmation
+              required: [full_name, email, username, password]
               properties:
                 full_name:
                   type: string
@@ -1151,10 +807,10 @@ paths:
                 password:
                   type: string
                   format: password
-                  minLength: 6
-                password_confirmation:
-                  type: string
-                  format: password
+                roles:
+                  type: array
+                  items:
+                    type: integer
       responses:
         '201':
           description: User created successfully
@@ -1164,38 +820,40 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '422':
           $ref: '#/components/responses/ValidationError'
 
   /api/v1/users/{id}:
     get:
       operationId: getUserById
+      tags: [Users]
       summary: Get user by ID
-      description: Retrieve a specific user's details
-      tags:
-        - Users
+      description: Get specific user details (requires users.read permission)
       parameters:
-        - $ref: '#/components/parameters/pathId'
+        - $ref: '#/components/parameters/idParam'
       responses:
         '200':
-          description: User details retrieved successfully
+          description: User details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
 
     put:
       operationId: updateUser
+      tags: [Users]
       summary: Update user
-      description: Update user details (email and username cannot be changed)
-      tags:
-        - Users
+      description: Update user information (requires users.update permission)
       parameters:
-        - $ref: '#/components/parameters/pathId'
+        - $ref: '#/components/parameters/idParam'
       requestBody:
         required: true
         content:
@@ -1205,14 +863,16 @@ paths:
               properties:
                 full_name:
                   type: string
+                email:
+                  type: string
+                  format: email
+                username:
+                  type: string
                 password:
                   type: string
                   format: password
-                  minLength: 6
-                password_confirmation:
-                  type: string
-                  format: password
-                  description: Required if password is provided
+                is_active:
+                  type: boolean
       responses:
         '200':
           description: User updated successfully
@@ -1222,6 +882,8 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
         '422':
@@ -1229,85 +891,102 @@ paths:
 
     delete:
       operationId: deleteUser
+      tags: [Users]
       summary: Delete user
-      description: Soft delete a user (marks as deleted)
-      tags:
-        - Users
+      description: Delete a user account (requires users.delete permission)
       parameters:
-        - $ref: '#/components/parameters/pathId'
+        - $ref: '#/components/parameters/idParam'
       responses:
         '204':
           description: User deleted successfully
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '404':
           $ref: '#/components/responses/NotFoundError'
 
-  /api/v1/admin/roles:
+  # Client Management Endpoints
+  /api/v1/clients:
     get:
-      operationId: listRoles
-      summary: List roles
-      description: Get a paginated list of roles (requires ADMIN or ROOT role)
-      tags:
-        - Roles
+      operationId: listClients
+      tags: [Clients]
+      summary: List clients
+      description: Get paginated list of clients (requires clients.list permission)
       parameters:
         - $ref: '#/components/parameters/pageParam'
         - $ref: '#/components/parameters/perPageParam'
+        - $ref: '#/components/parameters/searchParam'
+        - $ref: '#/components/parameters/sortByParam'
+        - $ref: '#/components/parameters/orderParam'
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [individual, company]
+          description: Filter by client type
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [active, inactive]
+          description: Filter by status
       responses:
         '200':
-          description: Role list retrieved successfully
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/Pagination'
-                  - type: object
-                    properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Role'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-
-  /api/v1/admin/roles/attach:
-    put:
-      operationId: attachRoles
-      summary: Attach roles to user
-      description: Assign roles to a user (requires ADMIN or ROOT role)
-      tags:
-        - Roles
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - user_id
-                - role_ids
-              properties:
-                user_id:
-                  type: integer
-                  example: 1
-                role_ids:
-                  type: array
-                  items:
-                    type: integer
-                  example: [1, 2, 3]
-      responses:
-        '200':
-          description: Roles attached successfully
+          description: Clients list with pagination
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message:
-                    type: string
-                    example: 'Role attached successfully'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Client'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+
+    post:
+      operationId: createClient
+      tags: [Clients]
+      summary: Create client
+      description: Create a new client (requires clients.create permission)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, type]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                phone:
+                  type: string
+                document:
+                  type: string
+                type:
+                  type: string
+                  enum: [individual, company]
+                status:
+                  type: string
+                  enum: [active, inactive]
+                address:
+                  type: object
+      responses:
+        '201':
+          description: Client created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -1315,264 +994,419 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
-  /api/v1/admin/permissions:
+  /api/v1/clients/search:
     get:
-      operationId: listPermissions
-      summary: List permissions
-      description: Get a paginated list of permissions
-      tags:
-        - Permissions
+      operationId: searchClients
+      tags: [Clients]
+      summary: Search clients
+      description: Search clients by name, email, or document (requires clients.read permission)
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema:
+            type: string
+          description: Search query
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+
+  /api/v1/clients/{id}:
+    get:
+      operationId: getClientById
+      tags: [Clients]
+      summary: Get client by ID
+      description: Get specific client details (requires clients.read permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      responses:
+        '200':
+          description: Client details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    put:
+      operationId: updateClient
+      tags: [Clients]
+      summary: Update client
+      description: Update client information (requires clients.update permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                phone:
+                  type: string
+                document:
+                  type: string
+                type:
+                  type: string
+                  enum: [individual, company]
+                status:
+                  type: string
+                  enum: [active, inactive]
+                address:
+                  type: object
+      responses:
+        '200':
+          description: Client updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+    delete:
+      operationId: deleteClient
+      tags: [Clients]
+      summary: Delete client
+      description: Delete a client (requires clients.delete permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      responses:
+        '204':
+          description: Client deleted successfully
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  # Folder Management Endpoints
+  /api/v1/folders:
+    get:
+      operationId: listFolders
+      tags: [Folders]
+      summary: List folders
+      description: Get paginated list of legal folders/cases (requires folders.list permission)
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/perPageParam'
+        - $ref: '#/components/parameters/searchParam'
+        - $ref: '#/components/parameters/sortByParam'
+        - $ref: '#/components/parameters/orderParam'
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [active, archived, suspended, concluded]
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [civil, criminal, labor, tax, administrative]
+        - in: query
+          name: priority
+          schema:
+            type: string
+            enum: [low, medium, high, urgent]
+      responses:
+        '200':
+          description: Folders list with pagination
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Folder'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+
+    post:
+      operationId: createFolder
+      tags: [Folders]
+      summary: Create folder
+      description: Create a new legal folder/case (requires folders.create permission)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [number, title, client_id, type, status]
+              properties:
+                number:
+                  type: string
+                title:
+                  type: string
+                client_id:
+                  type: integer
+                responsible_id:
+                  type: integer
+                type:
+                  type: string
+                  enum: [civil, criminal, labor, tax, administrative]
+                status:
+                  type: string
+                  enum: [active, archived, suspended, concluded]
+                priority:
+                  type: string
+                  enum: [low, medium, high, urgent]
+                value:
+                  type: number
+                description:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Folder created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /api/v1/folders/{id}:
+    get:
+      operationId: getFolderById
+      tags: [Folders]
+      summary: Get folder by ID
+      description: Get specific folder details (requires folders.read permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      responses:
+        '200':
+          description: Folder details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    put:
+      operationId: updateFolder
+      tags: [Folders]
+      summary: Update folder
+      description: Update folder information (requires folders.update permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                client_id:
+                  type: integer
+                responsible_id:
+                  type: integer
+                type:
+                  type: string
+                  enum: [civil, criminal, labor, tax, administrative]
+                status:
+                  type: string
+                  enum: [active, archived, suspended, concluded]
+                priority:
+                  type: string
+                  enum: [low, medium, high, urgent]
+                value:
+                  type: number
+                description:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Folder updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+    delete:
+      operationId: deleteFolder
+      tags: [Folders]
+      summary: Delete folder
+      description: Delete a folder (requires folders.delete permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      responses:
+        '204':
+          description: Folder deleted successfully
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /api/v1/folders/{id}/favorite:
+    patch:
+      operationId: toggleFolderFavorite
+      tags: [Folders]
+      summary: Toggle folder favorite
+      description: Toggle folder favorite status (requires folders.update permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      responses:
+        '200':
+          description: Favorite status toggled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_favorite:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  # Task Management Endpoints
+  /api/v1/tasks:
+    get:
+      operationId: listTasks
+      tags: [Tasks]
+      summary: List tasks
+      description: Get list of tasks (requires tasks.read permission)
       parameters:
         - $ref: '#/components/parameters/pageParam'
         - $ref: '#/components/parameters/perPageParam'
         - in: query
-          name: resource
+          name: status
           schema:
             type: string
-          description: Filter by resource
+            enum: [pending, in_progress, completed, cancelled]
         - in: query
-          name: action
+          name: priority
           schema:
             type: string
-          description: Filter by action
+            enum: [low, medium, high, urgent]
+        - in: query
+          name: assigned_to
+          schema:
+            type: integer
       responses:
         '200':
-          description: Permission list retrieved successfully
+          description: Tasks list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
           $ref: '#/components/responses/ForbiddenError'
+
     post:
-      operationId: createPermission
-      summary: Create permission
-      description: Create a new permission
-      tags:
-        - Permissions
+      operationId: createTask
+      tags: [Tasks]
+      summary: Create task
+      description: Create a new task (requires tasks.create permission)
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required:
-                - resource
-                - action
+              required: [title, status, priority]
               properties:
-                resource:
+                title:
                   type: string
-                  example: 'posts'
-                action:
-                  type: string
-                  example: 'create'
                 description:
                   type: string
-                  example: 'Allow creating posts'
-      responses:
-        '201':
-          description: Permission created successfully
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '422':
-          $ref: '#/components/responses/ValidationError'
-
-  /api/v1/admin/roles/permissions/sync:
-    put:
-      operationId: syncRolePermissions
-      summary: Sync role permissions
-      description: Sync all permissions for a specific role
-      tags:
-        - Permissions
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - role_id
-                - permission_ids
-              properties:
-                role_id:
+                folder_id:
                   type: integer
-                  example: 2
-                permission_ids:
-                  type: array
-                  items:
-                    type: integer
-                  example: [1, 2, 3]
-      responses:
-        '200':
-          description: Permissions synced successfully
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '422':
-          $ref: '#/components/responses/ValidationError'
-
-  /api/v1/admin/roles/permissions/attach:
-    put:
-      operationId: attachRolePermissions
-      summary: Attach permissions to role
-      description: Attach one or more permissions to a role
-      tags:
-        - Permissions
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - role_id
-                - permission_ids
-              properties:
-                role_id:
+                assigned_to:
                   type: integer
-                  example: 2
-                permission_ids:
-                  type: array
-                  items:
-                    type: integer
-                  example: [4, 5]
-      responses:
-        '200':
-          description: Permissions attached successfully
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '422':
-          $ref: '#/components/responses/ValidationError'
-
-  /api/v1/admin/roles/permissions/detach:
-    put:
-      operationId: detachRolePermissions
-      summary: Detach permissions from role
-      description: Detach one or more permissions from a role
-      tags:
-        - Permissions
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - role_id
-                - permission_ids
-              properties:
-                role_id:
-                  type: integer
-                  example: 2
-                permission_ids:
-                  type: array
-                  items:
-                    type: integer
-                  example: [1]
-      responses:
-        '200':
-          description: Permissions detached successfully
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '422':
-          $ref: '#/components/responses/ValidationError'
-
-  /api/v1/admin/users/permissions/sync:
-    put:
-      operationId: syncUserPermissions
-      summary: Sync user permissions
-      description: Sync all direct permissions for a specific user
-      tags:
-        - Permissions
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - user_id
-                - permissions
-              properties:
-                user_id:
-                  type: integer
-                  example: 3
-                permissions:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      permission_id:
-                        type: integer
-                        example: 10
-                      granted:
-                        type: boolean
-                        example: true
-                      expires_at:
-                        type: [string, 'null']
-                        example: '2025-12-31T23:59:59.000Z'
-      responses:
-        '200':
-          description: User permissions synced successfully
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-        '422':
-          $ref: '#/components/responses/ValidationError'
-
-  /api/v1/admin/users/{id}/permissions:
-    get:
-      operationId: getUserPermissions
-      summary: Get user's direct permissions
-      description: Get a list of direct permissions for a specific user
-      tags:
-        - Permissions
-      parameters:
-        - $ref: '#/components/parameters/pathId'
-      responses:
-        '200':
-          description: User permissions retrieved successfully
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ForbiddenError'
-
-  /api/v1/admin/users/{id}/permissions/check:
-    post:
-      operationId: checkUserPermissions
-      summary: Check user permissions
-      description: Check if a user has specific permissions
-      tags:
-        - Permissions
-      parameters:
-        - $ref: '#/components/parameters/pathId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - permissions
-              properties:
-                permissions:
+                status:
+                  type: string
+                  enum: [pending, in_progress, completed, cancelled]
+                priority:
+                  type: string
+                  enum: [low, medium, high, urgent]
+                due_date:
+                  type: string
+                  format: date-time
+                tags:
                   type: array
                   items:
                     type: string
-                  example: ['users.create', 'files.delete']
-                require_all:
-                  type: boolean
-                  description: If true, user must have all permissions
-                  example: false
       responses:
-        '200':
-          description: Check result
+        '201':
+          description: Task created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
@@ -1580,55 +1414,520 @@ paths:
         '422':
           $ref: '#/components/responses/ValidationError'
 
+  /api/v1/tasks/{id}:
+    get:
+      operationId: getTaskById
+      tags: [Tasks]
+      summary: Get task by ID
+      description: Get specific task details (requires tasks.read permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      responses:
+        '200':
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+    put:
+      operationId: updateTask
+      tags: [Tasks]
+      summary: Update task
+      description: Update task information (requires tasks.update permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                folder_id:
+                  type: integer
+                assigned_to:
+                  type: integer
+                status:
+                  type: string
+                  enum: [pending, in_progress, completed, cancelled]
+                priority:
+                  type: string
+                  enum: [low, medium, high, urgent]
+                due_date:
+                  type: string
+                  format: date-time
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Task updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+    delete:
+      operationId: deleteTask
+      tags: [Tasks]
+      summary: Delete task
+      description: Delete a task (requires tasks.delete permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      responses:
+        '204':
+          description: Task deleted successfully
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /api/v1/tasks/{id}/status:
+    patch:
+      operationId: updateTaskStatus
+      tags: [Tasks]
+      summary: Update task status
+      description: Update only the task status (requires tasks.update permission)
+      parameters:
+        - $ref: '#/components/parameters/idParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status:
+                  type: string
+                  enum: [pending, in_progress, completed, cancelled]
+      responses:
+        '200':
+          description: Task status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  # Hearing Management Endpoints
+  /api/v1/hearings:
+    get:
+      operationId: listHearings
+      tags: [Hearings]
+      summary: List hearings
+      description: Get list of hearings (requires hearings.read permission)
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/perPageParam'
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [scheduled, completed, cancelled, postponed]
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [conciliation, instruction, judgment, other]
+        - in: query
+          name: from_date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to_date
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Hearings list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Hearing'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+
+    post:
+      operationId: createHearing
+      tags: [Hearings]
+      summary: Create hearing
+      description: Schedule a new hearing (requires hearings.create permission)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, folder_id, type, scheduled_at]
+              properties:
+                title:
+                  type: string
+                folder_id:
+                  type: integer
+                type:
+                  type: string
+                  enum: [conciliation, instruction, judgment, other]
+                location:
+                  type: string
+                scheduled_at:
+                  type: string
+                  format: date-time
+                duration_minutes:
+                  type: integer
+                participants:
+                  type: array
+                  items:
+                    type: object
+                notes:
+                  type: string
+      responses:
+        '201':
+          description: Hearing created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hearing'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  # File Management Endpoints
   /api/v1/files/upload:
     post:
-      operationId: uploadFile
-      summary: Upload file
-      description: |
-        Upload a file to the server. Files are automatically categorized based on their type.
-
-        **File constraints:**
-        - Maximum size: 5MB
-        - Allowed extensions: jpeg, jpg, png, pdf, doc, docx, txt, csv, xls, xlsx, mp3, mp4, zip
-
-        **Categories:**
-        - `image`: jpeg, jpg, png
-        - `document`: pdf, doc, docx, txt
-        - `video`: mp4
-        - `audio`: mp3
-        - `file`: csv, xls, xlsx, zip, and others
-      tags:
-        - Files
+      operationId: uploadFiles
+      tags: [Files]
+      summary: Upload files
+      description: Upload one or more files (requires files.create permission, max 5MB per file)
       requestBody:
         required: true
         content:
           multipart/form-data:
             schema:
               type: object
-              required:
-                - file
+              required: [files]
               properties:
-                file:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                folder_id:
+                  type: integer
+                  description: Optional folder to associate files with
+                category:
                   type: string
-                  format: binary
-                  description: File to upload
+                  enum: [document, image, contract, petition, other]
       responses:
         '201':
-          description: File uploaded successfully
+          description: Files uploaded successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FileUploadResponse'
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        filename:
+                          type: string
+                        size:
+                          type: integer
+                        mime_type:
+                          type: string
+                        url:
+                          type: string
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '413':
+          description: File too large
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  # AI Endpoints
+  /api/v1/ai/analyze-document:
+    post:
+      operationId: analyzeDocument
+      tags: [AI]
+      summary: Analyze document with AI
+      description: Perform AI analysis on a document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [document_text]
+              properties:
+                document_text:
+                  type: string
+                  description: Text content of the document
+                analysis_type:
+                  type: string
+                  enum: [summary, key_points, risks, recommendations]
+                  default: summary
+      responses:
+        '200':
+          description: Analysis results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIAnalysis'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '422':
-          description: File validation failed
+          $ref: '#/components/responses/ValidationError'
+
+  # Dashboard Endpoints
+  /api/dashboard:
+    get:
+      operationId: getDashboardData
+      tags: [Dashboard]
+      summary: Get complete dashboard data
+      description: Get all dashboard widgets data in a single request
+      responses:
+        '200':
+          description: Dashboard data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                errors:
-                  - message: 'File size should be less than 5MB'
-                    field: 'file'
-                    rule: 'size'
+                type: object
+                properties:
+                  active_folders:
+                    type: object
+                  area_division:
+                    type: object
+                  folder_activity:
+                    type: object
+                  requests:
+                    type: object
+                  billing:
+                    type: object
+                  hearings:
+                    type: object
+                  birthdays:
+                    type: object
+                  tasks:
+                    type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  # Messages Endpoints
+  /api/messages:
+    get:
+      operationId: listMessages
+      tags: [Messages]
+      summary: List messages
+      description: Get user messages
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/perPageParam'
+        - in: query
+          name: folder
+          schema:
+            type: string
+            enum: [inbox, sent, archived]
+      responses:
+        '200':
+          description: Messages list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Message'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+    post:
+      operationId: sendMessage
+      tags: [Messages]
+      summary: Send message
+      description: Send a new message to another user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [to_user_id, subject, content]
+              properties:
+                to_user_id:
+                  type: integer
+                subject:
+                  type: string
+                content:
+                  type: string
+                attachments:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        '201':
+          description: Message sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  # Notifications Endpoints
+  /api/notifications:
+    get:
+      operationId: listNotifications
+      tags: [Notifications]
+      summary: List notifications
+      description: Get user notifications
+      parameters:
+        - $ref: '#/components/parameters/pageParam'
+        - $ref: '#/components/parameters/perPageParam'
+        - in: query
+          name: unread_only
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Notifications list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Notification'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  # Health Check Endpoints
+  /health:
+    get:
+      operationId: healthCheck
+      tags: [Health]
+      summary: Basic health check
+      description: Check if the API is responding
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'ok'
+
+  /health/ready:
+    get:
+      operationId: readinessProbe
+      tags: [Health]
+      summary: Readiness probe
+      description: Check if the API is ready to serve requests
+      security: []
+      responses:
+        '200':
+          description: Service is ready
+        '503':
+          description: Service not ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'ready'
+                  database:
+                    type: string
+                    example: 'connected'
+                  redis:
+                    type: string
+                    example: 'connected'
+
+  /health/live:
+    get:
+      operationId: livenessProbe
+      tags: [Health]
+      summary: Liveness probe
+      description: Check if the API process is alive
+      security: []
+      responses:
+        '200':
+          description: Service is alive
+        '503':
+          description: Service not alive
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: 'alive'
+                  uptime:
+                    type: integer
+                    example: 3600
