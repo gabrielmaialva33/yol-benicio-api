@@ -1,8 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import DashboardService from '#modules/dashboard/services/dashboard_service'
-import FolderFavoriteService from '#services/folder_favorite_service'
-import NotificationService from '#services/notification_service'
-import MessageService from '#services/message_service'
+import FolderFavoriteService from '#modules/folder/services/folder_favorite_service'
+import NotificationService from '#modules/notification/services/notification_service'
+import MessageService from '#modules/message/services/message_service'
 
 export default class DashboardController {
   private dashboardService = new DashboardService()
