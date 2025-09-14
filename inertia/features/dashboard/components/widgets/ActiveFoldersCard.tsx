@@ -1,16 +1,7 @@
 import { useApiQuery } from '~/shared/hooks/use_api'
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts'
-import { Card, CardContent, CardHeader, CardTitle } from '~/shared/ui/primitives/Card'
-import { TrendingUp, Folder } from 'lucide-react'
-
-interface FolderData {
-  active: number
-  newThisMonth: number
-  history: {
-    month: string
-    value: number
-  }[]
-}
+import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts'
+import { Card, CardContent } from '~/shared/ui/primitives/Card'
+import { router } from '@inertiajs/react'
 
 interface TooltipProps {
   active?: boolean
@@ -24,12 +15,21 @@ interface TooltipProps {
 function CustomTooltip({ active, payload, label }: TooltipProps) {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
-        <p className="text-sm font-medium text-gray-900">{`${label}: ${payload[0].value}`}</p>
+      <div className="bg-white p-2 border border-gray-200 rounded-lg shadow-lg">
+        <p className="text-sm font-medium text-gray-900">{`${payload[0].value}`}</p>
       </div>
     )
   }
   return null
+}
+
+interface FolderData {
+  active: number
+  newThisMonth: number
+  history: {
+    month: string
+    value: number
+  }[]
 }
 
 export function ActiveFoldersCard() {
@@ -46,22 +46,16 @@ export function ActiveFoldersCard() {
     }
   )
 
-  // Fallback data for loading or error states
-  const fallbackData = {
+  // Use real data from API or empty fallback
+  const displayData = folders || {
     active: 0,
     newThisMonth: 0,
     history: [],
   }
 
-  const displayData = folders || fallbackData
-  const growthPercentage =
-    displayData.history.length >= 2
-      ? ((displayData.active - displayData.history[0].value) / displayData.history[0].value) * 100
-      : 0
-
   if (error) {
     return (
-      <Card className="bg-white border border-gray-200 rounded-xl shadow-sm">
+      <Card className="bg-white rounded-xl shadow-sm">
         <CardContent className="p-6">
           <div className="text-center text-red-600">
             <p>Erro ao carregar dados das pastas</p>
@@ -73,72 +67,86 @@ export function ActiveFoldersCard() {
   }
 
   return (
-    <Card className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]">
-      <CardHeader className="pb-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Folder className="h-4 w-4 text-blue-600" />
-          <CardTitle className="text-sm font-medium text-gray-600">Pastas ativas</CardTitle>
-        </div>
+    <Card className="bg-white rounded-xl shadow-[0px_4px_4px_rgba(0,0,0,0.03)] h-[248px]">
+      <CardContent className="px-6 pt-6 pb-4 h-full flex flex-col">
+        {/* Title */}
+        <h3 className="text-base font-medium text-gray-800 mb-6">Pastas ativas</h3>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div
-              className={`text-3xl font-bold transition-colors duration-200 ${
-                isLoading ? 'text-gray-400 animate-pulse' : 'text-gray-900'
-              }`}
-            >
-              {isLoading ? '...' : displayData.active.toLocaleString()}
-            </div>
-            {!isLoading && growthPercentage !== 0 && (
-              <div
-                className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                  growthPercentage > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                }`}
-              >
-                <TrendingUp className={`h-3 w-3 ${growthPercentage < 0 ? 'rotate-180' : ''}`} />
-                {Math.abs(growthPercentage).toFixed(1)}%
-              </div>
-            )}
-          </div>
-          <div className="text-right">
-            <div className="text-xs text-gray-500 mb-1">Novas este mês</div>
-            <div
-              className={`text-sm font-semibold transition-colors duration-200 ${
-                isLoading ? 'text-gray-400' : 'text-green-600'
-              }`}
-            >
-              {isLoading ? '...' : `+${displayData.newThisMonth}`}
-            </div>
+        {/* Main Value */}
+        <div className="mb-3">
+          <div
+            className={`text-6xl font-bold ${
+              isLoading ? 'text-gray-400 animate-pulse' : 'text-gray-900'
+            }`}
+          >
+            {isLoading ? '...' : displayData.active.toLocaleString('pt-BR')}
           </div>
         </div>
-      </CardHeader>
 
-      <CardContent className="pt-0 pb-4">
-        <div className="h-16 mb-4">
-          <ResponsiveContainer height="100%" width="100%">
-            <LineChart data={displayData.history}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-              <Tooltip content={<CustomTooltip />} />
-              <Line
-                dataKey="value"
-                dot={false}
-                stroke="var(--color-brand-teal, #06b6d4)"
-                strokeWidth={2}
-                type="monotone"
-                strokeLinecap="round"
-                className="drop-shadow-sm"
-              />
-            </LineChart>
-          </ResponsiveContainer>
+        {/* Subtitle */}
+        <div className="text-sm text-gray-500 mb-auto">
+          {isLoading
+            ? 'Carregando...'
+            : displayData.newThisMonth > 0
+              ? `${displayData.newThisMonth} novos neste mês`
+              : 'Nenhum novo este mês'}
         </div>
 
-        <button
-          className="text-sm font-medium text-cyan-500 hover:text-cyan-600 transition-colors duration-200 underline underline-offset-2 hover:no-underline"
-          type="button"
-          disabled={isLoading}
-        >
-          {isLoading ? 'Carregando...' : 'Visualizar pastas'}
-        </button>
+        {/* Chart with dotted lines */}
+        {displayData.history && displayData.history.length > 0 ? (
+          <div className="relative h-[50px] mt-4 mb-4">
+            {/* Dotted background lines */}
+            <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
+              <div className="border-b border-dashed border-gray-200 opacity-50"></div>
+              <div className="border-b border-dashed border-gray-200 opacity-50"></div>
+              <div className="border-b border-dashed border-gray-200 opacity-50"></div>
+              <div className="border-b border-dashed border-gray-200 opacity-50"></div>
+            </div>
+
+            {/* Chart */}
+            <div className="relative h-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  data={displayData.history}
+                  margin={{ top: 5, right: 0, left: 0, bottom: 5 }}
+                >
+                  <Tooltip content={<CustomTooltip />} />
+                  <Line
+                    dataKey="value"
+                    dot={false}
+                    stroke="#06b6d4"
+                    strokeWidth={2.5}
+                    type="monotone"
+                    strokeLinecap="round"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        ) : (
+          <div className="h-[50px] mt-4 mb-4 flex items-center justify-center">
+            <span className="text-sm text-gray-400">Sem dados históricos</span>
+          </div>
+        )}
+
+        {/* Link */}
+        <div className="text-right">
+          <button
+            className="text-sm font-medium text-blue-600 hover:text-blue-700 underline underline-offset-2 transition-colors duration-200"
+            type="button"
+            disabled={isLoading}
+            onClick={() => {
+              if (!isLoading) {
+                router.visit('/folders', {
+                  method: 'get',
+                  data: { filter: 'active' },
+                })
+              }
+            }}
+          >
+            {isLoading ? 'Carregando...' : 'Visualizar pastas'}
+          </button>
+        </div>
       </CardContent>
     </Card>
   )

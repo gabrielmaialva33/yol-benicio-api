@@ -48,7 +48,9 @@ export default class HuggingFaceService {
         inputs: text,
       })
 
-      const embeddings = Array.isArray(response) ? response.flat().filter((x): x is number => typeof x === 'number') : Array.from(response as any).filter((x): x is number => typeof x === 'number')
+      const embeddings = Array.isArray(response)
+        ? response.flat().filter((x): x is number => typeof x === 'number')
+        : Array.from(response as any).filter((x): x is number => typeof x === 'number')
 
       const result: EmbeddingResult = {
         embeddings,
@@ -100,7 +102,10 @@ export default class HuggingFaceService {
   /**
    * Portuguese NLP analysis using BERTimbau
    */
-  async analyzePortugueseText(text: string, task: 'ner' | 'classification' | 'qa' = 'ner'): Promise<any> {
+  async analyzePortugueseText(
+    text: string,
+    task: 'ner' | 'classification' | 'qa' = 'ner'
+  ): Promise<any> {
     try {
       switch (task) {
         case 'ner':

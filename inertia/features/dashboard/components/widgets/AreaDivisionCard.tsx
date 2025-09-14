@@ -1,12 +1,14 @@
 import { useApiQuery } from '~/shared/hooks/use_api'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
-import { Card, CardContent, CardHeader, CardTitle } from '~/shared/ui/primitives/Card'
-import { PieChart as PieChartIcon } from 'lucide-react'
+import { Card, CardContent } from '~/shared/ui/primitives/Card'
+import { router } from '@inertiajs/react'
 
 interface AreaDivision {
   name: string
   value: number
   color?: string
+  area_id?: number
+  filter_key?: string
 }
 
 const DEGREES_IN_HALF_CIRCLE = 180
@@ -15,7 +17,7 @@ const OUTER_RADIUS = 68
 const MINIMUM_PERCENTAGE_TO_DISPLAY = 2
 
 // Figma-aligned color palette
-const FIGMA_PALETTE = ['#00A76F', '#00B8D9', '#FFAB00', '#FF5630']
+const FIGMA_PALETTE = ['#06b6d4', '#10b981', '#f59e0b', '#ef4444']
 const MAX_SEGMENTS = 4
 
 interface CustomTooltipProps {
@@ -31,7 +33,7 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
   if (active && payload && payload.length) {
     const data = payload[0]
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
+      <div className="bg-white p-2 border border-gray-200 rounded-lg shadow-lg">
         <p className="text-sm font-medium text-gray-900">
           {data.name}: {data.value}%
         </p>
@@ -60,9 +62,23 @@ export function AreaDivisionCard() {
     .slice(0, MAX_SEGMENTS)
     .map((d, i) => ({ ...d, color: FIGMA_PALETTE[i] ?? d.color ?? '#6B7280' }))
 
+  // Handle click on pie chart segment or legend item
+  const handleAreaClick = (area: AreaDivision) => {
+    const filter = area.filter_key || area.name.toLowerCase().replace(/\s+/g, '_')
+
+    router.visit('/folders', {
+      method: 'get',
+      data: {
+        area: area.area_id || filter,
+        area_filter: true,
+        area_name: area.name,
+      },
+    })
+  }
+
   if (error) {
     return (
-      <Card className="bg-white border border-gray-200 rounded-xl shadow-sm">
+      <Card className="bg-white rounded-xl shadow-sm">
         <CardContent className="p-6">
           <div className="text-center text-red-600">
             <p>Erro ao carregar divisão por áreas</p>
@@ -74,26 +90,22 @@ export function AreaDivisionCard() {
   }
 
   return (
-    <Card className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02]">
-      <CardHeader className="pb-4">
-        <div className="flex items-center gap-2 mb-3">
-          <PieChartIcon className="h-4 w-4 text-blue-600" />
-          <CardTitle className="text-sm font-medium text-gray-600">Divisão por áreas</CardTitle>
-        </div>
-      </CardHeader>
+    <Card className="bg-white rounded-xl shadow-[0px_4px_4px_rgba(0,0,0,0.03)] h-[248px]">
+      <CardContent className="p-6 h-full flex flex-col">
+        {/* Title */}
+        <h3 className="text-[15px] font-semibold text-[#1e293b] mb-5">Divisão por áreas</h3>
 
-      <CardContent className="pt-0 pb-4">
         {isLoading ? (
-          <div className="flex items-center justify-center h-32">
+          <div className="flex items-center justify-center flex-1">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
           </div>
         ) : displayData.length === 0 ? (
-          <div className="text-center text-gray-500 h-32 flex items-center justify-center">
+          <div className="text-center text-gray-500 flex-1 flex items-center justify-center">
             <p>Nenhum dado disponível</p>
           </div>
         ) : (
-          <div className="flex items-center justify-between">
-            <div className="w-[136px] h-[136px] relative">
+          <div className="flex items-center justify-between flex-1">
+            <div className="w-[140px] h-[140px] relative">
               <ResponsiveContainer height="100%" width="100%">
                 <PieChart>
                   <Pie
@@ -102,7 +114,7 @@ export function AreaDivisionCard() {
                     data={displayData}
                     dataKey="value"
                     innerRadius={0}
-                    outerRadius={OUTER_RADIUS}
+                    outerRadius={70}
                     label={({ cx, cy, midAngle, innerRadius, outerRadius, value }) => {
                       if (
                         midAngle === undefined ||
@@ -118,7 +130,7 @@ export function AreaDivisionCard() {
                       const y = cy + radius * Math.sin(-midAngle * radian)
                       return (
                         <text
-                          className="text-[10px] font-medium fill-white"
+                          className="text-xs font-semibold fill-white"
                           dominantBaseline="central"
                           textAnchor="middle"
                           x={x}
@@ -137,6 +149,8 @@ export function AreaDivisionCard() {
                         stroke="white"
                         strokeWidth={2}
                         className="hover:opacity-80 transition-opacity cursor-pointer"
+                        onClick={() => handleAreaClick(entry)}
+                        title={`Clique para ver pastas da área ${entry.name}`}
                       />
                     ))}
                   </Pie>
@@ -144,19 +158,24 @@ export function AreaDivisionCard() {
                 </PieChart>
               </ResponsiveContainer>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2 ml-6 flex-1">
               {displayData.map((item) => (
-                <div className="flex items-center gap-3 group cursor-pointer" key={item.name}>
-                  <div
-                    className="w-3 h-3 rounded-full transition-transform group-hover:scale-110"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span className="text-[13px] font-medium leading-[1.69] text-gray-800 group-hover:text-gray-900 transition-colors">
-                    {item.name}
-                  </span>
-                  <span className="text-[13px] font-semibold text-gray-600 ml-auto">
-                    {item.value}%
-                  </span>
+                <div
+                  className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 rounded-lg p-1 transition-colors duration-200"
+                  key={item.name}
+                  onClick={() => handleAreaClick(item)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      handleAreaClick(item)
+                    }
+                  }}
+                  title={`Clique para ver pastas da área ${item.name}`}
+                >
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
+                  <span className="text-sm text-gray-700">{item.name}</span>
                 </div>
               ))}
             </div>

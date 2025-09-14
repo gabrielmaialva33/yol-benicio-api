@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import MessageService from '#services/message_service'
+import MessageService from '#modules/message/services/message_service'
 import { createMessageValidator } from '#validators/message'
 
 export default class MessagesController {

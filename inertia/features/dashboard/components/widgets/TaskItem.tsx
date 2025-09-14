@@ -4,6 +4,7 @@ import { MessageCircle, Paperclip } from 'lucide-react'
 interface TaskItemProps {
   task: Task
   toggleTask: (id: number) => void
+  isUpdating?: boolean
 }
 
 const priorityColors = {
@@ -18,7 +19,7 @@ const priorityBgColors = {
   high: 'bg-red-50',
 }
 
-export function TaskItem({ task, toggleTask }: TaskItemProps) {
+export function TaskItem({ task, toggleTask, isUpdating = false }: TaskItemProps) {
   const isCompleted = task.status === 'completed'
   const priorityColor = priorityColors[task.priority || 'low']
   const priorityBg = priorityBgColors[task.priority || 'low']
@@ -30,15 +31,33 @@ export function TaskItem({ task, toggleTask }: TaskItemProps) {
       } ${priorityBg} hover:bg-opacity-80`}
     >
       <button
-        className={`w-6 h-6 rounded-md flex items-center justify-center transition-all duration-200 hover:scale-110 ${
+        className={`w-6 h-6 rounded-md flex items-center justify-center transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
           isCompleted
             ? 'bg-green-500 border-green-500 text-white shadow-sm'
             : 'bg-white border-2 border-gray-300 hover:border-gray-400 hover:shadow-sm'
-        }`}
+        } ${isUpdating ? 'animate-pulse' : ''}`}
         onClick={() => toggleTask(task.id)}
         type="button"
+        disabled={isUpdating}
       >
-        {isCompleted && (
+        {isUpdating ? (
+          <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+            <title>Atualizando...</title>
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+        ) : isCompleted ? (
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <title>Concluído</title>
             <path
@@ -47,7 +66,7 @@ export function TaskItem({ task, toggleTask }: TaskItemProps) {
               fillRule="evenodd"
             />
           </svg>
-        )}
+        ) : null}
       </button>
 
       <div className="flex-1 min-w-0">

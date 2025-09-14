@@ -13,14 +13,8 @@ export function DashboardContent() {
   return (
     <div className="flex-1 bg-gray-50 min-h-screen">
       <div className="max-w-[1100px] mx-auto p-6">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Dashboard</h1>
-          <p className="text-gray-600">Visão geral das suas atividades</p>
-        </div>
-
         {/* Row 1: Pastas ativas, Divisão por áreas, Atividade de Pastas */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[294px_358px_1fr] gap-5 mb-6">
           <ActiveFoldersCard />
           <AreaDivisionCard />
           <FolderActivityCard />

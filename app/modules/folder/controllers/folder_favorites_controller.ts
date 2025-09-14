@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import FolderFavoriteService from '#services/folder_favorite_service'
+import FolderFavoriteService from '#modules/folder/services/folder_favorite_service'
 
 export default class FolderFavoritesController {
   private folderFavoriteService = new FolderFavoriteService()

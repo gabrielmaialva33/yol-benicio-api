@@ -56,16 +56,16 @@ router.get('/openapi.yaml', async ({ response }) => {
 })
 
 // Authentication routes
-const AuthController = () => import('#controllers/auth_controller')
+const AuthController = () => import('#modules/user/controllers/auth_controller')
 router.get('/login', [AuthController, 'showLogin']).as('auth.login')
 router.post('/login', [AuthController, 'login']).as('auth.store')
 router.post('/logout', [AuthController, 'logout']).as('auth.logout').use(middleware.auth())
 
 // Dashboard routes (protected)
-const DashboardController = () => import('#controllers/dashboard_controller')
-const MessagesController = () => import('#controllers/messages_controller')
-const NotificationsController = () => import('#controllers/notifications_controller')
-const FolderFavoritesController = () => import('#controllers/folder_favorites_controller')
+const DashboardController = () => import('#modules/dashboard/controllers/dashboard_controller')
+const MessagesController = () => import('#modules/message/controllers/messages_controller')
+const NotificationsController = () => import('#modules/notification/controllers/notifications_controller')
+const FolderFavoritesController = () => import('#modules/folder/controllers/folder_favorites_controller')
 
 router
   .group(() => {

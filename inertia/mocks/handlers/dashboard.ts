@@ -84,7 +84,7 @@ const generateFolderActivityData = () => {
   ]
 }
 
-const generateRequestsData = () => {
+const generateRequestsData = (startMonth?: number, endMonth?: number, year?: number) => {
   const months = [
     'Jan',
     'Fev',
@@ -99,19 +99,36 @@ const generateRequestsData = () => {
     'Nov',
     'Dez',
   ]
-  const currentMonth = new Date().getMonth()
 
-  return months.slice(0, currentMonth + 1).map((month, index) => {
-    const baseValue = 10 + index * 1.5 + Math.random() * 4
-    const newRequests = Math.floor(Math.random() * 5) + 3
+  // Use provided parameters or default to current year and first 5 months
+  const currentDate = new Date()
+  const targetYear = year || currentDate.getFullYear()
+  const targetStartMonth = startMonth !== undefined ? startMonth : 0
+  const targetEndMonth = endMonth !== undefined ? endMonth : Math.min(4, currentDate.getMonth())
+
+  // Generate data for the requested period
+  const periodMonths = months.slice(targetStartMonth, targetEndMonth + 1)
+
+  const history = periodMonths.map((month, index) => {
+    const monthIndex = targetStartMonth + index
+    const baseValue = 10 + monthIndex * 1.5 + Math.random() * 4
 
     return {
       month,
       value: Math.round(baseValue),
-      new: newRequests,
-      percentage: Math.round((newRequests / 20) * 100),
     }
   })
+
+  // Generate current month stats
+  const newRequests = Math.floor(Math.random() * 8) + 3
+  const previousRequests = Math.floor(Math.random() * 6) + 2
+  const percentage = Math.round(((newRequests - previousRequests) / previousRequests) * 100)
+
+  return {
+    new: newRequests,
+    percentage,
+    history,
+  }
 }
 
 const generateBillingData = () => {
@@ -207,8 +224,35 @@ export const dashboardHandlers = [
     return HttpResponse.json(generateFolderActivityData())
   }),
 
-  http.get('/api/requests', () => {
-    return HttpResponse.json(generateRequestsData())
+  http.get('/api/requests', ({ request }) => {
+    const url = new URL(request.url)
+    const startMonth = url.searchParams.get('start_month')
+    const endMonth = url.searchParams.get('end_month')
+    const year = url.searchParams.get('year')
+
+    return HttpResponse.json(
+      generateRequestsData(
+        startMonth ? parseInt(startMonth) : undefined,
+        endMonth ? parseInt(endMonth) : undefined,
+        year ? parseInt(year) : undefined
+      )
+    )
+  }),
+
+  // Add the correct endpoint for the RequestsCard component
+  http.get('/api/dashboard/requests', ({ request }) => {
+    const url = new URL(request.url)
+    const startMonth = url.searchParams.get('start_month')
+    const endMonth = url.searchParams.get('end_month')
+    const year = url.searchParams.get('year')
+
+    return HttpResponse.json(
+      generateRequestsData(
+        startMonth ? parseInt(startMonth) : undefined,
+        endMonth ? parseInt(endMonth) : undefined,
+        year ? parseInt(year) : undefined
+      )
+    )
   }),
 
   http.get('/api/hearings', () => {

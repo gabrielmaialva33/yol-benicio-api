@@ -1801,7 +1801,7 @@ export default class extends BaseSeeder {
               granted: true,
               created_at: DateTime.now(),
               updated_at: DateTime.now(),
-            }
+            },
           })
         } catch (error) {
           // Permission already exists, skip
@@ -1824,7 +1824,7 @@ export default class extends BaseSeeder {
               granted: true,
               created_at: DateTime.now(),
               updated_at: DateTime.now(),
-            }
+            },
           })
         } catch (error) {
           // Permission already exists, skip
@@ -1873,10 +1873,11 @@ export default class extends BaseSeeder {
         await Database.table('rate_limits').insert(limit)
       } catch (error) {
         // Rate limit already exists, update it
-        await Database.rawQuery(
-          'UPDATE rate_limits SET points = ?, expire = ? WHERE key = ?',
-          [limit.points, limit.expire, limit.key]
-        )
+        await Database.rawQuery('UPDATE rate_limits SET points = ?, expire = ? WHERE key = ?', [
+          limit.points,
+          limit.expire,
+          limit.key,
+        ])
       }
     }
 

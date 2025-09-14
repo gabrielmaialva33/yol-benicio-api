@@ -435,7 +435,12 @@ export default class PrecatoriosRealDataSeeder extends BaseSeeder {
           code: precatorio.numero_precatorio,
           title: `Precatório ${precatorio.natureza} - ${precatorio.beneficiario}`,
           description: `Precatório ${precatorio.numero_precatorio} - Processo originário: ${precatorio.numero_processo}`,
-          status: this.mapStatusToFolderStatus(precatorio.status) as 'active' | 'completed' | 'pending' | 'cancelled' | 'archived',
+          status: this.mapStatusToFolderStatus(precatorio.status) as
+            | 'active'
+            | 'completed'
+            | 'pending'
+            | 'cancelled'
+            | 'archived',
           area: precatorio.natureza.includes('Trabalhista') ? 'labor' : 'administrative',
           court: precatorio.tribunal,
           case_number: precatorio.numero_processo,

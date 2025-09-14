@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import DashboardService from '#services/dashboard_service'
+import DashboardService from '#modules/dashboard/services/dashboard_service'
 import FolderFavoriteService from '#services/folder_favorite_service'
 import NotificationService from '#services/notification_service'
 import MessageService from '#services/message_service'

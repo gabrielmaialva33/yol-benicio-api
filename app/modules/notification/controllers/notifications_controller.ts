@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import NotificationService from '#services/notification_service'
+import NotificationService from '#modules/notification/services/notification_service'
 import { createNotificationValidator } from '#validators/notification'
 
 export default class NotificationsController {

@@ -5,7 +5,6 @@ import Folder from '#modules/folder/models/folder'
 import FolderMovement from '#modules/folder/models/folder_movement'
 import WebSocketService from '../services/websocket_service.js'
 
-
 export default class PrecatorioSyncWorker {
   public static readonly key = 'precatorio:sync'
   private websocketService = new WebSocketService()
@@ -161,7 +160,10 @@ export default class PrecatorioSyncWorker {
    * Failed hook
    */
   async failed(job: Job, error: Error) {
-    logger.error(`Job ${(job as any).id} failed after ${(job as any).attemptsMade} attempts:`, error)
+    logger.error(
+      `Job ${(job as any).id} failed after ${(job as any).attemptsMade} attempts:`,
+      error
+    )
 
     // Notify administrators
     // await this.notifyAdmins(job, error)

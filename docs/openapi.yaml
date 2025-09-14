@@ -234,6 +234,220 @@ components:
           type: string
           example: 'pdf'
 
+    # Dashboard Schemas
+    DashboardActiveFolders:
+      type: object
+      properties:
+        active:
+          type: integer
+          description: Number of active folders
+          example: 420
+        newThisMonth:
+          type: integer
+          description: Number of new folders created this month
+          example: 98
+        history:
+          type: array
+          description: Historical data for the last months
+          items:
+            type: object
+            properties:
+              month:
+                type: string
+                description: Month abbreviation
+                example: 'Jan'
+              value:
+                type: integer
+                description: Number of folders in that month
+                example: 380
+
+    DashboardAreaDivision:
+      type: array
+      description: Legal area division statistics
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Area name
+            example: 'Trabalhista'
+          value:
+            type: integer
+            description: Percentage value
+            example: 40
+          color:
+            type: string
+            description: Chart color in hex format
+            example: '#10B981'
+
+    DashboardFolderActivity:
+      type: array
+      description: Folder activity statistics
+      items:
+        type: object
+        properties:
+          label:
+            type: string
+            description: Activity status label
+            example: 'EM ANDAMENTO'
+          value:
+            type: integer
+            description: Number of folders in this status
+            example: 420
+          color:
+            type: string
+            description: Chart color in hex format
+            example: '#F59E0B'
+          percentage:
+            type: integer
+            description: Percentage of total folders
+            example: 50
+
+    DashboardRequests:
+      type: object
+      properties:
+        new:
+          type: integer
+          description: Number of new requests
+          example: 6
+        percentage:
+          type: integer
+          description: Growth percentage compared to previous period
+          example: 62
+        history:
+          type: array
+          description: Historical data for requests
+          items:
+            type: object
+            properties:
+              month:
+                type: string
+                description: Month abbreviation
+                example: 'Jan'
+              value:
+                type: integer
+                description: Number of requests in that month
+                example: 17
+
+    DashboardBilling:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Formatted billing value in Brazilian currency
+          example: 'R$ 89.980'
+        percentage:
+          type: string
+          description: Growth percentage as string
+          example: '8.2'
+        chart:
+          type: array
+          description: Chart data for billing visualization
+          items:
+            type: object
+            properties:
+              pv:
+                type: integer
+                description: Present value for chart point
+                example: 80000
+
+    DashboardHearings:
+      type: array
+      description: Hearings and deadlines statistics
+      items:
+        type: object
+        properties:
+          label:
+            type: string
+            description: Type of hearing or deadline
+            example: 'Audiências'
+          percentage:
+            type: integer
+            description: Completion percentage
+            example: 75
+          total:
+            type: integer
+            description: Total number of items
+            example: 12
+          completed:
+            type: integer
+            description: Number of completed items
+            example: 9
+          color:
+            type: string
+            description: Chart color in hex format
+            example: '#10B981'
+          date:
+            type: string
+            format: date-time
+            description: Next scheduled date
+            example: '2024-01-15T10:00:00.000Z'
+
+    DashboardBirthdays:
+      type: array
+      description: Today's birthdays
+      items:
+        type: object
+        properties:
+          avatar:
+            type: string
+            format: uri
+            description: Avatar URL
+            example: 'https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortCurly'
+          name:
+            type: string
+            description: Person's full name
+            example: 'Maria Silva'
+          email:
+            type: string
+            format: email
+            description: Person's email address
+            example: 'maria.silva@benicio.com.br'
+
+    DashboardTasks:
+      type: array
+      description: Recent tasks list
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: Task ID
+            example: 1
+          title:
+            type: string
+            description: Task title
+            example: 'Agendamento do processo 7845'
+          category:
+            type: string
+            description: Task category
+            example: 'Física'
+          completed:
+            type: boolean
+            description: Whether the task is completed
+            example: true
+
+    DashboardData:
+      type: object
+      description: Complete dashboard data with all widgets
+      properties:
+        activeFolders:
+          $ref: '#/components/schemas/DashboardActiveFolders'
+        areaDivision:
+          $ref: '#/components/schemas/DashboardAreaDivision'
+        folderActivity:
+          $ref: '#/components/schemas/DashboardFolderActivity'
+        requests:
+          $ref: '#/components/schemas/DashboardRequests'
+        billing:
+          $ref: '#/components/schemas/DashboardBilling'
+        hearings:
+          $ref: '#/components/schemas/DashboardHearings'
+        birthdays:
+          $ref: '#/components/schemas/DashboardBirthdays'
+        tasks:
+          $ref: '#/components/schemas/DashboardTasks'
+
   parameters:
     pathId:
       name: id
@@ -334,6 +548,17 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
 
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: 'Internal server error'
+
 tags:
   - name: Health
     description: System health monitoring endpoints
@@ -349,6 +574,8 @@ tags:
     description: Current user profile operations
   - name: Permissions
     description: Permission management operations (admin only)
+  - name: Dashboard
+    description: Dashboard widgets and analytics data endpoints
 
 paths:
   /api:
@@ -436,6 +663,243 @@ paths:
                     example: false
                   services:
                     type: object
+
+  /api/dashboard:
+    get:
+      operationId: getDashboardData
+      summary: Get complete dashboard data
+      description: |
+        Retrieve all dashboard widgets data in a single request. This endpoint combines all dashboard statistics including active folders, area division, folder activity, requests, billing, hearings, birthdays, and tasks.
+
+        **Use Case**: Primary endpoint for loading the complete dashboard view with all widgets at once.
+
+        **Performance**: Optimized with parallel data fetching using Promise.all()
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Dashboard data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardData'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/dashboard/active-folders:
+    get:
+      operationId: getDashboardActiveFolders
+      summary: Get active folders statistics
+      description: |
+        Retrieve statistics about active legal folders including current count, new folders this month, and historical data.
+
+        **Metrics**:
+        - Total active folders count
+        - New folders created this month
+        - Monthly history for trend analysis
+
+        **Data Source**: Real-time data from folders table
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Active folders statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardActiveFolders'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/dashboard/area-division:
+    get:
+      operationId: getDashboardAreaDivision
+      summary: Get legal area division statistics
+      description: |
+        Retrieve the distribution of legal cases across different practice areas.
+
+        **Areas Covered**:
+        - Trabalhista (Labor Law)
+        - Penal (Criminal Law)
+        - Cível (Civil Law)
+        - Cível Contencioso (Civil Litigation)
+
+        **Data Source**: Materialized view `vw_dashboard_area_division`
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Area division statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardAreaDivision'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/dashboard/folder-activity:
+    get:
+      operationId: getDashboardFolderActivity
+      summary: Get folder activity statistics
+      description: |
+        Retrieve statistics about folder status distribution and activity levels.
+
+        **Status Categories**:
+        - EM ANDAMENTO (In Progress)
+        - ATRASADAS (Delayed)
+        - SOLUCIONADAS (Resolved)
+
+        **Data Source**: Materialized view `mv_dashboard_folder_activity`
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Folder activity statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardFolderActivity'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/dashboard/requests:
+    get:
+      operationId: getDashboardRequests
+      summary: Get requests statistics
+      description: |
+        Retrieve statistics about client requests and service inquiries.
+
+        **Metrics**:
+        - New requests count
+        - Growth percentage compared to previous period
+        - Monthly history for trend analysis
+
+        **Data Source**: Materialized view `mv_dashboard_requests`
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Requests statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardRequests'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/dashboard/billing:
+    get:
+      operationId: getDashboardBilling
+      summary: Get billing statistics
+      description: |
+        Retrieve financial and billing statistics including revenue totals and growth metrics.
+
+        **Metrics**:
+        - Current period total billing
+        - Growth percentage
+        - Historical chart data for trend visualization
+
+        **Currency**: Values formatted in Brazilian Real (R$)
+        **Data Source**: Materialized view `mv_dashboard_billing`
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Billing statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardBilling'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/dashboard/hearings:
+    get:
+      operationId: getDashboardHearings
+      summary: Get hearings and deadlines statistics
+      description: |
+        Retrieve statistics about upcoming hearings and legal deadlines.
+
+        **Categories**:
+        - Audiências (Court Hearings)
+        - Prazos processuais (Procedural Deadlines)
+        - Prazos administrativos (Administrative Deadlines)
+
+        **Metrics**: Completion percentages, totals, and next scheduled dates
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Hearings statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardHearings'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/dashboard/birthdays:
+    get:
+      operationId: getDashboardBirthdays
+      summary: Get today's birthdays
+      description: |
+        Retrieve a list of team members and clients celebrating birthdays today.
+
+        **Purpose**: Team engagement and client relationship management
+        **Data**: Avatar, name, and email for each birthday person
+        **Update Frequency**: Daily
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Today's birthdays retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardBirthdays'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /api/dashboard/tasks:
+    get:
+      operationId: getDashboardTasks
+      summary: Get tasks statistics
+      description: |
+        Retrieve recent tasks and task completion statistics for dashboard display.
+
+        **Data**: List of most recent tasks with completion status
+        **Limit**: 5 most recent tasks
+        **Source**: Real-time data from tasks table with fallback to reference data
+        **Task States**: Completed/Incomplete status tracking
+      tags:
+        - Dashboard
+      responses:
+        '200':
+          description: Tasks statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardTasks'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /api/v1/sessions/sign-in:
     post:

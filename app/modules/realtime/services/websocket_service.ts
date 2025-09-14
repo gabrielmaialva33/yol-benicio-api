@@ -57,7 +57,6 @@ export default class WebSocketService {
     await this.broadcast('precatorios:updates', 'precatorio:updated', data)
   }
 
-
   /**
    * Get connected users count
    */

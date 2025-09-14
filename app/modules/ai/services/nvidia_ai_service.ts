@@ -318,7 +318,7 @@ export default class NvidiaAiService {
       throw new Error(`NVIDIA API error: ${response.status} - ${error}`)
     }
 
-    const data = await response.json() as NvidiaApiResponse
+    const data = (await response.json()) as NvidiaApiResponse
     return data
   }
 }

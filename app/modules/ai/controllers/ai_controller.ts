@@ -206,9 +206,7 @@ export default class AiController {
       const type = request.input('type')
       const status = request.input('status')
 
-      const query = AiAnalysis.query()
-        .where('user_id', auth.user!.id)
-        .orderBy('created_at', 'desc')
+      const query = AiAnalysis.query().where('user_id', auth.user!.id).orderBy('created_at', 'desc')
 
       if (type) {
         query.where('analysis_type', type)
