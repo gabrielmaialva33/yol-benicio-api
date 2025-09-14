@@ -1,4 +1,4 @@
-import Ws from '#services/ws'
+import Ws from '#shared/services/ws'
 import redis from '@adonisjs/redis/services/main'
 
 export default class WebSocketService {
