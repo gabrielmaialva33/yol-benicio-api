@@ -1,5 +1,5 @@
 import app from '@adonisjs/core/services/app'
-import Ws from '#services/ws'
+import Ws from '#shared/services/ws'
 import logger from '@adonisjs/core/services/logger'
 import jwt from 'jsonwebtoken'
 import env from '#start/env'
