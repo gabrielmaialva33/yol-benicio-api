@@ -63,7 +63,7 @@
     "@tailwindcss/vite": "^4.1.13",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/luxon": "^3.7.1",
-    "@types/node": "^24.3.3",
+    "@types/node": "^24.5.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.2",
