@@ -99,7 +99,7 @@
     "@adonisjs/static": "^1.1.1",
     "@adonisjs/vite": "5.0.0-next.0",
     "@aws-sdk/client-s3": "^3.891.0",
-    "@aws-sdk/s3-request-presigner": "^3.891.0",
+    "@aws-sdk/s3-request-presigner": "^3.896.0",
     "@google-cloud/storage": "^7.17.1",
     "@heroicons/react": "^2.2.0",
     "@huggingface/inference": "^4.8.0",
