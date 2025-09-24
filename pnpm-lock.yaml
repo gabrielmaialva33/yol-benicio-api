@@ -75,8 +75,8 @@ importers:
         specifier: ^4.8.0
         version: 4.8.0
       '@inertiajs/react':
-        specifier: ^2.1.6
-        version: 2.1.6(react@19.1.1)
+        specifier: ^2.1.11
+        version: 2.1.11(react@19.1.1)
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.1.16
         version: 2.1.16(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -1249,11 +1249,11 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@inertiajs/core@2.1.6':
-    resolution: {integrity: sha512-PvY3QJecHt/Z+X+C+jJOHnBGxvi6YNuX3tLY0oXA2yC8aQZeUHnIoWnQdKgc0KA0CNj3b3sZSxm2ZQs9nMY7/Q==}
+  '@inertiajs/core@2.1.11':
+    resolution: {integrity: sha512-TF1UE1UjNRGyxJZGYe5IwDZwgyTvviE2XoJRHOS4SjS8kVzIqeBb3disIkLiJqshRNSNP8syggOro4TLtVubvA==}
 
-  '@inertiajs/react@2.1.6':
-    resolution: {integrity: sha512-9FxbgvYSGsspHvhgLXpoDKkY+2kRa1OYJSzMeEV3q4GiJZdRKKpTL44FH3H+gIJ5smYC+urdWvtCD+apPtAQZQ==}
+  '@inertiajs/react@2.1.11':
+    resolution: {integrity: sha512-7x+Ji5cEcEg1VOaxHzx2G7ixna7tajaZuZsyouuaaYTmhyqUXLtzruTuQDvhovbHT171AhpW6FHJnxfsN2n26Q==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -7458,7 +7458,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@inertiajs/core@2.1.6':
+  '@inertiajs/core@2.1.11':
     dependencies:
       '@types/lodash-es': 4.17.12
       axios: 1.12.2
@@ -7467,9 +7467,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@inertiajs/react@2.1.6(react@19.1.1)':
+  '@inertiajs/react@2.1.11(react@19.1.1)':
     dependencies:
-      '@inertiajs/core': 2.1.6
+      '@inertiajs/core': 2.1.11
       '@types/lodash-es': 4.17.12
       lodash-es: 4.17.21
       react: 19.1.1
