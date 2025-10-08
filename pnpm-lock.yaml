@@ -75,8 +75,8 @@ importers:
         specifier: ^4.8.0
         version: 4.8.0
       '@inertiajs/react':
-        specifier: ^2.1.6
-        version: 2.1.6(react@19.1.1)
+        specifier: ^2.2.7
+        version: 2.2.7(react@19.1.1)
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.1.16
         version: 2.1.16(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -1249,11 +1249,11 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@inertiajs/core@2.1.6':
-    resolution: {integrity: sha512-PvY3QJecHt/Z+X+C+jJOHnBGxvi6YNuX3tLY0oXA2yC8aQZeUHnIoWnQdKgc0KA0CNj3b3sZSxm2ZQs9nMY7/Q==}
+  '@inertiajs/core@2.2.7':
+    resolution: {integrity: sha512-0qU/2zdeO6veUD28MENfvwXzOl8SOY5IZgsfRObOUBl/+DHdNWdKLHSx6gAJsNN3OSl4zpb+eankX0rkNRHh+Q==}
 
-  '@inertiajs/react@2.1.6':
-    resolution: {integrity: sha512-9FxbgvYSGsspHvhgLXpoDKkY+2kRa1OYJSzMeEV3q4GiJZdRKKpTL44FH3H+gIJ5smYC+urdWvtCD+apPtAQZQ==}
+  '@inertiajs/react@2.2.7':
+    resolution: {integrity: sha512-OrWdRsirjGNfEMM7C291V6rAoN/qtwbqqTIK4lLbtVgnEF/H52H7hknqxhq/RWLpCQmkGBTc0inGTF8EcOIJlA==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -3412,6 +3412,9 @@ packages:
   edgejs-parser@0.2.16:
     resolution: {integrity: sha512-P3863zpy21l40nbV1rCRHzxmAkLLVqng0vy/8YQ6/lqUn/ngxJ/sEhJBSsBVCNFP9hlZhQXn2H3ICWFSKXw72w==}
 
+  edgejs-parser@0.2.18:
+    resolution: {integrity: sha512-O1Xg3ISESg2bl8DqP5q3x1b88cqTSgLmEBqNhGH482JdAIexDY7gh7FA9Y5kHOFwRNsTLFoziwQou0lprJ1MYQ==}
+
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
@@ -5010,6 +5013,9 @@ packages:
 
   prettier-plugin-edgejs@1.0.5:
     resolution: {integrity: sha512-09DDjBeQ9ePyubR3PtKyq9c84PC3L/NfCpiNgYksuLssqfmfnBI09NiN/4azQlHcQ8yPizJU+cQFSMPMr2MjmA==}
+
+  prettier-plugin-edgejs@1.0.6:
+    resolution: {integrity: sha512-RZ3xPEiHfw6ca/YzfKmu6rSOviheC9THfGlqg7rs8srbr1RugJQ8k3KmjLHH1oXadQBzZeIeZ3d25Dhs+fe4UA==}
 
   prettier@3.6.2:
     resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
@@ -7458,7 +7464,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@inertiajs/core@2.1.6':
+  '@inertiajs/core@2.2.7':
     dependencies:
       '@types/lodash-es': 4.17.12
       axios: 1.12.2
@@ -7467,9 +7473,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@inertiajs/react@2.1.6(react@19.1.1)':
+  '@inertiajs/react@2.2.7(react@19.1.1)':
     dependencies:
-      '@inertiajs/core': 2.1.6
+      '@inertiajs/core': 2.2.7
       '@types/lodash-es': 4.17.12
       lodash-es: 4.17.21
       react: 19.1.1
@@ -9716,6 +9722,10 @@ snapshots:
     dependencies:
       chevrotain: 11.0.3
 
+  edgejs-parser@0.2.18:
+    dependencies:
+      chevrotain: 11.0.3
+
   ee-first@1.1.1: {}
 
   electron-to-chromium@1.5.221: {}
@@ -11321,7 +11331,7 @@ snapshots:
 
   prettier-edgejs@0.2.36:
     dependencies:
-      prettier-plugin-edgejs: 1.0.5
+      prettier-plugin-edgejs: 1.0.6
 
   prettier-linter-helpers@1.0.0:
     dependencies:
@@ -11331,6 +11341,13 @@ snapshots:
     dependencies:
       '@adobe/css-tools': 4.4.4
       edgejs-parser: 0.2.16
+      prettier: 3.6.2
+      uglify-js: 3.19.3
+
+  prettier-plugin-edgejs@1.0.6:
+    dependencies:
+      '@adobe/css-tools': 4.4.4
+      edgejs-parser: 0.2.18
       prettier: 3.6.2
       uglify-js: 3.19.3
 
