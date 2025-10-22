@@ -202,8 +202,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       '@stylistic/eslint-plugin':
-        specifier: ^5.3.1
-        version: 5.3.1(eslint@9.35.0(jiti@2.5.1))
+        specifier: ^5.5.0
+        version: 5.5.0(eslint@9.35.0(jiti@2.5.1))
       '@swc/core':
         specifier: 1.13.5
         version: 1.13.5
@@ -2253,8 +2253,8 @@ packages:
   '@standard-schema/utils@0.3.0':
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
 
-  '@stylistic/eslint-plugin@5.3.1':
-    resolution: {integrity: sha512-Ykums1VYonM0TgkD0VteVq9mrlO2FhF48MDJnPyv3MktIB2ydtuhlO0AfWm7xnW1kyf5bjOqA6xc7JjviuVTxg==}
+  '@stylistic/eslint-plugin@5.5.0':
+    resolution: {integrity: sha512-IeZF+8H0ns6prg4VrkhgL+yrvDXWDH2cKchrbh80ejG9dQgZWp10epHMbgRuQvgchLII/lfh6Xn3lu6+6L86Hw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=9.0.0'
@@ -2669,6 +2669,10 @@ packages:
 
   '@typescript-eslint/types@8.44.0':
     resolution: {integrity: sha512-ZSl2efn44VsYM0MfDQe68RKzBz75NPgLQXuGypmym6QVOWL5kegTZuZ02xRAT9T+onqvM6T8CdQk0OwYMB6ZvA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/types@8.46.2':
+    resolution: {integrity: sha512-lNCWCbq7rpg7qDsQrd3D6NyWYu+gkTENkG5IKYhUIcxSb59SQC/hEQ+MrG4sTgBVghTonNWq42bA/d4yYumldQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typescript-eslint/typescript-estree@8.44.0':
@@ -3411,6 +3415,9 @@ packages:
 
   edgejs-parser@0.2.16:
     resolution: {integrity: sha512-P3863zpy21l40nbV1rCRHzxmAkLLVqng0vy/8YQ6/lqUn/ngxJ/sEhJBSsBVCNFP9hlZhQXn2H3ICWFSKXw72w==}
+
+  edgejs-parser@0.2.18:
+    resolution: {integrity: sha512-O1Xg3ISESg2bl8DqP5q3x1b88cqTSgLmEBqNhGH482JdAIexDY7gh7FA9Y5kHOFwRNsTLFoziwQou0lprJ1MYQ==}
 
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
@@ -5011,6 +5018,9 @@ packages:
   prettier-plugin-edgejs@1.0.5:
     resolution: {integrity: sha512-09DDjBeQ9ePyubR3PtKyq9c84PC3L/NfCpiNgYksuLssqfmfnBI09NiN/4azQlHcQ8yPizJU+cQFSMPMr2MjmA==}
 
+  prettier-plugin-edgejs@1.0.6:
+    resolution: {integrity: sha512-RZ3xPEiHfw6ca/YzfKmu6rSOviheC9THfGlqg7rs8srbr1RugJQ8k3KmjLHH1oXadQBzZeIeZ3d25Dhs+fe4UA==}
+
   prettier@3.6.2:
     resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
     engines: {node: '>=14'}
@@ -6221,7 +6231,7 @@ snapshots:
   '@adonisjs/eslint-config@2.1.2(eslint@9.35.0(jiti@2.5.1))(prettier@3.6.2)(typescript@5.9.2)':
     dependencies:
       '@adonisjs/eslint-plugin': 2.0.1(eslint@9.35.0(jiti@2.5.1))(typescript@5.9.2)
-      '@stylistic/eslint-plugin': 5.3.1(eslint@9.35.0(jiti@2.5.1))
+      '@stylistic/eslint-plugin': 5.5.0(eslint@9.35.0(jiti@2.5.1))
       eslint: 9.35.0(jiti@2.5.1)
       eslint-config-prettier: 10.1.8(eslint@9.35.0(jiti@2.5.1))
       eslint-plugin-prettier: 5.5.4(eslint-config-prettier@10.1.8(eslint@9.35.0(jiti@2.5.1)))(eslint@9.35.0(jiti@2.5.1))(prettier@3.6.2)
@@ -8570,10 +8580,10 @@ snapshots:
 
   '@standard-schema/utils@0.3.0': {}
 
-  '@stylistic/eslint-plugin@5.3.1(eslint@9.35.0(jiti@2.5.1))':
+  '@stylistic/eslint-plugin@5.5.0(eslint@9.35.0(jiti@2.5.1))':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.35.0(jiti@2.5.1))
-      '@typescript-eslint/types': 8.44.0
+      '@typescript-eslint/types': 8.46.2
       eslint: 9.35.0(jiti@2.5.1)
       eslint-visitor-keys: 4.2.1
       espree: 10.4.0
@@ -8941,7 +8951,7 @@ snapshots:
   '@typescript-eslint/project-service@8.44.0(typescript@5.9.2)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.44.0(typescript@5.9.2)
-      '@typescript-eslint/types': 8.44.0
+      '@typescript-eslint/types': 8.46.2
       debug: 4.4.3
       typescript: 5.9.2
     transitivePeerDependencies:
@@ -8969,6 +8979,8 @@ snapshots:
       - supports-color
 
   '@typescript-eslint/types@8.44.0': {}
+
+  '@typescript-eslint/types@8.46.2': {}
 
   '@typescript-eslint/typescript-estree@8.44.0(typescript@5.9.2)':
     dependencies:
@@ -9713,6 +9725,10 @@ snapshots:
       stringify-attributes: 4.0.0
 
   edgejs-parser@0.2.16:
+    dependencies:
+      chevrotain: 11.0.3
+
+  edgejs-parser@0.2.18:
     dependencies:
       chevrotain: 11.0.3
 
@@ -11321,7 +11337,7 @@ snapshots:
 
   prettier-edgejs@0.2.36:
     dependencies:
-      prettier-plugin-edgejs: 1.0.5
+      prettier-plugin-edgejs: 1.0.6
 
   prettier-linter-helpers@1.0.0:
     dependencies:
@@ -11331,6 +11347,13 @@ snapshots:
     dependencies:
       '@adobe/css-tools': 4.4.4
       edgejs-parser: 0.2.16
+      prettier: 3.6.2
+      uglify-js: 3.19.3
+
+  prettier-plugin-edgejs@1.0.6:
+    dependencies:
+      '@adobe/css-tools': 4.4.4
+      edgejs-parser: 0.2.18
       prettier: 3.6.2
       uglify-js: 3.19.3
 
